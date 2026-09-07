@@ -1,0 +1,1816 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1"><style>:root{color-scheme:light}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found]){display:none!important}</style></head><body>
+<title>Vika Ivanova Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=IBM+Plex+Serif:ital,wght@0,400;1,400&display=swap" rel="stylesheet" />
+
+<style>
+@font-face {
+  font-family: 'Oceanic Text';
+  src: url(fonts/oceanic-text.otf) format('opentype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+</style>
+
+<style>/* ---------- Reset & base ---------- */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+html, body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  background: #ffffff;
+  color: #000000;
+  font-family: 'Oceanic Text', Georgia, 'Times New Roman', serif;
+  font-feature-settings: "dlig" 1;
+  overflow: hidden;
+}
+
+img,
+video {
+  display: block;
+  max-width: 100%;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+ul {
+  list-style: disc;
+  margin: 0;
+}
+
+::selection {
+  background-color: #FFD2EC;
+  color: #FF4D00;
+}
+
+::-moz-selection {
+  background-color: #FFD2EC;
+  color: #FF4D00;
+}
+
+/* ---------- Tokens ---------- */
+
+:root {
+  --font-serif: 'IBM Plex Serif', Georgia, 'Times New Roman', serif;
+  --font-sans: 'Geist', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+
+  --color-ink: #000000;
+  --color-muted: rgba(0, 0, 0, 0.5);
+  --color-divider: rgba(0, 0, 0, 0.15);
+  --color-media-bg: #d6d6d9;
+  --color-accent: #2b46ff;
+
+  --tracking-serif: -0.01em;
+  --tracking-sans: -0.02em;
+
+  --page-max-width: 1440px;
+  --col-gap: 17px;
+  --sidebar-width: 380px;
+  --media-width: 1015px;
+  --row-title-col: 498px;
+  --grid-gap: 8px;
+}
+
+/* ---------- Layout ---------- */
+
+.page {
+  max-width: var(--page-max-width);
+  height: 100vh;
+  margin: 0 auto;
+  display: flex;
+  align-items: stretch;
+  gap: var(--col-gap);
+  /* left padding is 3px shy of the visible 20px offset; the sidebar
+     below adds those 3px back as its own left padding, so the visible
+     content still sits at exactly 20px while the sidebar's own box
+     (its scroll-clip boundary) starts 3px earlier — giving the logo's
+     hover stroke room to bleed left without being clipped mid-glyph */
+  padding: 0 8px 0 17px;
+}
+
+/* ---------- Sidebar ---------- */
+/* Each column scrolls independently: whichever column the cursor is
+   over is the one that scrolls, the other stays put. */
+
+.sidebar {
+  width: var(--sidebar-width);
+  flex: 0 0 var(--sidebar-width);
+  height: 100%;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 20px 0 48px 3px;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.sidebar::-webkit-scrollbar {
+  display: none;
+}
+
+.logo {
+  display: block;
+  width: 190px;
+  height: 26px;
+  margin-bottom: 54px;
+  cursor: pointer;
+}
+
+.logo__svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  /* the artwork's paths sit flush against the viewBox edges, so the
+     outward half of the growing stroke would otherwise get clipped
+     by the SVG's own viewport on hover */
+  overflow: visible;
+}
+
+/* Same path geometry at rest and on hover, so the logo never changes
+   size — only fill color and a growing 1px outline animate, which
+   reads as the wordmark smoothly turning bolder and shifting color. */
+.logo__svg path {
+  fill: #2E31AD;
+  stroke: #FFD2EC;
+  stroke-width: 0;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+  paint-order: stroke fill;
+  vector-effect: non-scaling-stroke;
+  transition: fill 0.35s ease, stroke-width 0.35s ease;
+}
+
+.logo:hover .logo__svg path {
+  fill: #FFD2EC;
+  stroke-width: 2;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .logo__svg path {
+    transition: none;
+  }
+}
+
+.emoji-swap {
+  display: inline-block;
+  cursor: default;
+}
+
+.intro {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 24px;
+  width: 100%;
+  margin-top: -5px;
+}
+
+.intro__block {
+  max-width: 363px;
+}
+
+.intro__block p,
+.intro__text {
+  margin: 0;
+  max-width: 365px;
+  font-size: 18px;
+  line-height: 1.45;
+  letter-spacing: var(--tracking-serif);
+  color: var(--color-ink);
+}
+
+.intro__block p:first-child {
+  margin-bottom: 12px;
+}
+
+.divider {
+  width: 100%;
+  height: 0;
+  margin: 0;
+  border: none;
+  border-top: 1px solid var(--color-divider);
+}
+
+.contact {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+  width: 100%;
+}
+
+.contact__title {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-weight: 500;
+  font-size: 28px;
+  line-height: 1.3;
+  letter-spacing: var(--tracking-sans);
+}
+
+.contact__links {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  width: 100%;
+}
+
+.contact__links a {
+  display: inline-block;
+  font-size: 18px;
+  line-height: 1.45;
+  letter-spacing: var(--tracking-serif);
+  width: fit-content;
+  color: var(--color-ink);
+  transform-origin: 50% 50%;
+  transition: color 0.25s ease;
+  will-change: transform;
+}
+
+.contact__links a:hover {
+  color: #FF4D00;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .contact__links a {
+    transition: color 0.25s ease;
+  }
+}
+
+.squiggle {
+  color: var(--color-ink);
+  /* pulls the squiggle closer to the paragraphs above/below than the
+     .intro flex gap alone would allow, matching the tighter spacing
+     in the reference layout */
+  margin: -7px 0;
+}
+
+.tagline {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.4;
+  letter-spacing: var(--tracking-serif);
+  color: var(--color-muted);
+  max-width: 276px;
+}
+
+/* ---------- Projects ---------- */
+
+.projects {
+  flex: 1 1 auto;
+  min-width: 0;
+  height: 100%;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 8px 0 48px 2px;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.projects::-webkit-scrollbar {
+  display: none;
+}
+
+.projects > * + * {
+  margin-top: 40px;
+}
+
+.project-pair {
+  display: grid;
+  grid-template-columns: 498px 498px;
+  column-gap: var(--grid-gap);
+  max-width: calc(498px * 2 + var(--grid-gap));
+}
+
+.project--half .project__media {
+  max-width: none;
+  height: auto;
+  aspect-ratio: 498 / 487;
+}
+
+.project--half .project__row {
+  max-width: none;
+}
+
+.reveal {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: transform 1s ease-in-out, opacity 0.8s ease-in-out;
+  will-change: transform, opacity;
+}
+
+.reveal.is-revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
+.project__media {
+  position: relative;
+  width: 100%;
+  max-width: var(--media-width);
+  height: calc(var(--media-width) * 0.5677);
+  overflow: hidden;
+  border-radius: 6px;
+  background: var(--color-media-bg);
+}
+
+.project__media-link {
+  display: block;
+}
+
+.project__title-link {
+  color: inherit;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.project__title-link:hover {
+  color: #FFD0ED;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .project__media {
+    transition: none;
+  }
+}
+
+.project__media img,
+.project__media video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.project__media:hover img,
+.project__media:hover video,
+.project__media-link:hover .project__media img,
+.project__media-link:hover .project__media video {
+  transform: scale(1.06);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .project__media img,
+  .project__media video {
+    transition: none;
+  }
+}
+
+body.has-custom-cursor,
+body.has-custom-cursor * {
+  cursor: none !important;
+}
+
+.hover-cta {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 30px;
+  padding: 0 14px;
+  box-sizing: border-box;
+  border-radius: 4px;
+  background: #FFD0ED;
+  display: flex;
+  align-items: center;
+  opacity: 0;
+  pointer-events: none;
+  z-index: 999;
+  transform: translate3d(-9999px, -9999px, 0) translate(-50%, -50%);
+  clip-path: inset(0 100% 0 0);
+  transition: opacity 0.15s ease, clip-path 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.hover-cta.is-see {
+  width: 96px;
+}
+
+.hover-cta.is-soon {
+  width: 70px;
+}
+
+.hover-cta.is-active {
+  opacity: 1;
+  clip-path: inset(0 0 0 0);
+}
+
+.hover-cta__label {
+  font-family: 'Oceanic Text', Georgia, 'Times New Roman', serif;
+  font-size: 15px;
+  line-height: 1;
+  color: #000000;
+  white-space: nowrap;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hover-cta {
+    display: none;
+  }
+}
+
+.project__row {
+  display: block;
+  margin-top: 12px;
+  max-width: var(--media-width);
+}
+
+.project--hero .project__row {
+  display: grid;
+  grid-template-columns: var(--row-title-col) 1fr;
+  column-gap: var(--grid-gap);
+  margin-top: 0;
+}
+
+.project--hero .project__title {
+  margin-top: 12px;
+  margin-bottom: 0;
+}
+
+.project--hero .project__desc {
+  margin-top: 20px;
+}
+
+.project__title {
+  margin: 0 0 6px 0;
+  font-family: var(--font-sans);
+  font-weight: 500;
+  font-size: 28px;
+  line-height: 1.3;
+  letter-spacing: var(--tracking-sans);
+  color: var(--color-ink);
+}
+
+.project__desc p {
+  margin: 0 0 6px 0;
+  font-size: 16px;
+  line-height: 1.45;
+  letter-spacing: var(--tracking-serif);
+  color: var(--color-muted);
+}
+
+.project__desc ul {
+  margin: 0;
+  padding-left: 24px;
+  color: var(--color-muted);
+}
+
+.project__desc li {
+  font-size: 16px;
+  line-height: 1.45;
+  letter-spacing: var(--tracking-serif);
+}
+
+button.project__media-link,
+button.project__title-link {
+  appearance: none;
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  font: inherit;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+button.project__media-link {
+  display: block;
+  width: 100%;
+}
+
+/* ---------- Case detail (in-page project view) ---------- */
+/* Clicking a project image/title flies .projects up and out and swaps in
+   the matching .case section in the same column slot; the sidebar never
+   moves. Both directions reuse the site's established up-and-fade motion
+   language (see the .project scroll-reveal above). */
+
+.case {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  min-width: 0;
+  height: 100%;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 8px 0 64px;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.case::-webkit-scrollbar {
+  display: none;
+}
+
+.case > * {
+  /* Without this, .case__media's overflow:hidden (for the rounded
+     corners) makes its automatic flex min-height resolve to 0, so the
+     column — which has a definite height from .case's height:100% —
+     shrinks these items toward 0 to force everything to fit, instead
+     of leaving the overflow to the intended overflow-y:auto scroll. */
+  flex-shrink: 0;
+}
+
+.projects,
+.case {
+  transition: transform 0.85s cubic-bezier(0.65, 0, 0.35, 1),
+    opacity 0.85s cubic-bezier(0.65, 0, 0.35, 1);
+  will-change: transform, opacity;
+}
+
+.projects.is-hidden,
+.case.is-hidden {
+  display: none;
+}
+
+.projects.is-exiting,
+.case.is-exiting {
+  transform: translateY(-60px);
+  opacity: 0;
+}
+
+.projects.is-entering-start,
+.case.is-entering-start {
+  transform: translateY(40px);
+  opacity: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .projects,
+  .case {
+    transition: none;
+  }
+}
+
+.case__media {
+  width: 100%;
+  max-width: var(--media-width);
+  overflow: hidden;
+  background: var(--color-media-bg);
+  margin-bottom: 3px;
+}
+
+.case__col {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 0;
+  gap: 3px;
+}
+
+.case__col .case__media {
+  margin-bottom: 0;
+}
+
+.case__media img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.case__row {
+  display: flex;
+  /* stretch (not flex-start) so both cards in a row share exactly the
+     same height — a couple of these pairs are a pixel or two off in
+     their own aspect ratio, which at flex-start left a hairline gap
+     of page background peeking out under the shorter one before the
+     next image began. object-fit: cover below absorbs that same
+     sub-pixel difference invisibly. */
+  align-items: stretch;
+  gap: 3px;
+  max-width: var(--media-width);
+  margin-bottom: 3px;
+}
+
+.case__row .case__media {
+  max-width: none;
+  flex: 1 1 0;
+}
+
+.case__row .case__media img {
+  height: 100%;
+  object-fit: cover;
+}
+
+.case__row--asym {
+  /* the staggered pair keeps each card at its own natural height
+     instead of stretching to match its neighbor */
+  align-items: flex-start;
+  /* unlike the edge-to-edge rows, this pairing has a real gap
+     between the two staggered cards in the source design */
+  gap: calc(var(--media-width) * 0.0946);
+}
+
+.case__row--asym .case__media:first-child {
+  flex-grow: 353;
+  /* the smaller card sits staggered lower than its neighbor in the
+     source design, not top-aligned with it */
+  margin-top: calc(var(--media-width) * 0.0739);
+}
+
+.case__row--asym .case__media:last-child {
+  flex-grow: 508;
+}
+
+.case__media--slideshow {
+  /* the crossfading frames are all position: absolute (so they can stack
+     on top of one another), which takes them out of normal flow — this
+     aspect-ratio (matching the shared 1016×1240 crop of every frame) is
+     what gives the container its height instead. */
+  position: relative;
+  aspect-ratio: 1016 / 1240;
+}
+
+.case__media--slideshow img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 0.6s ease;
+}
+
+.case__media--slideshow img.is-active {
+  opacity: 1;
+}
+
+.case__media--ig-ticker {
+  /* cycles through 3 Instagram-post mockups — a hard, instant cut from
+     one to the next (no crossfade), holding each for well under a
+     second: it never blends two frames, it just swaps. */
+  position: relative;
+  aspect-ratio: 2030 / 1240;
+}
+
+.case__media--ig-ticker img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+}
+
+.case__media--ig-ticker img.is-active {
+  opacity: 1;
+}
+
+.case__media--final-sale {
+  /* the shoe colorway cycles (hard cut, no crossfade) behind a single
+     fixed "Final Sale" wordmark — every frame shares the exact same
+     shoe position/scale (aligned in post), so only the suede color
+     changes and the text never appears to move. */
+  position: relative;
+  aspect-ratio: 1015 / 680;
+  background: #fff;
+}
+
+.case__media--final-sale-ticker {
+  position: absolute;
+  inset: 0;
+}
+
+.case__media--final-sale-ticker img {
+  position: absolute;
+  left: 50%;
+  top: 4.1%;
+  width: 89.2%;
+  aspect-ratio: 1400 / 950;
+  transform: translateX(-50%);
+  object-fit: cover;
+  opacity: 0;
+}
+
+.case__media--final-sale-ticker img.is-active {
+  opacity: 1;
+}
+
+.case__media--final-sale .final-sale-text {
+  position: absolute;
+  left: 50%;
+  top: 57.65%;
+  width: 84.9%;
+  height: auto;
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+
+/* Most images run edge-to-edge with no gap (the .case column has no
+   gap of its own); text blocks carry their own margin so they get
+   breathing room from the image before and after them. */
+
+.case__intro {
+  display: grid;
+  grid-template-columns: calc(var(--media-width) / 2) 1fr;
+  column-gap: 4px;
+  max-width: var(--media-width);
+  /* 24px own margin-top + the previous media block's 8px margin-bottom
+     = 32px visible gap above; 48px below before the next media block. */
+  margin: 24px 0 48px;
+}
+
+.case__intro-left {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.case__intro h2 {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-weight: 400;
+  font-size: 32px;
+  line-height: 1;
+  color: var(--color-ink);
+}
+
+.case__intro-tags {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-family: var(--font-sans);
+  font-size: 16px;
+  line-height: 1.4;
+  color: var(--color-ink);
+  opacity: 0.45;
+}
+
+.case__intro-right {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.case__intro-right p {
+  margin: 0;
+  max-width: calc(var(--media-width) * 0.4138);
+  font-family: var(--font-serif);
+  font-size: 18px;
+  line-height: 1.45;
+  letter-spacing: -0.18px;
+  color: var(--color-ink);
+  font-feature-settings: "dlig" 1;
+}
+
+.case__quote {
+  margin: 32px 0 48px;
+  max-width: calc(var(--media-width) * 0.4532);
+  font-family: var(--font-serif);
+  font-size: 18px;
+  line-height: 1.45;
+  letter-spacing: -0.18px;
+  color: var(--color-ink);
+  font-feature-settings: "dlig" 1;
+}
+
+.case__quote--right {
+  /* aligns flush with the left edge of the right-hand image in the
+     row above (an equal-width, no-gap two-image row). Tied to
+     --media-width directly rather than 50% — a percentage here
+     resolves against .case's own (wider) box, not the media column,
+     so it would drift out of alignment whenever the two aren't the
+     same width. */
+  margin-left: calc(var(--media-width) / 2);
+}
+
+/* Basarab/Foundation case-specific media sizing — confirmed independently
+   against each case's own PDF export (see project notes): 620px full-width
+   / 600px in a two-up row / 6px corner radius / 8px gap between blocks.
+   ID-scoped rather than folded into the base .case__media/.case__row rules
+   so a future case with different proportions isn't silently dragged along.
+   The slideshow/ig-ticker/final-sale variants keep their own aspect-ratio
+   sizing (they're absolutely-positioned crossfade stacks, not plain crops),
+   so they're excluded from the fixed-height rules below. */
+#case-basarab .case__media,
+#case-foundation .case__media {
+  border-radius: 6px;
+}
+
+#case-basarab .case__row,
+#case-foundation .case__row {
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+#case-basarab .case__media:not(.case__media--slideshow):not(.case__media--ig-ticker):not(.case__media--final-sale),
+#case-foundation .case__media:not(.case__media--slideshow):not(.case__media--ig-ticker):not(.case__media--final-sale) {
+  height: 620px;
+  margin-bottom: 8px;
+}
+
+#case-basarab .case__media:not(.case__media--slideshow):not(.case__media--ig-ticker):not(.case__media--final-sale) img,
+#case-foundation .case__media:not(.case__media--slideshow):not(.case__media--ig-ticker):not(.case__media--final-sale) img {
+  height: 100%;
+  object-fit: cover;
+}
+
+#case-basarab .case__row .case__media:not(.case__media--slideshow):not(.case__media--ig-ticker):not(.case__media--final-sale),
+#case-foundation .case__row .case__media:not(.case__media--slideshow):not(.case__media--ig-ticker):not(.case__media--final-sale) {
+  height: 600px;
+  margin-bottom: 0;
+}
+
+/* Foundation's one composite row (21 stacked over 22, beside 23 at full
+   row height) is the sole exception to the 8px/620/600 system — its own
+   numbers, confirmed the same way against the Foundation PDF. */
+#case-foundation .case__row .case__col .case__media:not(.case__media--slideshow):not(.case__media--ig-ticker):not(.case__media--final-sale) {
+  height: 332px;
+  margin-bottom: 0;
+}
+
+#case-foundation .case__row:has(.case__col) > .case__media:not(.case__media--slideshow):not(.case__media--ig-ticker):not(.case__media--final-sale) {
+  height: 667px;
+}
+
+/* The slideshow/ig-ticker/final-sale variants are excluded from the fixed
+   620/600 heights above (they size themselves via aspect-ratio instead),
+   but they were also getting silently excluded from the 8px gap below
+   them — the :not() clauses were written for the height rule and then
+   reused for margin, which pulled them along by accident. Standalone
+   (full-width) variants still need the same 8px gap as everything else;
+   this restores it without touching their height. */
+#case-basarab .case__media--ig-ticker,
+#case-basarab .case__media--final-sale,
+#case-foundation .case__media--ig-ticker,
+#case-foundation .case__media--final-sale {
+  margin-bottom: 8px;
+}
+
+/* Basarab's slideshow sits in a two-up row next to a plain photo. The
+   plain photo was being forced to the row's usual 600px via the rule
+   above, while the slideshow sizes itself from its own aspect-ratio
+   (1016/1240) — those don't match, so the row's two cells came out
+   different heights instead of level with each other. Letting the
+   plain cell fall back to height:auto lets align-items:stretch on
+   .case__row match it to whatever height the slideshow computes to. */
+#case-basarab .case__row:has(.case__media--slideshow) > .case__media:not(.case__media--slideshow):not(.case__media--ig-ticker):not(.case__media--final-sale) {
+  height: auto;
+}
+
+.case__meta {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  max-width: var(--media-width);
+  margin-top: 32px;
+  padding-top: 24px;
+  border-top: 1px solid var(--color-divider);
+}
+
+.case__meta-row {
+  display: grid;
+  grid-template-columns: calc(var(--media-width) / 2) 1fr;
+  column-gap: 4px;
+}
+
+.case__meta-row dt {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 1.3;
+  letter-spacing: -0.2px;
+  color: var(--color-ink);
+}
+
+.case__meta-row dd {
+  margin: 0;
+  max-width: calc(var(--media-width) * 0.3527);
+  font-family: var(--font-serif);
+  font-size: 18px;
+  line-height: 1.45;
+  letter-spacing: -0.18px;
+  color: var(--color-ink);
+  font-feature-settings: "dlig" 1;
+}
+
+.case__nav {
+  display: flex;
+  justify-content: space-between;
+  max-width: var(--media-width);
+  margin-top: 24px;
+  padding-top: 16px;
+  border-top: 1px solid var(--color-divider);
+  font-family: var(--font-sans);
+  font-size: 24px;
+  font-weight: 400;
+  letter-spacing: -0.24px;
+}
+
+.case__nav a {
+  color: var(--color-ink);
+  transition: color 0.2s ease;
+}
+
+.case__nav a:hover {
+  color: #FF4D00;
+}
+
+/* ---------- Small screens (basic safety net; design is desktop-first) ---------- */
+
+@media (max-width: 900px) {
+  html, body {
+    height: auto;
+  }
+
+  body {
+    overflow: visible;
+  }
+
+  .page {
+    flex-direction: column;
+    height: auto;
+    padding: 0 20px 48px;
+  }
+
+  .sidebar,
+  .projects,
+  .case {
+    width: 100%;
+    flex: none;
+    height: auto;
+    overflow: visible;
+    padding: 0;
+  }
+
+  .sidebar {
+    padding-top: 20px;
+  }
+
+  .projects,
+  .case {
+    padding-top: 32px;
+  }
+
+  .project__row,
+  .project--hero .project__row {
+    grid-template-columns: 1fr;
+    row-gap: 8px;
+  }
+
+  .project--hero .project__desc {
+    margin-top: 6px;
+  }
+
+  .project-pair {
+    grid-template-columns: 1fr;
+    max-width: none;
+  }
+
+  .case__row {
+    flex-wrap: wrap;
+  }
+
+  .case__row .case__media,
+  .case__row--asym .case__media:first-child,
+  .case__row--asym .case__media:last-child {
+    flex: 1 1 240px;
+    margin-top: 0;
+  }
+
+  .case__row--asym {
+    gap: 24px;
+  }
+
+  .case__intro,
+  .case__meta-row {
+    grid-template-columns: 1fr;
+    row-gap: 8px;
+  }
+
+  .case__meta-row dd {
+    max-width: none;
+  }
+
+  .case__quote--right {
+    margin-left: 0;
+    max-width: none;
+  }
+}
+</style>
+
+<div class="page">
+
+  <aside class="sidebar">
+    <a href="#" class="logo" aria-label="Vika Ivanova">
+      <svg class="logo__svg" viewBox="0 0 400 54" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path d="M373.581 53.3333C366.56 53.3333 362.76 49.6299 362.76 44.5101C362.76 39.4787 366.159 36.8082 373.18 34.2999C376.707 33.0457 378.198 32.4998 379.143 32.1604C381.468 31.3637 381.997 30.2866 381.997 28.7079V27.8226C381.997 25.7274 381.019 24.2962 378.566 24.311C377.011 24.3405 375.761 25.0045 375.617 26.2881C375.553 26.7898 375.569 27.1586 375.537 27.8373C375.168 35.6573 363.289 35.6425 363.289 28.6636C363.289 22.5404 372.699 15.8566 381.067 15.8566C387.367 15.8566 393.747 19.6633 393.667 27.675C393.603 33.6212 393.635 35.0966 393.651 39.7001C393.651 41.6919 394.324 42.4444 396.456 42.71C399.053 42.8133 401.041 45.3068 399.406 48.3168C398.059 50.825 394.917 53.3333 390.589 53.3333C388.633 53.3333 387.014 52.8907 385.491 51.9021C384.177 51.0611 382.686 50.9283 380.33 51.9316C378.085 52.9497 376.434 53.3333 373.581 53.3333ZM375.472 42.9018C375.472 43.7723 376.066 44.3478 377.476 44.3478C380.089 44.3478 381.965 42.4149 381.965 41.0132V40.4673C381.965 39.5673 381.404 39.1836 379.288 39.8329C376.675 40.6296 375.472 41.6772 375.472 42.9018Z" />
+        <path d="M340.814 50.0283C337.752 43.6838 333.36 35.0229 329.994 28.5161C328.743 26.0668 327.846 25.3881 325.425 24.0012C321.978 22.0093 323.213 16.8894 328.102 16.7714C332.719 16.6681 336.39 16.6681 340.99 16.7714C345.655 16.8747 346.89 21.8912 343.956 23.8093C341.856 25.0635 341.616 26.1701 342.738 28.4275C343.7 30.3899 344.309 31.6588 345.319 33.6359C346.345 35.613 348.044 35.5098 348.909 33.6507L351.218 28.6046C352.308 26.1258 352.003 25.2553 349.695 23.6913C347.114 21.8027 348.364 16.978 352.917 16.7714C355.29 16.6534 359.073 16.6829 362.664 16.7714C367.873 16.9189 368.835 22.6585 364.844 24.2667C362.471 25.211 361.782 25.934 360.548 28.5603L359.345 31.1276C358.239 33.4589 357.357 35.3327 356.604 36.9114C354.135 42.1198 353.141 44.2297 350.416 50.0431C348.364 54.4252 342.946 54.4252 340.814 50.0283Z" />
+        <path d="M308.416 53.3333C296.922 53.3333 288.603 45.3511 288.603 34.654C288.603 23.8536 297.227 15.8566 308.608 15.8566C320.07 15.8566 328.39 23.8831 328.39 34.595C328.39 45.4396 319.814 53.3333 308.416 53.3333ZM301.395 34.2113C301.715 41.4706 305.21 45.6462 309.137 45.6462C312.985 45.6462 315.902 41.7362 315.598 34.8163C315.261 27.6308 311.75 23.5142 307.839 23.5142C304.024 23.5142 301.09 27.2767 301.395 34.2113Z" />
+        <path d="M251.86 52.4038C247.147 52.1677 245.769 47.1216 249.456 45.233C251.78 44.0822 252.469 42.9018 252.582 38.8591C252.646 36.218 252.566 33.6212 252.533 31.3932C252.469 28.162 251.876 27.6898 249.632 26.2143C246.73 24.2962 247.211 20.8879 250.514 19.3387C252.726 18.3059 254.666 17.3911 257.022 16.4468C259.058 15.6353 260.565 15.8271 261.703 16.7271C263.578 18.0698 264.893 18.3206 267.474 17.3763C276.755 13.968 286.165 17.7599 286.021 27.2472C285.941 32.5736 285.861 34.6983 285.941 38.6968C286.037 42.9461 286.566 44.0232 289.099 45.2035C292.834 47.0036 291.359 52.1677 286.646 52.4038C282.895 52.5956 277.797 52.6104 273.726 52.4185C271.273 52.3153 269.686 50.825 269.285 49.1725C268.884 50.7955 267.314 52.271 264.877 52.4038C260.645 52.6104 256.14 52.6104 251.86 52.4038ZM264.22 38.6968C264.396 43.3297 264.989 44.0084 267.522 45.3216C268.484 45.838 269.061 46.62 269.285 47.4758C269.542 46.4872 270.247 45.5724 271.497 45.0117C273.613 44.1117 274.207 43.3149 274.351 38.564C274.415 36.1147 274.415 32.2785 274.351 28.9439C274.255 25.0782 270.471 23.411 267.025 25.3143C265.342 26.2291 264.284 28.0734 264.22 30.8178C264.156 34.1376 264.156 36.8229 264.22 38.6968Z" />
+        <path d="M225.201 53.3333C218.18 53.3333 214.381 49.6299 214.381 44.5101C214.381 39.4787 217.779 36.8082 224.8 34.2999C228.327 33.0457 229.818 32.4998 230.764 32.1604C233.088 31.3637 233.617 30.2866 233.617 28.7079V27.8226C233.617 25.7274 232.639 24.2962 230.186 24.311C228.632 24.3405 227.381 25.0045 227.237 26.2881C227.173 26.7898 227.189 27.1586 227.157 27.8373C226.788 35.6573 214.91 35.6425 214.91 28.6636C214.91 22.5404 224.319 15.8566 232.687 15.8566C238.987 15.8566 245.367 19.6633 245.287 27.675C245.223 33.6212 245.255 35.0966 245.271 39.7001C245.271 41.6919 245.944 42.4444 248.076 42.71C250.673 42.8133 252.661 45.3068 251.026 48.3168C249.679 50.825 246.537 53.3333 242.209 53.3333C240.254 53.3333 238.634 52.8907 237.112 51.9021C235.797 51.0611 234.306 50.9283 231.95 51.9316C229.706 52.9497 228.054 53.3333 225.201 53.3333ZM227.093 42.9018C227.093 43.7723 227.686 44.3478 229.096 44.3478C231.709 44.3478 233.585 42.4149 233.585 41.0132V40.4673C233.585 39.5673 233.024 39.1836 230.908 39.8329C228.295 40.6296 227.093 41.6772 227.093 42.9018Z" />
+        <path d="M192.434 50.0283C189.372 43.6838 184.98 35.0229 181.614 28.5161C180.363 26.0668 179.466 25.3881 177.045 24.0012C173.599 22.0093 174.833 16.8894 179.722 16.7714C184.339 16.6681 188.01 16.6681 192.611 16.7714C197.275 16.8747 198.51 21.8912 195.576 23.8093C193.476 25.0635 193.236 26.1701 194.358 28.4275C195.32 30.3899 195.929 31.6588 196.939 33.6359C197.965 35.613 199.664 35.5098 200.53 33.6507L202.838 28.6046C203.928 26.1258 203.623 25.2553 201.315 23.6913C198.734 21.8027 199.985 16.978 204.537 16.7714C206.91 16.6534 210.693 16.6829 214.284 16.7714C219.494 16.9189 220.455 22.6585 216.464 24.2667C214.091 25.211 213.402 25.934 212.168 28.5603L210.965 31.1276C209.859 33.4589 208.978 35.3327 208.224 36.9114C205.756 42.1198 204.762 44.2297 202.036 50.0431C199.985 54.4252 194.566 54.4252 192.434 50.0283Z" />
+        <path d="M161.719 52.5366C156.782 52.4185 155.403 47.2249 159.123 45.174C161.864 43.6986 162.633 42.651 162.745 37.9147C162.842 32.5736 162.858 26.111 162.729 18.4386C162.665 14.809 161.96 13.968 158.465 11.4892C155.644 9.45309 156.702 4.7021 161.848 4.62833C165.663 4.55455 171.931 4.5398 175.794 4.62833C180.78 4.71685 181.854 9.45309 179.032 11.4892C175.554 13.968 174.848 14.809 174.784 18.4386C174.656 25.816 174.656 32.308 174.768 37.9147C174.88 42.769 175.73 43.7576 178.391 45.174C182.078 47.2249 180.603 52.3743 175.89 52.5218C171.819 52.6546 165.935 52.6399 161.719 52.5366Z" />
+        <path d="M117.731 53.3333C110.709 53.3333 106.91 49.6299 106.91 44.5101C106.91 39.4787 110.309 36.8082 117.33 34.2999C120.857 33.0457 122.347 32.4998 123.293 32.1604C125.618 31.3637 126.147 30.2866 126.147 28.7079V27.8226C126.147 25.7274 125.169 24.2962 122.716 24.311C121.161 24.3405 119.911 25.0045 119.767 26.2881C119.702 26.7898 119.719 27.1586 119.686 27.8373C119.318 35.6573 107.439 35.6425 107.439 28.6636C107.439 22.5404 116.849 15.8566 125.217 15.8566C131.517 15.8566 137.897 19.6633 137.817 27.675C137.753 33.6212 137.785 35.0966 137.801 39.7001C137.801 41.6919 138.474 42.4444 140.606 42.71C143.203 42.8133 145.191 45.3068 143.556 48.3168C142.209 50.825 139.067 53.3333 134.739 53.3333C132.783 53.3333 131.164 52.8907 129.641 51.9021C128.327 51.0611 126.836 50.9283 124.48 51.9316C122.235 52.9497 120.584 53.3333 117.731 53.3333ZM119.622 42.9018C119.622 43.7723 120.215 44.3478 121.626 44.3478C124.239 44.3478 126.115 42.4149 126.115 41.0132V40.4673C126.115 39.5673 125.554 39.1836 123.438 39.8329C120.825 40.6296 119.622 41.6772 119.622 42.9018Z" />
+        <path d="M72.0595 52.4038C67.539 52.2267 66.0321 47.0184 69.5107 45.0707C72.2519 43.5805 72.7489 43.0051 72.829 38.8443C72.9572 31.2604 72.8771 25.211 72.7809 16.0927C72.7489 12.9499 71.8992 11.7696 69.5428 10.1171C67.1222 8.37601 67.6512 4.87917 70.713 3.44797C71.258 3.18238 75.1534 1.39708 77.2053 0.585572C81.0045 -0.904645 84.451 0.467535 84.435 4.49555C84.4029 8.81865 84.3548 21.242 84.3869 25.2848C84.4029 27.0111 85.7655 27.5128 86.8396 26.6865C86.8876 26.6422 86.9518 26.5832 87.0319 26.5242C87.096 26.4799 87.1602 26.4357 87.2083 26.3914C88.2663 25.4914 88.4747 24.1635 87.5289 22.8503C85.7655 20.401 87.4327 16.9189 91.3601 16.7714C95.3998 16.6238 99.5997 16.6091 103.495 16.7861C109.01 17.037 109.939 22.9388 104.954 24.6356C102.646 25.4176 100.353 26.4209 98.157 28.0734C97.3715 28.6784 96.4898 29.3866 95.7044 30.0358C95.2555 30.3899 94.8387 30.7293 94.4861 31.0244C93.0754 32.1752 92.9792 33.5326 94.5662 35.0081C96.57 36.8967 98.0288 38.2689 100.578 40.5853C102.79 42.592 104.2 43.7576 106.621 44.5838C111.623 46.3101 110.516 52.1825 104.97 52.4186C101.507 52.5661 96.7463 52.5661 92.7868 52.4186C90.9273 52.3448 89.6128 51.6218 88.8754 50.6332C88.122 51.6218 86.8396 52.3448 85.1243 52.4186C81.1007 52.5809 76.516 52.5809 72.0595 52.4038ZM84.4991 42.4297C84.4991 43.2707 85.1403 43.9346 87.3525 44.9084C88.0098 45.2183 88.5388 45.6314 88.9075 46.1036C89.2601 45.1003 88.9556 44.3035 87.8334 43.2117C87.3525 42.7395 86.9838 42.4002 86.4067 41.8542C85.4289 40.969 84.4991 41.4559 84.4991 42.3116V42.4297Z" />
+        <path d="M54.3133 52.4038C49.6805 52.2267 48.35 47.0331 51.9568 45.2183C54.4736 43.9936 55.0507 42.9166 55.1308 38.4754C55.1629 37.1623 55.1629 34.2113 55.1308 31.3489C55.0988 28.2505 54.4575 27.6898 52.1652 26.1996C49.3599 24.3257 49.6324 21.1387 52.7102 19.5157C54.9064 18.3649 56.8621 17.5239 59.5873 16.4615C59.6033 16.4615 59.6193 16.4468 59.6193 16.4468C55.8201 16.1222 52.7583 13.2303 52.7583 9.68916C52.7583 5.86771 56.2049 2.76924 60.3247 2.76924C64.4765 2.76924 67.9391 5.73492 67.9391 9.43833C67.9391 12.3155 66.0315 14.8533 63.2582 15.9304C65.3903 16.255 66.7849 17.8485 66.7689 20.3863C66.7048 29.4603 66.7048 33.9015 66.7849 38.4902C66.8651 43.2559 67.2819 43.9494 69.8147 45.115C73.5658 46.9298 72.2032 52.2267 67.3941 52.4185C63.3865 52.5808 58.8338 52.5808 54.3133 52.4038Z" />
+        <path d="M31.9663 49.807C30.0426 54.4547 24.3518 54.4989 22.2999 49.7775C17.7954 39.3902 12.7939 28.2652 8.41762 18.778C6.31764 14.2041 5.91688 13.968 2.27798 12.227C-1.37694 10.4712 -0.591454 4.77587 4.32987 4.64308C9.60387 4.49553 13.387 4.49553 20.1679 4.67259C24.2236 4.79063 25.7465 9.86622 22.5885 11.7843C20.1839 13.1713 19.6229 14.2926 20.777 16.9927C22.4282 20.9027 24.5762 25.6832 26.58 30.0358C27.7182 32.5441 29.5617 32.3523 30.6838 29.8587C32.2388 26.3471 34.2426 21.7289 35.7334 18.114C37.0158 15.0894 36.7273 14.027 33.1685 12.1089C29.2251 9.85146 31.2128 4.83489 35.525 4.65784C39.0837 4.52504 44.0692 4.52504 49.9363 4.64308C53.5385 4.71685 55.3135 6.81672 55.812 8.71269C56.3155 10.6284 55.4959 12.7676 53.0796 13.7488L53.0767 13.7508C51.26 14.4769 50.1571 15.0526 49.3042 15.8631C48.4521 16.6728 47.8109 17.7534 46.9995 19.5691V19.5711C44.7728 24.4959 42.5133 29.6275 40.19 35.0252V35.0262C37.9952 40.0985 35.7507 45.4072 33.4273 50.9969L33.4283 50.9978C32.3954 53.4934 30.3187 54.8034 28.1812 54.8055C26.0439 54.8075 23.9391 53.5024 22.8413 50.9764H22.8404C18.3376 40.5931 13.3383 29.4712 8.96341 19.9871H8.96243C7.9055 17.685 7.31243 16.5636 6.564 15.7869C5.82165 15.0167 4.90346 14.5596 3.06204 13.6785L3.06107 13.6775C1.00941 12.6919 0.1994 10.5898 0.598175 8.72246C1.00238 6.83073 2.63068 5.21715 5.31497 5.14433V5.14336Z" />
+      </svg>
+    </a>
+
+    <div class="intro">
+
+      <div class="intro__block">
+        <p>Я дизайнер и арт-директор, больше<br>8 лет работаю с визуальной айдентикой<br>бренда  — от концепции до реализации<br>в каждой точке контакта. 👩🏻</p>
+        <p>Сотрудничала с ведущими дизайн-<br>студиями в России, вела проекты<br>для крупных брендов из разных сфер,<br>от технологий до ритейла.</p>
+      </div>
+
+      <div class="squiggle" aria-hidden="true">
+        <svg width="28" height="8" viewBox="0 0 28 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M3.05408 4.78125C3.25045 4.61605 3.5352 4.60792 3.7406 4.76172C3.94048 4.91163 4.01437 5.17735 3.92126 5.40918L3.25037 7.07715C3.21637 7.16158 3.17301 7.24207 3.12048 7.31641L3.02185 7.45508C2.69672 7.91454 2.0578 8.01842 1.60388 7.68555C1.15265 7.35405 1.05811 6.71764 1.39392 6.26953L1.49744 6.13184C1.55094 6.0605 1.61285 5.99497 1.68103 5.9375L3.05408 4.78125ZM4.41736 4.76172C4.62275 4.60802 4.90755 4.61609 5.10388 4.78125L6.47595 5.9375C6.54426 5.99502 6.60596 6.06041 6.65955 6.13184L6.76306 6.26953C7.09928 6.71782 7.00487 7.35408 6.5531 7.68555C6.09914 8.01825 5.46016 7.91461 5.13513 7.45508L5.03748 7.31641C4.98487 7.24197 4.94064 7.16171 4.90662 7.07715L4.23572 5.40918C4.14281 5.1775 4.21773 4.9116 4.41736 4.76172ZM12.7865 4.78125C12.9829 4.61605 13.2676 4.60792 13.473 4.76172C13.6729 4.91163 13.7468 5.17735 13.6537 5.40918L12.9828 7.07715C12.9488 7.16158 12.9054 7.24207 12.8529 7.31641L12.7543 7.45508C12.4291 7.91454 11.7902 8.01842 11.3363 7.68555C10.8851 7.35405 10.7905 6.71764 11.1263 6.26953L11.2299 6.13184C11.2834 6.0605 11.3453 5.99497 11.4135 5.9375L12.7865 4.78125ZM14.1498 4.76172C14.3552 4.60802 14.64 4.61609 14.8363 4.78125L16.2084 5.9375C16.2767 5.99502 16.3384 6.06041 16.392 6.13184L16.4955 6.26953C16.8317 6.71782 16.7373 7.35408 16.2855 7.68555C15.8316 8.01825 15.1926 7.91461 14.8676 7.45508L14.7699 7.31641C14.7173 7.24197 14.6731 7.16171 14.639 7.07715L13.9681 5.40918C13.8752 5.1775 13.9502 4.9116 14.1498 4.76172ZM22.5189 4.78125C22.7153 4.61605 23 4.60792 23.2054 4.76172C23.4053 4.91163 23.4792 5.17735 23.3861 5.40918L22.7152 7.07715C22.6812 7.16158 22.6379 7.24207 22.5853 7.31641L22.4867 7.45508C22.1616 7.91454 21.5226 8.01842 21.0687 7.68555C20.6175 7.35405 20.5229 6.71764 20.8588 6.26953L20.9623 6.13184C21.0158 6.0605 21.0777 5.99497 21.1459 5.9375L22.5189 4.78125ZM23.8822 4.76172C24.0876 4.60802 24.3724 4.61609 24.5687 4.78125L25.9408 5.9375C26.0091 5.99502 26.0708 6.06041 26.1244 6.13184L26.2279 6.26953C26.5641 6.71782 26.4697 7.35408 26.0179 7.68555C25.564 8.01825 24.925 7.91461 24.6 7.45508L24.5023 7.31641C24.4497 7.24197 24.4055 7.16171 24.3715 7.07715L23.7006 5.40918C23.6077 5.1775 23.6826 4.9116 23.8822 4.76172ZM4.42126 5.33496L4.90271 6.53027L4.42224 5.33496C4.41477 5.31639 4.40882 5.29738 4.40466 5.27832C4.4088 5.29734 4.41382 5.31643 4.42126 5.33496ZM14.1537 5.33496L14.6351 6.53027L14.1547 5.33496C14.1472 5.31639 14.1412 5.29738 14.1371 5.27832C14.1412 5.29734 14.1462 5.31643 14.1537 5.33496ZM23.8861 5.33496L24.3676 6.53027L23.8871 5.33496C23.8796 5.31639 23.8737 5.29738 23.8695 5.27832C23.8736 5.29734 23.8787 5.31643 23.8861 5.33496ZM4.5365 4.92188C4.50475 4.94575 4.47778 4.9743 4.45642 5.00586H4.4574C4.4788 4.97436 4.50571 4.9457 4.53748 4.92188C4.55375 4.90969 4.57067 4.89879 4.58826 4.88965L4.5365 4.92188ZM14.2689 4.92188C14.2372 4.94575 14.2102 4.9743 14.1888 5.00586H14.1898C14.2112 4.97436 14.2381 4.9457 14.2699 4.92188C14.2862 4.90969 14.3031 4.89879 14.3207 4.88965L14.2689 4.92188ZM24.0013 4.92188C23.9696 4.94575 23.9426 4.9743 23.9213 5.00586H23.9222C23.9436 4.97436 23.9706 4.9457 24.0023 4.92188C24.0186 4.90969 24.0355 4.89879 24.0531 4.88965L24.0013 4.92188ZM0.0501709 2.95215C0.223897 2.42359 0.795893 2.13845 1.32263 2.31738L1.48865 2.37402C1.57046 2.40187 1.64929 2.4393 1.72302 2.48438L3.26111 3.4248C3.48083 3.55944 3.57874 3.82774 3.49744 4.07227C3.41738 4.31228 3.1844 4.46804 2.93201 4.4502L1.14197 4.32422C1.05126 4.31775 0.961196 4.30054 0.87439 4.27344L0.702515 4.21973C0.169998 4.05311 -0.123952 3.48229 0.0501709 2.95215ZM6.83435 2.31738C7.36119 2.13803 7.93293 2.42353 8.10681 2.95215C8.28104 3.4824 7.98816 4.05321 7.45544 4.21973L7.28357 4.27344C7.19652 4.30061 7.10598 4.31779 7.01501 4.32422L5.22498 4.4502C4.97268 4.46787 4.74051 4.31223 4.66052 4.07227C4.57917 3.82769 4.67705 3.55944 4.89685 3.4248L6.43396 2.48438C6.50763 2.4393 6.58659 2.40189 6.66833 2.37402L6.83435 2.31738ZM9.78259 2.95215C9.95632 2.42359 10.5283 2.13845 11.0551 2.31738L11.2211 2.37402C11.3029 2.40187 11.3817 2.4393 11.4554 2.48438L12.9935 3.4248C13.2133 3.55944 13.3112 3.82774 13.2299 4.07227C13.1498 4.31228 12.9168 4.46804 12.6644 4.4502L10.8744 4.32422C10.7837 4.31775 10.6936 4.30054 10.6068 4.27344L10.4349 4.21973C9.90242 4.05311 9.60847 3.48229 9.78259 2.95215ZM16.5668 2.31738C17.0936 2.13803 17.6653 2.42353 17.8392 2.95215C18.0135 3.4824 17.7206 4.05321 17.1879 4.21973L17.016 4.27344C16.9289 4.30061 16.8384 4.31779 16.7474 4.32422L14.9574 4.4502C14.7051 4.46787 14.4729 4.31223 14.3929 4.07227C14.3116 3.82769 14.4095 3.55944 14.6293 3.4248L16.1664 2.48438C16.2401 2.4393 16.319 2.40189 16.4008 2.37402L16.5668 2.31738ZM19.515 2.95215C19.6887 2.42359 20.2607 2.13845 20.7875 2.31738L20.9535 2.37402C21.0353 2.40187 21.1141 2.4393 21.1879 2.48438L22.726 3.4248C22.9457 3.55944 23.0436 3.82774 22.9623 4.07227C22.8822 4.31228 22.6492 4.46804 22.3969 4.4502L20.6068 4.32422C20.5161 4.31775 20.426 4.30054 20.3392 4.27344L20.1674 4.21973C19.6348 4.05311 19.3409 3.48229 19.515 2.95215ZM26.2992 2.31738C26.826 2.13803 27.3978 2.42353 27.5717 2.95215C27.7459 3.4824 27.453 4.05321 26.9203 4.21973L26.7484 4.27344C26.6614 4.30061 26.5708 4.31779 26.4799 4.32422L24.6898 4.4502C24.4375 4.46787 24.2054 4.31223 24.1254 4.07227C24.044 3.82769 24.1419 3.55944 24.3617 3.4248L25.8988 2.48438C25.9725 2.4393 26.0514 2.40189 26.1332 2.37402L26.2992 2.31738ZM4.06775 0C4.62158 2.93666e-05 5.07054 0.449128 5.07068 1.00293V1.18457C5.07068 1.27652 5.05964 1.36853 5.03845 1.45801L4.62537 3.2002C4.5651 3.45418 4.33854 3.63367 4.07751 3.63379C3.81862 3.63362 3.5929 3.45737 3.53064 3.20605L3.099 1.46387C3.07613 1.37126 3.06482 1.27606 3.06482 1.18066V1.00293C3.06496 0.449232 3.51406 0.000197917 4.06775 0ZM13.8002 0C14.354 2.96242e-05 14.803 0.449128 14.8031 1.00293V1.18457C14.8031 1.27652 14.7921 1.36853 14.7709 1.45801L14.3578 3.2002C14.2975 3.45418 14.071 3.63367 13.8099 3.63379C13.551 3.63362 13.3253 3.45737 13.2631 3.20605L12.8314 1.46387C12.8085 1.37126 12.7972 1.27606 12.7972 1.18066V1.00293C12.7974 0.449232 13.2465 0.000197918 13.8002 0ZM23.5326 0C24.0864 2.98818e-05 24.5354 0.449129 24.5355 1.00293V1.18457C24.5355 1.27652 24.5245 1.36854 24.5033 1.45801L24.0902 3.2002C24.0299 3.45418 23.8034 3.63367 23.5424 3.63379C23.2835 3.63362 23.0577 3.45737 22.9955 3.20605L22.5638 1.46387C22.541 1.37126 22.5297 1.27606 22.5297 1.18066V1.00293C22.5298 0.449232 22.9789 0.000197918 23.5326 0ZM3.724 3.1582C3.72879 3.17755 3.73587 3.19602 3.74353 3.21387C3.73591 3.19607 3.72976 3.17747 3.72498 3.1582L3.29333 1.41602L3.724 3.1582ZM13.4564 3.1582C13.4612 3.17755 13.4683 3.19602 13.476 3.21387C13.4683 3.19607 13.4622 3.17747 13.4574 3.1582L13.0258 1.41602L13.4564 3.1582ZM23.1888 3.1582C23.1936 3.17755 23.2007 3.19602 23.2084 3.21387C23.2008 3.19607 23.1946 3.17747 23.1898 3.1582L22.7582 1.41602L23.1888 3.1582ZM0.21814 3.09473C0.216871 3.10054 0.216344 3.10649 0.21521 3.1123C0.221572 3.07969 0.229956 3.04704 0.240601 3.01465L0.21814 3.09473ZM9.95056 3.09473C9.94929 3.10054 9.94877 3.10649 9.94763 3.1123C9.95399 3.07969 9.96238 3.04704 9.97302 3.01465L9.95056 3.09473ZM19.683 3.09473C19.6817 3.10054 19.6812 3.10649 19.6801 3.1123C19.6864 3.07969 19.6948 3.04704 19.7054 3.01465L19.683 3.09473ZM6.73279 2.56348L6.63318 2.60352C6.66572 2.58824 6.69968 2.57508 6.73376 2.56348L6.89978 2.50684H6.8988L6.73279 2.56348ZM16.4652 2.56348L16.3656 2.60352C16.3981 2.58824 16.4321 2.57508 16.4662 2.56348L16.6322 2.50684H16.6312L16.4652 2.56348ZM26.1976 2.56348L26.098 2.60352C26.1306 2.58824 26.1645 2.57508 26.1986 2.56348L26.3646 2.50684H26.3636L26.1976 2.56348Z" fill="black"/>
+        </svg>
+      </div>
+
+      <p class="intro__text">Я не навязываю проектам свой стиль,<br>я ищу их собственный визуальный язык<br>и характер внутри гибкой и понятной<br>системы</p>
+
+      <hr class="divider" />
+
+      <div class="contact">
+        <p class="contact__title">Давайте знакомиться 💅</p>
+        <div class="contact__links">
+          <a href="mailto:hello@vikaivanova.com">Email</a>
+          <a href="#" target="_blank" rel="noopener">Instagram</a>
+          <a href="#" target="_blank" rel="noopener">Telegram</a>
+          <a href="#">Download PDF</a>
+        </div>
+      </div>
+
+    </div>
+  </aside>
+
+  <main class="projects">
+
+    <article class="project project--hero">
+      <a class="project__media-link" href="https://www.behance.net/gallery/235073919/Vocamate-AI-Brand-Identity-Website" target="_blank" rel="noopener noreferrer" data-cursor-label="смотреть">
+        <div class="project__media">
+          <video autoplay muted loop playsinline poster="images/grid-01.jpg">
+            <source src="videos/grid-video-01.mp4" type="video/mp4" />
+          </video>
+        </div>
+      </a>
+      <div class="project__row">
+        <h2 class="project__title"><a class="project__title-link" href="https://www.behance.net/gallery/235073919/Vocamate-AI-Brand-Identity-Website" target="_blank" rel="noopener noreferrer">Vocamate</a></h2>
+        <div class="project__desc">
+          <p>Визуальная айдентика и логотип для Vocamate AI —<br>Умные голосовые роботы и чат-боты для бизнеса</p>
+          <ul><li>В сотрудничестве с Origin Design</li></ul>
+        </div>
+      </div>
+    </article>
+
+    <div class="project-pair">
+
+      <article class="project project--half">
+        <button class="project__media-link" type="button" data-case-open="case-basarab" data-cursor-label="смотреть">
+          <div class="project__media">
+            <img src="images/grid-02.jpg" alt="Basarab">
+          </div>
+        </button>
+        <div class="project__row">
+          <h2 class="project__title"><button class="project__title-link" type="button" data-case-open="case-basarab">Basarab</button></h2>
+          <div class="project__desc">
+            <p>Визуальная айдентика и логотип для Basarab —<br>Интернет магазин брендовой обуви</p>
+            <ul><li>В сотрудничестве с Origin Design</li></ul>
+          </div>
+        </div>
+      </article>
+
+      <article class="project project--half">
+        <button class="project__media-link" type="button" data-case-open="case-foundation" data-cursor-label="смотреть">
+          <div class="project__media">
+            <img src="images/grid-03.jpg" alt="Фонд «Вызов»">
+          </div>
+        </button>
+        <div class="project__row">
+          <h2 class="project__title"><button class="project__title-link" type="button" data-case-open="case-foundation">Фонд «Вызов»</button></h2>
+          <div class="project__desc">
+            <p>Визуальная айдентика для фонда развития<br>научно-культурных связей</p>
+            <ul><li>В сотрудничестве с Origin Design</li></ul>
+          </div>
+        </div>
+      </article>
+
+    </div>
+
+    <div class="project-pair">
+
+      <article class="project project--half">
+        <div class="project__media" data-cursor-label="скоро">
+          <img src="images/grid-04.jpg" alt="App Insiders Club">
+        </div>
+        <div class="project__row">
+          <h2 class="project__title">App Insiders Club</h2>
+          <div class="project__desc">
+            <p>Визуальная айдентика для медиаплатформы<br>о разработке мобильных приложений</p>
+            <ul><li>В сотрудничестве с Yandex</li></ul>
+          </div>
+        </div>
+      </article>
+
+      <article class="project project--half">
+        <div class="project__media" data-cursor-label="скоро">
+          <img src="images/grid-05.jpg" alt="Ольга Шепет">
+        </div>
+        <div class="project__row">
+          <h2 class="project__title">Ольга Шепет</h2>
+          <div class="project__desc">
+            <p>Визуальная айдентика и логотип<br>для ресторатора Ольги Шепет</p>
+            <ul><li>Прямое сотрудничество</li></ul>
+          </div>
+        </div>
+      </article>
+
+    </div>
+
+    <div class="project-pair">
+
+      <article class="project project--half">
+        <div class="project__media" data-cursor-label="скоро">
+          <img src="images/grid-06.jpg" alt="3I Tech">
+        </div>
+        <div class="project__row">
+          <h2 class="project__title">3I Tech</h2>
+          <div class="project__desc">
+            <p>Визуальная айдентика для 3I Tech — AI решения<br>для бизнеса и государства</p>
+            <ul><li>В сотрудничестве с Origin Design</li></ul>
+          </div>
+        </div>
+      </article>
+
+      <article class="project project--half">
+        <div class="project__media" data-cursor-label="скоро">
+          <img src="images/grid-07.jpg" alt="Banda" style="object-position: 97% 43%;">
+        </div>
+        <div class="project__row">
+          <h2 class="project__title">Banda</h2>
+          <div class="project__desc">
+            <p>Визуальная айдентика и логотип для бренда стильных<br>аксессуаров для девушек</p>
+            <ul><li>В сотрудничестве с Banda</li></ul>
+          </div>
+        </div>
+      </article>
+
+    </div>
+
+  </main>
+
+  <section class="case is-hidden" id="case-basarab" aria-label="Basarab case study">
+
+    <div class="case__media reveal"><img src="images/basarab-01.jpg" alt="" width="2030" height="1280" /></div>
+
+    <div class="case__intro reveal">
+      <div class="case__intro-left">
+        <h2>Basarab. Айдентика</h2>
+        <ul class="case__intro-tags">
+          <li>Визуальная айдентика</li>
+          <li>Логотип</li>
+          <li>Упаковка</li>
+        </ul>
+      </div>
+      <div class="case__intro-right">
+        <p>Basarab — российский бренд женской одежды, эксперт в пуховиках. В компании уверены, что даже в холодное время года можно быть яркими, не жертвуя комфортом.</p>
+        <p>Я присоединилась к команде, чтобы разработать дизайн бренда внутри компании и сделать вселенную Craighill более целостной. Моя роль охватывала все аспекты взаимодействия с брендом — от цифровых платформ и креативного направления веб-сайта до печати и упаковки.</p>
+      </div>
+    </div>
+
+    <div class="case__media reveal"><img src="images/basarab-02.jpg" alt="" width="1600" height="977" /></div>
+
+    <div class="case__row reveal">
+      <div class="case__media"><img src="images/basarab-03.jpg" alt="" width="1016" height="1240" /></div>
+      <div class="case__media"><img src="images/basarab-04.jpg" alt="" width="1016" height="1240" /></div>
+    </div>
+
+    <p class="case__quote reveal">Логотип вдохновлён старостильными динамическими антиквами и сочетает в себе пластичные, живые изгибы с острыми, цепляющими глаз деталями. Он одновременно и про классическую сдержанность, и про дерзкий характер.</p>
+
+    <div class="case__row reveal">
+      <div class="case__media"><img src="images/basarab-05.jpg" alt="" width="337" height="427" /></div>
+      <div class="case__media"><img src="images/basarab-06.jpg" alt="" width="337" height="427" /></div>
+      <div class="case__media"><img src="images/basarab-07.jpg" alt="" width="337" height="427" /></div>
+    </div>
+
+    <div class="case__row reveal">
+      <div class="case__media"><img src="images/basarab-08.jpg" alt="Reliable shoes for the everyday. For the young and the old. From dawn to dusk." width="1016" height="1240" /></div>
+      <div class="case__media case__media--slideshow">
+        <img class="is-active" src="images/basarab-09.jpg" alt="" width="1016" height="1240" />
+        <img src="images/basarab-10.jpg" alt="" width="1016" height="1240" />
+        <img src="images/basarab-11.jpg" alt="" width="1016" height="1240" />
+        <img src="images/basarab-12.jpg" alt="" width="1016" height="1240" />
+      </div>
+    </div>
+
+    <p class="case__quote case__quote--right reveal">Хотелось сохранить бренд более традиционным, но при этом за счёт шрифта и других элементов сделать его более современным. <em>(черновой текст из Figma — в оригинале дублируется с опечаткой, Вика поправит)</em></p>
+
+    <div class="case__media reveal"><img src="images/basarab-13.jpg" alt="" width="2030" height="1240" /></div>
+
+    <div class="case__media reveal"><img src="images/basarab-14.jpg" alt="" width="1600" height="1072" /></div>
+
+    <div class="case__row reveal">
+      <div class="case__media"><img src="images/basarab-15.jpg" alt="Basarab is a sustainable brand with its own system, clear principles, and a clear understanding of its role." width="1016" height="1240" /></div>
+      <div class="case__media"><img src="images/basarab-16.jpg" alt="" width="1014" height="1240" /></div>
+    </div>
+
+    <div class="case__media case__media--ig-ticker reveal">
+      <img class="is-active" src="images/basarab-17.jpg" alt="" width="2030" height="1240" />
+      <img src="images/basarab-18.jpg" alt="" width="2030" height="1240" />
+      <img src="images/basarab-19.jpg" alt="" width="2030" height="1240" />
+    </div>
+
+    <div class="case__media reveal"><img src="images/basarab-20.jpg" alt="" width="1015" height="620" /></div>
+
+    <div class="case__media reveal"><img src="images/basarab-21.jpg" alt="" width="1600" height="977" /></div>
+
+    <div class="case__media reveal"><img src="images/basarab-22.jpg" alt="" width="2030" height="1240" /></div>
+
+    <div class="case__media case__media--final-sale reveal">
+      <div class="case__media--final-sale-ticker">
+        <img class="is-active" src="images/basarab-23.jpg" alt="" width="1400" height="950" />
+        <img src="images/basarab-24.jpg" alt="" width="1400" height="950" />
+        <img src="images/basarab-25.jpg" alt="" width="1400" height="950" />
+        <img src="images/basarab-26.jpg" alt="" width="1400" height="950" />
+        <img src="images/basarab-27.jpg" alt="" width="1400" height="950" />
+        <img src="images/basarab-28.jpg" alt="" width="1400" height="950" />
+      </div>
+      <img class="final-sale-text" src="images/basarab-01.png" alt="Final Sale" width="1600" height="304" />
+    </div>
+
+    <div class="case__media reveal"><img src="images/basarab-29.jpg" alt="" width="2030" height="1240" /></div>
+
+    <p class="case__quote reveal">Логотип вдохновлён старостильными динамическими антиквами и сочетает в себе пластичные, живые изгибы с острыми, цепляющими глаз деталями. Он одновременно и про классическую сдержанность, и про дерзкий характер.</p>
+
+    <div class="case__media reveal"><img src="images/basarab-30.jpg" alt="Basarab is a sustainable brand with its own system, clear principles, and a clear understanding of its role." width="2030" height="1240" /></div>
+
+    <div class="case__media reveal"><img src="images/basarab-31.jpg" alt="" width="2030" height="1360" /></div>
+
+    <div class="case__row reveal">
+      <div class="case__media"><img src="images/basarab-32.jpg" alt="" width="1014" height="1240" /></div>
+      <div class="case__media"><img src="images/basarab-33.jpg" alt="" width="1014" height="1240" /></div>
+    </div>
+
+    <div class="case__media reveal"><img src="images/basarab-34.jpg" alt="" width="2030" height="1240" /></div>
+
+    <div class="case__row reveal">
+      <div class="case__media"><img src="images/basarab-35.jpg" alt="" width="1014" height="1240" /></div>
+      <div class="case__media"><img src="images/basarab-36.jpg" alt="" width="1016" height="1240" /></div>
+    </div>
+
+    <div class="case__media case__media--ig-ticker reveal">
+      <img class="is-active" src="images/basarab-37.jpg" alt="" width="2030" height="1240" />
+      <img src="images/basarab-38.jpg" alt="" width="2030" height="1240" />
+    </div>
+
+    <div class="case__row reveal">
+      <div class="case__media"><img src="images/basarab-39.jpg" alt="" width="1014" height="1240" /></div>
+      <div class="case__media"><img src="images/basarab-40.jpg" alt="" width="1014" height="1240" /></div>
+    </div>
+
+    <div class="case__media reveal"><img src="images/basarab-41.jpg" alt="" width="2028" height="1240" /></div>
+
+    <div class="case__media reveal"><img src="images/basarab-42.jpg" alt="" width="2030" height="1346" /></div>
+
+
+    <nav class="case__nav">
+      <a href="#" data-case-close>&larr; prev project</a>
+      <a href="#" data-case-close>next project &rarr;</a>
+    </nav>
+  </section>
+
+  <section class="case is-hidden" id="case-foundation" aria-label="Foundation of Scientific and Cultural Relations case study">
+
+    <div class="case__media reveal">
+      <img src="images/foundation-01.jpg" alt="Foundation for the Development of Scientific and Cultural Ties">
+    </div>
+
+    <div class="case__intro reveal">
+      <div class="case__intro-left">
+        <h2>Фонд «Вызов»</h2>
+        <ul class="case__intro-tags">
+          <li>Визуальная айдентика</li>
+          <li>Логотип</li>
+          <li>Упаковка</li>
+        </ul>
+      </div>
+      <div class="case__intro-right">
+        <p>Mastermind is a project by entrepreneur and investor Artur Shamalov, who has raised over $65 million for his startups. Here, he shares his experience with investment and business development. At the heart of the brand lies the concept of a &ldquo;turning point&rdquo;&mdash;the moment a person chooses to act differently. <em>(черновой текст — Вика заменит)</em></p>
+      </div>
+    </div>
+
+    <div class="case__media reveal">
+      <img src="images/foundation-02.jpg" alt="Brand mood photography">
+    </div>
+
+    <div class="case__media reveal">
+      <img src="images/foundation-03.jpg" alt="We light the way toward humanity's greatest discoveries">
+    </div>
+
+    <div class="case__row reveal">
+      <div class="case__media"><img src="images/foundation-04.jpg" alt="Open dialogue — mission statement"></div>
+      <div class="case__media"><img src="images/foundation-05.jpg" alt="Brand mood detail"></div>
+    </div>
+
+    <div class="case__media reveal">
+      <img src="images/foundation-06.jpg" alt="Billboard — We are proud of science">
+    </div>
+
+    <div class="case__media reveal">
+      <img src="images/foundation-07.jpg" alt="Science and Art identity pattern applications">
+    </div>
+
+    <div class="case__row reveal">
+      <div class="case__media"><img src="images/foundation-08.jpg" alt="Portrait"></div>
+      <div class="case__media"><img src="images/foundation-09.jpg" alt="Brochure — From molecule to human"></div>
+    </div>
+
+    <div class="case__media reveal">
+      <img src="images/foundation-10.jpg" alt="Digital mockup — the goals of the foundation">
+    </div>
+
+    <div class="case__media reveal">
+      <img src="images/foundation-11.jpg" alt="Abstract brand pattern">
+    </div>
+
+    <div class="case__media reveal">
+      <img src="images/foundation-12.jpg" alt="Instagram posts — Cultural Challenge, Mission, Physicists and Lyricists">
+    </div>
+
+    <div class="case__row reveal">
+      <div class="case__media"><img src="images/foundation-13.jpg" alt="Events of August — poster in situ"></div>
+      <div class="case__media"><img src="images/foundation-14.jpg" alt="Portrait"></div>
+    </div>
+
+    <div class="case__media reveal">
+      <img src="images/foundation-15.jpg" alt="Moscow accepts the challenge — event photography">
+    </div>
+
+    <div class="case__media reveal">
+      <img src="images/foundation-16.jpg" alt="Values — Inspiration, Synergy, Openness">
+    </div>
+
+    <div class="case__media reveal">
+      <img src="images/foundation-17.jpg" alt="Lecture series posters — Lucky break in science, Boris Anichev">
+    </div>
+
+    <div class="case__row reveal">
+      <div class="case__media"><img src="images/foundation-18.jpg" alt="Events and Lectures of August — poster mockup"></div>
+      <div class="case__media"><img src="images/foundation-19.jpg" alt="Citylight street ad"></div>
+    </div>
+
+    <div class="case__media reveal">
+      <img src="images/foundation-20.jpg" alt="Branded tablet mockup — Marina Vetrova">
+    </div>
+
+    <div class="case__row reveal">
+      <div class="case__col">
+        <div class="case__media"><img src="images/foundation-21.jpg" alt="We light the way toward humanity's greatest discoveries"></div>
+        <div class="case__media"><img src="images/foundation-22.jpg" alt="Science and Art brand tag detail"></div>
+      </div>
+      <div class="case__media"><img src="images/foundation-23.jpg" alt="Merch — t-shirt"></div>
+    </div>
+
+
+    <nav class="case__nav">
+      <a href="#" data-case-close>&larr; prev project</a>
+      <a href="#" data-case-close>next project &rarr;</a>
+    </nav>
+
+  </section>
+
+
+</div>
+
+<div class="hover-cta" id="hoverCta" aria-hidden="true"><span class="hover-cta__label"></span></div>
+
+<script>
+    (function () {
+      var links = document.querySelectorAll('.contact__links a');
+      var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      links.forEach(function (link) {
+        var raf = null;
+        var start = 0;
+
+        function tick(now) {
+          var t = (now - start) / 1000;
+          // fade the tremor in over the first ~150ms so it doesn't
+          // snap on at full strength, and layer a harmonic (exactly
+          // double the base frequency) rather than unrelated
+          // frequencies — unrelated ones beat against each other and
+          // produce uneven, stuttery-looking pauses and kicks
+          var rampIn = Math.min(t / 0.15, 1);
+          var angle = (Math.sin(t * 32) * 2.2 + Math.sin(t * 64 + 0.9) * 0.6) * rampIn;
+          link.style.transform = 'rotate(' + angle.toFixed(2) + 'deg)';
+          raf = requestAnimationFrame(tick);
+        }
+
+        link.addEventListener('mouseenter', function () {
+          if (reduceMotion) return;
+          link.style.transition = 'color 0.25s ease';
+          start = performance.now();
+          if (raf) cancelAnimationFrame(raf);
+          raf = requestAnimationFrame(tick);
+        });
+
+        link.addEventListener('mouseleave', function () {
+          if (raf) cancelAnimationFrame(raf);
+          raf = null;
+          link.style.transition = 'color 0.25s ease, transform 0.3s ease-out';
+          link.style.transform = 'rotate(0deg)';
+        });
+      });
+    })();
+
+    (function () {
+      document.querySelectorAll('.emoji-swap').forEach(function (span) {
+        var normal = span.getAttribute('data-default') || span.textContent;
+        var hover = span.getAttribute('data-hover');
+        if (!hover) return;
+
+        span.addEventListener('mouseenter', function () {
+          span.textContent = hover;
+        });
+
+        span.addEventListener('mouseleave', function () {
+          span.textContent = normal;
+        });
+      });
+    })();
+
+    (function () {
+      // Each card fades and slides up into place as it scrolls into view —
+      // same timing as iseopark.com/Works (transform 1s / opacity 0.8s,
+      // both ease-in-out, from translateY(40px) + opacity:0). Replays every
+      // time: scroll a card out of view and back in and it plays again, it
+      // doesn't just fire once per page load. Used for both the project
+      // list (.projects/.project) and every case detail page
+      // (.case/.reveal), each scoped to its own scrolling container.
+      var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      // directionAware: entering the viewport while scrolling down (or on
+      // first load) plays the fade/slide-up animation; entering while
+      // scrolling up snaps straight to visible instead, since animating
+      // things in while scrolling backward is what felt jerky. Either way,
+      // leaving the viewport always un-reveals instantly (no transition),
+      // so the item is reset and plays the animation again next time it's
+      // scrolled into view from below. Used for the main project list. The
+      // in-case reveal keeps the original toggle-both-ways behavior
+      // (directionAware left false).
+      function setRevealed(item, revealed, animate) {
+        if (animate) {
+          item.classList.toggle('is-revealed', revealed);
+          return;
+        }
+        item.style.transition = 'none';
+        item.classList.toggle('is-revealed', revealed);
+        void item.offsetHeight;
+        item.style.transition = '';
+      }
+
+      function setUpReveal(container, items, directionAware) {
+        if (!container || !items.length) return;
+
+        if (reduceMotion || !('IntersectionObserver' in window)) {
+          items.forEach(function (item) { item.classList.add('is-revealed'); });
+          return;
+        }
+
+        var direction = 'down';
+        if (directionAware) {
+          var lastScrollTop = container.scrollTop;
+          container.addEventListener('scroll', function () {
+            var current = container.scrollTop;
+            if (current !== lastScrollTop) {
+              direction = current > lastScrollTop ? 'down' : 'up';
+              lastScrollTop = current;
+            }
+          }, { passive: true });
+        }
+
+        var observer = new IntersectionObserver(function (entries) {
+          entries.forEach(function (entry) {
+            if (!directionAware) {
+              entry.target.classList.toggle('is-revealed', entry.isIntersecting);
+              return;
+            }
+            if (entry.isIntersecting) {
+              setRevealed(entry.target, true, direction !== 'up');
+            } else {
+              setRevealed(entry.target, false, false);
+            }
+          });
+        }, {
+          root: container,
+          // Shrinks the container's effective bottom edge by 15% of its own
+          // height, rather than a fixed threshold ratio — a fixed ratio
+          // (e.g. 0.1) needs only ~10% of an item's own height to be
+          // showing, so a card sitting just below the fold at page load
+          // (a sliver already poking in) was getting marked "revealed"
+          // instantly, before the user ever saw it animate in. Because
+          // this margin is a % of the root, it scales correctly whether
+          // the item itself is short (a project card) or taller than the
+          // viewport (a full-bleed case image), unlike a ratio threshold.
+          rootMargin: '0px 0px 20% 0px',
+          threshold: 0
+        });
+
+        items.forEach(function (item) { observer.observe(item); });
+      }
+
+      document.querySelectorAll('.case').forEach(function (kase) {
+        setUpReveal(
+          kase,
+          Array.prototype.slice.call(kase.querySelectorAll(':scope > .reveal')),
+          true
+        );
+      });
+    })();
+
+    (function () {
+      // Clicking a project's image or title flies the .projects column up
+      // and out, then the matching .case section slides up into its place
+      // (same up-and-fade language as the scroll-reveal above). The
+      // .sidebar is never touched. The logo reverses the swap back to the
+      // project list whenever a case is open.
+      //
+      // Every case-open also pushes a browser history entry, so the
+      // phone's native back gesture/button (and the desktop back button)
+      // closes the case exactly like tapping the logo or a nav link does.
+      // swap() itself stays history-agnostic; openCase()/closeCase() below
+      // decide whether to push a new entry or call history.back() and let
+      // the popstate listener perform the actual swap, so there is never
+      // a double-animation.
+      var projects = document.querySelector('.projects');
+      if (!projects) return;
+
+      var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      function swap(hide, show) {
+        if (reduceMotion) {
+          hide.classList.add('is-hidden');
+          show.classList.remove('is-hidden');
+          show.scrollTop = 0;
+          return;
+        }
+
+        hide.classList.add('is-exiting');
+
+        var done = false;
+        function finishExit() {
+          if (done) return;
+          done = true;
+          hide.classList.add('is-hidden');
+          hide.classList.remove('is-exiting');
+
+          show.classList.remove('is-hidden');
+          show.scrollTop = 0;
+          show.classList.add('is-entering-start');
+          void show.offsetHeight;
+          requestAnimationFrame(function () {
+            show.classList.remove('is-entering-start');
+          });
+        }
+
+        hide.addEventListener('transitionend', finishExit, { once: true });
+        setTimeout(finishExit, 900);
+      }
+
+      var supportsHistory = !!(window.history && window.history.pushState);
+      if (supportsHistory && !history.state) {
+        history.replaceState({ case: null }, '');
+      }
+
+      function openCase(kase) {
+        if (!kase || projects.classList.contains('is-exiting')) return;
+        swap(projects, kase);
+        if (supportsHistory) {
+          history.pushState({ case: kase.id }, '');
+        }
+      }
+
+      function closeCase(kase) {
+        if (kase.classList.contains('is-exiting')) return;
+        if (supportsHistory && history.state && history.state.case === kase.id) {
+          // Defer to the popstate listener below so this stays in sync
+          // with what a native back gesture would do.
+          history.back();
+        } else {
+          swap(kase, projects);
+        }
+      }
+
+      document.querySelectorAll('[data-case-open]').forEach(function (trigger) {
+        trigger.addEventListener('click', function (event) {
+          event.preventDefault();
+          openCase(document.getElementById(trigger.getAttribute('data-case-open')));
+        });
+      });
+
+      document.querySelectorAll('.case').forEach(function (kase) {
+        kase.querySelectorAll('[data-case-close]').forEach(function (trigger) {
+          trigger.addEventListener('click', function (event) {
+            event.preventDefault();
+            closeCase(kase);
+          });
+        });
+      });
+
+      var logo = document.querySelector('.logo');
+      if (logo) {
+        logo.addEventListener('click', function (event) {
+          var openCaseEl = document.querySelector('.case:not(.is-hidden)');
+          if (!openCaseEl || openCaseEl.classList.contains('is-exiting')) return;
+          event.preventDefault();
+          closeCase(openCaseEl);
+        });
+      }
+
+      if (supportsHistory) {
+        window.addEventListener('popstate', function (event) {
+          var state = event.state;
+          var wantId = state && state.case;
+          var openCaseEl = document.querySelector('.case:not(.is-hidden)');
+
+          if (!wantId) {
+            // Back past the last case → land on the grid.
+            if (openCaseEl && !openCaseEl.classList.contains('is-exiting')) {
+              swap(openCaseEl, projects);
+            }
+            return;
+          }
+
+          // Forward (redo) into a case, or a direct link that already had
+          // state by the time this listener attached.
+          if (openCaseEl && openCaseEl.id === wantId) return;
+          var kase = document.getElementById(wantId);
+          if (kase) {
+            swap(openCaseEl || projects, kase);
+          }
+        });
+      }
+    })();
+
+    (function () {
+      // A handful of case photos auto-advance in place instead of sitting
+      // static, cycling through stacked <img> frames via an `is-active`
+      // class. Two flavors share this mechanic but differ in pace and feel:
+      // the girl-photo slideshow crossfades slowly (CSS transition on
+      // opacity), while the Instagram-post ticker hard-cuts quickly with no
+      // transition at all — matching a reference reel that swaps frames
+      // instantly rather than blending them. Respects reduced-motion by
+      // just leaving the first frame showing.
+      var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (reduceMotion) return;
+
+      function cycle(selector, intervalMs) {
+        document.querySelectorAll(selector).forEach(function (el) {
+          var frames = Array.prototype.slice.call(el.querySelectorAll('img'));
+          if (frames.length < 2) return;
+          var index = frames.findIndex(function (img) { return img.classList.contains('is-active'); });
+          if (index < 0) index = 0;
+          setInterval(function () {
+            frames[index].classList.remove('is-active');
+            index = (index + 1) % frames.length;
+            frames[index].classList.add('is-active');
+          }, intervalMs);
+        });
+      }
+
+      cycle('.case__media--slideshow', 1500);
+      cycle('.case__media--ig-ticker', 1300);
+      cycle('.case__media--final-sale-ticker', 1200);
+    })();
+
+    (function () {
+      // The system cursor stays completely normal everywhere. Only
+      // while the mouse is directly over a cover does the cursor
+      // disappear and the exact "смотреть" / "скоро" button (from
+      // the reference design) unfold left-to-right at the cursor's
+      // position, following the mouse until it leaves the cover.
+      // Disabled while a case detail view is open (the .projects
+      // list gets `is-hidden` when a case is shown).
+      //
+      // Scrolling with the mouse held still moves the page under a
+      // stationary cursor, so no mouseenter/mouseleave fires and the
+      // label would otherwise be left showing whatever cover used to
+      // be underneath. To fix that, scrolling re-checks the element
+      // actually under the last known cursor position and syncs the
+      // button (or hides it, or shows it) to match.
+      var cta = document.getElementById('hoverCta');
+      var label = cta ? cta.querySelector('.hover-cta__label') : null;
+      var projects = document.querySelector('.projects');
+      if (!cta || !label || !projects) return;
+
+      var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (reduceMotion) return;
+
+      var active = false;
+      var activeTarget = null;
+      var lastX = null;
+      var lastY = null;
+
+      function isProjectsView() {
+        return !projects.classList.contains('is-hidden');
+      }
+
+      function position(x, y) {
+        cta.style.transform =
+          'translate3d(' + x + 'px, ' + y + 'px, 0) translate(-50%, -50%)';
+      }
+
+      function activate(target, x, y) {
+        var isNewTarget = target !== activeTarget;
+        activeTarget = target;
+        active = true;
+        var text = target.getAttribute('data-cursor-label');
+        label.textContent = text;
+        cta.classList.toggle('is-see', text === 'смотреть');
+        cta.classList.toggle('is-soon', text === 'скоро');
+        position(x, y);
+        document.body.classList.add('has-custom-cursor');
+
+        // Force the unfold to restart from fully closed every time a
+        // *different* cover is entered, even hopping directly between
+        // two covers sitting side by side, so each hover reads as its
+        // own distinct interaction. Staying over the same cover (a
+        // plain mousemove, or a scroll frame that hasn't changed what
+        // is underneath) must not replay it, or it would flicker.
+        if (isNewTarget) {
+          cta.style.transition = 'none';
+          cta.classList.remove('is-active');
+          void cta.offsetWidth;
+          cta.style.transition = '';
+          cta.classList.add('is-active');
+        }
+      }
+
+      function deactivate() {
+        active = false;
+        activeTarget = null;
+        cta.classList.remove('is-active');
+        document.body.classList.remove('has-custom-cursor');
+      }
+
+      document.addEventListener('mousemove', function (event) {
+        lastX = event.clientX;
+        lastY = event.clientY;
+        if (active && isProjectsView()) position(lastX, lastY);
+      });
+      document.addEventListener('mouseleave', deactivate);
+
+      document.querySelectorAll('[data-cursor-label]').forEach(function (target) {
+        target.addEventListener('mouseenter', function (event) {
+          if (!isProjectsView()) return;
+          activate(target, event.clientX, event.clientY);
+        });
+        target.addEventListener('mouseleave', deactivate);
+      });
+
+      var scrollQueued = false;
+      function resyncAfterScroll() {
+        scrollQueued = false;
+        if (lastX === null || !isProjectsView()) {
+          if (active) deactivate();
+          return;
+        }
+        var el = document.elementFromPoint(lastX, lastY);
+        var target = el ? el.closest('[data-cursor-label]') : null;
+        if (!target) {
+          if (active) deactivate();
+          return;
+        }
+        activate(target, lastX, lastY);
+      }
+
+      window.addEventListener('scroll', function () {
+        if (scrollQueued) return;
+        scrollQueued = true;
+        requestAnimationFrame(resyncAfterScroll);
+      }, true);
+    })();
+  </script>
+
+
+</body></html>
