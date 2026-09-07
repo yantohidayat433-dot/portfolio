@@ -1,5 +1,117 @@
-<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1"><style>:root{color-scheme:light}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found]){display:none!important}</style></head><body>
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1"><style>:root{color-scheme:light}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found]){display:none!important}</style></head><body class="pw-locked">
 <title>Vika Ivanova Portfolio</title>
+
+<style>
+body.pw-locked > :not(#pw-gate) {
+  display: none !important;
+}
+
+#pw-gate {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #faf9f5;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+body:not(.pw-locked) #pw-gate {
+  display: none !important;
+}
+
+#pw-gate form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  width: 260px;
+}
+
+#pw-gate input[type="password"] {
+  font: inherit;
+  font-size: 15px;
+  padding: 10px 12px;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+  background: #fff;
+  color: #141413;
+  outline: none;
+}
+
+#pw-gate input[type="password"]:focus {
+  border-color: #2b46ff;
+}
+
+#pw-gate button {
+  font: inherit;
+  font-size: 15px;
+  padding: 10px 12px;
+  border: none;
+  border-radius: 4px;
+  background: #141413;
+  color: #fff;
+  cursor: pointer;
+}
+
+#pw-gate button:hover {
+  background: #2b46ff;
+}
+
+#pw-gate .pw-error {
+  font-size: 13px;
+  color: #c0392b;
+  min-height: 1em;
+}
+</style>
+
+<div id="pw-gate">
+  <form id="pwForm" autocomplete="off">
+    <input type="password" id="pwInput" placeholder="Password" autocomplete="off" autofocus />
+    <button type="submit">Enter</button>
+    <div class="pw-error" id="pwError"></div>
+  </form>
+</div>
+
+<script>
+(function () {
+  var HASH = '0a0667865bc17f9d624bcf11088057bbab46336e7dae65f3d5366f4f7a18333e';
+  var STORAGE_KEY = 'portfolio-unlocked';
+
+  function unlock() {
+    document.body.classList.remove('pw-locked');
+    try { localStorage.setItem(STORAGE_KEY, '1'); } catch (e) {}
+  }
+
+  try {
+    if (localStorage.getItem(STORAGE_KEY) === '1') {
+      unlock();
+    }
+  } catch (e) {}
+
+  function sha256Hex(text) {
+    var data = new TextEncoder().encode(text);
+    return crypto.subtle.digest('SHA-256', data).then(function (buf) {
+      return Array.prototype.map
+        .call(new Uint8Array(buf), function (b) { return b.toString(16).padStart(2, '0'); })
+        .join('');
+    });
+  }
+
+  document.getElementById('pwForm').addEventListener('submit', function (event) {
+    event.preventDefault();
+    var value = document.getElementById('pwInput').value;
+    sha256Hex(value).then(function (hex) {
+      if (hex === HASH) {
+        unlock();
+      } else {
+        document.getElementById('pwError').textContent = 'Wrong password';
+        document.getElementById('pwInput').value = '';
+      }
+    });
+  });
+})();
+</script>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=IBM+Plex+Serif:ital,wght@0,400;1,400&display=swap" rel="stylesheet" />
