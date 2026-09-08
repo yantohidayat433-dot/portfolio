@@ -197,7 +197,6 @@ ul {
   --col-gap: 17px;
   --sidebar-width: 380px;
   --media-width: 1015px;
-  --row-title-col: 498px;
   --grid-gap: 8px;
 }
 
@@ -406,15 +405,15 @@ ul {
 
 .project-pair {
   display: grid;
-  grid-template-columns: 498px 498px;
+  grid-template-columns: 1fr 1fr;
   column-gap: var(--grid-gap);
-  max-width: calc(498px * 2 + var(--grid-gap));
+  max-width: var(--media-width);
 }
 
 .project--half .project__media {
   max-width: none;
   height: auto;
-  aspect-ratio: 498 / 487;
+  aspect-ratio: 504 / 487;
 }
 
 .project--half .project__row {
@@ -552,7 +551,7 @@ body.has-custom-cursor * {
 
 .project--hero .project__row {
   display: grid;
-  grid-template-columns: var(--row-title-col) 1fr;
+  grid-template-columns: 1fr 1fr;
   column-gap: var(--grid-gap);
   margin-top: 0;
 }
