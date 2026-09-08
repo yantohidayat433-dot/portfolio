@@ -392,6 +392,17 @@ ul {
   max-width: 276px;
 }
 
+/* ---------- Mobile-only chrome ----------
+   The fixed logo bar, the "about me" bottom sheet toggle, and the sheet
+   itself (the .sidebar, repurposed) only exist as their own dedicated
+   phone layout below 700px -- hidden entirely above that, no in-between
+   tablet treatment for them. */
+
+.mobile-topbar,
+.mobile-about-toggle {
+  display: none;
+}
+
 /* ---------- Projects ---------- */
 
 .projects {
@@ -1111,11 +1122,215 @@ button.project__media-link {
     max-width: none;
   }
 }
+
+/* ---------- Phone (real mobile design, not just a resize) ---------- */
+
+@media (max-width: 700px) {
+  .mobile-topbar,
+  .mobile-about-toggle {
+    display: flex;
+  }
+
+  .page {
+    padding: 62px 8px 60px;
+  }
+
+  .projects,
+  .case {
+    padding: 0;
+  }
+
+  /* Images sit at an 8px inset (from .page); text columns sit 4px
+     further in, at 12px -- matches the PDF spec exactly. */
+  .project__row {
+    padding: 0 4px;
+  }
+
+  .mobile-topbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 62px;
+    align-items: center;
+    padding: 0 12px;
+    background: #fff;
+    z-index: 60;
+  }
+
+  .mobile-topbar__logo {
+    margin-bottom: 0;
+  }
+
+  /* The sheet reuses .sidebar wholesale for its content (bio + contacts) --
+     its own logo is redundant once the top bar has one, so only that one
+     child is hidden here. */
+  #mobile-about-sheet > .logo {
+    display: none;
+  }
+
+  #mobile-about-sheet {
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 62px;
+    bottom: 60px;
+    width: auto;
+    height: auto;
+    flex: none;
+    background: #F3F2ED;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    padding: 24px 12px 32px;
+    transform: translateY(100%);
+    transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+    z-index: 50;
+  }
+
+  #mobile-about-sheet.is-open {
+    transform: translateY(0);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    #mobile-about-sheet {
+      transition: none;
+    }
+  }
+
+  .mobile-about-toggle {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 60px;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    background: #FFD2EC;
+    color: var(--color-ink);
+    font-family: var(--font-serif);
+    font-size: 16px;
+    letter-spacing: var(--tracking-serif);
+    cursor: pointer;
+    z-index: 70;
+    transition: background-color 0.25s ease, color 0.25s ease;
+  }
+
+  .mobile-about-toggle.is-open {
+    background: var(--color-accent);
+    color: #fff;
+  }
+
+  .mobile-about-toggle__close {
+    display: none;
+  }
+
+  .mobile-about-toggle.is-open .mobile-about-toggle__open {
+    display: none;
+  }
+
+  .mobile-about-toggle.is-open .mobile-about-toggle__close {
+    display: inline;
+  }
+
+  /* Single-column project list, one consistent card height regardless of
+     hero/half -- the desktop hero/pair distinction doesn't carry over. */
+  .project-pair {
+    grid-template-columns: 1fr;
+    max-width: none;
+  }
+
+  .project__media {
+    max-width: none;
+    height: 410px;
+  }
+
+  .project--half .project__media {
+    aspect-ratio: auto;
+    height: 410px;
+  }
+
+  .projects > * + * {
+    margin-top: 40px;
+  }
+
+  .project__row,
+  .project--hero .project__row {
+    grid-template-columns: 1fr;
+    row-gap: 0;
+    margin-top: 19px;
+  }
+
+  .project--hero .project__desc {
+    margin-top: 0;
+  }
+
+  .project--hero .project__title {
+    margin-top: 0;
+    margin-bottom: 20px;
+  }
+
+  .project__title {
+    margin-bottom: 20px;
+  }
+
+  .project__desc p,
+  .project__desc li {
+    font-size: 13px;
+    line-height: 1.45;
+  }
+
+  .project__desc p {
+    margin-bottom: 13px;
+  }
+
+  /* Bio (about sheet) and case description copy step down from the
+     desktop's 18px to 16px; headings keep their desktop size as-is. */
+  .intro__block p,
+  .intro__text,
+  .case__intro-right p,
+  .case__quote {
+    font-size: 16px;
+    line-height: 1.45;
+  }
+
+  /* The  <br> tags in case copy are hand-placed to match the desktop PDF's
+     line breaks at that column width -- at the phone width they'd just
+     force a second, awkward wrap. Drop them here and let the (already
+     narrower, already single-column) text reflow on its own. */
+  .case__intro-right p br,
+  .case__quote br {
+    display: none;
+  }
+}
 </style>
 
 <div class="page">
 
-  <aside class="sidebar">
+  <div class="mobile-topbar">
+    <a href="#" class="logo mobile-topbar__logo" aria-label="Vika Ivanova">
+      <svg class="logo__svg" viewBox="0 0 400 54" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path d="M373.581 53.3333C366.56 53.3333 362.76 49.6299 362.76 44.5101C362.76 39.4787 366.159 36.8082 373.18 34.2999C376.707 33.0457 378.198 32.4998 379.143 32.1604C381.468 31.3637 381.997 30.2866 381.997 28.7079V27.8226C381.997 25.7274 381.019 24.2962 378.566 24.311C377.011 24.3405 375.761 25.0045 375.617 26.2881C375.553 26.7898 375.569 27.1586 375.537 27.8373C375.168 35.6573 363.289 35.6425 363.289 28.6636C363.289 22.5404 372.699 15.8566 381.067 15.8566C387.367 15.8566 393.747 19.6633 393.667 27.675C393.603 33.6212 393.635 35.0966 393.651 39.7001C393.651 41.6919 394.324 42.4444 396.456 42.71C399.053 42.8133 401.041 45.3068 399.406 48.3168C398.059 50.825 394.917 53.3333 390.589 53.3333C388.633 53.3333 387.014 52.8907 385.491 51.9021C384.177 51.0611 382.686 50.9283 380.33 51.9316C378.085 52.9497 376.434 53.3333 373.581 53.3333ZM375.472 42.9018C375.472 43.7723 376.066 44.3478 377.476 44.3478C380.089 44.3478 381.965 42.4149 381.965 41.0132V40.4673C381.965 39.5673 381.404 39.1836 379.288 39.8329C376.675 40.6296 375.472 41.6772 375.472 42.9018Z" />
+        <path d="M340.814 50.0283C337.752 43.6838 333.36 35.0229 329.994 28.5161C328.743 26.0668 327.846 25.3881 325.425 24.0012C321.978 22.0093 323.213 16.8894 328.102 16.7714C332.719 16.6681 336.39 16.6681 340.99 16.7714C345.655 16.8747 346.89 21.8912 343.956 23.8093C341.856 25.0635 341.616 26.1701 342.738 28.4275C343.7 30.3899 344.309 31.6588 345.319 33.6359C346.345 35.613 348.044 35.5098 348.909 33.6507L351.218 28.6046C352.308 26.1258 352.003 25.2553 349.695 23.6913C347.114 21.8027 348.364 16.978 352.917 16.7714C355.29 16.6534 359.073 16.6829 362.664 16.7714C367.873 16.9189 368.835 22.6585 364.844 24.2667C362.471 25.211 361.782 25.934 360.548 28.5603L359.345 31.1276C358.239 33.4589 357.357 35.3327 356.604 36.9114C354.135 42.1198 353.141 44.2297 350.416 50.0431C348.364 54.4252 342.946 54.4252 340.814 50.0283Z" />
+        <path d="M308.416 53.3333C296.922 53.3333 288.603 45.3511 288.603 34.654C288.603 23.8536 297.227 15.8566 308.608 15.8566C320.07 15.8566 328.39 23.8831 328.39 34.595C328.39 45.4396 319.814 53.3333 308.416 53.3333ZM301.395 34.2113C301.715 41.4706 305.21 45.6462 309.137 45.6462C312.985 45.6462 315.902 41.7362 315.598 34.8163C315.261 27.6308 311.75 23.5142 307.839 23.5142C304.024 23.5142 301.09 27.2767 301.395 34.2113Z" />
+        <path d="M251.86 52.4038C247.147 52.1677 245.769 47.1216 249.456 45.233C251.78 44.0822 252.469 42.9018 252.582 38.8591C252.646 36.218 252.566 33.6212 252.533 31.3932C252.469 28.162 251.876 27.6898 249.632 26.2143C246.73 24.2962 247.211 20.8879 250.514 19.3387C252.726 18.3059 254.666 17.3911 257.022 16.4468C259.058 15.6353 260.565 15.8271 261.703 16.7271C263.578 18.0698 264.893 18.3206 267.474 17.3763C276.755 13.968 286.165 17.7599 286.021 27.2472C285.941 32.5736 285.861 34.6983 285.941 38.6968C286.037 42.9461 286.566 44.0232 289.099 45.2035C292.834 47.0036 291.359 52.1677 286.646 52.4038C282.895 52.5956 277.797 52.6104 273.726 52.4185C271.273 52.3153 269.686 50.825 269.285 49.1725C268.884 50.7955 267.314 52.271 264.877 52.4038C260.645 52.6104 256.14 52.6104 251.86 52.4038ZM264.22 38.6968C264.396 43.3297 264.989 44.0084 267.522 45.3216C268.484 45.838 269.061 46.62 269.285 47.4758C269.542 46.4872 270.247 45.5724 271.497 45.0117C273.613 44.1117 274.207 43.3149 274.351 38.564C274.415 36.1147 274.415 32.2785 274.351 28.9439C274.255 25.0782 270.471 23.411 267.025 25.3143C265.342 26.2291 264.284 28.0734 264.22 30.8178C264.156 34.1376 264.156 36.8229 264.22 38.6968Z" />
+        <path d="M225.201 53.3333C218.18 53.3333 214.381 49.6299 214.381 44.5101C214.381 39.4787 217.779 36.8082 224.8 34.2999C228.327 33.0457 229.818 32.4998 230.764 32.1604C233.088 31.3637 233.617 30.2866 233.617 28.7079V27.8226C233.617 25.7274 232.639 24.2962 230.186 24.311C228.632 24.3405 227.381 25.0045 227.237 26.2881C227.173 26.7898 227.189 27.1586 227.157 27.8373C226.788 35.6573 214.91 35.6425 214.91 28.6636C214.91 22.5404 224.319 15.8566 232.687 15.8566C238.987 15.8566 245.367 19.6633 245.287 27.675C245.223 33.6212 245.255 35.0966 245.271 39.7001C245.271 41.6919 245.944 42.4444 248.076 42.71C250.673 42.8133 252.661 45.3068 251.026 48.3168C249.679 50.825 246.537 53.3333 242.209 53.3333C240.254 53.3333 238.634 52.8907 237.112 51.9021C235.797 51.0611 234.306 50.9283 231.95 51.9316C229.706 52.9497 228.054 53.3333 225.201 53.3333ZM227.093 42.9018C227.093 43.7723 227.686 44.3478 229.096 44.3478C231.709 44.3478 233.585 42.4149 233.585 41.0132V40.4673C233.585 39.5673 233.024 39.1836 230.908 39.8329C228.295 40.6296 227.093 41.6772 227.093 42.9018Z" />
+        <path d="M192.434 50.0283C189.372 43.6838 184.98 35.0229 181.614 28.5161C180.363 26.0668 179.466 25.3881 177.045 24.0012C173.599 22.0093 174.833 16.8894 179.722 16.7714C184.339 16.6681 188.01 16.6681 192.611 16.7714C197.275 16.8747 198.51 21.8912 195.576 23.8093C193.476 25.0635 193.236 26.1701 194.358 28.4275C195.32 30.3899 195.929 31.6588 196.939 33.6359C197.965 35.613 199.664 35.5098 200.53 33.6507L202.838 28.6046C203.928 26.1258 203.623 25.2553 201.315 23.6913C198.734 21.8027 199.985 16.978 204.537 16.7714C206.91 16.6534 210.693 16.6829 214.284 16.7714C219.494 16.9189 220.455 22.6585 216.464 24.2667C214.091 25.211 213.402 25.934 212.168 28.5603L210.965 31.1276C209.859 33.4589 208.978 35.3327 208.224 36.9114C205.756 42.1198 204.762 44.2297 202.036 50.0431C199.985 54.4252 194.566 54.4252 192.434 50.0283Z" />
+        <path d="M161.719 52.5366C156.782 52.4185 155.403 47.2249 159.123 45.174C161.864 43.6986 162.633 42.651 162.745 37.9147C162.842 32.5736 162.858 26.111 162.729 18.4386C162.665 14.809 161.96 13.968 158.465 11.4892C155.644 9.45309 156.702 4.7021 161.848 4.62833C165.663 4.55455 171.931 4.5398 175.794 4.62833C180.78 4.71685 181.854 9.45309 179.032 11.4892C175.554 13.968 174.848 14.809 174.784 18.4386C174.656 25.816 174.656 32.308 174.768 37.9147C174.88 42.769 175.73 43.7576 178.391 45.174C182.078 47.2249 180.603 52.3743 175.89 52.5218C171.819 52.6546 165.935 52.6399 161.719 52.5366Z" />
+        <path d="M117.731 53.3333C110.709 53.3333 106.91 49.6299 106.91 44.5101C106.91 39.4787 110.309 36.8082 117.33 34.2999C120.857 33.0457 122.347 32.4998 123.293 32.1604C125.618 31.3637 126.147 30.2866 126.147 28.7079V27.8226C126.147 25.7274 125.169 24.2962 122.716 24.311C121.161 24.3405 119.911 25.0045 119.767 26.2881C119.702 26.7898 119.719 27.1586 119.686 27.8373C119.318 35.6573 107.439 35.6425 107.439 28.6636C107.439 22.5404 116.849 15.8566 125.217 15.8566C131.517 15.8566 137.897 19.6633 137.817 27.675C137.753 33.6212 137.785 35.0966 137.801 39.7001C137.801 41.6919 138.474 42.4444 140.606 42.71C143.203 42.8133 145.191 45.3068 143.556 48.3168C142.209 50.825 139.067 53.3333 134.739 53.3333C132.783 53.3333 131.164 52.8907 129.641 51.9021C128.327 51.0611 126.836 50.9283 124.48 51.9316C122.235 52.9497 120.584 53.3333 117.731 53.3333ZM119.622 42.9018C119.622 43.7723 120.215 44.3478 121.626 44.3478C124.239 44.3478 126.115 42.4149 126.115 41.0132V40.4673C126.115 39.5673 125.554 39.1836 123.438 39.8329C120.825 40.6296 119.622 41.6772 119.622 42.9018Z" />
+        <path d="M72.0595 52.4038C67.539 52.2267 66.0321 47.0184 69.5107 45.0707C72.2519 43.5805 72.7489 43.0051 72.829 38.8443C72.9572 31.2604 72.8771 25.211 72.7809 16.0927C72.7489 12.9499 71.8992 11.7696 69.5428 10.1171C67.1222 8.37601 67.6512 4.87917 70.713 3.44797C71.258 3.18238 75.1534 1.39708 77.2053 0.585572C81.0045 -0.904645 84.451 0.467535 84.435 4.49555C84.4029 8.81865 84.3548 21.242 84.3869 25.2848C84.4029 27.0111 85.7655 27.5128 86.8396 26.6865C86.8876 26.6422 86.9518 26.5832 87.0319 26.5242C87.096 26.4799 87.1602 26.4357 87.2083 26.3914C88.2663 25.4914 88.4747 24.1635 87.5289 22.8503C85.7655 20.401 87.4327 16.9189 91.3601 16.7714C95.3998 16.6238 99.5997 16.6091 103.495 16.7861C109.01 17.037 109.939 22.9388 104.954 24.6356C102.646 25.4176 100.353 26.4209 98.157 28.0734C97.3715 28.6784 96.4898 29.3866 95.7044 30.0358C95.2555 30.3899 94.8387 30.7293 94.4861 31.0244C93.0754 32.1752 92.9792 33.5326 94.5662 35.0081C96.57 36.8967 98.0288 38.2689 100.578 40.5853C102.79 42.592 104.2 43.7576 106.621 44.5838C111.623 46.3101 110.516 52.1825 104.97 52.4186C101.507 52.5661 96.7463 52.5661 92.7868 52.4186C90.9273 52.3448 89.6128 51.6218 88.8754 50.6332C88.122 51.6218 86.8396 52.3448 85.1243 52.4186C81.1007 52.5809 76.516 52.5809 72.0595 52.4038ZM84.4991 42.4297C84.4991 43.2707 85.1403 43.9346 87.3525 44.9084C88.0098 45.2183 88.5388 45.6314 88.9075 46.1036C89.2601 45.1003 88.9556 44.3035 87.8334 43.2117C87.3525 42.7395 86.9838 42.4002 86.4067 41.8542C85.4289 40.969 84.4991 41.4559 84.4991 42.3116V42.4297Z" />
+        <path d="M54.3133 52.4038C49.6805 52.2267 48.35 47.0331 51.9568 45.2183C54.4736 43.9936 55.0507 42.9166 55.1308 38.4754C55.1629 37.1623 55.1629 34.2113 55.1308 31.3489C55.0988 28.2505 54.4575 27.6898 52.1652 26.1996C49.3599 24.3257 49.6324 21.1387 52.7102 19.5157C54.9064 18.3649 56.8621 17.5239 59.5873 16.4615C59.6033 16.4615 59.6193 16.4468 59.6193 16.4468C55.8201 16.1222 52.7583 13.2303 52.7583 9.68916C52.7583 5.86771 56.2049 2.76924 60.3247 2.76924C64.4765 2.76924 67.9391 5.73492 67.9391 9.43833C67.9391 12.3155 66.0315 14.8533 63.2582 15.9304C65.3903 16.255 66.7849 17.8485 66.7689 20.3863C66.7048 29.4603 66.7048 33.9015 66.7849 38.4902C66.8651 43.2559 67.2819 43.9494 69.8147 45.115C73.5658 46.9298 72.2032 52.2267 67.3941 52.4185C63.3865 52.5808 58.8338 52.5808 54.3133 52.4038Z" />
+        <path d="M31.9663 49.807C30.0426 54.4547 24.3518 54.4989 22.2999 49.7775C17.7954 39.3902 12.7939 28.2652 8.41762 18.778C6.31764 14.2041 5.91688 13.968 2.27798 12.227C-1.37694 10.4712 -0.591454 4.77587 4.32987 4.64308C9.60387 4.49553 13.387 4.49553 20.1679 4.67259C24.2236 4.79063 25.7465 9.86622 22.5885 11.7843C20.1839 13.1713 19.6229 14.2926 20.777 16.9927C22.4282 20.9027 24.5762 25.6832 26.58 30.0358C27.7182 32.5441 29.5617 32.3523 30.6838 29.8587C32.2388 26.3471 34.2426 21.7289 35.7334 18.114C37.0158 15.0894 36.7273 14.027 33.1685 12.1089C29.2251 9.85146 31.2128 4.83489 35.525 4.65784C39.0837 4.52504 44.0692 4.52504 49.9363 4.64308C53.5385 4.71685 55.3135 6.81672 55.812 8.71269C56.3155 10.6284 55.4959 12.7676 53.0796 13.7488L53.0767 13.7508C51.26 14.4769 50.1571 15.0526 49.3042 15.8631C48.4521 16.6728 47.8109 17.7534 46.9995 19.5691V19.5711C44.7728 24.4959 42.5133 29.6275 40.19 35.0252V35.0262C37.9952 40.0985 35.7507 45.4072 33.4273 50.9969L33.4283 50.9978C32.3954 53.4934 30.3187 54.8034 28.1812 54.8055C26.0439 54.8075 23.9391 53.5024 22.8413 50.9764H22.8404C18.3376 40.5931 13.3383 29.4712 8.96341 19.9871H8.96243C7.9055 17.685 7.31243 16.5636 6.564 15.7869C5.82165 15.0167 4.90346 14.5596 3.06204 13.6785L3.06107 13.6775C1.00941 12.6919 0.1994 10.5898 0.598175 8.72246C1.00238 6.83073 2.63068 5.21715 5.31497 5.14433V5.14336Z" />
+      </svg>
+    </a>
+  </div>
+
+  <button type="button" class="mobile-about-toggle" data-about-toggle>
+    <span class="mobile-about-toggle__open">почитать обо мне</span>
+    <span class="mobile-about-toggle__close">продолжить смотреть</span>
+  </button>
+
+  <aside class="sidebar" id="mobile-about-sheet">
     <a href="#" class="logo" aria-label="Vika Ivanova">
       <svg class="logo__svg" viewBox="0 0 400 54" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
         <path d="M373.581 53.3333C366.56 53.3333 362.76 49.6299 362.76 44.5101C362.76 39.4787 366.159 36.8082 373.18 34.2999C376.707 33.0457 378.198 32.4998 379.143 32.1604C381.468 31.3637 381.997 30.2866 381.997 28.7079V27.8226C381.997 25.7274 381.019 24.2962 378.566 24.311C377.011 24.3405 375.761 25.0045 375.617 26.2881C375.553 26.7898 375.569 27.1586 375.537 27.8373C375.168 35.6573 363.289 35.6425 363.289 28.6636C363.289 22.5404 372.699 15.8566 381.067 15.8566C387.367 15.8566 393.747 19.6633 393.667 27.675C393.603 33.6212 393.635 35.0966 393.651 39.7001C393.651 41.6919 394.324 42.4444 396.456 42.71C399.053 42.8133 401.041 45.3068 399.406 48.3168C398.059 50.825 394.917 53.3333 390.589 53.3333C388.633 53.3333 387.014 52.8907 385.491 51.9021C384.177 51.0611 382.686 50.9283 380.33 51.9316C378.085 52.9497 376.434 53.3333 373.581 53.3333ZM375.472 42.9018C375.472 43.7723 376.066 44.3478 377.476 44.3478C380.089 44.3478 381.965 42.4149 381.965 41.0132V40.4673C381.965 39.5673 381.404 39.1836 379.288 39.8329C376.675 40.6296 375.472 41.6772 375.472 42.9018Z" />
@@ -1135,8 +1350,8 @@ button.project__media-link {
     <div class="intro">
 
       <div class="intro__block">
-        <p>Я дизайнер и арт-директор, больше<br>8 лет работаю с визуальной айдентикой<br>бренда  — от концепции до реализации<br>в каждой точке контакта. 👩🏻</p>
-        <p>Сотрудничала с ведущими дизайн-<br>студиями в России, вела проекты<br>для крупных бизнесов из разных сфер,<br>от технологий до ритейла.</p>
+        <p>Я дизайнер и арт-директор, больше <br>8 лет работаю с визуальной айдентикой <br>бренда  — от концепции до реализации <br>в каждой точке контакта. 👩🏻</p>
+        <p>Сотрудничала с ведущими дизайн- <br>студиями в России, вела проекты <br>для крупных бизнесов из разных сфер, <br>от технологий до ритейла.</p>
       </div>
 
       <div class="squiggle" aria-hidden="true">
@@ -1145,7 +1360,7 @@ button.project__media-link {
         </svg>
       </div>
 
-      <p class="intro__text">Я не навязываю брендам свой стиль,<br>я ищу их собственный визуальный язык<br>и характер внутри гибкой и понятной<br>системы</p>
+      <p class="intro__text">Я не навязываю брендам свой стиль, <br>я ищу их собственный визуальный язык <br>и характер внутри гибкой и понятной <br>системы</p>
 
       <hr class="divider" />
 
@@ -1167,7 +1382,8 @@ button.project__media-link {
     <article class="project project--hero">
       <a class="project__media-link" href="https://www.behance.net/gallery/235073919/Vocamate-AI-Brand-Identity-Website" target="_blank" rel="noopener noreferrer" data-cursor-label="смотреть">
         <div class="project__media">
-          <video autoplay muted loop playsinline poster="images/grid-01.webp">
+          <video autoplay muted loop playsinline poster="images/grid-01.webp" data-poster-desktop="images/grid-01.webp" data-poster-mobile="images/grid-01-mobile.webp">
+            <source media="(max-width: 700px)" src="videos/vocamate-mobile.mp4" type="video/mp4" />
             <source src="videos/grid-video-01.mp4" type="video/mp4" />
           </video>
         </div>
@@ -1175,7 +1391,7 @@ button.project__media-link {
       <div class="project__row">
         <h2 class="project__title"><a class="project__title-link" href="https://www.behance.net/gallery/235073919/Vocamate-AI-Brand-Identity-Website" target="_blank" rel="noopener noreferrer">Vocamate</a></h2>
         <div class="project__desc">
-          <p>Визуальная айдентика и логотип для Vocamate AI —<br>Умные голосовые роботы и чат-боты для бизнеса</p>
+          <p>Визуальная айдентика и логотип для Vocamate AI — <br>Умные голосовые роботы и чат-боты для бизнеса</p>
           <ul><li>В сотрудничестве с Origin Design</li></ul>
         </div>
       </div>
@@ -1192,7 +1408,7 @@ button.project__media-link {
         <div class="project__row">
           <h2 class="project__title"><button class="project__title-link" type="button" data-case-open="case-basarab">Basarab</button></h2>
           <div class="project__desc">
-            <p>Визуальная айдентика и логотип для Basarab —<br>Интернет магазин брендовой обуви</p>
+            <p>Визуальная айдентика и логотип для Basarab — <br>Интернет магазин брендовой обуви</p>
             <ul><li>В сотрудничестве с Origin Design</li></ul>
           </div>
         </div>
@@ -1207,7 +1423,7 @@ button.project__media-link {
         <div class="project__row">
           <h2 class="project__title"><button class="project__title-link" type="button" data-case-open="case-foundation">Фонд «Вызов»</button></h2>
           <div class="project__desc">
-            <p>Визуальная айдентика для фонда развития<br>научно-культурных связей</p>
+            <p>Визуальная айдентика для фонда развития <br>научно-культурных связей</p>
             <ul><li>В сотрудничестве с Origin Design</li></ul>
           </div>
         </div>
@@ -1224,7 +1440,7 @@ button.project__media-link {
         <div class="project__row">
           <h2 class="project__title">App Insiders Club</h2>
           <div class="project__desc">
-            <p>Визуальная айдентика для медиаплатформы<br>о разработке мобильных приложений</p>
+            <p>Визуальная айдентика для медиаплатформы <br>о разработке мобильных приложений</p>
             <ul><li>В сотрудничестве с Yandex</li></ul>
           </div>
         </div>
@@ -1237,7 +1453,7 @@ button.project__media-link {
         <div class="project__row">
           <h2 class="project__title">Ольга Шепет</h2>
           <div class="project__desc">
-            <p>Визуальная айдентика и логотип<br>для ресторатора Ольги Шепет</p>
+            <p>Визуальная айдентика и логотип <br>для ресторатора Ольги Шепет</p>
             <ul><li>Прямое сотрудничество</li></ul>
           </div>
         </div>
@@ -1254,7 +1470,7 @@ button.project__media-link {
         <div class="project__row">
           <h2 class="project__title">3I Tech</h2>
           <div class="project__desc">
-            <p>Визуальная айдентика для 3I Tech — AI решения<br>для бизнеса и государства</p>
+            <p>Визуальная айдентика для 3I Tech — AI решения <br>для бизнеса и государства</p>
             <ul><li>В сотрудничестве с Origin Design</li></ul>
           </div>
         </div>
@@ -1267,7 +1483,7 @@ button.project__media-link {
         <div class="project__row">
           <h2 class="project__title">Banda</h2>
           <div class="project__desc">
-            <p>Визуальная айдентика и логотип для бренда стильных<br>аксессуаров для девушек</p>
+            <p>Визуальная айдентика и логотип для бренда стильных <br>аксессуаров для девушек</p>
             <ul><li>В сотрудничестве с Banda</li></ul>
           </div>
         </div>
@@ -1291,21 +1507,21 @@ button.project__media-link {
         </ul>
       </div>
       <div class="case__intro-right">
-        <p>Basarab — семейный бренд обуви с собственным<br>производством. Он появился из стремления делать<br>удобную, надёжную и красивую обувь для реального<br>дня, которая не отвлекает внимание и вписывается<br>в привычный ритм жизни</p>
-        <p>Долгое время бренд был близок взрослой аудитории.<br>Появилось желание привлечь более молодой сегмент,<br>но прежний образ казался слишком возрастным<br>и консервативным. Поэтому бренд обратился к нам,<br>чтобы обновить айдентику и стать визуально<br>более современным, сохранив спокойствие<br>и сдержанность, на которых он всегда держался.</p>
+        <p>Basarab — семейный бренд обуви с собственным <br>производством. Он появился из стремления делать <br>удобную, надёжную и красивую обувь для реального <br>дня, которая не отвлекает внимание и вписывается <br>в привычный ритм жизни</p>
+        <p>Долгое время бренд был близок взрослой аудитории. <br>Появилось желание привлечь более молодой сегмент, <br>но прежний образ казался слишком возрастным <br>и консервативным. Поэтому бренд обратился к нам, <br>чтобы обновить айдентику и стать визуально <br>более современным, сохранив спокойствие <br>и сдержанность, на которых он всегда держался.</p>
       </div>
     </div>
 
     <div class="case__media reveal"><img loading="lazy" src="images/basarab-02.webp" alt="" width="1600" height="977" /></div>
 
-    <p class="case__quote reveal">В основе логотипа яркий, выразительный гротеск,<br>в котором монументальность формы сочетается<br>с мягкими изгибами и цепляющими взгляд деталями.<br>В этом контрасте читаются и классическая<br>сдержанность, и яркий характер.</p>
+    <p class="case__quote reveal">В основе логотипа яркий, выразительный гротеск, <br>в котором монументальность формы сочетается <br>с мягкими изгибами и цепляющими взгляд деталями. <br>В этом контрасте читаются и классическая <br>сдержанность, и яркий характер.</p>
 
     <div class="case__row reveal">
       <div class="case__media"><img loading="lazy" src="images/basarab-03.webp" alt="" width="1016" height="1240" /></div>
       <div class="case__media"><img loading="lazy" src="images/basarab-04.webp" alt="" width="1016" height="1240" /></div>
     </div>
 
-    <p class="case__quote case__quote--right reveal">При разработке знака мы прорабатывали разные<br>формы — от сдержанных и формальных до более<br>живых и выразительных. Один из вариантов<br>настолько зацепил Инну, создательницу бренда,<br>что она захотела использовать его как<br>самостоятельный элемент айдентики.</p>
+    <p class="case__quote case__quote--right reveal">При разработке знака мы прорабатывали разные <br>формы — от сдержанных и формальных до более <br>живых и выразительных. Один из вариантов <br>настолько зацепил Инну, создательницу бренда, <br>что она захотела использовать его как <br>самостоятельный элемент айдентики.</p>
 
     <div class="case__row reveal">
       <div class="case__media"><img loading="lazy" src="images/basarab-05.webp" alt="" width="337" height="427" /></div>
@@ -1324,8 +1540,8 @@ button.project__media-link {
     </div>
 
     <div class="case__quote reveal">
-      <p>В духе модного брендинга мы не стали добавлять<br>ярких графических элементов — акцент всегда<br>остаётся на продукции. Центральной частью<br>айдентики стала типографика. Мы сохранили<br>спокойствие и уверенный образ бренда, но за счёт<br>шрифта и вёрстки придали ему индивидуальность,<br>чтобы он стал более узнаваемым в своей категории.</p>
-      <p>В цвете мы нашли баланс между яркостью<br>и спокойствием, при этом ушли от привычных<br>для категории решений.</p>
+      <p>В духе модного брендинга мы не стали добавлять <br>ярких графических элементов — акцент всегда <br>остаётся на продукции. Центральной частью <br>айдентики стала типографика. Мы сохранили <br>спокойствие и уверенный образ бренда, но за счёт <br>шрифта и вёрстки придали ему индивидуальность, <br>чтобы он стал более узнаваемым в своей категории.</p>
+      <p>В цвете мы нашли баланс между яркостью <br>и спокойствием, при этом ушли от привычных <br>для категории решений.</p>
     </div>
 
     <div class="case__media reveal"><img loading="lazy" src="images/basarab-13.webp" alt="" width="2030" height="1240" /></div>
@@ -1363,7 +1579,7 @@ button.project__media-link {
 
     <div class="case__media reveal"><img loading="lazy" src="images/basarab-29.webp" alt="" width="2030" height="1240" /></div>
 
-    <p class="case__quote case__quote--right reveal">Со временем бизнес перерос формат обувного<br>бренда и начал выпускать одежду, аксессуары.<br>Мы разрабатывали дизайн носителей и готовили<br>технические материалы для реализации всех идей<br>в рамках созданной айдентики.</p>
+    <p class="case__quote case__quote--right reveal">Со временем бизнес перерос формат обувного <br>бренда и начал выпускать одежду, аксессуары. <br>Мы разрабатывали дизайн носителей и готовили <br>технические материалы для реализации всех идей <br>в рамках созданной айдентики.</p>
 
     <div class="case__media reveal"><img loading="lazy" src="images/basarab-30.webp" alt="Ladieswear" width="2030" height="1240" /></div>
 
@@ -1652,6 +1868,23 @@ button.project__media-link {
     })();
 
     (function () {
+      // The Vocamate hero has separate desktop/mobile videos (via <source
+      // media>, resolved once at load), but a <video>'s poster attribute
+      // can't itself respond to a media query -- swap it manually, and
+      // keep it in sync if the viewport crosses the breakpoint later
+      // (e.g. rotating the phone).
+      var video = document.querySelector('video[data-poster-mobile]');
+      if (video) {
+        var posterQuery = window.matchMedia('(max-width: 700px)');
+        var updatePoster = function () {
+          video.poster = posterQuery.matches ? video.dataset.posterMobile : video.dataset.posterDesktop;
+        };
+        updatePoster();
+        posterQuery.addEventListener('change', updatePoster);
+      }
+    })();
+
+    (function () {
       // Clicking a project's image or title flies the .projects column up
       // and out, then the matching .case section slides up into its place
       // (same up-and-fade language as the scroll-reveal above). The
@@ -1674,6 +1907,42 @@ button.project__media-link {
       // Prev/next order for the case nav links -- matches the order cases
       // appear in the project grid.
       var CASE_ORDER = ['case-basarab', 'case-foundation'];
+
+      // Phone-only "about me" bottom sheet (the .sidebar itself, repurposed
+      // -- see the ≤700px stylesheet). It layers on top of whichever
+      // section is showing (grid or a case) rather than swapping it out,
+      // so its open/closed state rides alongside `case` in history.state
+      // as its own independent `about` flag.
+      var aboutSheet = document.getElementById('mobile-about-sheet');
+      var aboutToggle = document.querySelector('.mobile-about-toggle');
+
+      function setAboutOpen(open) {
+        if (!aboutSheet || !aboutToggle) return;
+        aboutSheet.classList.toggle('is-open', open);
+        aboutToggle.classList.toggle('is-open', open);
+      }
+
+      function isAboutOpen() {
+        return !!(aboutSheet && aboutSheet.classList.contains('is-open'));
+      }
+
+      function openAbout() {
+        if (!aboutSheet || isAboutOpen()) return;
+        setAboutOpen(true);
+        if (supportsHistory) {
+          var state = history.state || {};
+          history.pushState({ case: state.case || null, about: true }, '', location.href);
+        }
+      }
+
+      function closeAbout() {
+        if (!aboutSheet || !isAboutOpen()) return;
+        setAboutOpen(false);
+        if (supportsHistory) {
+          var state = history.state || {};
+          history.pushState({ case: state.case || null, about: false }, '', location.href);
+        }
+      }
 
       var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
@@ -1727,7 +1996,7 @@ button.project__media-link {
       }
 
       if (supportsHistory) {
-        history.replaceState({ case: initialCase ? initialId : null }, '', location.href);
+        history.replaceState({ case: initialCase ? initialId : null, about: false }, '', location.href);
       }
 
       // Every navigation action (open, close, prev/next) pushes its own
@@ -1787,19 +2056,39 @@ button.project__media-link {
         });
       });
 
-      var logo = document.querySelector('.logo');
-      if (logo) {
+      if (aboutToggle) {
+        aboutToggle.addEventListener('click', function () {
+          if (isAboutOpen()) {
+            closeAbout();
+          } else {
+            openAbout();
+          }
+        });
+      }
+
+      // Both logo instances (the fixed phone top bar and the desktop
+      // sidebar's own) share this: an open about sheet takes priority --
+      // tapping the logo plate closes that first, same as the button
+      // does, before falling back to its usual close-the-case behavior.
+      document.querySelectorAll('.logo').forEach(function (logo) {
         logo.addEventListener('click', function (event) {
+          if (isAboutOpen()) {
+            event.preventDefault();
+            closeAbout();
+            return;
+          }
           var openCaseEl = document.querySelector('.case:not(.is-hidden)');
           if (!openCaseEl || openCaseEl.classList.contains('is-exiting')) return;
           event.preventDefault();
           closeCase();
         });
-      }
+      });
 
       if (supportsHistory) {
         window.addEventListener('popstate', function (event) {
           var state = event.state;
+          setAboutOpen(!!(state && state.about));
+
           var wantId = state && state.case;
           var openCaseEl = document.querySelector('.case:not(.is-hidden)');
 
