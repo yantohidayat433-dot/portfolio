@@ -145,6 +145,12 @@ body:not(.pw-locked) #pw-gate {
 html {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  /* Stops mobile browsers from auto-boosting font sizes in narrow text
+     columns (iOS/Android's own "readability" heuristic) -- without this,
+     sizes tuned precisely per breakpoint can render larger than set and
+     throw off every margin calculated around them. */
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
 }
 
 html, body {
@@ -1131,6 +1137,12 @@ button.project__media-link {
     display: flex;
   }
 
+  /* Belt-and-suspenders alongside the JS early-return: the cursor-follow
+     "смотреть"/"скоро" label has no place on a touch screen. */
+  .hover-cta {
+    display: none !important;
+  }
+
   .page {
     padding: 62px 8px 60px;
   }
@@ -1199,17 +1211,19 @@ button.project__media-link {
 
   .mobile-about-toggle {
     position: fixed;
-    left: 0;
-    right: 0;
+    left: 8px;
+    right: 8px;
     bottom: 0;
     height: 60px;
     align-items: center;
     justify-content: center;
     border: none;
+    border-radius: 6px;
     background: #FFD2EC;
     color: var(--color-ink);
     font-family: var(--font-serif);
-    font-size: 16px;
+    font-size: 18px;
+    line-height: 1.45;
     letter-spacing: var(--tracking-serif);
     cursor: pointer;
     z-index: 70;
@@ -1234,9 +1248,16 @@ button.project__media-link {
   }
 
   /* Single-column project list, one consistent card height regardless of
-     hero/half -- the desktop hero/pair distinction doesn't carry over. */
+     hero/half -- the desktop hero/pair distinction doesn't carry over.
+     Collapsing project-pair from 2 columns to 1 turns its two cards into
+     two grid ROWS instead -- row-gap must be set explicitly (grid's
+     default is 0) or those two specific cards butt up with no gap at
+     all, while every other card boundary (a direct .projects child) still
+     gets the 5px below. Both are set to the same value so the whole list
+     reads as one uniform sequence, not "pairs" with gaps in between. */
   .project-pair {
     grid-template-columns: 1fr;
+    row-gap: 5px;
     max-width: none;
   }
 
@@ -1251,7 +1272,7 @@ button.project__media-link {
   }
 
   .projects > * + * {
-    margin-top: 40px;
+    margin-top: 5px;
   }
 
   .project__row,
@@ -2164,6 +2185,15 @@ button.project__media-link {
 
       var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       if (reduceMotion) return;
+
+      // Phones have no real cursor to follow -- but a tap fires a
+      // synthetic mouseenter/mousemove at the touch point anyway, which
+      // used to latch the "смотреть"/"скоро" label onto that screen
+      // position; the scroll-resync logic below would then keep
+      // reactivating it against whatever card had scrolled underneath
+      // that stale point, popping the label up mid-swipe. Skip the whole
+      // mechanic there.
+      if (window.matchMedia('(max-width: 700px)').matches) return;
 
       var active = false;
       var activeTarget = null;
