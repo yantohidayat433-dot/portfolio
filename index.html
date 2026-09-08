@@ -958,6 +958,13 @@ button.project__media-link {
   margin-bottom: 0;
 }
 
+/* Basarab's three-up detail row (05/06/07) is shorter and squarer than
+   the standard two-up row — 427px tall per the case PDF, not 600px —
+   otherwise the 600px rule above stretches/over-crops these photos. */
+#case-basarab .case__row:has(> .case__media:nth-child(3)) .case__media:not(.case__media--slideshow):not(.case__media--ig-ticker):not(.case__media--final-sale) {
+  height: 427px;
+}
+
 /* Foundation's one composite row (21 stacked over 22, beside 23 at full
    row height) is the sole exception to the 8px/620/600 system — its own
    numbers, confirmed the same way against the Foundation PDF. */
