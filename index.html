@@ -1397,8 +1397,8 @@ button.project__media-link {
 
 
     <nav class="case__nav">
-      <a href="#" data-case-close>&larr; prev project</a>
-      <a href="#" data-case-close>next project &rarr;</a>
+      <a href="#" data-case-nav="prev">&larr; назад</a>
+      <a href="#" data-case-nav="next">дальше &rarr;</a>
     </nav>
   </section>
 
@@ -1496,8 +1496,8 @@ button.project__media-link {
 
 
     <nav class="case__nav">
-      <a href="#" data-case-close>&larr; prev project</a>
-      <a href="#" data-case-close>next project &rarr;</a>
+      <a href="#" data-case-nav="prev">&larr; назад</a>
+      <a href="#" data-case-nav="next">дальше &rarr;</a>
     </nav>
 
   </section>
@@ -1656,17 +1656,24 @@ button.project__media-link {
       // and out, then the matching .case section slides up into its place
       // (same up-and-fade language as the scroll-reveal above). The
       // .sidebar is never touched. The logo reverses the swap back to the
-      // project list whenever a case is open.
+      // project list whenever a case is open. The prev/next links inside a
+      // case swap straight to a sibling case the same way.
       //
-      // Every case-open also pushes a browser history entry, so the
-      // phone's native back gesture/button (and the desktop back button)
-      // closes the case exactly like tapping the logo or a nav link does.
-      // swap() itself stays history-agnostic; openCase()/closeCase() below
-      // decide whether to push a new entry or call history.back() and let
-      // the popstate listener perform the actual swap, so there is never
-      // a double-animation.
+      // Which case (if any) is open also lives in the URL hash, so a
+      // reload or a shared link lands back on that case instead of always
+      // bouncing to the grid. Every case-open pushes a browser history
+      // entry too, so the phone's native back gesture/button (and the
+      // desktop back button) closes the case exactly like tapping the logo
+      // does. swap() itself stays history-agnostic; openCase()/closeCase()
+      // below decide whether to push a new entry or call history.back()
+      // and let the popstate listener perform the actual swap, so there is
+      // never a double-animation.
       var projects = document.querySelector('.projects');
       if (!projects) return;
+
+      // Prev/next order for the case nav links -- matches the order cases
+      // appear in the project grid.
+      var CASE_ORDER = ['case-basarab', 'case-foundation'];
 
       var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
@@ -1700,28 +1707,61 @@ button.project__media-link {
         setTimeout(finishExit, 900);
       }
 
+      function currentSection() {
+        return document.querySelector('.projects:not(.is-hidden), .case:not(.is-hidden)');
+      }
+
       var supportsHistory = !!(window.history && window.history.pushState);
-      if (supportsHistory && !history.state) {
-        history.replaceState({ case: null }, '');
+
+      // A case id in the URL hash on load opens straight into that case,
+      // with no fly-in animation (there's nothing to fly in from) — so a
+      // refresh or a shared link stays on the case instead of resetting to
+      // the grid.
+      var initialId = location.hash.slice(1);
+      var initialCase = initialId && document.getElementById(initialId);
+      if (initialCase && initialCase.classList.contains('case')) {
+        projects.classList.add('is-hidden');
+        initialCase.classList.remove('is-hidden');
+      } else {
+        initialCase = null;
+      }
+
+      if (supportsHistory) {
+        history.replaceState({ case: initialCase ? initialId : null }, '', location.href);
+      }
+
+      // Every navigation action (open, close, prev/next) pushes its own
+      // target state explicitly; popstate below only replays whatever the
+      // browser's native back/forward asks for. This used to special-case
+      // "closing" as history.back() to stay in sync with the back button,
+      // but that breaks in two cases the prev/next links introduced: a
+      // case reached directly via a hash link has no prior SPA entry to
+      // go back to (back() would leave the site entirely), and after
+      // A → B via "next", back() from B lands on A instead of the grid
+      // the logo/close action actually promises.
+      function navigateTo(target) {
+        var hidden = currentSection();
+        if (!hidden || hidden === target || hidden.classList.contains('is-exiting')) return;
+        swap(hidden, target);
+        if (supportsHistory) {
+          var id = target === projects ? null : target.id;
+          history.pushState({ case: id }, '', id ? '#' + id : (location.pathname + location.search));
+        }
       }
 
       function openCase(kase) {
-        if (!kase || projects.classList.contains('is-exiting')) return;
-        swap(projects, kase);
-        if (supportsHistory) {
-          history.pushState({ case: kase.id }, '');
-        }
+        if (kase) navigateTo(kase);
       }
 
-      function closeCase(kase) {
-        if (kase.classList.contains('is-exiting')) return;
-        if (supportsHistory && history.state && history.state.case === kase.id) {
-          // Defer to the popstate listener below so this stays in sync
-          // with what a native back gesture would do.
-          history.back();
-        } else {
-          swap(kase, projects);
-        }
+      function closeCase() {
+        navigateTo(projects);
+      }
+
+      function goToSibling(kase, direction) {
+        var idx = CASE_ORDER.indexOf(kase.id);
+        if (idx === -1) return;
+        var siblingId = CASE_ORDER[(idx + direction + CASE_ORDER.length) % CASE_ORDER.length];
+        openCase(document.getElementById(siblingId));
       }
 
       document.querySelectorAll('[data-case-open]').forEach(function (trigger) {
@@ -1735,7 +1775,14 @@ button.project__media-link {
         kase.querySelectorAll('[data-case-close]').forEach(function (trigger) {
           trigger.addEventListener('click', function (event) {
             event.preventDefault();
-            closeCase(kase);
+            closeCase();
+          });
+        });
+
+        kase.querySelectorAll('[data-case-nav]').forEach(function (trigger) {
+          trigger.addEventListener('click', function (event) {
+            event.preventDefault();
+            goToSibling(kase, trigger.getAttribute('data-case-nav') === 'next' ? 1 : -1);
           });
         });
       });
@@ -1746,7 +1793,7 @@ button.project__media-link {
           var openCaseEl = document.querySelector('.case:not(.is-hidden)');
           if (!openCaseEl || openCaseEl.classList.contains('is-exiting')) return;
           event.preventDefault();
-          closeCase(openCaseEl);
+          closeCase();
         });
       }
 
