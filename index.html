@@ -1219,6 +1219,13 @@ button.project__media-link {
     z-index: 60;
   }
 
+  /* Telegram's in-app browser: skip the pinned-header mechanic
+     altogether (see the detection script) -- the logo just scrolls
+     away with the rest of the page like ordinary content. */
+  .is-telegram-webview .mobile-topbar {
+    position: static;
+  }
+
   .mobile-topbar__logo {
     width: 11.875rem;
     height: 1.625rem;
@@ -1889,6 +1896,20 @@ button.project__media-link {
 
 <script>
     (function () {
+      // Telegram's iOS in-app browser animates its own chrome (a
+      // collapsing URL bar) without reliably telling the page its
+      // visible area changed, which desyncs a sticky/fixed top bar from
+      // what's actually on screen. Rather than keep fighting that in one
+      // specific WebView, detect it and let the logo scroll away with
+      // the page there instead -- a plain static element can't drift,
+      // since it never tries to stay pinned. Real browsers (including
+      // Safari on the same phone) keep the sticky header as before.
+      if (/Telegram/i.test(navigator.userAgent) || window.TelegramWebviewProxy) {
+        document.documentElement.classList.add('is-telegram-webview');
+      }
+    })();
+
+    (function () {
       var links = document.querySelectorAll('.contact__links a');
       var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
@@ -2069,7 +2090,8 @@ button.project__media-link {
       // independently of that, so nudge the bar to match it directly
       // whenever it fires -- a no-op (0px) anywhere this isn't happening.
       var topbar = document.querySelector('.mobile-topbar');
-      if (topbar && window.visualViewport) {
+      var isTelegram = document.documentElement.classList.contains('is-telegram-webview');
+      if (topbar && window.visualViewport && !isTelegram) {
         var vv = window.visualViewport;
         var syncTopbar = function () {
           topbar.style.transform = vv.offsetTop ? 'translateY(' + vv.offsetTop + 'px)' : '';
