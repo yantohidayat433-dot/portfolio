@@ -209,7 +209,6 @@ ul {
   --tracking-sans: -0.02em;
 
   --page-max-width: 1440px;
-  --mobile-width: 375px;
   --col-gap: 17px;
   --sidebar-width: 380px;
   --media-width: 1015px;
@@ -1157,9 +1156,17 @@ button.project__media-link {
 /* ---------- Phone (real mobile design, not just a resize) ---------- */
 
 @media (max-width: 700px) {
-  .mobile-topbar,
+  /* Fluid scale instead of a fixed/capped width: 1rem tracks 100vw/375
+     (so every rem measurement below matches the 375px PDF spec exactly
+     at that width), growing proportionally on a wider phone instead of
+     leaving side margins. Frozen past 480px (roughly a Pro Max) so nothing
+     balloons to tablet-scale as this same breakpoint stretches toward 700px. */
+  html {
+    font-size: min(calc(100vw * 16 / 375), 20.48px);
+  }
+
   .mobile-about-toggle {
-    display: flex;
+    display: none;
   }
 
   /* Belt-and-suspenders alongside the JS early-return: the cursor-follow
@@ -1168,15 +1175,8 @@ button.project__media-link {
     display: none !important;
   }
 
-  /* Capped and centered at the design's reference width -- on a phone
-     wider than 375px (e.g. a Pro Max) the image/text/radius proportions
-     from the PDF would otherwise drift apart, since images fill the
-     viewport fluidly while type stays a fixed px size. Locking the whole
-     phone experience to 375px keeps every measurement exact regardless
-     of the device, with the extra width becoming side margin instead. */
   .page {
-    max-width: var(--mobile-width);
-    padding: 62px 8px 60px;
+    padding: 3.875rem 0.5rem 1.5rem;
   }
 
   .projects,
@@ -1187,7 +1187,7 @@ button.project__media-link {
   /* Images sit at an 8px inset (from .page); text columns sit 6px
      further in, at 14px -- matches the PDF spec exactly. */
   .project__row {
-    padding: 0 6px;
+    padding: 0 0.375rem;
   }
 
   /* App Insiders Club sits left/desktop-first in the pair (App Insiders,
@@ -1200,24 +1200,21 @@ button.project__media-link {
   }
 
   .mobile-topbar {
+    display: flex;
     position: fixed;
     top: 0;
     left: 0;
     right: 0;
-    max-width: var(--mobile-width);
-    margin: 0 auto;
-    height: 62px;
+    height: 3.875rem;
     align-items: center;
-    padding: 0 12px;
+    padding: 0 0.75rem;
+    background: #fff;
     z-index: 60;
-    pointer-events: none;
   }
 
   .mobile-topbar__logo {
-    pointer-events: auto;
-  }
-
-  .mobile-topbar__logo {
+    width: 11.875rem;
+    height: 1.625rem;
     margin-bottom: 0;
   }
 
@@ -1232,17 +1229,15 @@ button.project__media-link {
     position: fixed;
     left: 0;
     right: 0;
-    max-width: var(--mobile-width);
-    margin: 0 auto;
-    top: 62px;
-    bottom: 60px;
+    top: 3.875rem;
+    bottom: env(safe-area-inset-bottom, 0px);
     width: auto;
     height: auto;
     flex: none;
     background: #F3F2ED;
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
-    padding: 24px 12px 32px;
+    padding: 1.5rem 0.75rem 2rem;
     transform: translateY(100%);
     transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
     z-index: 50;
@@ -1256,44 +1251,6 @@ button.project__media-link {
     #mobile-about-sheet {
       transition: none;
     }
-  }
-
-  .mobile-about-toggle {
-    position: fixed;
-    left: 0;
-    right: 0;
-    max-width: calc(var(--mobile-width) - 16px);
-    margin: 0 auto;
-    bottom: calc(env(safe-area-inset-bottom, 0px) + 4px);
-    height: 60px;
-    align-items: center;
-    justify-content: center;
-    border: none;
-    border-radius: 6px;
-    background: #FFD2EC;
-    color: var(--color-ink);
-    font-family: var(--font-serif);
-    font-size: 18px;
-    line-height: 1.45;
-    letter-spacing: var(--tracking-serif);
-    cursor: pointer;
-    z-index: 70;
-    transition: background-color 0.25s ease, color 0.25s ease;
-  }
-
-  /* The strip the OS home-indicator/dynamic-island area sits over --
-     its height IS the safe-area inset, so it naturally collapses to 0 on
-     devices without one. Colored to match rather than left showing the
-     page background through it. */
-  .mobile-safe-area-bottom {
-    display: block;
-    position: fixed;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    height: env(safe-area-inset-bottom, 0px);
-    background: #1B1B1B;
-    z-index: 65;
   }
 
   .mobile-about-toggle.is-open {
@@ -1313,39 +1270,56 @@ button.project__media-link {
     display: inline;
   }
 
+  /* The strip the OS home-indicator/dynamic-island area sits over --
+     its height IS the safe-area inset, so it naturally collapses to 0 on
+     devices without one. Colored to match rather than left showing the
+     page background through it. */
+  .mobile-safe-area-bottom {
+    display: block;
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: env(safe-area-inset-bottom, 0px);
+    background: #1B1B1B;
+    z-index: 65;
+  }
+
   /* Single-column project list, one consistent card height regardless of
      hero/half -- the desktop hero/pair distinction doesn't carry over.
      Collapsing project-pair from 2 columns to 1 turns its two cards into
      two grid ROWS instead -- row-gap must be set explicitly (grid's
      default is 0) or those two specific cards butt up with no gap at
      all, while every other card boundary (a direct .projects child) still
-     gets the 5px below. Both are set to the same value so the whole list
-     reads as one uniform sequence, not "pairs" with gaps in between. */
+     gets the same 36px below. Both are set to the same value so the whole
+     list reads as one uniform sequence, not "pairs" with gaps in between. */
   .project-pair {
     grid-template-columns: 1fr;
-    row-gap: 36px;
+    row-gap: 2.25rem;
     max-width: none;
   }
 
   .project__media {
     max-width: none;
-    height: 410px;
+    height: 25.625rem;
+    border-radius: 0.375rem;
   }
 
   .project--half .project__media {
     aspect-ratio: auto;
-    height: 410px;
+    height: 25.625rem;
   }
 
   .projects > * + * {
-    margin-top: 36px;
+    margin-top: 2.25rem;
   }
 
   .project__row {
-    margin-top: 16px;
+    margin-top: 1rem;
   }
 
   .project__title {
+    font-size: 1.125rem;
     line-height: 1.3;
   }
 
@@ -1364,7 +1338,7 @@ button.project__media-link {
     display: block;
     margin: 0;
     font-family: var(--font-serif);
-    font-size: 18px;
+    font-size: 1.125rem;
     line-height: 1.3;
     letter-spacing: var(--tracking-serif);
     color: #757575;
@@ -1378,8 +1352,8 @@ button.project__media-link {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    gap: 2px 5px;
-    margin: 8px 0 0;
+    gap: 0.125rem 0.3125rem;
+    margin: 0.5rem 0 0;
     padding: 0;
     list-style: none;
   }
@@ -1388,7 +1362,7 @@ button.project__media-link {
     display: flex;
     align-items: center;
     font-family: var(--font-serif);
-    font-size: 13px;
+    font-size: 0.8125rem;
     line-height: 1.3;
     letter-spacing: var(--tracking-serif);
     color: #757575;
@@ -1396,10 +1370,10 @@ button.project__media-link {
 
   .project__tags-mobile li::before {
     content: '';
-    flex: 0 0 23px;
-    width: 23px;
-    height: 23px;
-    background-image: radial-gradient(circle, #757575 1.75px, transparent 1.76px);
+    flex: 0 0 1.4375rem;
+    width: 1.4375rem;
+    height: 1.4375rem;
+    background-image: radial-gradient(circle, #757575 0.109375rem, transparent 0.11rem);
   }
 
   /* Bio (about sheet) and case description copy step down from the
@@ -1408,7 +1382,7 @@ button.project__media-link {
   .intro__text,
   .case__intro-right p,
   .case__quote {
-    font-size: 16px;
+    font-size: 1rem;
     line-height: 1.45;
   }
 
