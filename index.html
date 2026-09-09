@@ -1176,7 +1176,7 @@ button.project__media-link {
   }
 
   .page {
-    padding: 3.875rem 0.5rem 1.5rem;
+    padding: 0 0.5rem 1.5rem;
   }
 
   .projects,
@@ -1199,12 +1199,18 @@ button.project__media-link {
     order: 2;
   }
 
+  /* position: sticky instead of fixed -- Telegram's iOS in-app browser
+     (and other embedded WebViews) position a fixed element against a
+     layout viewport that can drift out of sync with what's actually
+     visible while its own chrome collapses/scrolls, so the bar appears
+     to lag behind and content scrolls past above it. Sticky is pinned
+     off the real document scroll position instead, which these WebViews
+     track correctly, and looks identical to fixed at rest since it's
+     already the first thing in the page. */
   .mobile-topbar {
     display: flex;
-    position: fixed;
+    position: sticky;
     top: 0;
-    left: 0;
-    right: 0;
     height: 3.875rem;
     align-items: center;
     padding: 0 0.75rem;
