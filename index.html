@@ -1,4 +1,4 @@
-<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1"><meta name="robots" content="noindex, nofollow, noarchive, nosnippet"><style>:root{color-scheme:light}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found]){display:none!important}</style></head><body class="pw-locked">
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="robots" content="noindex, nofollow, noarchive, nosnippet"><style>:root{color-scheme:light}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found]){display:none!important}</style></head><body class="pw-locked">
 <title>Vika Ivanova Portfolio</title>
 
 <style>
@@ -209,6 +209,7 @@ ul {
   --tracking-sans: -0.02em;
 
   --page-max-width: 1440px;
+  --mobile-width: 375px;
   --col-gap: 17px;
   --sidebar-width: 380px;
   --media-width: 1015px;
@@ -405,7 +406,8 @@ ul {
    tablet treatment for them. */
 
 .mobile-topbar,
-.mobile-about-toggle {
+.mobile-about-toggle,
+.mobile-safe-area-bottom {
   display: none;
 }
 
@@ -1160,7 +1162,14 @@ button.project__media-link {
     display: none !important;
   }
 
+  /* Capped and centered at the design's reference width -- on a phone
+     wider than 375px (e.g. a Pro Max) the image/text/radius proportions
+     from the PDF would otherwise drift apart, since images fill the
+     viewport fluidly while type stays a fixed px size. Locking the whole
+     phone experience to 375px keeps every measurement exact regardless
+     of the device, with the extra width becoming side margin instead. */
   .page {
+    max-width: var(--mobile-width);
     padding: 62px 8px 60px;
   }
 
@@ -1175,8 +1184,13 @@ button.project__media-link {
     padding: 0 6px;
   }
 
-  .project--desktop-only {
-    display: none;
+  /* App Insiders Club sits left/desktop-first in the pair (App Insiders,
+     then Фонд «Вызов») so that arrangement carries over unchanged to the
+     tablet safety net, but the phone PDF wants it stacked the other way
+     round -- flip it visually here without touching DOM order, which
+     would otherwise also flip the desktop pair. */
+  .project--mobile-second {
+    order: 2;
   }
 
   .mobile-topbar {
@@ -1184,6 +1198,8 @@ button.project__media-link {
     top: 0;
     left: 0;
     right: 0;
+    max-width: var(--mobile-width);
+    margin: 0 auto;
     height: 62px;
     align-items: center;
     padding: 0 12px;
@@ -1206,6 +1222,8 @@ button.project__media-link {
     position: fixed;
     left: 0;
     right: 0;
+    max-width: var(--mobile-width);
+    margin: 0 auto;
     top: 62px;
     bottom: 60px;
     width: auto;
@@ -1232,9 +1250,11 @@ button.project__media-link {
 
   .mobile-about-toggle {
     position: fixed;
-    left: 8px;
-    right: 8px;
-    bottom: 0;
+    left: 0;
+    right: 0;
+    max-width: calc(var(--mobile-width) - 16px);
+    margin: 0 auto;
+    bottom: calc(env(safe-area-inset-bottom, 0px) + 4px);
     height: 60px;
     align-items: center;
     justify-content: center;
@@ -1249,6 +1269,21 @@ button.project__media-link {
     cursor: pointer;
     z-index: 70;
     transition: background-color 0.25s ease, color 0.25s ease;
+  }
+
+  /* The strip the OS home-indicator/dynamic-island area sits over --
+     its height IS the safe-area inset, so it naturally collapses to 0 on
+     devices without one. Colored to match rather than left showing the
+     page background through it. */
+  .mobile-safe-area-bottom {
+    display: block;
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: env(safe-area-inset-bottom, 0px);
+    background: #1B1B1B;
+    z-index: 65;
   }
 
   .mobile-about-toggle.is-open {
@@ -1398,6 +1433,8 @@ button.project__media-link {
     </a>
   </div>
 
+  <div class="mobile-safe-area-bottom" aria-hidden="true"></div>
+
   <button type="button" class="mobile-about-toggle" data-about-toggle>
     <span class="mobile-about-toggle__open">почитать обо мне</span>
     <span class="mobile-about-toggle__close">продолжить смотреть</span>
@@ -1455,8 +1492,7 @@ button.project__media-link {
     <article class="project project--hero">
       <a class="project__media-link" href="https://www.behance.net/gallery/235073919/Vocamate-AI-Brand-Identity-Website" target="_blank" rel="noopener noreferrer" data-cursor-label="смотреть">
         <div class="project__media">
-          <video autoplay muted loop playsinline poster="images/grid-01.webp" data-poster-desktop="images/grid-01.webp" data-poster-mobile="images/grid-01-mobile.webp">
-            <source media="(max-width: 700px)" src="videos/vocamate-mobile.mp4" type="video/mp4" />
+          <video autoplay muted loop playsinline poster="images/grid-01.webp" data-poster-desktop="images/grid-01.webp" data-poster-mobile="images/grid-01-mobile.webp" data-src-desktop="videos/grid-video-01.mp4" data-src-mobile="videos/vocamate-mobile.mp4">
             <source src="videos/grid-video-01.mp4" type="video/mp4" />
           </video>
         </div>
@@ -1533,16 +1569,21 @@ button.project__media-link {
 
     <div class="project-pair">
 
-      <article class="project project--half project--desktop-only">
+      <article class="project project--half project--mobile-second">
         <div class="project__media" data-cursor-label="скоро">
           <img loading="lazy" src="images/grid-04.webp" alt="App Insiders Club">
         </div>
         <div class="project__row">
           <h2 class="project__title">
-            <span class="project__title-mobile">App Insiders Club</span>
+            <span class="project__title-mobile">App Insiders Club.</span>
             <span class="project__title-desktop">App Insiders Club. <span class="project__title-desc">Медиаплатформа о разработке<br>мобильных приложений</span></span>
           </h2>
+          <p class="project__subtitle-mobile">Медиаплатформа о разработке<br>мобильных приложений</p>
           <ul class="project__tags">
+            <li>Айдентика</li>
+            <li>Дизайн сайта для журнала</li>
+          </ul>
+          <ul class="project__tags-mobile">
             <li>Айдентика</li>
             <li>Дизайн сайта для журнала</li>
           </ul>
@@ -2000,19 +2041,30 @@ button.project__media-link {
     })();
 
     (function () {
-      // The Vocamate hero has separate desktop/mobile videos (via <source
-      // media>, resolved once at load), but a <video>'s poster attribute
-      // can't itself respond to a media query -- swap it manually, and
-      // keep it in sync if the viewport crosses the breakpoint later
-      // (e.g. rotating the phone).
+      // The Vocamate hero has separate desktop/mobile videos and posters.
+      // A native <source media="..."> is only resolved ONCE, whenever the
+      // browser first runs resource selection on the element -- it never
+      // re-checks afterwards, so on any timing quirk around that first
+      // check (and in practice, sometimes just unpredictably) the wrong
+      // clip can end up loaded and then never correct itself. Driving
+      // both the poster and the actual src from JS/matchMedia instead
+      // means it's always resolved against the current viewport, on load
+      // and on every breakpoint crossing (e.g. rotating the phone).
       var video = document.querySelector('video[data-poster-mobile]');
       if (video) {
-        var posterQuery = window.matchMedia('(max-width: 700px)');
-        var updatePoster = function () {
-          video.poster = posterQuery.matches ? video.dataset.posterMobile : video.dataset.posterDesktop;
+        var breakpointQuery = window.matchMedia('(max-width: 700px)');
+        var updateVideo = function () {
+          var mobile = breakpointQuery.matches;
+          video.poster = mobile ? video.dataset.posterMobile : video.dataset.posterDesktop;
+          var wantedSrc = mobile ? video.dataset.srcMobile : video.dataset.srcDesktop;
+          if (wantedSrc) {
+            video.src = wantedSrc;
+            video.load();
+            video.play().catch(function () {});
+          }
         };
-        updatePoster();
-        posterQuery.addEventListener('change', updatePoster);
+        updateVideo();
+        breakpointQuery.addEventListener('change', updateVideo);
       }
     })();
 
