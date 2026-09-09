@@ -1172,6 +1172,20 @@ button.project__media-link {
     display: none !important;
   }
 
+  /* :hover has no real "leave" event on a touch screen, so tapping a
+     link can leave it visually stuck in its hover state (pink logo,
+     orange link) until something else happens to clear it. Force both
+     back to their resting look here; real tap feedback comes from
+     :active instead (logo below, contact links further down). */
+  .logo:hover .logo__svg path {
+    fill: #2E31AD;
+    stroke-width: 0;
+  }
+
+  .contact__links a:hover {
+    color: var(--color-ink);
+  }
+
   /* The base .page is a flex column with a 17px gap between children --
      meant for the desktop sidebar/projects split. On phone the top bar
      is the first child and the grid should butt up against it flush
@@ -1287,6 +1301,13 @@ button.project__media-link {
     gap: 0.75rem;
   }
 
+  /* No one is downloading a PDF from their phone -- desktop only.
+     (.contact__links a's own display:inline-block outweighs a bare
+     single-class selector, so match on both to win the cascade.) */
+  .contact__links a.contact__pdf-link {
+    display: none;
+  }
+
   .contact__title {
     font-size: 1.625rem;
   }
@@ -1311,14 +1332,14 @@ button.project__media-link {
   .mobile-about-toggle {
     display: flex;
     position: fixed;
-    left: 0.25rem;
-    right: 0.25rem;
+    left: 0;
+    right: 0;
     bottom: calc(env(safe-area-inset-bottom, 0px) + 0.25rem);
     height: 3.75rem;
     align-items: center;
     justify-content: center;
     border: none;
-    border-radius: 0.375rem;
+    border-radius: 0;
     background: #FFD0ED;
     color: var(--color-ink);
     font-family: var(--font-serif);
@@ -1546,7 +1567,7 @@ button.project__media-link {
           <a href="mailto:hello@vikaivanova.com">Email</a>
           <a href="#" target="_blank" rel="noopener">Instagram</a>
           <a href="#" target="_blank" rel="noopener">Telegram</a>
-          <a href="#">Download PDF</a>
+          <a href="#" class="contact__pdf-link">Download PDF</a>
         </div>
       </div>
 
@@ -1980,6 +2001,11 @@ button.project__media-link {
     (function () {
       var links = document.querySelectorAll('.contact__links a');
       var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      // A tap can synthesize mouseenter without a matching mouseleave (no
+      // real pointer to "leave" with), which would start this tremor's
+      // requestAnimationFrame loop and never stop it. Mouse-only effect,
+      // so skip wiring it up at all on a touch screen.
+      if (window.matchMedia('(max-width: 700px)').matches) return;
 
       links.forEach(function (link) {
         var raf = null;
