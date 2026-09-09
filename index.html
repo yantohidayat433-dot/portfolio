@@ -2060,6 +2060,27 @@ button.project__media-link {
     })();
 
     (function () {
+      // Some in-app WebViews (Telegram's on iOS in particular) animate
+      // their own chrome -- a collapsing URL bar -- without reliably
+      // telling the page its visible area changed, so a plain
+      // position: sticky/fixed top bar can end up pinned against a stale
+      // viewport and drift out of sync with what's actually on screen.
+      // window.visualViewport tracks the real visible viewport
+      // independently of that, so nudge the bar to match it directly
+      // whenever it fires -- a no-op (0px) anywhere this isn't happening.
+      var topbar = document.querySelector('.mobile-topbar');
+      if (topbar && window.visualViewport) {
+        var vv = window.visualViewport;
+        var syncTopbar = function () {
+          topbar.style.transform = vv.offsetTop ? 'translateY(' + vv.offsetTop + 'px)' : '';
+        };
+        vv.addEventListener('resize', syncTopbar);
+        vv.addEventListener('scroll', syncTopbar);
+        syncTopbar();
+      }
+    })();
+
+    (function () {
       // Clicking a project's image or title flies the .projects column up
       // and out, then the matching .case section slides up into its place
       // (same up-and-fade language as the scroll-reveal above). The
