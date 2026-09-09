@@ -1166,10 +1166,6 @@ button.project__media-link {
     font-size: min(calc(100vw * 16 / 375), 20.48px);
   }
 
-  .mobile-about-toggle {
-    display: none;
-  }
-
   /* Belt-and-suspenders alongside the JS early-return: the cursor-follow
      "смотреть"/"скоро" label has no place on a touch screen. */
   .hover-cta {
@@ -1251,14 +1247,16 @@ button.project__media-link {
     left: 0;
     right: 0;
     top: 3.875rem;
-    bottom: env(safe-area-inset-bottom, 0px);
+    /* Stop right above the CTA (its height + the 4px gap above the
+       safe-area strip), so the sheet's own content never runs under it. */
+    bottom: calc(env(safe-area-inset-bottom, 0px) + 0.25rem + 3.75rem);
     width: auto;
     height: auto;
     flex: none;
-    background: #F3F2ED;
+    background: #F2F2F2;
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
-    padding: 1.5rem 0.75rem 2rem;
+    padding: 1.5rem 0.875rem 2rem;
     transform: translateY(100%);
     transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
     z-index: 50;
@@ -1274,8 +1272,71 @@ button.project__media-link {
     }
   }
 
+  /* Same fluid rem scaling as the rest of the phone layout -- these
+     otherwise inherit fixed desktop px values that wouldn't track the
+     html font-size rule above. */
+  .intro {
+    gap: 1.5rem;
+  }
+
+  .intro__block p:first-child {
+    margin-bottom: 0.75rem;
+  }
+
+  .contact {
+    gap: 0.75rem;
+  }
+
+  .contact__title {
+    font-size: 1.625rem;
+  }
+
+  .contact__links {
+    gap: 0.125rem;
+  }
+
+  .contact__links a {
+    font-size: 1.125rem;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  /* Desktop's hover tremor is mouse-only; on a touch screen give a
+     plain, quick press state instead -- same target color as desktop's
+     hover, no wiggle. */
+  .contact__links a:active {
+    color: #FF4D00;
+    transform: scale(0.96);
+  }
+
+  .mobile-about-toggle {
+    display: flex;
+    position: fixed;
+    left: 0.25rem;
+    right: 0.25rem;
+    bottom: calc(env(safe-area-inset-bottom, 0px) + 0.25rem);
+    height: 3.75rem;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    border-radius: 0.375rem;
+    background: #FFD0ED;
+    color: var(--color-ink);
+    font-family: var(--font-serif);
+    font-size: 1.125rem;
+    line-height: 1.45;
+    letter-spacing: var(--tracking-serif);
+    cursor: pointer;
+    z-index: 70;
+    transition: background-color 0.15s ease, color 0.15s ease, transform 0.15s ease;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .mobile-about-toggle:active {
+    transform: scale(0.97);
+  }
+
   .mobile-about-toggle.is-open {
-    background: var(--color-accent);
+    background: #2E31AD;
     color: #fff;
   }
 
