@@ -2253,8 +2253,19 @@ button.project__media-link {
           show.scrollTop = 0;
           show.classList.add('is-entering-start');
           void show.offsetHeight;
+          // A single rAF fires before the *next* paint, but whether that
+          // paint has actually happened yet when the callback runs is not
+          // reliably guaranteed -- browsers sometimes coalesce the
+          // is-entering-start state and its removal into one frame with
+          // no paint in between, so the transition has no "from" state to
+          // animate from and just snaps straight to the end state. This
+          // is the standard double-rAF fix: the outer callback runs before
+          // the upcoming paint, and only the *inner* one (scheduled from
+          // within it) is guaranteed to run after that paint has happened.
           requestAnimationFrame(function () {
-            show.classList.remove('is-entering-start');
+            requestAnimationFrame(function () {
+              show.classList.remove('is-entering-start');
+            });
           });
         }
 
