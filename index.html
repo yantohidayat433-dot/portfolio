@@ -1324,7 +1324,15 @@ button.project__media-link {
   /* Desktop's hover tremor is mouse-only; on a touch screen give a
      plain, quick press state instead -- same target color as desktop's
      hover, no wiggle. */
-  .contact__links a:active {
+  /* :active alone is unreliable on iOS Safari for a link that's about
+     to hand off to another app (mailto opens a "Open in Mail?" prompt)
+     -- it can skip rendering the pressed state entirely since the page
+     is about to lose focus. .is-pressed is driven explicitly by
+     touchstart/touchend/touchcancel below instead, so it reliably shows
+     the instant the finger touches down and clears again whether the
+     handoff completes or is cancelled. */
+  .contact__links a:active,
+  .contact__links a.is-pressed {
     color: #FF4D00;
     transform: scale(0.96);
   }
@@ -1377,13 +1385,19 @@ button.project__media-link {
      its height IS the safe-area inset, so it naturally collapses to 0 on
      devices without one. Colored to match rather than left showing the
      page background through it. */
+  /* Extends 4px above the actual safe-area inset to absorb the gap the
+     button leaves above it -- otherwise that strip was transparent and
+     whatever sat behind it (the grid, or the about sheet) showed through.
+     The button's own position is unchanged, so it still visually meets
+     this strip at a clean, distinct color edge, just with nothing able
+     to peek through the seam. */
   .mobile-safe-area-bottom {
     display: block;
     position: fixed;
     left: 0;
     right: 0;
     bottom: 0;
-    height: env(safe-area-inset-bottom, 0px);
+    height: calc(env(safe-area-inset-bottom, 0px) + 0.25rem);
     background: #1B1B1B;
     z-index: 65;
   }
@@ -2042,6 +2056,29 @@ button.project__media-link {
     })();
 
     (function () {
+      // Mirrors the tremor IIFE above but for touch: :active alone can
+      // fail to render on iOS Safari for a link that's handing off to
+      // another app (mailto's "Open in Mail?" prompt), since the page is
+      // about to lose focus right as the tap lands. Driving a class off
+      // touchstart/touchend/touchcancel directly guarantees the pressed
+      // color shows immediately and clears again whether the handoff
+      // goes through or gets cancelled.
+      if (!window.matchMedia('(max-width: 700px)').matches) return;
+
+      document.querySelectorAll('.contact__links a').forEach(function (link) {
+        link.addEventListener('touchstart', function () {
+          link.classList.add('is-pressed');
+        }, { passive: true });
+
+        ['touchend', 'touchcancel'].forEach(function (evt) {
+          link.addEventListener(evt, function () {
+            link.classList.remove('is-pressed');
+          });
+        });
+      });
+    })();
+
+    (function () {
       document.querySelectorAll('.emoji-swap').forEach(function (span) {
         var normal = span.getAttribute('data-default') || span.textContent;
         var hover = span.getAttribute('data-hover');
@@ -2228,10 +2265,40 @@ button.project__media-link {
       var aboutSheet = document.getElementById('mobile-about-sheet');
       var aboutToggle = document.querySelector('.mobile-about-toggle');
 
+      // The sheet floats on top of the grid rather than replacing it, so
+      // without this the grid underneath stayed both visible through any
+      // seam and (worse) still scrollable while "on" the about screen.
+      // position: fixed on body is the standard reliable way to lock
+      // scrolling on mobile (plain overflow:hidden isn't always enough on
+      // iOS); offsetting by the saved scrollY keeps the page from
+      // visually jumping to the top the moment it locks, and restoring
+      // that exact position on close is what puts the grid back exactly
+      // where it was when "почитать обо мне" was tapped.
+      var savedScrollY = 0;
+
+      function lockBodyScroll(lock) {
+        if (!window.matchMedia('(max-width: 700px)').matches) return;
+        if (lock) {
+          savedScrollY = window.scrollY;
+          document.body.style.position = 'fixed';
+          document.body.style.top = -savedScrollY + 'px';
+          document.body.style.left = '0';
+          document.body.style.width = '100%';
+        } else {
+          document.body.style.position = '';
+          document.body.style.top = '';
+          document.body.style.left = '';
+          document.body.style.width = '';
+          window.scrollTo(0, savedScrollY);
+        }
+      }
+
       function setAboutOpen(open) {
         if (!aboutSheet || !aboutToggle) return;
+        if (open === isAboutOpen()) return;
         aboutSheet.classList.toggle('is-open', open);
         aboutToggle.classList.toggle('is-open', open);
+        lockBodyScroll(open);
       }
 
       function isAboutOpen() {
@@ -2269,7 +2336,17 @@ button.project__media-link {
         hide.classList.add('is-exiting');
 
         var done = false;
-        function finishExit() {
+        function finishExit(event) {
+          // transitionend bubbles, and .case/.projects are full of
+          // .reveal children with their own transitions (scroll-in
+          // fades) that can still be mid-flight when a case is opened.
+          // Without this check, one of THEIR transitionend events could
+          // reach this listener first and end the exit early, before
+          // hide's own transform/opacity transition actually finished --
+          // which is exactly what made this intermittent rather than
+          // reliably broken (it only misfires when a child happens to be
+          // mid-transition at the moment of the click).
+          if (event && event.target !== hide) return;
           if (done) return;
           done = true;
           hide.classList.add('is-hidden');
