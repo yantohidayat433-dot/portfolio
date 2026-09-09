@@ -1511,6 +1511,49 @@ button.project__media-link {
   .case__quote br {
     display: none;
   }
+
+  /* Basarab case page: every image is cropped to its own exact height
+     from the mobile PDF (set per-element via the --mh custom property
+     inline, in rem so it scales with the fluid vw-based root size) —
+     !important because it has to win over the desktop fixed-height
+     rules (620px/600px/427px/etc.) regardless of which one matches.
+     Two-up/three-up desktop rows become single-column stacks of
+     full-width cards, each keeping its own --mh. */
+  #case-basarab .case__intro h2 {
+    font-size: 1.75rem;
+    line-height: 1.45;
+  }
+
+  #case-basarab .case__intro-title-desc,
+  #case-basarab .case__intro-tags {
+    display: none;
+  }
+
+  #case-basarab .case__row {
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+  }
+
+  #case-basarab .case__row .case__media {
+    flex: 0 0 auto;
+  }
+
+  #case-basarab .case__media,
+  #case-basarab .case__row .case__media {
+    height: var(--mh) !important;
+    margin-bottom: 0.5rem;
+  }
+
+  #case-basarab .case__row .case__media {
+    margin-bottom: 0;
+  }
+
+  #case-basarab .case__media--slideshow,
+  #case-basarab .case__media--ig-ticker,
+  #case-basarab .case__media--final-sale {
+    aspect-ratio: auto;
+  }
 }
 </style>
 
@@ -1769,12 +1812,17 @@ button.project__media-link {
 
   <section class="case is-hidden" id="case-basarab" aria-label="Basarab case study">
 
-    <div class="case__media reveal"><img loading="lazy" src="images/basarab-01.webp" alt="" width="2030" height="1280" /></div>
+    <div class="case__media reveal" style="--mh:27.5rem"><img loading="lazy" src="images/basarab-01.webp" alt="" width="2030" height="1280" /></div>
 
     <div class="case__intro reveal">
       <div class="case__intro-left">
-        <h2>Basarab. <span class="case__intro-title-desc">Семейный <br>бренд обуви</span></h2>
+        <h2>Basarab<span class="case__intro-title-desc">. Семейный <br>бренд обуви</span></h2>
         <ul class="case__intro-tags">
+          <li>Айдентика</li>
+          <li>Логотип</li>
+          <li>Дизайн упаковки</li>
+        </ul>
+        <ul class="project__tags-mobile">
           <li>Айдентика</li>
           <li>Логотип</li>
           <li>Дизайн упаковки</li>
@@ -1786,26 +1834,26 @@ button.project__media-link {
       </div>
     </div>
 
-    <div class="case__media reveal"><img loading="lazy" src="images/basarab-02.webp" alt="" width="1600" height="977" /></div>
+    <div class="case__media reveal" style="--mh:14.375rem"><img loading="lazy" src="images/basarab-02.webp" alt="" width="1600" height="977" /></div>
 
     <p class="case__quote reveal">В основе логотипа яркий, выразительный гротеск, <br>в котором монументальность формы сочетается <br>с мягкими изгибами и цепляющими взгляд деталями. <br>В этом контрасте читаются и классическая <br>сдержанность, и яркий характер.</p>
 
     <div class="case__row reveal">
-      <div class="case__media"><img loading="lazy" src="images/basarab-03.webp" alt="" width="1016" height="1240" /></div>
-      <div class="case__media"><img loading="lazy" src="images/basarab-04.webp" alt="" width="1016" height="1240" /></div>
+      <div class="case__media" style="--mh:27.5rem"><img loading="lazy" src="images/basarab-03.webp" alt="" width="1016" height="1240" /></div>
+      <div class="case__media" style="--mh:27.5rem"><img loading="lazy" src="images/basarab-04.webp" alt="" width="1016" height="1240" /></div>
     </div>
 
     <p class="case__quote case__quote--right reveal">При разработке знака мы прорабатывали разные <br>формы — от сдержанных и формальных до более <br>живых и выразительных. Один из вариантов <br>настолько зацепил Инну, создательницу бренда, <br>что она захотела использовать его как <br>самостоятельный элемент айдентики.</p>
 
     <div class="case__row reveal">
-      <div class="case__media"><img loading="lazy" src="images/basarab-05.webp" alt="" width="337" height="427" /></div>
-      <div class="case__media"><img loading="lazy" src="images/basarab-06.webp" alt="" width="337" height="427" /></div>
-      <div class="case__media"><img loading="lazy" src="images/basarab-07.webp" alt="" width="337" height="427" /></div>
+      <div class="case__media" style="--mh:21.25rem"><img loading="lazy" src="images/basarab-05.webp" alt="" width="337" height="427" /></div>
+      <div class="case__media" style="--mh:21.25rem"><img loading="lazy" src="images/basarab-06.webp" alt="" width="337" height="427" /></div>
+      <div class="case__media" style="--mh:21.25rem"><img loading="lazy" src="images/basarab-07.webp" alt="" width="337" height="427" /></div>
     </div>
 
     <div class="case__row reveal">
-      <div class="case__media"><img loading="lazy" src="images/basarab-08.webp" alt="Reliable shoes for the everyday. For the young and the old. From dawn to dusk." width="1016" height="1240" /></div>
-      <div class="case__media case__media--slideshow">
+      <div class="case__media" style="--mh:27.5rem"><img loading="lazy" src="images/basarab-08.webp" alt="Reliable shoes for the everyday. For the young and the old. From dawn to dusk." width="1016" height="1240" /></div>
+      <div class="case__media case__media--slideshow" style="--mh:27.5rem">
         <img loading="lazy" class="is-active" src="images/basarab-09.webp" alt="" width="1016" height="1240" />
         <img loading="lazy" src="images/basarab-10.webp" alt="" width="1016" height="1240" />
         <img loading="lazy" src="images/basarab-11.webp" alt="" width="1016" height="1240" />
@@ -1818,28 +1866,28 @@ button.project__media-link {
       <p>В цвете мы нашли баланс между яркостью <br>и спокойствием, при этом ушли от привычных <br>для категории решений.</p>
     </div>
 
-    <div class="case__media reveal"><img loading="lazy" src="images/basarab-13.webp" alt="" width="2030" height="1240" /></div>
+    <div class="case__media reveal" style="--mh:14.375rem"><img loading="lazy" src="images/basarab-13.webp" alt="" width="2030" height="1240" /></div>
 
-    <div class="case__media reveal"><img loading="lazy" src="images/basarab-14.webp" alt="" width="1600" height="1072" /></div>
+    <div class="case__media reveal" style="--mh:21.25rem"><img loading="lazy" src="images/basarab-14.webp" alt="" width="1600" height="1072" /></div>
 
     <div class="case__row reveal">
-      <div class="case__media"><img loading="lazy" src="images/basarab-15.webp" alt="Basarab is a sustainable brand with its own system, clear principles, and a clear understanding of its role." width="1016" height="1240" /></div>
-      <div class="case__media"><img loading="lazy" src="images/basarab-16.webp" alt="" width="1014" height="1240" /></div>
+      <div class="case__media" style="--mh:27.5rem"><img loading="lazy" src="images/basarab-15.webp" alt="Basarab is a sustainable brand with its own system, clear principles, and a clear understanding of its role." width="1016" height="1240" /></div>
+      <div class="case__media" style="--mh:21.25rem"><img loading="lazy" src="images/basarab-16.webp" alt="" width="1014" height="1240" /></div>
     </div>
 
-    <div class="case__media case__media--ig-ticker reveal">
+    <div class="case__media case__media--ig-ticker reveal" style="--mh:14.375rem">
       <img loading="lazy" class="is-active" src="images/basarab-17.webp" alt="" width="2030" height="1240" />
       <img loading="lazy" src="images/basarab-18.webp" alt="" width="2030" height="1240" />
       <img loading="lazy" src="images/basarab-19.webp" alt="" width="2030" height="1240" />
     </div>
 
-    <div class="case__media reveal"><img loading="lazy" src="images/basarab-20.webp" alt="" width="1015" height="620" /></div>
+    <div class="case__media reveal" style="--mh:27.5rem"><img loading="lazy" src="images/basarab-20.webp" alt="" width="1015" height="620" /></div>
 
-    <div class="case__media reveal"><img loading="lazy" src="images/basarab-21.webp" alt="" width="1600" height="977" /></div>
+    <div class="case__media reveal" style="--mh:21.25rem"><img loading="lazy" src="images/basarab-21.webp" alt="" width="1600" height="977" /></div>
 
-    <div class="case__media reveal"><img loading="lazy" src="images/basarab-22.webp" alt="" width="2030" height="1240" /></div>
+    <div class="case__media reveal" style="--mh:14.375rem"><img loading="lazy" src="images/basarab-22.webp" alt="" width="2030" height="1240" /></div>
 
-    <div class="case__media case__media--final-sale reveal">
+    <div class="case__media case__media--final-sale reveal" style="--mh:14.375rem">
       <div class="case__media--final-sale-ticker">
         <img loading="lazy" class="is-active" src="images/basarab-23.webp" alt="" width="1400" height="950" />
         <img loading="lazy" src="images/basarab-24.webp" alt="" width="1400" height="950" />
@@ -1851,39 +1899,39 @@ button.project__media-link {
       <img loading="lazy" class="final-sale-text" src="images/final-sale-text.webp" alt="Final Sale" width="1600" height="304" />
     </div>
 
-    <div class="case__media reveal"><img loading="lazy" src="images/basarab-29.webp" alt="" width="2030" height="1240" /></div>
+    <div class="case__media reveal" style="--mh:14.375rem"><img loading="lazy" src="images/basarab-29.webp" alt="" width="2030" height="1240" /></div>
 
     <p class="case__quote case__quote--right reveal">Со временем бизнес перерос формат обувного <br>бренда и начал выпускать одежду, аксессуары. <br>Мы разрабатывали дизайн носителей и готовили <br>технические материалы для реализации всех идей <br>в рамках созданной айдентики.</p>
 
-    <div class="case__media reveal"><img loading="lazy" src="images/basarab-30.webp" alt="Ladieswear" width="2030" height="1240" /></div>
+    <div class="case__media reveal" style="--mh:14.375rem"><img loading="lazy" src="images/basarab-30.webp" alt="Ladieswear" width="2030" height="1240" /></div>
 
-    <div class="case__media reveal"><img loading="lazy" src="images/basarab-31.webp" alt="" width="2030" height="1360" /></div>
-
-    <div class="case__row reveal">
-      <div class="case__media"><img loading="lazy" src="images/basarab-32.webp" alt="" width="1014" height="1240" /></div>
-      <div class="case__media"><img loading="lazy" src="images/basarab-33.webp" alt="" width="1014" height="1240" /></div>
-    </div>
-
-    <div class="case__media reveal"><img loading="lazy" src="images/basarab-34.webp" alt="" width="2030" height="1240" /></div>
+    <div class="case__media reveal" style="--mh:14.375rem"><img loading="lazy" src="images/basarab-31.webp" alt="" width="2030" height="1360" /></div>
 
     <div class="case__row reveal">
-      <div class="case__media"><img loading="lazy" src="images/basarab-35.webp" alt="" width="1014" height="1240" /></div>
-      <div class="case__media"><img loading="lazy" src="images/basarab-36.webp" alt="" width="1016" height="1240" /></div>
+      <div class="case__media" style="--mh:27.5rem"><img loading="lazy" src="images/basarab-32.webp" alt="" width="1014" height="1240" /></div>
+      <div class="case__media" style="--mh:27.5rem"><img loading="lazy" src="images/basarab-33.webp" alt="" width="1014" height="1240" /></div>
     </div>
 
-    <div class="case__media case__media--ig-ticker reveal">
+    <div class="case__media reveal" style="--mh:14.375rem"><img loading="lazy" src="images/basarab-34.webp" alt="" width="2030" height="1240" /></div>
+
+    <div class="case__row reveal">
+      <div class="case__media" style="--mh:27.5rem"><img loading="lazy" src="images/basarab-35.webp" alt="" width="1014" height="1240" /></div>
+      <div class="case__media" style="--mh:27.5rem"><img loading="lazy" src="images/basarab-36.webp" alt="" width="1016" height="1240" /></div>
+    </div>
+
+    <div class="case__media case__media--ig-ticker reveal" style="--mh:14.375rem">
       <img loading="lazy" class="is-active" src="images/basarab-37.webp" alt="" width="2030" height="1240" />
       <img loading="lazy" src="images/basarab-38.webp" alt="" width="2030" height="1240" />
     </div>
 
     <div class="case__row reveal">
-      <div class="case__media"><img loading="lazy" src="images/basarab-39.webp" alt="" width="1014" height="1240" /></div>
-      <div class="case__media"><img loading="lazy" src="images/basarab-40.webp" alt="" width="1014" height="1240" /></div>
+      <div class="case__media" style="--mh:27.5rem"><img loading="lazy" src="images/basarab-39.webp" alt="" width="1014" height="1240" /></div>
+      <div class="case__media" style="--mh:27.5rem"><img loading="lazy" src="images/basarab-40.webp" alt="" width="1014" height="1240" /></div>
     </div>
 
-    <div class="case__media reveal"><img loading="lazy" src="images/basarab-41.webp" alt="" width="2028" height="1240" /></div>
+    <div class="case__media reveal" style="--mh:21.25rem"><img loading="lazy" src="images/basarab-41.webp" alt="" width="2028" height="1240" /></div>
 
-    <div class="case__media reveal"><img loading="lazy" src="images/basarab-42.webp" alt="" width="2030" height="1346" /></div>
+    <div class="case__media reveal" style="--mh:14.375rem"><img loading="lazy" src="images/basarab-42.webp" alt="" width="2030" height="1346" /></div>
 
 
     <nav class="case__nav">
