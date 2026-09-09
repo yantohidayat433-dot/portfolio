@@ -601,28 +601,12 @@ body.has-custom-cursor * {
   color: #757575;
 }
 
-.project__desc {
+.project__subtitle-mobile {
   display: none;
 }
 
-.project__desc p {
-  margin: 0 0 6px 0;
-  font-size: 16px;
-  line-height: 1.45;
-  letter-spacing: var(--tracking-serif);
-  color: var(--color-muted);
-}
-
-.project__desc ul {
-  margin: 0;
-  padding-left: 24px;
-  color: var(--color-muted);
-}
-
-.project__desc li {
-  font-size: 16px;
-  line-height: 1.45;
-  letter-spacing: var(--tracking-serif);
+.project__tags-mobile {
+  display: none;
 }
 
 .project__tags {
@@ -1185,10 +1169,14 @@ button.project__media-link {
     padding: 0;
   }
 
-  /* Images sit at an 8px inset (from .page); text columns sit 4px
-     further in, at 12px -- matches the PDF spec exactly. */
+  /* Images sit at an 8px inset (from .page); text columns sit 6px
+     further in, at 14px -- matches the PDF spec exactly. */
   .project__row {
-    padding: 0 4px;
+    padding: 0 6px;
+  }
+
+  .project--desktop-only {
+    display: none;
   }
 
   .mobile-topbar {
@@ -1290,7 +1278,7 @@ button.project__media-link {
      reads as one uniform sequence, not "pairs" with gaps in between. */
   .project-pair {
     grid-template-columns: 1fr;
-    row-gap: 5px;
+    row-gap: 36px;
     max-width: none;
   }
 
@@ -1305,43 +1293,20 @@ button.project__media-link {
   }
 
   .projects > * + * {
-    margin-top: 5px;
+    margin-top: 36px;
   }
 
-  .project__row,
-  .project--hero .project__row {
-    grid-template-columns: 1fr;
-    row-gap: 0;
-    margin-top: 19px;
-  }
-
-  .project--hero .project__desc {
-    margin-top: 0;
-  }
-
-  .project--hero .project__title {
-    margin-top: 0;
-    margin-bottom: 20px;
+  .project__row {
+    margin-top: 16px;
   }
 
   .project__title {
-    font-size: 28px;
-    margin-bottom: 20px;
-  }
-
-  .project__desc p,
-  .project__desc li {
-    font-size: 13px;
-    line-height: 1.45;
-  }
-
-  .project__desc p {
-    margin-bottom: 13px;
+    line-height: 1.3;
   }
 
   /* The desktop caption (name + description merged on one line, plus a
      tag row) is a separate PDF spec from this breakpoint's own project
-     caption -- swap back to the original mobile title/description. */
+     caption -- title/subtitle stack as two lines with their own tag set. */
   .project__title-mobile {
     display: inline;
   }
@@ -1350,12 +1315,46 @@ button.project__media-link {
     display: none;
   }
 
-  .project__desc {
+  .project__subtitle-mobile {
     display: block;
+    margin: 0;
+    font-family: var(--font-serif);
+    font-size: 18px;
+    line-height: 1.3;
+    letter-spacing: var(--tracking-serif);
+    color: #757575;
   }
 
   .project__tags {
     display: none;
+  }
+
+  .project__tags-mobile {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 2px 5px;
+    margin: 8px 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .project__tags-mobile li {
+    display: flex;
+    align-items: center;
+    font-family: var(--font-serif);
+    font-size: 13px;
+    line-height: 1.3;
+    letter-spacing: var(--tracking-serif);
+    color: #757575;
+  }
+
+  .project__tags-mobile li::before {
+    content: '';
+    flex: 0 0 23px;
+    width: 23px;
+    height: 23px;
+    background-image: radial-gradient(circle, #757575 1.75px, transparent 1.76px);
   }
 
   /* Bio (about sheet) and case description copy step down from the
@@ -1464,14 +1463,16 @@ button.project__media-link {
       </a>
       <div class="project__row">
         <h2 class="project__title">
-          <span class="project__title-mobile"><a class="project__title-link" href="https://www.behance.net/gallery/235073919/Vocamate-AI-Brand-Identity-Website" target="_blank" rel="noopener noreferrer">Vocamate</a></span>
+          <span class="project__title-mobile"><a class="project__title-link" href="https://www.behance.net/gallery/235073919/Vocamate-AI-Brand-Identity-Website" target="_blank" rel="noopener noreferrer">Vocamate AI.</a></span>
           <span class="project__title-desktop"><a class="project__title-link" href="https://www.behance.net/gallery/235073919/Vocamate-AI-Brand-Identity-Website" target="_blank" rel="noopener noreferrer">Vocamate AI.</a> <span class="project__title-desc">Голосовые роботы и чат-боты</span></span>
         </h2>
-        <div class="project__desc">
-          <p>Визуальная айдентика и логотип для Vocamate AI — <br>Умные голосовые роботы и чат-боты для бизнеса</p>
-          <ul><li>В сотрудничестве с Origin Design</li></ul>
-        </div>
+        <p class="project__subtitle-mobile">Голосовые роботы и чат-боты</p>
         <ul class="project__tags">
+          <li>Айдентика</li>
+          <li>Логотип</li>
+          <li>Дизайн мерча</li>
+        </ul>
+        <ul class="project__tags-mobile">
           <li>Айдентика</li>
           <li>Логотип</li>
           <li>Дизайн мерча</li>
@@ -1489,14 +1490,16 @@ button.project__media-link {
         </button>
         <div class="project__row">
           <h2 class="project__title">
-            <span class="project__title-mobile"><button class="project__title-link" type="button" data-case-open="case-basarab">Basarab</button></span>
+            <span class="project__title-mobile"><button class="project__title-link" type="button" data-case-open="case-basarab">Basarab.</button></span>
             <span class="project__title-desktop"><button class="project__title-link" type="button" data-case-open="case-basarab">Basarab.</button> <span class="project__title-desc">Семейный бренд обуви</span></span>
           </h2>
-          <div class="project__desc">
-            <p>Визуальная айдентика и логотип для Basarab — <br>Интернет магазин брендовой обуви</p>
-            <ul><li>В сотрудничестве с Origin Design</li></ul>
-          </div>
+          <p class="project__subtitle-mobile">Семейный бренд обуви</p>
           <ul class="project__tags">
+            <li>Айдентика</li>
+            <li>Логотип</li>
+            <li>Дизайн упаковки</li>
+          </ul>
+          <ul class="project__tags-mobile">
             <li>Айдентика</li>
             <li>Логотип</li>
             <li>Дизайн упаковки</li>
@@ -1510,17 +1513,18 @@ button.project__media-link {
         </div>
         <div class="project__row">
           <h2 class="project__title">
-            <span class="project__title-mobile">Ольга Шепет</span>
+            <span class="project__title-mobile">Ольга Шепет.</span>
             <span class="project__title-desktop">Ольга Шепет. <span class="project__title-desc">Интерьерный художник и реставратор</span></span>
           </h2>
-          <div class="project__desc">
-            <p>Визуальная айдентика и логотип <br>для ресторатора Ольги Шепет</p>
-            <ul><li>Прямое сотрудничество</li></ul>
-          </div>
+          <p class="project__subtitle-mobile">Интерьерный художник и реставратор</p>
           <ul class="project__tags">
             <li>Айдентика</li>
             <li>Логотип</li>
             <li>Дизайн сайта</li>
+          </ul>
+          <ul class="project__tags-mobile">
+            <li>Айдентика</li>
+            <li>Логотип</li>
           </ul>
         </div>
       </article>
@@ -1529,7 +1533,7 @@ button.project__media-link {
 
     <div class="project-pair">
 
-      <article class="project project--half">
+      <article class="project project--half project--desktop-only">
         <div class="project__media" data-cursor-label="скоро">
           <img loading="lazy" src="images/grid-04.webp" alt="App Insiders Club">
         </div>
@@ -1538,10 +1542,6 @@ button.project__media-link {
             <span class="project__title-mobile">App Insiders Club</span>
             <span class="project__title-desktop">App Insiders Club. <span class="project__title-desc">Медиаплатформа о разработке<br>мобильных приложений</span></span>
           </h2>
-          <div class="project__desc">
-            <p>Визуальная айдентика для медиаплатформы <br>о разработке мобильных приложений</p>
-            <ul><li>В сотрудничестве с Yandex</li></ul>
-          </div>
           <ul class="project__tags">
             <li>Айдентика</li>
             <li>Дизайн сайта для журнала</li>
@@ -1557,14 +1557,16 @@ button.project__media-link {
         </button>
         <div class="project__row">
           <h2 class="project__title">
-            <span class="project__title-mobile"><button class="project__title-link" type="button" data-case-open="case-foundation">Фонд «Вызов»</button></span>
+            <span class="project__title-mobile"><button class="project__title-link" type="button" data-case-open="case-foundation">Фонд «Вызов».</button></span>
             <span class="project__title-desktop"><button class="project__title-link" type="button" data-case-open="case-foundation">Фонд «Вызов».</button> <span class="project__title-desc">Фонд развития научно-<br>культурных связей</span></span>
           </h2>
-          <div class="project__desc">
-            <p>Визуальная айдентика для фонда развития <br>научно-культурных связей</p>
-            <ul><li>В сотрудничестве с Origin Design</li></ul>
-          </div>
+          <p class="project__subtitle-mobile">Фонд развития научно-культурных<br>связей</p>
           <ul class="project__tags">
+            <li>Айдентика</li>
+            <li>Логотип для выставки</li>
+            <li>AI генерации</li>
+          </ul>
+          <ul class="project__tags-mobile">
             <li>Айдентика</li>
             <li>Логотип для выставки</li>
             <li>AI генерации</li>
@@ -1582,17 +1584,18 @@ button.project__media-link {
         </div>
         <div class="project__row">
           <h2 class="project__title">
-            <span class="project__title-mobile">3I Tech</span>
+            <span class="project__title-mobile">3I Tech.</span>
             <span class="project__title-desktop">3I Tech. <span class="project__title-desc">AI решения для бизнеса и государства</span></span>
           </h2>
-          <div class="project__desc">
-            <p>Визуальная айдентика для 3I Tech — AI решения <br>для бизнеса и государства</p>
-            <ul><li>В сотрудничестве с Origin Design</li></ul>
-          </div>
+          <p class="project__subtitle-mobile">AI решения для бизнеса и государства</p>
           <ul class="project__tags">
             <li>Айдентика</li>
             <li>AI генерации</li>
             <li>Вайбкодинг</li>
+          </ul>
+          <ul class="project__tags-mobile">
+            <li>Айдентика</li>
+            <li>AI генерации</li>
           </ul>
         </div>
       </article>
@@ -1603,14 +1606,15 @@ button.project__media-link {
         </div>
         <div class="project__row">
           <h2 class="project__title">
-            <span class="project__title-mobile">Banda</span>
+            <span class="project__title-mobile">Banda Team.</span>
             <span class="project__title-desktop">Banda team. <span class="project__title-desc">Стильные аксессуары для девушек</span></span>
           </h2>
-          <div class="project__desc">
-            <p>Визуальная айдентика и логотип для бренда стильных <br>аксессуаров для девушек</p>
-            <ul><li>В сотрудничестве с Banda</li></ul>
-          </div>
+          <p class="project__subtitle-mobile">Стильные аксессуары для девушек</p>
           <ul class="project__tags">
+            <li>Айдентика</li>
+            <li>Логотип</li>
+          </ul>
+          <ul class="project__tags-mobile">
             <li>Айдентика</li>
             <li>Логотип</li>
           </ul>
