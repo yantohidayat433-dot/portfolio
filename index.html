@@ -1176,7 +1176,12 @@ button.project__media-link {
     display: none !important;
   }
 
+  /* The base .page is a flex column with a 17px gap between children --
+     meant for the desktop sidebar/projects split. On phone the top bar
+     is the first child and the grid should butt up against it flush
+     with no gap, so it's zeroed out here. */
   .page {
+    gap: 0;
     padding: 0 0.5rem 1.5rem;
   }
 
@@ -1214,7 +1219,9 @@ button.project__media-link {
     top: 0;
     height: 3.875rem;
     align-items: center;
-    padding: 0 0.75rem;
+    /* .page already insets by 8px (0.5rem); +6px (0.375rem) here gets
+       the logo to 14px from the true screen edge. */
+    padding: 0 0.375rem;
     background: #fff;
     z-index: 60;
   }
