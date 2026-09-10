@@ -1285,6 +1285,12 @@ button.project__media-link {
      of depending on the real one's position. */
   .is-telegram-webview #mobile-about-sheet {
     top: 0;
+    /* --tg-bottom-gap (set by the visualViewport script) makes up for
+       Telegram's own bottom chrome, which env(safe-area-inset-bottom)
+       doesn't account for -- without it the last contact link ends up
+       right against the floating CTA the same way it briefly did in
+       Safari before that button-clearance fix. */
+    padding-bottom: calc(env(safe-area-inset-bottom, 0px) + var(--tg-bottom-gap, 0px) + 6rem);
   }
 
   .is-telegram-webview #mobile-about-sheet > .logo {
@@ -1304,6 +1310,10 @@ button.project__media-link {
     flex: none;
     width: 11.875rem;
     height: 1.625rem;
+  }
+
+  .is-telegram-webview .mobile-about-toggle {
+    bottom: calc(env(safe-area-inset-bottom, 0px) + var(--tg-bottom-gap, 0px) + 1rem);
   }
 
   #mobile-about-sheet {
@@ -2432,6 +2442,33 @@ button.project__media-link {
         vv.addEventListener('scroll', syncTopbar);
         syncTopbar();
       }
+    })();
+
+    (function () {
+      // Telegram's bottom chrome isn't a real iOS safe area, so
+      // env(safe-area-inset-bottom) doesn't know about it either --
+      // window.innerHeight can include space that chrome is actually
+      // covering, which is exactly why the floating "about me" CTA and
+      // the sheet's own bottom padding were landing right against/under
+      // it there even though the same fixed math looks right in Safari.
+      // visualViewport reports what's *actually* visible, so measure the
+      // gap between that and the layout viewport and feed it back as a
+      // CSS variable the button/sheet can add on top of the safe-area
+      // inset (see .is-telegram-webview rules) -- a no-op (0px) anywhere
+      // this isn't happening.
+      var isTelegram = document.documentElement.classList.contains('is-telegram-webview');
+      if (!isTelegram || !window.visualViewport) return;
+      var vv = window.visualViewport;
+      var syncBottomGap = function () {
+        var gap = window.innerHeight - vv.height - vv.offsetTop;
+        document.documentElement.style.setProperty(
+          '--tg-bottom-gap',
+          Math.max(0, Math.round(gap)) + 'px'
+        );
+      };
+      vv.addEventListener('resize', syncBottomGap);
+      vv.addEventListener('scroll', syncBottomGap);
+      syncBottomGap();
     })();
 
     (function () {
