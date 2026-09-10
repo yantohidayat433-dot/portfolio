@@ -1450,6 +1450,12 @@ button.project__media-link {
        snapping -- width:auto isn't animatable. Falls back to auto before
        that measurement runs. */
     width: var(--w-open, auto);
+    /* The two labels are position:absolute now (for the opacity
+       crossfade below), so they no longer contribute to the flex box's
+       intrinsic height the way in-flow content would -- pin it
+       explicitly (padding × 2 + the 16px/1.45 label line-height) instead
+       of leaving the button to collapse to just its padding. */
+    height: 3.325rem;
     overflow: hidden;
     padding: 0.9375rem 3rem;
     border: none;
