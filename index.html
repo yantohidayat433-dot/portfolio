@@ -406,8 +406,7 @@ ul {
    tablet treatment for them. */
 
 .mobile-topbar,
-.mobile-about-toggle,
-.mobile-safe-area-bottom {
+.mobile-about-toggle {
   display: none;
 }
 
@@ -963,6 +962,15 @@ button.project__media-link {
   margin-bottom: 0;
 }
 
+/* Mobile-only line-break variants of the same copy (see the phone
+   breakpoint below) -- the desktop <br> placements are tuned to a much
+   wider column, so the phone PDF's narrower wraps need their own set
+   rather than reusing/hiding the desktop ones. */
+.case__intro-p--mobile,
+.case__quote-p--mobile {
+  display: none;
+}
+
 .case__quote--right {
   /* aligns flush with the left edge of the right-hand image in the
      row above (an equal-width, no-gap two-image row). Tied to
@@ -1261,9 +1269,9 @@ button.project__media-link {
     left: 0;
     right: 0;
     top: 3.875rem;
-    /* Stop right above the CTA (its height + the 4px gap above the
-       safe-area strip), so the sheet's own content never runs under it. */
-    bottom: calc(env(safe-area-inset-bottom, 0px) + 0.25rem + 3.75rem);
+    /* Stop right above the CTA, so the sheet's own content never runs
+       under it. */
+    bottom: calc(env(safe-area-inset-bottom, 0px) + 3.75rem);
     width: auto;
     height: auto;
     flex: none;
@@ -1342,7 +1350,7 @@ button.project__media-link {
     position: fixed;
     left: 0;
     right: 0;
-    bottom: calc(env(safe-area-inset-bottom, 0px) + 0.25rem);
+    bottom: env(safe-area-inset-bottom, 0px);
     height: 3.75rem;
     align-items: center;
     justify-content: center;
@@ -1361,6 +1369,7 @@ button.project__media-link {
   }
 
   .mobile-about-toggle:active {
+    color: #FF4D00;
     transform: scale(0.97);
   }
 
@@ -1379,27 +1388,6 @@ button.project__media-link {
 
   .mobile-about-toggle.is-open .mobile-about-toggle__close {
     display: inline;
-  }
-
-  /* The strip the OS home-indicator/dynamic-island area sits over --
-     its height IS the safe-area inset, so it naturally collapses to 0 on
-     devices without one. Colored to match rather than left showing the
-     page background through it. */
-  /* Extends 4px above the actual safe-area inset to absorb the gap the
-     button leaves above it -- otherwise that strip was transparent and
-     whatever sat behind it (the grid, or the about sheet) showed through.
-     The button's own position is unchanged, so it still visually meets
-     this strip at a clean, distinct color edge, just with nothing able
-     to peek through the seam. */
-  .mobile-safe-area-bottom {
-    display: block;
-    position: fixed;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    height: calc(env(safe-area-inset-bottom, 0px) + 0.25rem);
-    background: #1B1B1B;
-    z-index: 65;
   }
 
   /* Single-column project list, one consistent card height regardless of
@@ -1503,12 +1491,14 @@ button.project__media-link {
     line-height: 1.45;
   }
 
-  /* The  <br> tags in case copy are hand-placed to match the desktop PDF's
+  /* The <br> tags in case copy are hand-placed to match the desktop PDF's
      line breaks at that column width -- at the phone width they'd just
      force a second, awkward wrap. Drop them here and let the (already
-     narrower, already single-column) text reflow on its own. */
-  .case__intro-right p br,
-  .case__quote br {
+     narrower, already single-column) text reflow on its own. Basarab's
+     own mobile-specific <br> variants (below) are excluded -- theirs are
+     hand-placed for *this* column width and need to stay. */
+  .case__intro-right p:not(.case__intro-p--mobile) br,
+  .case__quote:not(.case__quote-p--mobile) br {
     display: none;
   }
 
@@ -1522,6 +1512,8 @@ button.project__media-link {
   #case-basarab .case__intro h2 {
     font-size: 1.75rem;
     line-height: 1.45;
+    margin-bottom: 1rem;
+    order: 1;
   }
 
   #case-basarab .case__intro-title-desc,
@@ -1554,6 +1546,80 @@ button.project__media-link {
   #case-basarab .case__media--final-sale {
     aspect-ratio: auto;
   }
+
+  /* This photo's source file is shot/stored sideways (a wide landscape
+     crop meant for the desktop hero slot) -- the phone PDF instead shows
+     it rotated upright as a portrait. Pre-rotate the img box itself
+     (swapped width/height, centered, then object-fit:cover on top) so
+     the rotation lands *before* the cover-crop instead of distorting an
+     already-cropped box. */
+  #case-basarab .case__media:has(> img[src$="basarab-20.webp"]) {
+    position: relative;
+  }
+
+  #case-basarab img[src$="basarab-20.webp"] {
+    position: absolute !important;
+    top: 50%;
+    left: 50%;
+    width: 27.5rem !important;
+    height: 22.4375rem !important;
+    max-width: none;
+    object-fit: cover;
+    transform: translate(-50%, -50%) rotate(-90deg);
+  }
+
+  /* Text column: 14px from the viewport edge (vs. 8px for images) --
+     the extra 6px lives as the text block's own padding since the page's
+     shared 8px inset is common to both. Vertical rhythm per the case
+     text spec: 24px from the image above down to the text, 32px from
+     the text down to the next image. */
+  #case-basarab .case__intro {
+    margin: 1.5rem 0 2rem;
+    padding: 0 0.375rem;
+    row-gap: 0;
+  }
+
+  #case-basarab .case__intro-left {
+    display: contents;
+  }
+
+  /* Desktop lays the title/tags column beside the body-copy column;
+     the phone PDF instead stacks them title → body copy → tags, so the
+     visual order is reassigned independently of DOM order. */
+  #case-basarab .case__intro-right {
+    order: 2;
+    gap: 0.5rem;
+  }
+
+  #case-basarab .case__intro .project__tags-mobile {
+    order: 3;
+    margin-top: 1rem;
+  }
+
+  #case-basarab .case__quote {
+    margin: 1.5rem 0.375rem 2rem;
+  }
+
+  #case-basarab .case__quote p {
+    margin: 0 0 0.5rem;
+  }
+
+  #case-basarab .case__quote p:last-child {
+    margin-bottom: 0;
+  }
+
+  /* Mobile-specific line-break variants (see the shared .case__quote-p--
+     mobile/.case__intro-p--mobile rule above) swap in for Basarab only --
+     the desktop copy keeps its own wider-column <br> placements. */
+  #case-basarab .case__intro-p--desktop,
+  #case-basarab .case__quote-p--desktop {
+    display: none;
+  }
+
+  #case-basarab .case__intro-p--mobile,
+  #case-basarab .case__quote-p--mobile {
+    display: block;
+  }
 }
 </style>
 
@@ -1576,8 +1642,6 @@ button.project__media-link {
       </svg>
     </a>
   </div>
-
-  <div class="mobile-safe-area-bottom" aria-hidden="true"></div>
 
   <button type="button" class="mobile-about-toggle" data-about-toggle>
     <span class="mobile-about-toggle__open">почитать обо мне</span>
@@ -1829,21 +1893,25 @@ button.project__media-link {
         </ul>
       </div>
       <div class="case__intro-right">
-        <p>Basarab — семейный бренд обуви с собственным <br>производством. Он появился из стремления <br>делать удобную, надёжную и красивую обувь <br>для повседневной жизни.</p>
-        <p>Долгое время бренд был близок взрослой аудитории. <br>Появилось желание привлечь более молодой сегмент, <br>но прежний образ казался слишком возрастным <br>и консервативным. Поэтому бренд обратился к нам, <br>чтобы обновить айдентику и стать визуально <br>более современным, сохранив спокойствие <br>и сдержанность, на которых он всегда держался.</p>
+        <p class="case__intro-p--desktop">Basarab — семейный бренд обуви с собственным <br>производством. Он появился из стремления <br>делать удобную, надёжную и красивую обувь <br>для повседневной жизни.</p>
+        <p class="case__intro-p--mobile">Basarab — семейный бренд обуви <br>с собственным производством. Он появился <br>из стремления делать удобную, надёжную <br>и красивую обувь для повседневной жизни.</p>
+        <p class="case__intro-p--desktop">Долгое время бренд был близок взрослой аудитории. <br>Появилось желание привлечь более молодой сегмент, <br>но прежний образ казался слишком возрастным <br>и консервативным. Поэтому бренд обратился к нам, <br>чтобы обновить айдентику и стать визуально <br>более современным, сохранив спокойствие <br>и сдержанность, на которых он всегда держался.</p>
+        <p class="case__intro-p--mobile">Долгое время бренд был близок взрослой <br>аудитории. Появилось желание привлечь <br>более молодой сегмент, но прежний образ <br>казался слишком возрастным <br>и консервативным. Поэтому бренд <br>обратился к нам, чтобы обновить айдентику, <br>стать визуально более современным, <br>сохранив спокойствие и сдержанность, <br>на которых он всегда держался.</p>
       </div>
     </div>
 
     <div class="case__media reveal" style="--mh:14.375rem"><img loading="lazy" src="images/basarab-02.webp" alt="" width="1600" height="977" /></div>
 
-    <p class="case__quote reveal">В основе логотипа яркий, выразительный гротеск, <br>в котором монументальность формы сочетается <br>с мягкими изгибами и цепляющими взгляд деталями. <br>В этом контрасте читаются и классическая <br>сдержанность, и яркий характер.</p>
+    <p class="case__quote case__quote-p--desktop reveal">В основе логотипа яркий, выразительный гротеск, <br>в котором монументальность формы сочетается <br>с мягкими изгибами и цепляющими взгляд деталями. <br>В этом контрасте читаются и классическая <br>сдержанность, и яркий характер.</p>
+    <p class="case__quote case__quote-p--mobile reveal">В основе логотипа яркий, выразительный <br>гротеск, в котором монументальность <br>формы сочетается с мягкими изгибами <br>и цепляющими взгляд деталями. В этом <br>контрасте читаются и классическая <br>сдержанность, и яркий характер.</p>
 
     <div class="case__row reveal">
       <div class="case__media" style="--mh:27.5rem"><img loading="lazy" src="images/basarab-03.webp" alt="" width="1016" height="1240" /></div>
       <div class="case__media" style="--mh:27.5rem"><img loading="lazy" src="images/basarab-04.webp" alt="" width="1016" height="1240" /></div>
     </div>
 
-    <p class="case__quote case__quote--right reveal">При разработке знака мы прорабатывали разные <br>формы — от сдержанных и формальных до более <br>живых и выразительных. Один из вариантов <br>настолько зацепил Инну, создательницу бренда, <br>что она захотела использовать его как <br>самостоятельный элемент айдентики.</p>
+    <p class="case__quote case__quote--right case__quote-p--desktop reveal">При разработке знака мы прорабатывали разные <br>формы — от сдержанных и формальных до более <br>живых и выразительных. Один из вариантов <br>настолько зацепил Инну, создательницу бренда, <br>что она захотела использовать его как <br>самостоятельный элемент айдентики.</p>
+    <p class="case__quote case__quote--right case__quote-p--mobile reveal">При разработке знака мы прорабатывали <br>разные формы — от сдержанных <br>и формальных до более живых <br>и выразительных. Один из вариантов <br>настолько зацепил Инну, создательницу <br>бренда, что она захотела использовать его <br>как самостоятельный элемент айдентики.</p>
 
     <div class="case__row reveal">
       <div class="case__media" style="--mh:21.25rem"><img loading="lazy" src="images/basarab-05.webp" alt="" width="337" height="427" /></div>
@@ -1862,8 +1930,10 @@ button.project__media-link {
     </div>
 
     <div class="case__quote reveal">
-      <p>В духе модного брендинга мы не стали добавлять <br>ярких графических элементов — акцент всегда <br>остаётся на продукции. Центральной частью <br>айдентики стала типографика. Мы сохранили <br>спокойствие и уверенный образ бренда, но за счёт <br>шрифта и вёрстки придали ему индивидуальность, <br>чтобы он стал более узнаваемым в своей категории.</p>
-      <p>В цвете мы нашли баланс между яркостью <br>и спокойствием, при этом ушли от привычных <br>для категории решений.</p>
+      <p class="case__quote-p--desktop">В духе модного брендинга мы не стали добавлять <br>ярких графических элементов — акцент всегда <br>остаётся на продукции. Центральной частью <br>айдентики стала типографика. Мы сохранили <br>спокойствие и уверенный образ бренда, но за счёт <br>шрифта и вёрстки придали ему индивидуальность, <br>чтобы он стал более узнаваемым в своей категории.</p>
+      <p class="case__quote-p--mobile">В духе модного брендинга мы не стали <br>добавлять ярких графических элементов — <br>акцент всегда остаётся на продукции. <br>Центральной частью айдентики стала <br>типографика. Мы сохранили спокойствие <br>и уверенный образ бренда, но за счёт <br>шрифта и вёрстки придали ему <br>индивидуальность, чтобы он стал <br>более узнаваемым в своей категории.</p>
+      <p class="case__quote-p--desktop">В цвете мы нашли баланс между яркостью <br>и спокойствием, при этом ушли от привычных <br>для категории решений.</p>
+      <p class="case__quote-p--mobile">В цвете мы нашли баланс между яркостью <br>и спокойствием, при этом ушли от <br>привычных для категории решений.</p>
     </div>
 
     <div class="case__media reveal" style="--mh:14.375rem"><img loading="lazy" src="images/basarab-13.webp" alt="" width="2030" height="1240" /></div>
@@ -1901,7 +1971,8 @@ button.project__media-link {
 
     <div class="case__media reveal" style="--mh:14.375rem"><img loading="lazy" src="images/basarab-29.webp" alt="" width="2030" height="1240" /></div>
 
-    <p class="case__quote case__quote--right reveal">Со временем бизнес перерос формат обувного <br>бренда и начал выпускать одежду, аксессуары. <br>Мы разрабатывали дизайн носителей и готовили <br>технические материалы для реализации всех идей <br>в рамках созданной айдентики.</p>
+    <p class="case__quote case__quote--right case__quote-p--desktop reveal">Со временем бизнес перерос формат обувного <br>бренда и начал выпускать одежду, аксессуары. <br>Мы разрабатывали дизайн носителей и готовили <br>технические материалы для реализации всех идей <br>в рамках созданной айдентики.</p>
+    <p class="case__quote case__quote--right case__quote-p--mobile reveal">Со временем бизнес перерос формат <br>обувного бренда и начал выпускать одежду, <br>аксессуары. Мы разрабатывали дизайн <br>носителей и готовили технические <br>материалы для реализации всех идей <br>в рамках созданной айдентики.</p>
 
     <div class="case__media reveal" style="--mh:14.375rem"><img loading="lazy" src="images/basarab-30.webp" alt="Ladieswear" width="2030" height="1240" /></div>
 
