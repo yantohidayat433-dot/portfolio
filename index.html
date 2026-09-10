@@ -1293,6 +1293,12 @@ button.project__media-link {
      of depending on the real one's position. */
   .is-telegram-webview #mobile-about-sheet {
     top: 0;
+    /* Stops the rubber-band bounce at the top of the sheet's own scroll
+       container -- without it, pulling down past the top on iOS could
+       momentarily reveal whatever sits behind/above the sticky logo bar
+       (the static, non-fixed .mobile-topbar included), which read as a
+       second logo flashing in. */
+    overscroll-behavior-y: contain;
     /* --tg-bottom-gap (set by the visualViewport script) makes up for
        Telegram's own bottom chrome, which env(safe-area-inset-bottom)
        doesn't account for -- without it the last contact link ends up
@@ -1302,16 +1308,19 @@ button.project__media-link {
   }
 
   .is-telegram-webview #mobile-about-sheet > .logo {
+    /* Deliberately not position:sticky -- combined with the negative
+       margin escaping the sheet's own padding, iOS's rubber-band bounce
+       could duplicate-render it (the ghost second logo). A plain in-flow
+       bar (scrolls away with the rest of the content, same as the real
+       topbar already does in Telegram) is less fancy but doesn't have
+       that failure mode. */
     display: flex;
-    position: sticky;
-    top: -1.25rem;
     align-items: center;
     width: auto;
     height: 3.875rem;
-    margin: -1.25rem -0.875rem 0;
+    margin: -1.25rem -0.875rem 1.25rem;
     padding: 0 0.875rem;
     background: #fff;
-    z-index: 10;
   }
 
   .is-telegram-webview #mobile-about-sheet > .logo .logo__svg {
@@ -1468,16 +1477,31 @@ button.project__media-link {
     color: #fff;
   }
 
+  /* Both labels stay in the DOM and share the same centered spot (the
+     button's own width, animated separately above, is what actually
+     resizes the pill) -- crossfading opacity here instead of an instant
+     display:none/inline swap so the text transitions as smoothly as the
+     shape does. */
+  .mobile-about-toggle__open,
   .mobile-about-toggle__close {
-    display: none;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    white-space: nowrap;
+    transition: opacity 0.3s ease;
+  }
+
+  .mobile-about-toggle__close {
+    opacity: 0;
   }
 
   .mobile-about-toggle.is-open .mobile-about-toggle__open {
-    display: none;
+    opacity: 0;
   }
 
   .mobile-about-toggle.is-open .mobile-about-toggle__close {
-    display: inline;
+    opacity: 1;
   }
 
   /* Single-column project list, one consistent card height regardless of
@@ -1645,7 +1669,10 @@ button.project__media-link {
      slideshow/ig-ticker/final-sale cards their whole cycling structure)
      is hidden outright rather than swapped out, since the desktop JS
      (cycle()) still runs against those elements regardless of viewport. */
-  #case-basarab .case__media > *:not(.case__media-mobile) {
+  /* :has() guard -- a card with no .case__media-mobile child (basarab-02,
+     which wasn't part of the supplied set) must fall through to its
+     normal desktop <img>, not go blank. */
+  #case-basarab .case__media:has(> .case__media-mobile) > *:not(.case__media-mobile) {
     display: none !important;
   }
 
@@ -1656,6 +1683,30 @@ button.project__media-link {
     object-fit: cover;
     /* Wins over .case__media--slideshow/--ig-ticker img's opacity:0
        default (meant for the desktop cycling frames, which this isn't). */
+    opacity: 1 !important;
+  }
+
+  /* A mobile-only crossfade group (the slideshow's mobile crops) -- same
+     is-active/opacity pattern as the desktop .case__media--slideshow img,
+     just scoped to this nested wrapper (see the cycle() :scope > img
+     note) so it cycles independently of the (hidden-on-mobile) desktop
+     frames sharing the same card. */
+  #case-basarab .case__media-mobile--cycle {
+    position: relative;
+    object-fit: initial;
+  }
+
+  #case-basarab .case__media-mobile--cycle img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0 !important;
+    transition: opacity 0.6s ease;
+  }
+
+  #case-basarab .case__media-mobile--cycle img.is-active {
     opacity: 1 !important;
   }
 
@@ -2017,7 +2068,12 @@ button.project__media-link {
         <img loading="lazy" src="images/basarab-10.webp" alt="" width="1016" height="1240" />
         <img loading="lazy" src="images/basarab-11.webp" alt="" width="1016" height="1240" />
         <img loading="lazy" src="images/basarab-12.webp" alt="" width="1016" height="1240" />
-        <img loading="lazy" class="case__media-mobile" src="images/basarab-m08.webp" alt="" width="718" height="880" />
+        <div class="case__media-mobile case__media-mobile--cycle">
+          <img loading="lazy" class="is-active" src="images/basarab-m08.webp" alt="" width="718" height="880" />
+          <img loading="lazy" src="images/basarab-m08-10.webp" alt="" width="718" height="876" />
+          <img loading="lazy" src="images/basarab-m08-11.webp" alt="" width="718" height="876" />
+          <img loading="lazy" src="images/basarab-m08-12.webp" alt="" width="718" height="876" />
+        </div>
       </div>
     </div>
 
@@ -2608,6 +2664,7 @@ button.project__media-link {
           hide.classList.add('is-hidden');
           show.classList.remove('is-hidden');
           show.scrollTop = 0;
+          window.scrollTo(0, 0);
           return;
         }
 
@@ -2632,6 +2689,12 @@ button.project__media-link {
 
           show.classList.remove('is-hidden');
           show.scrollTop = 0;
+          // On mobile .case/.projects scroll with the page itself
+          // (overflow: visible there, not their own scrollbar), so
+          // show.scrollTop alone is a no-op -- without this, opening a
+          // case while scrolled down on the grid left the case opening
+          // at that same scroll position instead of from its own top.
+          window.scrollTo(0, 0);
           show.classList.add('is-entering-start');
           void show.offsetHeight;
           // A single rAF fires before the *next* paint, but whether that
@@ -2803,7 +2866,11 @@ button.project__media-link {
 
       function cycle(selector, intervalMs) {
         document.querySelectorAll(selector).forEach(function (el) {
-          var frames = Array.prototype.slice.call(el.querySelectorAll('img'));
+          // :scope > img only -- a mobile-only cycling group can nest
+          // inside the same container (see .case__media-mobile--cycle),
+          // and a plain "img" descendant selector would pull those into
+          // this same frame set instead of cycling independently.
+          var frames = Array.prototype.slice.call(el.querySelectorAll(':scope > img'));
           if (frames.length < 2) return;
           var index = frames.findIndex(function (img) { return img.classList.contains('is-active'); });
           if (index < 0) index = 0;
@@ -2818,6 +2885,7 @@ button.project__media-link {
       cycle('.case__media--slideshow', 1500);
       cycle('.case__media--ig-ticker', 1300);
       cycle('.case__media--final-sale-ticker', 1200);
+      cycle('.case__media-mobile--cycle', 1500);
     })();
 
     (function () {
