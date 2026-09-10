@@ -1710,6 +1710,26 @@ button.project__media-link {
     opacity: 1 !important;
   }
 
+  /* Same idea for the two ig-ticker cards, but a hard cut (no crossfade)
+     to match .case__media--ig-ticker img's own desktop behavior. */
+  #case-basarab .case__media-mobile--cycle-hard {
+    position: relative;
+    object-fit: initial;
+  }
+
+  #case-basarab .case__media-mobile--cycle-hard img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0 !important;
+  }
+
+  #case-basarab .case__media-mobile--cycle-hard img.is-active {
+    opacity: 1 !important;
+  }
+
   /* Text column: 14px from the viewport edge (vs. 8px for images) --
      the extra 6px lives as the text block's own padding since the page's
      shared 8px inset is common to both. Vertical rhythm per the case
@@ -2097,7 +2117,11 @@ button.project__media-link {
       <img loading="lazy" class="is-active" src="images/basarab-17.webp" alt="" width="2030" height="1240" />
       <img loading="lazy" src="images/basarab-18.webp" alt="" width="2030" height="1240" />
       <img loading="lazy" src="images/basarab-19.webp" alt="" width="2030" height="1240" />
-      <img loading="lazy" class="case__media-mobile" src="images/basarab-m13.webp" alt="" width="718" height="460" />
+      <div class="case__media-mobile case__media-mobile--cycle-hard">
+        <img loading="lazy" class="is-active" src="images/basarab-m13-17.webp" alt="" width="718" height="460" />
+        <img loading="lazy" src="images/basarab-m13-18.webp" alt="" width="718" height="460" />
+        <img loading="lazy" src="images/basarab-m13-19.webp" alt="" width="718" height="460" />
+      </div>
     </div>
 
     <div class="case__media reveal" style="--mh:27.5rem"><img loading="lazy" src="images/basarab-20.webp" alt="" width="1015" height="620" /><img loading="lazy" class="case__media-mobile" src="images/basarab-m14.webp" alt="" width="718" height="880" /></div>
@@ -2143,7 +2167,10 @@ button.project__media-link {
     <div class="case__media case__media--ig-ticker reveal" style="--mh:14.375rem">
       <img loading="lazy" class="is-active" src="images/basarab-37.webp" alt="" width="2030" height="1240" />
       <img loading="lazy" src="images/basarab-38.webp" alt="" width="2030" height="1240" />
-      <img loading="lazy" class="case__media-mobile" src="images/basarab-m26.webp" alt="" width="718" height="460" />
+      <div class="case__media-mobile case__media-mobile--cycle-hard">
+        <img loading="lazy" class="is-active" src="images/basarab-m26-37.webp" alt="" width="718" height="460" />
+        <img loading="lazy" src="images/basarab-m26-38.webp" alt="" width="718" height="460" />
+      </div>
     </div>
 
     <div class="case__row reveal">
@@ -2886,6 +2913,7 @@ button.project__media-link {
       cycle('.case__media--ig-ticker', 1300);
       cycle('.case__media--final-sale-ticker', 1200);
       cycle('.case__media-mobile--cycle', 1500);
+      cycle('.case__media-mobile--cycle-hard', 1300);
     })();
 
     (function () {
