@@ -1274,6 +1274,17 @@ button.project__media-link {
     position: static;
   }
 
+  /* The about sheet already covers the real topbar (z-index/paint order),
+     but WebKit's position:fixed rendering can desync from the visual
+     viewport during Telegram's elastic overscroll, letting the real
+     (position:static, still sitting at its normal document spot) topbar
+     flash through the gap -- read as a "second logo". Taking it out of
+     the render entirely while the sheet is open removes the thing that
+     glitch could ever reveal, rather than chasing the glitch itself. */
+  .is-telegram-webview body.about-open .mobile-topbar {
+    display: none;
+  }
+
   .mobile-topbar__logo {
     width: 11.875rem;
     height: 1.625rem;
