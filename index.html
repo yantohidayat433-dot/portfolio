@@ -1261,7 +1261,8 @@ button.project__media-link {
      sheet is open, the fixed topbar logo (which stays visible above it)
      switches to that pink/bold look instead of staying in its plain
      blue resting state. */
-  body.about-open .mobile-topbar__logo .logo__svg path {
+  body.about-open .mobile-topbar__logo .logo__svg path,
+  body.about-open #mobile-about-sheet > .logo .logo__svg path {
     fill: #FFD2EC;
     stroke-width: 2;
   }
@@ -1271,6 +1272,38 @@ button.project__media-link {
      child is hidden here. */
   #mobile-about-sheet > .logo {
     display: none;
+  }
+
+  /* Telegram's in-app browser doesn't keep .mobile-topbar meaningfully
+     pinned (see the visualViewport-sync script, skipped there on purpose
+     -- position:static instead). So if the about sheet is opened while
+     scrolled past where the topbar used to be, the sheet's usual
+     top:3.875rem offset (left assuming the topbar fills that strip) opens
+     onto whatever the page happens to show through there instead --
+     visible as a hole above the sheet. There, let the sheet take over the
+     full screen and carry its own logo bar as a stand-in header instead
+     of depending on the real one's position. */
+  .is-telegram-webview #mobile-about-sheet {
+    top: 0;
+  }
+
+  .is-telegram-webview #mobile-about-sheet > .logo {
+    display: flex;
+    position: sticky;
+    top: -1.25rem;
+    align-items: center;
+    width: auto;
+    height: 3.875rem;
+    margin: -1.25rem -0.875rem 0;
+    padding: 0 0.875rem;
+    background: #fff;
+    z-index: 10;
+  }
+
+  .is-telegram-webview #mobile-about-sheet > .logo .logo__svg {
+    flex: none;
+    width: 11.875rem;
+    height: 1.625rem;
   }
 
   #mobile-about-sheet {
@@ -1289,7 +1322,10 @@ button.project__media-link {
     background: #F2F2F2;
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
-    padding: 1.25rem 0.875rem 2rem;
+    /* Extra bottom padding (well beyond the floating CTA's own footprint)
+       so the last contact link can scroll clear of the button instead of
+       sitting right underneath it. */
+    padding: 1.25rem 0.875rem calc(env(safe-area-inset-bottom, 0px) + 6rem);
     transform: translateY(100%);
     transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
     z-index: 50;
