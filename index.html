@@ -1314,6 +1314,15 @@ button.project__media-link {
        (the static, non-fixed .mobile-topbar included), which read as a
        second logo flashing in. */
     overscroll-behavior-y: contain;
+    /* -webkit-overflow-scrolling: touch (set globally below) hands this
+       element's scrolling off to iOS's native momentum/rubber-band
+       scroller, which keeps bouncing regardless of the touchmove
+       preventDefault guard (see the script) since that native scroller
+       doesn't consult it once a gesture starts. Reverting to plain
+       (non-native-momentum) scrolling here is what actually lets the JS
+       guard stop the bounce -- modern iOS already scrolls this smoothly
+       without the "touch" value anyway. */
+    -webkit-overflow-scrolling: auto;
     /* --tg-bottom-gap (set by the visualViewport script) makes up for
        Telegram's own bottom chrome, which env(safe-area-inset-bottom)
        doesn't account for -- without it the last contact link ends up
@@ -1456,7 +1465,7 @@ button.project__media-link {
        full-width bar -- everything either side of it (including the
        safe-area strip below) is just the page showing through, scrolling
        normally underneath. */
-    bottom: calc(env(safe-area-inset-bottom, 0px) + 1rem);
+    bottom: calc(env(safe-area-inset-bottom, 0px) + 0.75rem);
     transform: translateX(-50%);
     align-items: center;
     justify-content: center;
