@@ -1182,6 +1182,21 @@ button.project__media-link {
     font-size: min(calc(100vw * 16 / 375), 20.48px);
   }
 
+  /* Telegram's in-app browser (a WKWebView) has its own native
+     rubber-band bounce for the whole page, separate from any CSS
+     overflow/scroll container -- overscroll-behavior on just the about
+     sheet (below) wasn't enough to stop it, since the bounce was
+     happening at the page level, not inside the sheet's own scroll.
+     Pulling down past the top there could reveal the real (non-fixed,
+     see .mobile-topbar below) topbar peeking through above the sheet,
+     which read as a second logo flashing in. Killing it here at the
+     document level while leaving the sheet's own overscroll-behavior in
+     place keeps its internal scroll working normally. */
+  html.is-telegram-webview,
+  .is-telegram-webview body {
+    overscroll-behavior-y: none;
+  }
+
   /* Belt-and-suspenders alongside the JS early-return: the cursor-follow
      "смотреть"/"скоро" label has no place on a touch screen. */
   .hover-cta {
@@ -2561,6 +2576,34 @@ button.project__media-link {
       vv.addEventListener('resize', syncBottomGap);
       vv.addEventListener('scroll', syncBottomGap);
       syncBottomGap();
+    })();
+
+    (function () {
+      // Telegram's WKWebView doesn't reliably honor overscroll-behavior
+      // (already set on html/body/the sheet itself -- CSS wasn't enough
+      // on its own there, unlike Safari), so pulling down past the top
+      // of the about sheet could still rubber-band the whole page and
+      // briefly reveal the real (non-fixed) topbar sitting behind it --
+      // that's the "second logo" flash. Block the bounce in JS instead,
+      // right at the sheet's own top/bottom edges specifically, so its
+      // normal internal scroll (reading through the bio text) is
+      // untouched -- only the moment it would otherwise rubber-band gets
+      // stopped.
+      if (!document.documentElement.classList.contains('is-telegram-webview')) return;
+      var sheetEl = document.getElementById('mobile-about-sheet');
+      if (!sheetEl) return;
+      var touchStartY = 0;
+      sheetEl.addEventListener('touchstart', function (e) {
+        touchStartY = e.touches[0].clientY;
+      }, { passive: true });
+      sheetEl.addEventListener('touchmove', function (e) {
+        var deltaY = e.touches[0].clientY - touchStartY;
+        var atTop = sheetEl.scrollTop <= 0;
+        var atBottom = Math.ceil(sheetEl.scrollTop + sheetEl.clientHeight) >= sheetEl.scrollHeight;
+        if ((atTop && deltaY > 0) || (atBottom && deltaY < 0)) {
+          e.preventDefault();
+        }
+      }, { passive: false });
     })();
 
     (function () {
