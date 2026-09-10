@@ -1378,7 +1378,9 @@ button.project__media-link {
   }
 
   .divider {
-    margin-top: 0.25rem;
+    /* 32px total: the .intro flex gap already gives 20px, this adds the
+       remaining 12px. */
+    margin-top: 0.75rem;
   }
 
   .contact {
@@ -1434,6 +1436,12 @@ button.project__media-link {
     transform: translateX(-50%);
     align-items: center;
     justify-content: center;
+    /* --w-open/--w-close are measured in JS (the two labels are different
+       lengths) so the pill can smoothly resize between them instead of
+       snapping -- width:auto isn't animatable. Falls back to auto before
+       that measurement runs. */
+    width: var(--w-open, auto);
+    overflow: hidden;
     padding: 0.9375rem 3rem;
     border: none;
     border-radius: 0.75rem;
@@ -1445,7 +1453,7 @@ button.project__media-link {
     white-space: nowrap;
     cursor: pointer;
     z-index: 70;
-    transition: background-color 0.15s ease, color 0.15s ease, transform 0.15s ease;
+    transition: width 0.3s ease, background-color 0.15s ease, color 0.15s ease, transform 0.15s ease;
     -webkit-tap-highlight-color: transparent;
   }
 
@@ -1455,6 +1463,7 @@ button.project__media-link {
   }
 
   .mobile-about-toggle.is-open {
+    width: var(--w-close, auto);
     background: #484BB7;
     color: #fff;
   }
@@ -2496,6 +2505,42 @@ button.project__media-link {
       // as its own independent `about` flag.
       var aboutSheet = document.getElementById('mobile-about-sheet');
       var aboutToggle = document.querySelector('.mobile-about-toggle');
+
+      // The CTA's two labels ("почитать обо мне" / "продолжить смотреть")
+      // are different lengths, and the pill is meant to smoothly resize
+      // between them rather than snap -- but width:auto isn't animatable,
+      // so measure each label's real rendered width with an offscreen
+      // probe (styled identically via the same class) and feed the two
+      // pixel values back as --w-open/--w-close for the CSS transition to
+      // animate between. Re-measured on resize since the fluid vw-based
+      // root font-size means the same text renders at a different width
+      // depending on viewport.
+      if (aboutToggle) {
+        var toggleOpenLabel = aboutToggle.querySelector('.mobile-about-toggle__open');
+        var toggleCloseLabel = aboutToggle.querySelector('.mobile-about-toggle__close');
+        var measureToggleWidth = function (text) {
+          var probe = document.createElement('button');
+          probe.className = 'mobile-about-toggle';
+          probe.setAttribute('aria-hidden', 'true');
+          probe.style.position = 'absolute';
+          probe.style.visibility = 'hidden';
+          probe.style.left = '-9999px';
+          probe.style.width = 'auto';
+          probe.style.transition = 'none';
+          probe.textContent = text;
+          document.body.appendChild(probe);
+          var w = probe.getBoundingClientRect().width;
+          document.body.removeChild(probe);
+          return w;
+        };
+        var syncToggleWidths = function () {
+          if (!toggleOpenLabel || !toggleCloseLabel) return;
+          aboutToggle.style.setProperty('--w-open', measureToggleWidth(toggleOpenLabel.textContent) + 'px');
+          aboutToggle.style.setProperty('--w-close', measureToggleWidth(toggleCloseLabel.textContent) + 'px');
+        };
+        syncToggleWidths();
+        window.addEventListener('resize', syncToggleWidths);
+      }
 
       // The sheet floats on top of the grid rather than replacing it, so
       // without this the grid underneath stayed both visible through any
