@@ -2653,45 +2653,59 @@ button.project__media-link {
     (function () {
       // natalia.earth-style hover: each time the pointer ENTERS a swatch
       // (a contact link or a project badge), it hard-cuts to a new
-      // random pair from the palette -- and then just stays that color,
-      // even after the pointer leaves. It does not revert on
-      // mouseleave, and it does not keep cycling on a timer while the
-      // pointer sits still over it; the only trigger for a new color is
-      // a fresh mouseenter.
+      // random background -- and then just stays that color, even
+      // after the pointer leaves. It does not revert on mouseleave, and
+      // it does not keep cycling on a timer while the pointer sits
+      // still over it; the only trigger for a new color is a fresh
+      // mouseenter.
       //
-      // PLACEHOLDER PALETTE -- swap this array for Vika's real color
-      // pairs once she sends them; nothing else needs to change.
+      // Backgrounds only -- text color is computed per-pick from WCAG
+      // relative luminance (contrastText below), so a random background
+      // can never land next to unreadable text. And every pick is
+      // checked against every OTHER swatch's current color first, so
+      // two buttons can't show the same fill at the same time (as long
+      // as the palette has at least as many colors as visible swatches).
       var PALETTE = [
-        { bg: '#FFD0ED', text: '#5C3B9A' },
-        { bg: '#FFD2EC', text: '#2E31AD' },
-        { bg: '#FF4D00', text: '#FFFFFF' },
-        { bg: '#00849A', text: '#FFFFFF' },
-        { bg: '#4FD400', text: '#141413' },
-        { bg: '#FF8200', text: '#FFFFFF' }
+        '#A5C1BA', '#00849A', '#98E7FE', '#0D4834', '#FBC79A',
+        '#5C3B9A', '#A02F0A', '#8190F3', '#E07200', '#A49F27',
+        '#FFD621', '#004BA7', '#E25294', '#572325', '#BE41F3',
+        '#40AD00', '#00516D', '#D0D0C2', '#CCFEC7'
       ];
+
+      function contrastText(hex) {
+        var r = parseInt(hex.slice(1, 3), 16) / 255;
+        var g = parseInt(hex.slice(3, 5), 16) / 255;
+        var b = parseInt(hex.slice(5, 7), 16) / 255;
+        [r, g, b] = [r, g, b].map(function (c) {
+          return c <= 0.03928 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4);
+        });
+        var luminance = 0.2126 * r + 0.7152 * g + 0.0722 * b;
+        // Contrast ratio against black (lum 0) is (L+0.05)/0.05; against
+        // white (lum 1) is 1.05/(L+0.05). Picking by which is larger.
+        var vsBlack = (luminance + 0.05) / 0.05;
+        var vsWhite = 1.05 / (luminance + 0.05);
+        return vsBlack >= vsWhite ? '#000000' : '#FFFFFF';
+      }
 
       if (window.matchMedia('(max-width: 700px)').matches) return;
       if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
       var swatches = document.querySelectorAll('.contact__links a, .project__badge');
+      var currentColors = new Map(); // element -> its currently-applied bg
 
       swatches.forEach(function (el) {
-        var lastPick = null;
-
-        function pickPair() {
-          if (PALETTE.length === 1) return PALETTE[0];
-          var pick;
-          do {
-            pick = PALETTE[Math.floor(Math.random() * PALETTE.length)];
-          } while (pick === lastPick);
-          lastPick = pick;
-          return pick;
-        }
-
         el.addEventListener('mouseenter', function () {
-          var pick = pickPair();
-          el.style.backgroundColor = pick.bg;
-          el.style.color = pick.text;
+          // Excludes every color currently showing on ANY swatch
+          // (this one included, so it never repeats itself either).
+          var taken = new Set(currentColors.values());
+          var available = PALETTE.filter(function (c) { return !taken.has(c); });
+          if (available.length === 0) available = PALETTE.filter(function (c) { return c !== currentColors.get(el); });
+          if (available.length === 0) available = PALETTE;
+
+          var pick = available[Math.floor(Math.random() * available.length)];
+          currentColors.set(el, pick);
+          el.style.backgroundColor = pick;
+          el.style.color = contrastText(pick);
         });
       });
     })();
