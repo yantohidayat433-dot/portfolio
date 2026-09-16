@@ -596,10 +596,14 @@ body.has-custom-cursor * {
   margin: 0;
   font-family: var(--font-serif);
   font-weight: 400;
-  font-size: 24px;
-  line-height: 1.45;
+  font-size: 22px;
+  line-height: 1.25;
   letter-spacing: var(--tracking-sans);
   color: var(--color-ink);
+}
+
+.project__badge-tag {
+  color: #7F7F80;
 }
 
 .project__title-mobile {
@@ -1300,7 +1304,11 @@ button.project__media-link {
     width: fit-content;
     cursor: pointer;
     color: #7F7F80;
-    background-image: linear-gradient(90deg, #00849A 50%, #7F7F80 50%);
+    /* A hairline stroke on top of the gradient-clipped fill reads as
+       slightly bolder without needing an actual bold weight from the
+       font. */
+    -webkit-text-stroke: 0.2px currentColor;
+    background-image: linear-gradient(90deg, #004BA7 50%, #7F7F80 50%);
     background-size: 200% 100%;
     background-position: 100% 0;
     -webkit-background-clip: text;
@@ -1311,6 +1319,15 @@ button.project__media-link {
 
   .project__see:hover {
     background-position: 0% 0;
+  }
+
+  .project__see-arrow {
+    display: inline-block;
+    transition: transform 0.3s ease;
+  }
+
+  .project__see:hover .project__see-arrow {
+    transform: translateX(4px);
   }
 
   .project__divider {
@@ -1345,34 +1362,39 @@ button.project__media-link {
     letter-spacing: var(--tracking-serif);
     cursor: pointer;
     text-align: left;
-    /* Same left-to-right sweep technique as .project__see: a two-color
-       gradient panned via background-position, masked to the text via
-       background-clip. Resting shows orange (right half); hovering
-       pans to green (left half). Toggling .is-ru just starts the pan
-       from the other side, so the resting/hover colors swap too. */
-    background-image: linear-gradient(90deg, #4FD400 50%, #FF8200 50%);
-    background-size: 200% 100%;
-    background-position: 100% 0;
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-    transition: background-position 0.4s ease, opacity 0.2s ease;
+    position: relative;
+    width: fit-content;
+    color: #FF8200;
+    transition: opacity 0.2s ease;
   }
 
-  .lang-toggle:hover {
-    background-position: 0% 0;
+  /* Underline grows in from the left on hover, shrinks back out the
+     same way on leave -- color only actually changes once toggled
+     (.is-ru), not as part of this hover feedback. */
+  .lang-toggle::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 1px;
+    background: currentColor;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.3s ease;
+  }
+
+  .lang-toggle:hover::after {
+    transform: scaleX(1);
   }
 
   .lang-toggle.is-ru {
-    background-position: 0% 0;
-  }
-
-  .lang-toggle.is-ru:hover {
-    background-position: 100% 0;
+    color: #4FD400;
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .lang-toggle {
+    .lang-toggle,
+    .lang-toggle::after {
       transition: none;
     }
   }
@@ -2118,8 +2140,8 @@ button.project__media-link {
       <div class="intro__block">
         <p class="intro__p-mobile">Я дизайнер и арт-директор, больше <br>8 лет работаю с визуальной айдентикой <br>бренда  — от концепции до реализации <br>в каждой точке контакта. 👩🏻</p>
         <p class="intro__p-mobile">Сотрудничала с ведущими дизайн- <br>студиями в России, вела проекты <br>для крупных бизнесов из разных сфер, <br>от технологий до ритейла.</p>
-        <p class="intro__p-desktop" data-en="I'm a graphic designer and art director with over 8 years of experience shaping brand visual identity, from concept through execution at every touchpoint." data-ru="Я дизайнер и арт-директор, больше 8 лет работаю с визуальной айдентикой бренда — от концепции до реализации в каждой точке контакта.">I'm a graphic designer and art director with over 8 years of experience shaping brand visual identity, from concept through execution at every touchpoint.</p>
-        <p class="intro__p-desktop" data-en="I've collaborated with leading design studios in Russia, running projects for major businesses across industries, from tech to retail." data-ru="Сотрудничала с ведущими дизайн-студиями в России, вела проекты для крупных бизнесов из разных сфер, от технологий до ритейла.">I've collaborated with leading design studios in Russia, running projects for major businesses across industries, from tech to retail.</p>
+        <p class="intro__p-desktop" data-en="I'm a graphic designer and art director with &lt;br&gt;over 8 years of experience shaping brand &lt;br&gt;visual identity, from concept through &lt;br&gt;execution at every touchpoint." data-ru="Я дизайнер и арт-директор, больше 8 лет работаю с визуальной айдентикой бренда — от концепции до реализации в каждой точке контакта.">I'm a graphic designer and art director with <br>over 8 years of experience shaping brand <br>visual identity, from concept through <br>execution at every touchpoint.</p>
+        <p class="intro__p-desktop" data-en="I've collaborated with leading design &lt;br&gt;studios in Russia, running projects for major &lt;br&gt;businesses across industries, from tech &lt;br&gt;to retail." data-ru="Сотрудничала с ведущими дизайн-студиями в России, вела проекты для крупных бизнесов из разных сфер, от технологий до ритейла.">I've collaborated with leading design <br>studios in Russia, running projects for major <br>businesses across industries, from tech <br>to retail.</p>
       </div>
 
       <div class="squiggle" aria-hidden="true">
@@ -2129,7 +2151,7 @@ button.project__media-link {
       </div>
 
       <p class="intro__text intro__text-mobile">Я не навязываю брендам свой стиль, <br>я ищу их собственный визуальный язык <br>и характер внутри гибкой и понятной <br>системы</p>
-      <p class="intro__text intro__text-desktop" data-en="I don't impose my own style on a brand, I look for its own visual language and character within a flexible, clear system." data-ru="Я не навязываю брендам свой стиль, я ищу их собственный визуальный язык и характер внутри гибкой и понятной системы">I don't impose my own style on a brand, I look for its own visual language and character within a flexible, clear system.</p>
+      <p class="intro__text intro__text-desktop" data-en="I don't impose my own style on a brand, &lt;br&gt;I look for its own visual language and &lt;br&gt;character within a flexible, clear system." data-ru="Я не навязываю брендам свой стиль, я ищу их собственный визуальный язык и характер внутри гибкой и понятной системы">I don't impose my own style on a brand, <br>I look for its own visual language and <br>character within a flexible, clear system.</p>
 
       <hr class="divider" />
 
@@ -2160,7 +2182,7 @@ button.project__media-link {
       <div class="project__row">
         <h2 class="project__title">
           <span class="project__title-mobile"><a class="project__title-link" href="https://www.behance.net/gallery/235073919/Vocamate-AI-Brand-Identity-Website" target="_blank" rel="noopener noreferrer">Vocamate AI.</a></span>
-          <span class="project__title-desktop project__badge" data-en="Vocamate AI" data-ru="Vocamate AI">Vocamate AI</span>
+          <span class="project__title-desktop project__badge" data-en="Vocamate AI. &lt;span class=&quot;project__badge-tag&quot;&gt;Voice bots and chatbots&lt;/span&gt;" data-ru="Vocamate AI. &lt;span class=&quot;project__badge-tag&quot;&gt;Голосовые роботы и чат-боты&lt;/span&gt;">Vocamate AI. <span class="project__badge-tag">Voice bots and chatbots</span></span>
         </h2>
         <p class="project__subtitle-mobile">Голосовые роботы и чат-боты</p>
         <ul class="project__tags">
@@ -2176,7 +2198,7 @@ button.project__media-link {
         <div class="project__desc">
           <p data-en="Vocamate is a platform for building AI bots and automating complex business &lt;br&gt;processes. The brand needed a visual language that felt equally confident &lt;br&gt;across every platform, reading less like another startup and more like a mature, &lt;br&gt;established tech company." data-ru="Vocamate — платформа для создания AI-ботов и автоматизации сложных &lt;br&gt;бизнес-процессов. Бренду нужен был визуальный язык, который одинаково &lt;br&gt;уверенно считывался бы на любой платформе — не как ещё один стартап, &lt;br&gt;а как зрелая, состоявшаяся технологическая компания.">Vocamate is a platform for building AI bots and automating complex business <br>processes. The brand needed a visual language that felt equally confident <br>across every platform, reading less like another startup and more like a mature, <br>established tech company.</p>
           <p data-en="Working in partnership with the team at Origin studio, I led the entire visual &lt;br&gt;side of the project: the logotype and identity, a range of touchpoints from icons &lt;br&gt;to merch, and contributions to the voice assistant's design." data-ru="В партнёрстве с командой студии Origin я вела всю визуальную часть &lt;br&gt;проекта: логотип и айдентику, набор носителей от иконок до мерча, &lt;br&gt;а также участвовала в дизайне голосового ассистента.">Working in partnership with the team at Origin studio, I led the entire visual <br>side of the project: the logotype and identity, a range of touchpoints from icons <br>to merch, and contributions to the voice assistant's design.</p>
-          <a class="project__see" href="https://www.behance.net/gallery/235073919/Vocamate-AI-Brand-Identity-Website" target="_blank" rel="noopener noreferrer" data-en="See Project →" data-ru="Смотреть проект →">See Project →</a>
+          <a class="project__see" href="https://www.behance.net/gallery/235073919/Vocamate-AI-Brand-Identity-Website" target="_blank" rel="noopener noreferrer" data-en="See Project &lt;span class=&quot;project__see-arrow&quot;&gt;→&lt;/span&gt;" data-ru="Смотреть проект &lt;span class=&quot;project__see-arrow&quot;&gt;→&lt;/span&gt;">See Project <span class="project__see-arrow">→</span></a>
         </div>
       </div>
       <hr class="project__divider" />
@@ -2193,7 +2215,7 @@ button.project__media-link {
         <div class="project__row">
           <h2 class="project__title">
             <span class="project__title-mobile"><button class="project__title-link" type="button" data-case-open="case-basarab">Basarab.</button></span>
-            <span class="project__title-desktop project__badge" data-en="Basarab" data-ru="Basarab">Basarab</span>
+            <span class="project__title-desktop project__badge" data-en="Basarab. &lt;span class=&quot;project__badge-tag&quot;&gt;Family footwear brand&lt;/span&gt;" data-ru="Basarab. &lt;span class=&quot;project__badge-tag&quot;&gt;Семейный бренд обуви&lt;/span&gt;">Basarab. <span class="project__badge-tag">Family footwear brand</span></span>
           </h2>
           <p class="project__subtitle-mobile">Семейный бренд обуви</p>
           <ul class="project__tags">
@@ -2209,7 +2231,7 @@ button.project__media-link {
           <div class="project__desc">
             <p data-en="Basarab is a family-run footwear brand with its own production, making well-&lt;br&gt;made stylish shoes for everyday life. Rapid growth, a new audience: the brand's &lt;br&gt;team wanted to refresh the identity, moving away from a conservative look &lt;br&gt;toward a more contemporary aesthetic while keeping the restraint that had &lt;br&gt;always been part of its character." data-ru="Basarab — семейный бренд обуви с собственным производством, который &lt;br&gt;делает качественную и стильную обувь для повседневной жизни. Быстрый &lt;br&gt;рост, новая аудитория: команда бренда хотела обновить айдентику, уйти &lt;br&gt;от консервативного образа к более современной эстетике, сохранив &lt;br&gt;сдержанность, которая всегда была частью его характера.">Basarab is a family-run footwear brand with its own production, making well-<br>made stylish shoes for everyday life. Rapid growth, a new audience: the brand's <br>team wanted to refresh the identity, moving away from a conservative look <br>toward a more contemporary aesthetic while keeping the restraint that had <br>always been part of its character.</p>
             <p data-en="In partnership with Origin Design studio, I developed the visual identity &lt;br&gt;and logotype. My team and I then designed the touchpoints and prepared &lt;br&gt;the technical materials to bring every idea within the new identity to life." data-ru="В партнёрстве со студией Origin Design я разработала визуальную &lt;br&gt;айдентику и логотип. Дальше мы с командой спроектировали носители &lt;br&gt;и подготовили технические материалы, чтобы воплотить все идеи новой айдентики в жизнь.">In partnership with Origin Design studio, I developed the visual identity <br>and logotype. My team and I then designed the touchpoints and prepared <br>the technical materials to bring every idea within the new identity to life.</p>
-            <button type="button" class="project__see" data-case-open="case-basarab" data-en="See Project →" data-ru="Смотреть проект →">See Project →</button>
+            <button type="button" class="project__see" data-case-open="case-basarab" data-en="See Project &lt;span class=&quot;project__see-arrow&quot;&gt;→&lt;/span&gt;" data-ru="Смотреть проект &lt;span class=&quot;project__see-arrow&quot;&gt;→&lt;/span&gt;">See Project <span class="project__see-arrow">→</span></button>
           </div>
         </div>
         <hr class="project__divider" />
@@ -2271,7 +2293,7 @@ button.project__media-link {
         <div class="project__row">
           <h2 class="project__title">
             <span class="project__title-mobile"><button class="project__title-link" type="button" data-case-open="case-foundation">Фонд «Вызов».</button></span>
-            <span class="project__title-desktop project__badge" data-en="Foundation &lt;br&gt;of Science and Culture" data-ru="Фонд «Вызов»">Foundation <br>of Science and Culture</span>
+            <span class="project__title-desktop project__badge" data-en="Foundation of Science and Culture. &lt;span class=&quot;project__badge-tag&quot;&gt;The Foundation for the Development of Scientific and Cultural Ties&lt;/span&gt;" data-ru="Фонд «Вызов». &lt;span class=&quot;project__badge-tag&quot;&gt;Фонд развития научно-культурных связей&lt;/span&gt;">Foundation of Science and Culture. <span class="project__badge-tag">The Foundation for the Development of Scientific and Cultural Ties</span></span>
           </h2>
           <p class="project__subtitle-mobile">Фонд развития научно-культурных<br>связей</p>
           <ul class="project__tags">
@@ -2287,7 +2309,7 @@ button.project__media-link {
           <div class="project__desc">
             <p data-en="The Foundation's mission is to reveal the names of scientists whose &lt;br&gt;discoveries change lives, and to establish science and knowledge as core &lt;br&gt;values of society." data-ru="Миссия фонда — открывать имена учёных, чьи открытия меняют жизни, &lt;br&gt;и утверждать науку и знание как ключевые ценности общества.">The Foundation's mission is to reveal the names of scientists whose <br>discoveries change lives, and to establish science and knowledge as core <br>values of society.</p>
             <p data-en="The foundation needed a unified identity that would bring together the &lt;br&gt;fund itself, its award, and its exhibition projects under one visual language. &lt;br&gt;In partnership with Origin studio, I developed the identity for the &lt;br&gt;foundation and the award, as well as the logotype for the exhibition." data-ru="Фонду нужна была единая айдентика, которая объединила бы сам &lt;br&gt;фонд, его премию и выставочные проекты общим визуальным языком. &lt;br&gt;В партнёрстве со студией Origin я разработала айдентику фонда и &lt;br&gt;премии, а также логотип для выставки.">The foundation needed a unified identity that would bring together the <br>fund itself, its award, and its exhibition projects under one visual language. <br>In partnership with Origin studio, I developed the identity for the <br>foundation and the award, as well as the logotype for the exhibition.</p>
-            <button type="button" class="project__see" data-case-open="case-foundation" data-en="See Project →" data-ru="Смотреть проект →">See Project →</button>
+            <button type="button" class="project__see" data-case-open="case-foundation" data-en="See Project &lt;span class=&quot;project__see-arrow&quot;&gt;→&lt;/span&gt;" data-ru="Смотреть проект &lt;span class=&quot;project__see-arrow&quot;&gt;→&lt;/span&gt;">See Project <span class="project__see-arrow">→</span></button>
           </div>
         </div>
         <hr class="project__divider" />
@@ -2665,7 +2687,11 @@ button.project__media-link {
         '#A5C1BA', '#00849A', '#98E7FE', '#0D4834', '#FBC79A',
         '#5C3B9A', '#A02F0A', '#8190F3', '#E07200', '#A49F27',
         '#FFD621', '#004BA7', '#E25294', '#572325', '#BE41F3',
-        '#40AD00', '#00516D', '#D0D0C2', '#CCFEC7'
+        '#40AD00', '#00516D', '#D0D0C2', '#CCFEC7', '#E57999',
+        '#DBC392', '#FFD0ED', '#AE004C', '#B79930', '#00F280',
+        '#3B4E1F', '#361C00', '#7F8E59', '#008DD4', '#2B943D',
+        '#B781A3', '#2C3145', '#63B5F1', '#F5002C', '#D4E039',
+        '#45152F', '#121E48'
       ];
 
       function contrastText(hex) {
@@ -2701,7 +2727,14 @@ button.project__media-link {
           var pick = available[Math.floor(Math.random() * available.length)];
           currentColors.set(el, pick);
           el.style.backgroundColor = pick;
-          el.style.color = contrastText(pick);
+          var text = contrastText(pick);
+          el.style.color = text;
+          // The badge's grey tagline span has its own explicit color,
+          // which would otherwise sit unchanged on top of the new
+          // background -- keep it in step with the rest of the text.
+          el.querySelectorAll('.project__badge-tag').forEach(function (tag) {
+            tag.style.color = text;
+          });
         });
       });
     })();
@@ -2719,7 +2752,11 @@ button.project__media-link {
         '#A5C1BA', '#00849A', '#98E7FE', '#0D4834', '#FBC79A',
         '#5C3B9A', '#A02F0A', '#8190F3', '#E07200', '#A49F27',
         '#FFD621', '#004BA7', '#E25294', '#572325', '#BE41F3',
-        '#40AD00', '#00516D', '#D0D0C2', '#CCFEC7'
+        '#40AD00', '#00516D', '#D0D0C2', '#CCFEC7', '#E57999',
+        '#DBC392', '#FFD0ED', '#AE004C', '#B79930', '#00F280',
+        '#3B4E1F', '#361C00', '#7F8E59', '#008DD4', '#2B943D',
+        '#B781A3', '#2C3145', '#63B5F1', '#F5002C', '#D4E039',
+        '#45152F', '#121E48'
       ];
 
       function contrastText(hex) {
