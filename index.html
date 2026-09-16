@@ -1192,6 +1192,20 @@ button.project__media-link {
    Russian copy/appearance untouched (see the -mobile/-desktop text
    pairs and the .contact__links a protections in that breakpoint). */
 @media (min-width: 701px) {
+  .divider {
+    border-top-color: #7F7F80;
+  }
+
+  .contact {
+    /* .intro's own 24px flex gap already applies above this -- 8px
+       more here lands the divider-to-links gap at exactly 32px. */
+    margin-top: 8px;
+  }
+
+  .contact__links {
+    gap: 3px;
+  }
+
   .project--desktop-hidden,
   .project-pair.project--desktop-hidden {
     display: none;
@@ -1244,7 +1258,25 @@ button.project__media-link {
     grid-row: 1;
     display: flex;
     flex-direction: column;
-    max-width: 500px;
+    /* Wide enough that the explicit <br> breaks in the copy (matched to
+       the PDF's own line wraps) are what actually ends each line, not
+       the container -- a narrower box would double-wrap them. The
+       longest line renders at ~640px; the grid column itself caps this
+       at 705px (1015 - the 310px badge column), so 660px clears every
+       line with room to spare. */
+    max-width: 660px;
+  }
+
+  /* Crossfade for the language toggle -- the JS fades a node's opacity
+     to 0, swaps its text, then fades back in. .lang-toggle/.project__see
+     get the same opacity transition folded into their own rules above
+     (they already animate background-position on hover and a second,
+     competing transition declaration here would just replace it). */
+  .intro__p-desktop,
+  .intro__text-desktop,
+  .project__badge,
+  .project__desc p {
+    transition: opacity 0.2s ease;
   }
 
   .project__desc p {
@@ -1278,7 +1310,7 @@ button.project__media-link {
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
-    transition: background-position 0.4s ease;
+    transition: background-position 0.4s ease, opacity 0.2s ease;
   }
 
   .project__see:hover {
@@ -1315,13 +1347,38 @@ button.project__media-link {
     font-size: 18px;
     line-height: 1.45;
     letter-spacing: var(--tracking-serif);
-    color: #FF8200;
     cursor: pointer;
     text-align: left;
+    /* Same left-to-right sweep technique as .project__see: a two-color
+       gradient panned via background-position, masked to the text via
+       background-clip. Resting shows orange (right half); hovering
+       pans to green (left half). Toggling .is-ru just starts the pan
+       from the other side, so the resting/hover colors swap too. */
+    background-image: linear-gradient(90deg, #4FD400 50%, #FF8200 50%);
+    background-size: 200% 100%;
+    background-position: 100% 0;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    transition: background-position 0.4s ease, opacity 0.2s ease;
+  }
+
+  .lang-toggle:hover {
+    background-position: 0% 0;
   }
 
   .lang-toggle.is-ru {
-    color: #4FD400;
+    background-position: 0% 0;
+  }
+
+  .lang-toggle.is-ru:hover {
+    background-position: 100% 0;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .lang-toggle {
+      transition: none;
+    }
   }
 }
 
@@ -2121,8 +2178,8 @@ button.project__media-link {
           <li>Дизайн мерча</li>
         </ul>
         <div class="project__desc">
-          <p data-en="Vocamate is a platform for building AI bots and automating complex business processes. The brand needed a visual language that felt equally confident across every platform, reading less like another startup and more like a mature, established tech company." data-ru="Vocamate — платформа для создания AI-ботов и автоматизации сложных бизнес-процессов. Бренду нужен был визуальный язык, который одинаково уверенно считывался бы на любой платформе — не как ещё один стартап, а как зрелая, состоявшаяся технологическая компания.">Vocamate is a platform for building AI bots and automating complex business processes. The brand needed a visual language that felt equally confident across every platform, reading less like another startup and more like a mature, established tech company.</p>
-          <p data-en="Working in partnership with the team at Origin studio, I led the entire visual side of the project: the logotype and identity, a range of touchpoints from icons to merch, and contributions to the voice assistant's design." data-ru="В партнёрстве с командой студии Origin я вела всю визуальную часть проекта: логотип и айдентику, набор носителей от иконок до мерча, а также участвовала в дизайне голосового ассистента.">Working in partnership with the team at Origin studio, I led the entire visual side of the project: the logotype and identity, a range of touchpoints from icons to merch, and contributions to the voice assistant's design.</p>
+          <p data-en="Vocamate is a platform for building AI bots and automating complex business &lt;br&gt;processes. The brand needed a visual language that felt equally confident &lt;br&gt;across every platform, reading less like another startup and more like a mature, &lt;br&gt;established tech company." data-ru="Vocamate — платформа для создания AI-ботов и автоматизации сложных &lt;br&gt;бизнес-процессов. Бренду нужен был визуальный язык, который одинаково &lt;br&gt;уверенно считывался бы на любой платформе — не как ещё один стартап, &lt;br&gt;а как зрелая, состоявшаяся технологическая компания.">Vocamate is a platform for building AI bots and automating complex business <br>processes. The brand needed a visual language that felt equally confident <br>across every platform, reading less like another startup and more like a mature, <br>established tech company.</p>
+          <p data-en="Working in partnership with the team at Origin studio, I led the entire visual &lt;br&gt;side of the project: the logotype and identity, a range of touchpoints from icons &lt;br&gt;to merch, and contributions to the voice assistant's design." data-ru="В партнёрстве с командой студии Origin я вела всю визуальную часть &lt;br&gt;проекта: логотип и айдентику, набор носителей от иконок до мерча, &lt;br&gt;а также участвовала в дизайне голосового ассистента.">Working in partnership with the team at Origin studio, I led the entire visual <br>side of the project: the logotype and identity, a range of touchpoints from icons <br>to merch, and contributions to the voice assistant's design.</p>
           <a class="project__see" href="https://www.behance.net/gallery/235073919/Vocamate-AI-Brand-Identity-Website" target="_blank" rel="noopener noreferrer" data-en="See Project →" data-ru="Смотреть проект →">See Project →</a>
         </div>
       </div>
@@ -2154,8 +2211,8 @@ button.project__media-link {
             <li>Дизайн упаковки</li>
           </ul>
           <div class="project__desc">
-            <p data-en="Basarab is a family-run footwear brand with its own production, making well-made stylish shoes for everyday life. Rapid growth, a new audience: the brand's team wanted to refresh the identity, moving away from a conservative look toward a more contemporary aesthetic while keeping the restraint that had always been part of its character." data-ru="Basarab — семейный бренд обуви с собственным производством, который делает качественную и стильную обувь для повседневной жизни. Быстрый рост, новая аудитория: команда бренда хотела обновить айдентику, уйти от консервативного образа к более современной эстетике, сохранив сдержанность, которая всегда была частью его характера.">Basarab is a family-run footwear brand with its own production, making well-made stylish shoes for everyday life. Rapid growth, a new audience: the brand's team wanted to refresh the identity, moving away from a conservative look toward a more contemporary aesthetic while keeping the restraint that had always been part of its character.</p>
-            <p data-en="In partnership with Origin Design studio, I developed the visual identity and logotype. My team and I then designed the touchpoints and prepared the technical materials to bring every idea within the new identity to life." data-ru="В партнёрстве со студией Origin Design я разработала визуальную айдентику и логотип. Дальше мы с командой спроектировали носители и подготовили технические материалы, чтобы воплотить все идеи новой айдентики в жизнь.">In partnership with Origin Design studio, I developed the visual identity and logotype. My team and I then designed the touchpoints and prepared the technical materials to bring every idea within the new identity to life.</p>
+            <p data-en="Basarab is a family-run footwear brand with its own production, making well-&lt;br&gt;made stylish shoes for everyday life. Rapid growth, a new audience: the brand's &lt;br&gt;team wanted to refresh the identity, moving away from a conservative look &lt;br&gt;toward a more contemporary aesthetic while keeping the restraint that had &lt;br&gt;always been part of its character." data-ru="Basarab — семейный бренд обуви с собственным производством, который &lt;br&gt;делает качественную и стильную обувь для повседневной жизни. Быстрый &lt;br&gt;рост, новая аудитория: команда бренда хотела обновить айдентику, уйти &lt;br&gt;от консервативного образа к более современной эстетике, сохранив &lt;br&gt;сдержанность, которая всегда была частью его характера.">Basarab is a family-run footwear brand with its own production, making well-<br>made stylish shoes for everyday life. Rapid growth, a new audience: the brand's <br>team wanted to refresh the identity, moving away from a conservative look <br>toward a more contemporary aesthetic while keeping the restraint that had <br>always been part of its character.</p>
+            <p data-en="In partnership with Origin Design studio, I developed the visual identity &lt;br&gt;and logotype. My team and I then designed the touchpoints and prepared &lt;br&gt;the technical materials to bring every idea within the new identity to life." data-ru="В партнёрстве со студией Origin Design я разработала визуальную &lt;br&gt;айдентику и логотип. Дальше мы с командой спроектировали носители &lt;br&gt;и подготовили технические материалы, чтобы воплотить все идеи новой айдентики в жизнь.">In partnership with Origin Design studio, I developed the visual identity <br>and logotype. My team and I then designed the touchpoints and prepared <br>the technical materials to bring every idea within the new identity to life.</p>
             <button type="button" class="project__see" data-case-open="case-basarab" data-en="See Project →" data-ru="Смотреть проект →">See Project →</button>
           </div>
         </div>
@@ -2232,8 +2289,8 @@ button.project__media-link {
             <li>AI генерации</li>
           </ul>
           <div class="project__desc">
-            <p data-en="The Foundation's mission is to reveal the names of scientists whose discoveries change lives, and to establish science and knowledge as core values of society." data-ru="Миссия фонда — открывать имена учёных, чьи открытия меняют жизни, и утверждать науку и знание как ключевые ценности общества.">The Foundation's mission is to reveal the names of scientists whose discoveries change lives, and to establish science and knowledge as core values of society.</p>
-            <p data-en="The foundation needed a unified identity that would bring together the fund itself, its award, and its exhibition projects under one visual language. In partnership with Origin studio, I developed the identity for the foundation and the award, as well as the logotype for the exhibition." data-ru="Фонду нужна была единая айдентика, которая объединила бы сам фонд, его премию и выставочные проекты общим визуальным языком. В партнёрстве со студией Origin я разработала айдентику фонда и премии, а также логотип для выставки.">The foundation needed a unified identity that would bring together the fund itself, its award, and its exhibition projects under one visual language. In partnership with Origin studio, I developed the identity for the foundation and the award, as well as the logotype for the exhibition.</p>
+            <p data-en="The Foundation's mission is to reveal the names of scientists whose &lt;br&gt;discoveries change lives, and to establish science and knowledge as core &lt;br&gt;values of society." data-ru="Миссия фонда — открывать имена учёных, чьи открытия меняют жизни, &lt;br&gt;и утверждать науку и знание как ключевые ценности общества.">The Foundation's mission is to reveal the names of scientists whose <br>discoveries change lives, and to establish science and knowledge as core <br>values of society.</p>
+            <p data-en="The foundation needed a unified identity that would bring together the &lt;br&gt;fund itself, its award, and its exhibition projects under one visual language. &lt;br&gt;In partnership with Origin studio, I developed the identity for the &lt;br&gt;foundation and the award, as well as the logotype for the exhibition." data-ru="Фонду нужна была единая айдентика, которая объединила бы сам &lt;br&gt;фонд, его премию и выставочные проекты общим визуальным языком. &lt;br&gt;В партнёрстве со студией Origin я разработала айдентику фонда и &lt;br&gt;премии, а также логотип для выставки.">The foundation needed a unified identity that would bring together the <br>fund itself, its award, and its exhibition projects under one visual language. <br>In partnership with Origin studio, I developed the identity for the <br>foundation and the award, as well as the logotype for the exhibition.</p>
             <button type="button" class="project__see" data-case-open="case-foundation" data-en="See Project →" data-ru="Смотреть проект →">See Project →</button>
           </div>
         </div>
@@ -2594,12 +2651,13 @@ button.project__media-link {
     })();
 
     (function () {
-      // natalia.earth-style hover: while the pointer stays over a swatch
-      // (a contact link or a project badge), its background/text colors
-      // hard-cut to a new random pair from the palette on their own
-      // independent, staggered timer -- not synced across elements, no
-      // crossfade, matching the reference video exactly. Resets to the
-      // resting grey the moment the pointer leaves.
+      // natalia.earth-style hover: each time the pointer ENTERS a swatch
+      // (a contact link or a project badge), it hard-cuts to a new
+      // random pair from the palette -- and then just stays that color,
+      // even after the pointer leaves. It does not revert on
+      // mouseleave, and it does not keep cycling on a timer while the
+      // pointer sits still over it; the only trigger for a new color is
+      // a fresh mouseenter.
       //
       // PLACEHOLDER PALETTE -- swap this array for Vika's real color
       // pairs once she sends them; nothing else needs to change.
@@ -2618,7 +2676,6 @@ button.project__media-link {
       var swatches = document.querySelectorAll('.contact__links a, .project__badge');
 
       swatches.forEach(function (el) {
-        var timer = null;
         var lastPick = null;
 
         function pickPair() {
@@ -2631,20 +2688,10 @@ button.project__media-link {
           return pick;
         }
 
-        function cycle() {
+        el.addEventListener('mouseenter', function () {
           var pick = pickPair();
           el.style.backgroundColor = pick.bg;
           el.style.color = pick.text;
-          timer = setTimeout(cycle, 700 + Math.random() * 900);
-        }
-
-        el.addEventListener('mouseenter', cycle);
-
-        el.addEventListener('mouseleave', function () {
-          clearTimeout(timer);
-          lastPick = null;
-          el.style.backgroundColor = '';
-          el.style.color = '';
         });
       });
     })();
@@ -2659,14 +2706,30 @@ button.project__media-link {
 
       var nodes = document.querySelectorAll('[data-en]');
       var isRu = false;
+      var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
       toggle.addEventListener('click', function () {
         isRu = !isRu;
         var lang = isRu ? 'ru' : 'en';
+
+        if (reduceMotion) {
+          nodes.forEach(function (node) {
+            node.innerHTML = node.getAttribute('data-' + lang);
+          });
+          toggle.classList.toggle('is-ru', isRu);
+          return;
+        }
+
         nodes.forEach(function (node) {
-          node.innerHTML = node.getAttribute('data-' + lang);
+          node.style.opacity = '0';
         });
-        toggle.classList.toggle('is-ru', isRu);
+        setTimeout(function () {
+          nodes.forEach(function (node) {
+            node.innerHTML = node.getAttribute('data-' + lang);
+            node.style.opacity = '1';
+          });
+          toggle.classList.toggle('is-ru', isRu);
+        }, 200);
       });
     })();
 
