@@ -554,7 +554,11 @@ body.has-custom-cursor * {
 }
 
 .hover-cta.is-see {
-  width: 44px;
+  /* Sized to the label's own text box (same convention as the badge/
+     contact-link/lang-toggle pills), not a fixed width -- "view" and
+     "смотреть" are very different lengths and a fixed width either
+     clipped the Russian label or left the English one oddly padded. */
+  width: auto;
   height: 26px;
   padding: 0;
 }
