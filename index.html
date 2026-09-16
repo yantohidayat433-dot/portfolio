@@ -2206,7 +2206,7 @@ button.project__media-link {
   <main class="projects">
 
     <article class="project project--hero">
-      <a class="project__media-link" href="https://www.behance.net/gallery/235073919/Vocamate-AI-Brand-Identity-Website" target="_blank" rel="noopener noreferrer" data-cursor-label="view" data-cursor-label-ru="смотреть">
+      <a class="project__media-link" href="https://www.behance.net/gallery/235073919/Vocamate-AI-Brand-Identity-Website" target="_blank" rel="noopener noreferrer" data-cursor-label="view" data-cursor-label-ru="смотреть" data-cursor-kind="see">
         <div class="project__media">
           <video autoplay muted loop playsinline poster="images/grid-01.webp" data-poster-desktop="images/grid-01.webp" data-poster-mobile="images/grid-01-mobile.webp" data-src-desktop="videos/grid-video-01.mp4" data-src-mobile="videos/vocamate-mobile.mp4">
             <source src="videos/grid-video-01.mp4" type="video/mp4" />
@@ -2241,7 +2241,7 @@ button.project__media-link {
     <div class="project-pair">
 
       <article class="project project--half">
-        <button class="project__media-link" type="button" data-case-open="case-basarab" data-cursor-label="view" data-cursor-label-ru="смотреть">
+        <button class="project__media-link" type="button" data-case-open="case-basarab" data-cursor-label="view" data-cursor-label-ru="смотреть" data-cursor-kind="see">
           <div class="project__media">
             <img src="images/grid-02.webp" alt="Basarab">
           </div>
@@ -2272,7 +2272,7 @@ button.project__media-link {
       </article>
 
       <article class="project project--half project--desktop-hidden">
-        <div class="project__media" data-cursor-label="скоро">
+        <div class="project__media" data-cursor-label="скоро" data-cursor-kind="soon">
           <img loading="lazy" src="images/grid-05.webp" alt="Ольга Шепет">
         </div>
         <div class="project__row">
@@ -2298,7 +2298,7 @@ button.project__media-link {
     <div class="project-pair">
 
       <article class="project project--half project--mobile-second project--desktop-hidden">
-        <div class="project__media" data-cursor-label="скоро">
+        <div class="project__media" data-cursor-label="скоро" data-cursor-kind="soon">
           <img loading="lazy" src="images/grid-04.webp" alt="App Insiders Club">
         </div>
         <div class="project__row">
@@ -2319,7 +2319,7 @@ button.project__media-link {
       </article>
 
       <article class="project project--half">
-        <button class="project__media-link" type="button" data-case-open="case-foundation" data-cursor-label="view" data-cursor-label-ru="смотреть">
+        <button class="project__media-link" type="button" data-case-open="case-foundation" data-cursor-label="view" data-cursor-label-ru="смотреть" data-cursor-kind="see">
           <div class="project__media">
             <img src="images/grid-03.webp" alt="Фонд «Вызов»">
           </div>
@@ -2354,7 +2354,7 @@ button.project__media-link {
     <div class="project-pair project--desktop-hidden">
 
       <article class="project project--half">
-        <div class="project__media" data-cursor-label="скоро">
+        <div class="project__media" data-cursor-label="скоро" data-cursor-kind="soon">
           <img loading="lazy" src="images/grid-06.webp" alt="3I Tech">
         </div>
         <div class="project__row">
@@ -2376,7 +2376,7 @@ button.project__media-link {
       </article>
 
       <article class="project project--half">
-        <div class="project__media" data-cursor-label="скоро">
+        <div class="project__media" data-cursor-label="скоро" data-cursor-kind="soon">
           <img loading="lazy" src="images/grid-07.webp" alt="Banda" style="object-position: 97% 43%;">
         </div>
         <div class="project__row">
@@ -3499,8 +3499,15 @@ button.project__media-link {
         active = true;
         var text = target.getAttribute('data-cursor-label');
         label.textContent = text;
-        cta.classList.toggle('is-see', text === 'view');
-        cta.classList.toggle('is-soon', text === 'скоро');
+        // .is-see used to be picked by comparing the label text itself
+        // to the literal string 'view' -- that broke the moment the RU
+        // toggle started swapping this same label to 'смотреть' (see
+        // data-cursor-label-ru above), silently falling back to the
+        // unstyled base .hover-cta box. Keying off data-cursor-kind
+        // instead means the pink "see" styling no longer depends on
+        // which language happens to be showing.
+        cta.classList.toggle('is-see', target.getAttribute('data-cursor-kind') === 'see');
+        cta.classList.toggle('is-soon', target.getAttribute('data-cursor-kind') === 'soon');
         position(x, y);
         document.body.classList.add('has-custom-cursor');
 
