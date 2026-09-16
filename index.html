@@ -1230,17 +1230,13 @@ button.project__media-link {
 
   .project__row {
     display: grid;
-    /* Matches the 14-column grid (1015px measure, 8px margin, 8px
-       gutter): the badge occupies columns 1-7, the description starts
-       at column 8. Column width = (1015 - 2*8 - 13*8) / 14 =
-       63.9286px; with the 8px side padding below already accounting
-       for the grid's outer margins, this is 7 columns + 6 internal
-       gutters + 1 more gutter before column 8 = 503.5px. */
-    grid-template-columns: 503.5px 1fr;
+    /* Measured directly off the PDF: description column starts ~310px
+       from the row's own left edge (which sits flush with the image,
+       no side inset). */
+    grid-template-columns: 310px 1fr;
     column-gap: 0;
     align-items: start;
     margin-top: 24px;
-    padding: 0 8px;
   }
 
   .project__title {
@@ -1256,7 +1252,11 @@ button.project__media-link {
      below exactly, and the natalia.earth-style cycling hover mechanic
      (see the script) targets both via the same .hover-swatch class. */
   .project__badge {
-    display: inline-block;
+    /* inline (not inline-block) is what makes a multi-line background
+       wrap as a staircase hugging each line's own width -- an
+       inline-block would paint one rectangle sized to the widest
+       line, covering the shorter ones too. */
+    display: inline;
     background-color: #EAEAEB;
     /* It's now an <a>/<button> (clicking it opens the case, same as
        the image and "See Project") -- strip the UA chrome back down
@@ -1341,13 +1341,16 @@ button.project__media-link {
   .project__see-arrow {
     display: inline-block;
     /* The arrow is its own box (for the slide-right transform), so it
-       can't ride the parent's gradient-clip-text sweep -- it would
-       just inherit -webkit-text-fill-color:transparent from the
-       parent with nothing of its own to show, which is exactly why it
-       was going invisible. Giving it a plain color (that itself
-       transitions in step with the sweep) plus the same stroke as the
-       rest of the text fixes both. */
+       can't ride the parent's gradient-clip-text sweep -- and
+       -webkit-text-fill-color is inherited, so without overriding it
+       back here it stays "transparent" from the parent regardless of
+       the color set below, which is exactly why it was going
+       invisible (color alone doesn't win against an inherited
+       text-fill-color). Giving it a plain, non-inherited fill (that
+       itself transitions in step with the sweep) plus the same
+       stroke as the rest of the text fixes both. */
     color: #7F7F80;
+    -webkit-text-fill-color: currentColor;
     -webkit-text-stroke: 0.2px currentColor;
     transition: color 0.4s ease, transform 0.3s ease;
   }
@@ -1389,40 +1392,32 @@ button.project__media-link {
     letter-spacing: var(--tracking-serif);
     cursor: pointer;
     text-align: left;
-    position: relative;
     width: fit-content;
+    /* Same treatment as the contact links right above it: a plain
+       background-color sized to the text's own line box (no padding,
+       no radius) so it reads as part of the same family instead of
+       standing out. */
+    display: inline-block;
     color: #FF8200;
-    transition: opacity 0.2s ease;
+    background-color: #EAEAEB;
+    transition: color 0.15s ease, opacity 0.2s ease;
   }
 
-  /* Underline grows in from the left on hover, shrinks back out the
-     same way on leave -- color only actually changes once toggled
-     (.is-ru), not as part of this hover feedback. */
-  .lang-toggle::after {
-    content: '';
-    position: absolute;
-    left: 0;
-    bottom: 0;
-    width: 100%;
-    height: 1px;
-    background: currentColor;
-    transform: scaleX(0);
-    transform-origin: left;
-    transition: transform 0.3s ease;
-  }
-
-  .lang-toggle:hover::after {
-    transform: scaleX(1);
+  /* Hover only previews the purple -- it's a plain color swap, not
+     the underline-grow this used to have. The background never
+     changes on hover; only .is-ru (an actual click) makes the purple
+     stick. */
+  .lang-toggle:hover {
+    color: #BE41F3;
   }
 
   .lang-toggle.is-ru {
-    color: #4FD400;
+    color: #BE41F3;
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .lang-toggle,
-    .lang-toggle::after {
-      transition: none;
+    .lang-toggle {
+      transition: color 0.15s ease;
     }
   }
 }
@@ -2190,7 +2185,7 @@ button.project__media-link {
           <a href="#" target="_blank" rel="noopener">Telegram</a>
           <a href="#" class="contact__pdf-link">Download PDF</a>
         </div>
-        <button type="button" class="lang-toggle" id="langToggle" data-en="Read in Russian" data-ru="Read in English">Read in Russian</button>
+        <button type="button" class="lang-toggle" id="langToggle" data-en="Read in Russian" data-ru="Читать на английском">Read in Russian</button>
       </div>
 
     </div>
@@ -2209,7 +2204,7 @@ button.project__media-link {
       <div class="project__row">
         <h2 class="project__title">
           <span class="project__title-mobile"><a class="project__title-link" href="https://www.behance.net/gallery/235073919/Vocamate-AI-Brand-Identity-Website" target="_blank" rel="noopener noreferrer">Vocamate AI.</a></span>
-          <a class="project__title-desktop project__badge" href="https://www.behance.net/gallery/235073919/Vocamate-AI-Brand-Identity-Website" target="_blank" rel="noopener noreferrer" data-en="Vocamate AI.&lt;br&gt;&lt;span class=&quot;project__badge-tag&quot;&gt;Voice bots and chatbots&lt;/span&gt;" data-ru="Vocamate AI.&lt;br&gt;&lt;span class=&quot;project__badge-tag&quot;&gt;Голосовые роботы и чат-боты&lt;/span&gt;">Vocamate AI.<br><span class="project__badge-tag">Voice bots and chatbots</span></a>
+          <a class="project__title-desktop project__badge" href="https://www.behance.net/gallery/235073919/Vocamate-AI-Brand-Identity-Website" target="_blank" rel="noopener noreferrer" data-en="Vocamate AI.&lt;br&gt;&lt;span class=&quot;project__badge-tag&quot;&gt;Voice bots and chatbots&lt;/span&gt;" data-ru="Vocamate AI.&lt;br&gt;&lt;span class=&quot;project__badge-tag&quot;&gt;Голосовые роботы&lt;br&gt;и чат-боты&lt;/span&gt;">Vocamate AI.<br><span class="project__badge-tag">Voice bots and chatbots</span></a>
         </h2>
         <p class="project__subtitle-mobile">Голосовые роботы и чат-боты</p>
         <ul class="project__tags">
@@ -2223,9 +2218,9 @@ button.project__media-link {
           <li>Дизайн мерча</li>
         </ul>
         <div class="project__desc">
- <p data-en="Vocamate is a platform for building AI bots and automating complex business processes. The brand needed a visual language that felt equally confident across every platform, reading less like another startup and more like a mature, established tech company." data-ru="Vocamate — платформа для создания AI-ботов и автоматизации сложных бизнес-процессов. Бренду нужен был визуальный язык, который одинаково уверенно считывался бы на любой платформе — не как ещё один стартап, а как зрелая, состоявшаяся технологическая компания.">Vocamate is a platform for building AI bots and automating complex business processes. The brand needed a visual language that felt equally confident across every platform, reading less like another startup and more like a mature, established tech company.</p>
- <p data-en="Working in partnership with the team at Origin studio, I led the entire visual side of the project: the logotype and identity, a range of touchpoints from icons to merch, and contributions to the voice assistant's design." data-ru="В партнёрстве с командой студии Origin я вела всю визуальную часть проекта: логотип и айдентику, набор носителей от иконок до мерча, а также участвовала в дизайне голосового ассистента.">Working in partnership with the team at Origin studio, I led the entire visual side of the project: the logotype and identity, a range of touchpoints from icons to merch, and contributions to the voice assistant's design.</p>
-          <a class="project__see" href="https://www.behance.net/gallery/235073919/Vocamate-AI-Brand-Identity-Website" target="_blank" rel="noopener noreferrer" data-en="See Project &lt;span class=&quot;project__see-arrow&quot;&gt;→&lt;/span&gt;" data-ru="Смотреть проект &lt;span class=&quot;project__see-arrow&quot;&gt;→&lt;/span&gt;">See Project <span class="project__see-arrow">→</span></a>
+ <p data-en="Vocamate is a platform for building AI bots and automating complex business&lt;br&gt;processes. The brand needed a visual language that felt equally confident&lt;br&gt;across every platform, reading less like another startup and more like a mature,&lt;br&gt;established tech company." data-ru="Vocamate — платформа для создания ИИ-ботов и комплексной&lt;br&gt;автоматизации бизнес-процессов. Бренду нужен был визуальный язык,&lt;br&gt;который одинаково уверенно звучал бы на любой площадке и говорил&lt;br&gt;не как очередной стартап, а как зрелая технологичная платформа.">Vocamate is a platform for building AI bots and automating complex business<br>processes. The brand needed a visual language that felt equally confident<br>across every platform, reading less like another startup and more like a mature,<br>established tech company.</p>
+ <p data-en="Working in partnership with the team at Origin Design Agency, I led the entire&lt;br&gt;visual side of the project: the logotype and identity, a range of touchpoints from&lt;br&gt;icons to merch, and contributions to the voice assistant's design." data-ru="В партнёрстве с командой агентства Origin Design я вела всю визуальную&lt;br&gt;часть проекта: разработала логотип и айдентику, дизайн разных&lt;br&gt;носителей от иконок до мерча, а также участвовала в разработке дизайна&lt;br&gt;голосового помощника.">Working in partnership with the team at Origin Design Agency, I led the entire<br>visual side of the project: the logotype and identity, a range of touchpoints from<br>icons to merch, and contributions to the voice assistant's design.</p>
+          <a class="project__see" href="https://www.behance.net/gallery/235073919/Vocamate-AI-Brand-Identity-Website" target="_blank" rel="noopener noreferrer" data-en="See Project &lt;span class=&quot;project__see-arrow&quot;&gt;→&lt;/span&gt;" data-ru="Смотреть &lt;span class=&quot;project__see-arrow&quot;&gt;→&lt;/span&gt;">See Project <span class="project__see-arrow">→</span></a>
         </div>
       </div>
       <hr class="project__divider" />
@@ -2256,9 +2251,9 @@ button.project__media-link {
             <li>Дизайн упаковки</li>
           </ul>
           <div class="project__desc">
- <p data-en="Basarab is a family-run footwear brand with its own production, making well-made stylish shoes for everyday life. Rapid growth, a new audience: the brand's team wanted to refresh the identity, moving away from a conservative look toward a more contemporary aesthetic while keeping the restraint that had always been part of its character." data-ru="Basarab — семейный бренд обуви с собственным производством, который делает качественную и стильную обувь для повседневной жизни. Быстрый рост, новая аудитория: команда бренда хотела обновить айдентику, уйти от консервативного образа к более современной эстетике, сохранив сдержанность, которая всегда была частью его характера.">Basarab is a family-run footwear brand with its own production, making well-made stylish shoes for everyday life. Rapid growth, a new audience: the brand's team wanted to refresh the identity, moving away from a conservative look toward a more contemporary aesthetic while keeping the restraint that had always been part of its character.</p>
- <p data-en="In partnership with Origin Design studio, I developed the visual identity and logotype. My team and I then designed the touchpoints and prepared the technical materials to bring every idea within the new identity to life." data-ru="В партнёрстве со студией Origin Design я разработала визуальную айдентику и логотип. Дальше мы с командой спроектировали носители и подготовили технические материалы, чтобы воплотить все идеи новой айдентики в жизнь.">In partnership with Origin Design studio, I developed the visual identity and logotype. My team and I then designed the touchpoints and prepared the technical materials to bring every idea within the new identity to life.</p>
-            <button type="button" class="project__see" data-case-open="case-basarab" data-en="See Project &lt;span class=&quot;project__see-arrow&quot;&gt;→&lt;/span&gt;" data-ru="Смотреть проект &lt;span class=&quot;project__see-arrow&quot;&gt;→&lt;/span&gt;">See Project <span class="project__see-arrow">→</span></button>
+ <p data-en="Basarab is a family-run footwear brand with its own production, making well-&lt;br&gt;made stylish shoes for everyday life. Rapid growth, a new audience: the brand's&lt;br&gt;team wanted to refresh the identity, moving away from a conservative look&lt;br&gt;toward a more contemporary aesthetic while keeping the restraint that had&lt;br&gt;always been part of its character." data-ru="Basarab — семейный бренд обуви с собственным производством, который&lt;br&gt;делает классную, качественную обувь для повседневной жизни. Бурный&lt;br&gt;рост, новая аудитория: у команды бренда появилось желание обновить&lt;br&gt;айдентику, уйти от консервативного образа к современной эстетике,&lt;br&gt;но сохранить сдержанность, которая всегда была в его характере.">Basarab is a family-run footwear brand with its own production, making well-<br>made stylish shoes for everyday life. Rapid growth, a new audience: the brand's<br>team wanted to refresh the identity, moving away from a conservative look<br>toward a more contemporary aesthetic while keeping the restraint that had<br>always been part of its character.</p>
+ <p data-en="In partnership with Origin Design Agency, I developed the visual identity&lt;br&gt;and logotype. My team and I then designed the touchpoints and prepared&lt;br&gt;the technical materials to bring every idea within the new identity to life." data-ru="В партнёрстве с агентством Origin Design я разрабатывала визуальную&lt;br&gt;айдентику и логотип. Затем вместе со своей командой мы разрабатывали&lt;br&gt;дизайн носителей и подготовили технические материалы для реализации&lt;br&gt;всех идей в рамках созданной айдентики.">In partnership with Origin Design Agency, I developed the visual identity<br>and logotype. My team and I then designed the touchpoints and prepared<br>the technical materials to bring every idea within the new identity to life.</p>
+            <button type="button" class="project__see" data-case-open="case-basarab" data-en="See Project &lt;span class=&quot;project__see-arrow&quot;&gt;→&lt;/span&gt;" data-ru="Смотреть &lt;span class=&quot;project__see-arrow&quot;&gt;→&lt;/span&gt;">See Project <span class="project__see-arrow">→</span></button>
           </div>
         </div>
         <hr class="project__divider" />
@@ -2320,7 +2315,7 @@ button.project__media-link {
         <div class="project__row">
           <h2 class="project__title">
             <span class="project__title-mobile"><button class="project__title-link" type="button" data-case-open="case-foundation">Фонд «Вызов».</button></span>
-            <button type="button" class="project__title-desktop project__badge" data-case-open="case-foundation" data-en="Vyzov Foundation.&lt;br&gt;&lt;span class=&quot;project__badge-tag&quot;&gt;The Foundation for the&lt;br&gt;Development of Scientific&lt;br&gt;and Cultural Ties.&lt;/span&gt;" data-ru="Фонд «Вызов».&lt;br&gt;&lt;span class=&quot;project__badge-tag&quot;&gt;Фонд развития научно-культурных связей&lt;/span&gt;">Vyzov Foundation.<br><span class="project__badge-tag">The Foundation for the<br>Development of Scientific<br>and Cultural Ties.</span></button>
+            <button type="button" class="project__title-desktop project__badge" data-case-open="case-foundation" data-en="Vyzov Foundation.&lt;br&gt;&lt;span class=&quot;project__badge-tag&quot;&gt;The Foundation for the&lt;br&gt;Development of Scientific&lt;br&gt;and Cultural Ties.&lt;/span&gt;" data-ru="Фонд «Вызов».&lt;br&gt;&lt;span class=&quot;project__badge-tag&quot;&gt;Фонд развития научно-&lt;br&gt;культурных связей&lt;/span&gt;">Vyzov Foundation.<br><span class="project__badge-tag">The Foundation for the<br>Development of Scientific<br>and Cultural Ties.</span></button>
           </h2>
           <p class="project__subtitle-mobile">Фонд развития научно-культурных<br>связей</p>
           <ul class="project__tags">
@@ -2334,9 +2329,9 @@ button.project__media-link {
             <li>AI генерации</li>
           </ul>
           <div class="project__desc">
- <p data-en="The Foundation's mission is to reveal the names of scientists whose discoveries change lives, and to establish science and knowledge as core values of society." data-ru="Миссия фонда — открывать имена учёных, чьи открытия меняют жизни, и утверждать науку и знание как ключевые ценности общества.">The Foundation's mission is to reveal the names of scientists whose discoveries change lives, and to establish science and knowledge as core values of society.</p>
- <p data-en="The foundation needed a unified identity that would bring together the fund itself, its award, and its exhibition projects under one visual language. In partnership with Origin studio, I developed the identity for the foundation and the award, as well as the logotype for the exhibition." data-ru="Фонду нужна была единая айдентика, которая объединила бы сам фонд, его премию и выставочные проекты общим визуальным языком. В партнёрстве со студией Origin я разработала айдентику фонда и премии, а также логотип для выставки.">The foundation needed a unified identity that would bring together the fund itself, its award, and its exhibition projects under one visual language. In partnership with Origin studio, I developed the identity for the foundation and the award, as well as the logotype for the exhibition.</p>
-            <button type="button" class="project__see" data-case-open="case-foundation" data-en="See Project &lt;span class=&quot;project__see-arrow&quot;&gt;→&lt;/span&gt;" data-ru="Смотреть проект &lt;span class=&quot;project__see-arrow&quot;&gt;→&lt;/span&gt;">See Project <span class="project__see-arrow">→</span></button>
+ <p data-en="The Foundation's mission is to reveal the names of scientists whose&lt;br&gt;discoveries change lives, and to establish science and knowledge as core&lt;br&gt;values of society." data-ru="Миссия фонда — открывать имена ученых, чьи открытия меняют&lt;br&gt;жизнь людей, и утверждать науку и знания в качестве ключевых&lt;br&gt;ценностей общества. Фонду требовался единый фирменный стиль,&lt;br&gt;объединяющий сам фонд, присуждаемую им премию и выставочные&lt;br&gt;проекты в рамках общего визуального языка.">The Foundation's mission is to reveal the names of scientists whose<br>discoveries change lives, and to establish science and knowledge as core<br>values of society.</p>
+ <p data-en="The foundation needed a unified identity that would bring together the&lt;br&gt;fund itself, its award, and its exhibition projects under one visual language.&lt;br&gt;In partnership with Origin Design Agency, I developed the identity for the&lt;br&gt;foundation and the award, as well as the logotype for the exhibition." data-ru="В сотрудничестве с Origin Design Agency я разработала айдентику&lt;br&gt;для фонда и премии, а также логотип для выставки.">The foundation needed a unified identity that would bring together the<br>fund itself, its award, and its exhibition projects under one visual language.<br>In partnership with Origin Design Agency, I developed the identity for the<br>foundation and the award, as well as the logotype for the exhibition.</p>
+            <button type="button" class="project__see" data-case-open="case-foundation" data-en="See Project &lt;span class=&quot;project__see-arrow&quot;&gt;→&lt;/span&gt;" data-ru="Смотреть &lt;span class=&quot;project__see-arrow&quot;&gt;→&lt;/span&gt;">See Project <span class="project__see-arrow">→</span></button>
           </div>
         </div>
         <hr class="project__divider" />
