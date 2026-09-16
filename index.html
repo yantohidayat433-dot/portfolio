@@ -1407,16 +1407,24 @@ button.project__media-link {
     transition: color 0.15s ease, opacity 0.2s ease;
   }
 
-  /* Hover only previews the purple -- it's a plain color swap, not
-     the underline-grow this used to have. The background never
-     changes on hover; only .is-ru (an actual click) makes the purple
-     stick. */
+  /* Hover only previews the color the click would land on -- it's a
+     plain color swap, not the underline-grow this used to have. The
+     background never changes on hover; only .is-ru (an actual click)
+     makes either color stick. */
   .lang-toggle:hover {
     color: #BE41F3;
   }
 
   .lang-toggle.is-ru {
     color: #BE41F3;
+  }
+
+  /* In the RU state the hover preview points back the other way --
+     toward the orange it would revert to on click -- so it needs to
+     win over the plain :hover rule above (extra class in the selector
+     gives it the higher specificity to do that). */
+  .lang-toggle.is-ru:hover {
+    color: #FF8200;
   }
 
   @media (prefers-reduced-motion: reduce) {
