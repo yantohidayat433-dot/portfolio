@@ -275,7 +275,7 @@ ul {
    size — only fill color and a growing 1px outline animate, which
    reads as the wordmark smoothly turning bolder and shifting color. */
 .logo__svg path {
-  fill: #2E31AD;
+  fill: #00849A;
   stroke: #FFD2EC;
   stroke-width: 0;
   stroke-linejoin: round;
@@ -324,8 +324,22 @@ ul {
   color: var(--color-ink);
 }
 
-.intro__block p:first-child {
-  margin-bottom: 12px;
+/* Matches whichever pair (mobile or desktop) is actually visible --
+   the other pair is display:none and doesn't affect this at all. */
+.intro__block p + p {
+  margin-top: 12px;
+}
+
+/* ---------- Language variants ----------
+   Mobile/desktop text pairs sharing the same slot: default (desktop)
+   shows the -desktop element and hides -mobile; the phone breakpoint
+   below flips that back, so the mobile "about me" sheet keeps its
+   original Russian copy untouched while desktop gets the new English
+   copy from the PDF. */
+.intro__p-mobile,
+.intro__text-mobile,
+.contact__title-mobile {
+  display: none;
 }
 
 .divider {
@@ -366,14 +380,9 @@ ul {
   line-height: 1.45;
   letter-spacing: var(--tracking-serif);
   width: fit-content;
-  color: var(--color-ink);
-  transform-origin: 50% 50%;
-  transition: color 0.25s ease;
-  will-change: transform;
-}
-
-.contact__links a:hover {
-  color: #FF4D00;
+  color: #7F7F80;
+  background-color: #EAEAEB;
+  transition: color 0.15s ease, background-color 0.15s ease;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -429,7 +438,7 @@ ul {
 }
 
 .projects > * + * {
-  margin-top: 40px;
+  margin-top: 32px;
 }
 
 .project-pair {
@@ -473,9 +482,8 @@ ul {
   position: relative;
   width: 100%;
   max-width: var(--media-width);
-  height: calc(var(--media-width) * 0.5677);
+  aspect-ratio: 1015 / 600;
   overflow: hidden;
-  border-radius: 6px;
   background: var(--color-media-bg);
 }
 
@@ -533,10 +541,10 @@ body.has-custom-cursor * {
   height: 30px;
   padding: 0 14px;
   box-sizing: border-box;
-  border-radius: 4px;
   background: #FFD0ED;
   display: flex;
   align-items: center;
+  justify-content: center;
   opacity: 0;
   pointer-events: none;
   z-index: 999;
@@ -546,7 +554,9 @@ body.has-custom-cursor * {
 }
 
 .hover-cta.is-see {
-  width: 96px;
+  width: 44px;
+  height: 26px;
+  padding: 0;
 }
 
 .hover-cta.is-soon {
@@ -566,6 +576,10 @@ body.has-custom-cursor * {
   white-space: nowrap;
 }
 
+.hover-cta.is-see .hover-cta__label {
+  color: #5C3B9A;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .hover-cta {
     display: none;
@@ -580,7 +594,7 @@ body.has-custom-cursor * {
 
 .project__title {
   margin: 0;
-  font-family: var(--font-heading);
+  font-family: var(--font-serif);
   font-weight: 400;
   font-size: 18px;
   line-height: 1.45;
@@ -1170,6 +1184,147 @@ button.project__media-link {
   }
 }
 
+/* ---------- Desktop-only homepage redesign (Sep 2026) ----------
+   Everything in here is new visual treatment for the main-page project
+   list -- title badges, descriptions, the "See Project" sweep, the
+   divider, and the language toggle. Scoped to min-width so none of it
+   reaches the phone layout below, which keeps rendering the original
+   Russian copy/appearance untouched (see the -mobile/-desktop text
+   pairs and the .contact__links a protections in that breakpoint). */
+@media (min-width: 701px) {
+  .project--desktop-hidden,
+  .project-pair.project--desktop-hidden {
+    display: none;
+  }
+
+  /* The two remaining paired cards (Basarab, Foundation) lost their
+     pair-mate above -- let them go full width like the hero instead of
+     sitting in a half-empty two-column grid. */
+  .project-pair {
+    display: block;
+    max-width: var(--media-width);
+  }
+
+  .project--half .project__media {
+    max-width: var(--media-width);
+    aspect-ratio: 1015 / 600;
+  }
+
+  .project--half .project__row {
+    max-width: var(--media-width);
+  }
+
+  .project__row {
+    display: grid;
+    grid-template-columns: 310px 1fr;
+    column-gap: 0;
+    align-items: start;
+    margin-top: 24px;
+  }
+
+  .project__title {
+    grid-column: 1 / 2;
+  }
+
+  .project__tags {
+    display: none;
+  }
+
+  /* The badge: plain background-color sized to the text's own line box
+     (no padding, no radius) -- matches the contact links' treatment
+     below exactly, and the natalia.earth-style cycling hover mechanic
+     (see the script) targets both via the same .hover-swatch class. */
+  .project__badge {
+    display: inline-block;
+    background-color: #EAEAEB;
+  }
+
+  .project__desc {
+    grid-column: 2 / 3;
+    grid-row: 1;
+    display: flex;
+    flex-direction: column;
+    max-width: 500px;
+  }
+
+  .project__desc p {
+    margin: 0;
+    font-size: 18px;
+    line-height: 1.45;
+    letter-spacing: var(--tracking-serif);
+    color: var(--color-ink);
+  }
+
+  .project__desc p + p {
+    margin-top: 16px;
+  }
+
+  .project__see {
+    appearance: none;
+    background: none;
+    border: none;
+    padding: 0;
+    margin-top: 24px;
+    font: inherit;
+    font-size: 18px;
+    line-height: 1.45;
+    letter-spacing: var(--tracking-serif);
+    width: fit-content;
+    cursor: pointer;
+    color: #7F7F80;
+    background-image: linear-gradient(90deg, #00849A 50%, #7F7F80 50%);
+    background-size: 200% 100%;
+    background-position: 100% 0;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    transition: background-position 0.4s ease;
+  }
+
+  .project__see:hover {
+    background-position: 0% 0;
+  }
+
+  .project__divider {
+    width: 100%;
+    max-width: var(--media-width);
+    height: 0;
+    margin: 48px 0 0;
+    border: none;
+    border-top: 1px solid #7F7F80;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .project__see {
+      transition: none;
+    }
+  }
+
+  /* ---------- Language toggle ---------- */
+  .lang-toggle {
+    appearance: none;
+    border: none;
+    padding: 0;
+    /* .contact is a flex column with its own 12px gap between visible
+       children -- 24px margin here on top of that lands the button
+       exactly 36px below the links block. */
+    margin-top: 24px;
+    background: none;
+    font: inherit;
+    font-family: var(--font-serif);
+    font-size: 18px;
+    line-height: 1.45;
+    letter-spacing: var(--tracking-serif);
+    color: #FF8200;
+    cursor: pointer;
+    text-align: left;
+  }
+
+  .lang-toggle.is-ru {
+    color: #4FD400;
+  }
+}
+
 /* ---------- Phone (real mobile design, not just a resize) ---------- */
 
 @media (max-width: 700px) {
@@ -1209,7 +1364,7 @@ button.project__media-link {
      back to their resting look here; real tap feedback comes from
      :active instead (logo below, contact links further down). */
   .logo:hover .logo__svg path {
-    fill: #2E31AD;
+    fill: #00849A;
     stroke-width: 0;
   }
 
@@ -1439,8 +1594,37 @@ button.project__media-link {
     display: none;
   }
 
+  /* Language toggle + its translate-the-page mechanic are desktop-only
+     for this round of work. */
+  .lang-toggle {
+    display: none;
+  }
+
+  /* New desktop-only project-card content (badge descriptions, the "See
+     Project" sweep button, the divider line) -- none of it exists in
+     the phone layout, which keeps its original title/tags-only cards. */
+  .project__desc,
+  .project__see,
+  .project__divider {
+    display: none;
+  }
+
   .contact__title {
     font-size: 1.625rem;
+  }
+
+  /* Flips the language-variant pairs back to the original Russian
+     mobile copy (see the base rule) -- this "about me" sheet content
+     stays exactly as it was before the desktop English redesign. */
+  .intro__p-mobile,
+  .intro__text-mobile,
+  .contact__title-mobile {
+    display: block;
+  }
+
+  .intro__p-desktop,
+  .intro__text-desktop {
+    display: none;
   }
 
   .contact__links {
@@ -1450,6 +1634,11 @@ button.project__media-link {
   .contact__links a {
     font-size: 1rem;
     -webkit-tap-highlight-color: transparent;
+    /* Protects mobile from the new desktop-only badge/cycling-hover
+       treatment (see the min-width:701px block) -- stays plain text on
+       black, no shape underneath, exactly as before that redesign. */
+    color: var(--color-ink);
+    background: none;
   }
 
   /* Desktop's hover tremor is mouse-only; on a touch screen give a
@@ -1581,6 +1770,9 @@ button.project__media-link {
   .project__title {
     font-size: 1.125rem;
     line-height: 1.3;
+    /* Keeps mobile on Suisse -- the base rule below switches to Oceanic
+       for the new desktop-only badge treatment. */
+    font-family: var(--font-heading);
   }
 
   /* The desktop caption (name + description merged on one line, plus a
@@ -1871,8 +2063,10 @@ button.project__media-link {
     <div class="intro">
 
       <div class="intro__block">
-        <p>Я дизайнер и арт-директор, больше <br>8 лет работаю с визуальной айдентикой <br>бренда  — от концепции до реализации <br>в каждой точке контакта. 👩🏻</p>
-        <p>Сотрудничала с ведущими дизайн- <br>студиями в России, вела проекты <br>для крупных бизнесов из разных сфер, <br>от технологий до ритейла.</p>
+        <p class="intro__p-mobile">Я дизайнер и арт-директор, больше <br>8 лет работаю с визуальной айдентикой <br>бренда  — от концепции до реализации <br>в каждой точке контакта. 👩🏻</p>
+        <p class="intro__p-mobile">Сотрудничала с ведущими дизайн- <br>студиями в России, вела проекты <br>для крупных бизнесов из разных сфер, <br>от технологий до ритейла.</p>
+        <p class="intro__p-desktop" data-en="I'm a graphic designer and art director &lt;br&gt;with over 8 years of experience shaping &lt;br&gt;brand visual identity, from concept &lt;br&gt;through execution at every touchpoint." data-ru="Я дизайнер и арт-директор, больше &lt;br&gt;8 лет работаю с визуальной айдентикой &lt;br&gt;бренда — от концепции до реализации &lt;br&gt;в каждой точке контакта.">I'm a graphic designer and art director <br>with over 8 years of experience shaping <br>brand visual identity, from concept <br>through execution at every touchpoint.</p>
+        <p class="intro__p-desktop" data-en="I've collaborated with leading design &lt;br&gt;studios in Russia, running projects &lt;br&gt;for major businesses across industries, &lt;br&gt;from tech to retail." data-ru="Сотрудничала с ведущими дизайн- &lt;br&gt;студиями в России, вела проекты &lt;br&gt;для крупных бизнесов из разных сфер, &lt;br&gt;от технологий до ритейла.">I've collaborated with leading design <br>studios in Russia, running projects <br>for major businesses across industries, <br>from tech to retail.</p>
       </div>
 
       <div class="squiggle" aria-hidden="true">
@@ -1881,18 +2075,20 @@ button.project__media-link {
         </svg>
       </div>
 
-      <p class="intro__text">Я не навязываю брендам свой стиль, <br>я ищу их собственный визуальный язык <br>и характер внутри гибкой и понятной <br>системы</p>
+      <p class="intro__text intro__text-mobile">Я не навязываю брендам свой стиль, <br>я ищу их собственный визуальный язык <br>и характер внутри гибкой и понятной <br>системы</p>
+      <p class="intro__text intro__text-desktop" data-en="I don't impose my own style on a brand, &lt;br&gt;I look for its own visual language and &lt;br&gt;character within a flexible, clear system." data-ru="Я не навязываю брендам свой стиль, &lt;br&gt;я ищу их собственный визуальный язык &lt;br&gt;и характер внутри гибкой и понятной &lt;br&gt;системы">I don't impose my own style on a brand, <br>I look for its own visual language and <br>character within a flexible, clear system.</p>
 
       <hr class="divider" />
 
       <div class="contact">
-        <p class="contact__title">Давайте знакомиться 💅</p>
+        <p class="contact__title contact__title-mobile">Давайте знакомиться 💅</p>
         <div class="contact__links">
           <a href="mailto:hello@vikaivanova.com">Email</a>
           <a href="#" target="_blank" rel="noopener">Instagram</a>
           <a href="#" target="_blank" rel="noopener">Telegram</a>
           <a href="#" class="contact__pdf-link">Download PDF</a>
         </div>
+        <button type="button" class="lang-toggle" id="langToggle" data-en="Read in Russian" data-ru="Read in English">Read in Russian</button>
       </div>
 
     </div>
@@ -1901,7 +2097,7 @@ button.project__media-link {
   <main class="projects">
 
     <article class="project project--hero">
-      <a class="project__media-link" href="https://www.behance.net/gallery/235073919/Vocamate-AI-Brand-Identity-Website" target="_blank" rel="noopener noreferrer" data-cursor-label="смотреть">
+      <a class="project__media-link" href="https://www.behance.net/gallery/235073919/Vocamate-AI-Brand-Identity-Website" target="_blank" rel="noopener noreferrer" data-cursor-label="view">
         <div class="project__media">
           <video autoplay muted loop playsinline poster="images/grid-01.webp" data-poster-desktop="images/grid-01.webp" data-poster-mobile="images/grid-01-mobile.webp" data-src-desktop="videos/grid-video-01.mp4" data-src-mobile="videos/vocamate-mobile.mp4">
             <source src="videos/grid-video-01.mp4" type="video/mp4" />
@@ -1911,7 +2107,7 @@ button.project__media-link {
       <div class="project__row">
         <h2 class="project__title">
           <span class="project__title-mobile"><a class="project__title-link" href="https://www.behance.net/gallery/235073919/Vocamate-AI-Brand-Identity-Website" target="_blank" rel="noopener noreferrer">Vocamate AI.</a></span>
-          <span class="project__title-desktop"><a class="project__title-link" href="https://www.behance.net/gallery/235073919/Vocamate-AI-Brand-Identity-Website" target="_blank" rel="noopener noreferrer">Vocamate AI.</a> <span class="project__title-desc">Голосовые роботы и чат-боты</span></span>
+          <span class="project__title-desktop project__badge" data-en="Vocamate AI" data-ru="Vocamate AI">Vocamate AI</span>
         </h2>
         <p class="project__subtitle-mobile">Голосовые роботы и чат-боты</p>
         <ul class="project__tags">
@@ -1924,13 +2120,19 @@ button.project__media-link {
           <li>Логотип</li>
           <li>Дизайн мерча</li>
         </ul>
+        <div class="project__desc">
+          <p data-en="Vocamate is a platform for building AI bots and automating complex business processes. The brand needed a visual language that felt equally confident across every platform, reading less like another startup and more like a mature, established tech company." data-ru="Vocamate — платформа для создания AI-ботов и автоматизации сложных бизнес-процессов. Бренду нужен был визуальный язык, который одинаково уверенно считывался бы на любой платформе — не как ещё один стартап, а как зрелая, состоявшаяся технологическая компания.">Vocamate is a platform for building AI bots and automating complex business processes. The brand needed a visual language that felt equally confident across every platform, reading less like another startup and more like a mature, established tech company.</p>
+          <p data-en="Working in partnership with the team at Origin studio, I led the entire visual side of the project: the logotype and identity, a range of touchpoints from icons to merch, and contributions to the voice assistant's design." data-ru="В партнёрстве с командой студии Origin я вела всю визуальную часть проекта: логотип и айдентику, набор носителей от иконок до мерча, а также участвовала в дизайне голосового ассистента.">Working in partnership with the team at Origin studio, I led the entire visual side of the project: the logotype and identity, a range of touchpoints from icons to merch, and contributions to the voice assistant's design.</p>
+          <a class="project__see" href="https://www.behance.net/gallery/235073919/Vocamate-AI-Brand-Identity-Website" target="_blank" rel="noopener noreferrer" data-en="See Project →" data-ru="Смотреть проект →">See Project →</a>
+        </div>
       </div>
+      <hr class="project__divider" />
     </article>
 
     <div class="project-pair">
 
       <article class="project project--half">
-        <button class="project__media-link" type="button" data-case-open="case-basarab" data-cursor-label="смотреть">
+        <button class="project__media-link" type="button" data-case-open="case-basarab" data-cursor-label="view">
           <div class="project__media">
             <img src="images/grid-02.webp" alt="Basarab">
           </div>
@@ -1938,7 +2140,7 @@ button.project__media-link {
         <div class="project__row">
           <h2 class="project__title">
             <span class="project__title-mobile"><button class="project__title-link" type="button" data-case-open="case-basarab">Basarab.</button></span>
-            <span class="project__title-desktop"><button class="project__title-link" type="button" data-case-open="case-basarab">Basarab.</button> <span class="project__title-desc">Семейный бренд обуви</span></span>
+            <span class="project__title-desktop project__badge" data-en="Basarab" data-ru="Basarab">Basarab</span>
           </h2>
           <p class="project__subtitle-mobile">Семейный бренд обуви</p>
           <ul class="project__tags">
@@ -1951,10 +2153,16 @@ button.project__media-link {
             <li>Логотип</li>
             <li>Дизайн упаковки</li>
           </ul>
+          <div class="project__desc">
+            <p data-en="Basarab is a family-run footwear brand with its own production, making well-made stylish shoes for everyday life. Rapid growth, a new audience: the brand's team wanted to refresh the identity, moving away from a conservative look toward a more contemporary aesthetic while keeping the restraint that had always been part of its character." data-ru="Basarab — семейный бренд обуви с собственным производством, который делает качественную и стильную обувь для повседневной жизни. Быстрый рост, новая аудитория: команда бренда хотела обновить айдентику, уйти от консервативного образа к более современной эстетике, сохранив сдержанность, которая всегда была частью его характера.">Basarab is a family-run footwear brand with its own production, making well-made stylish shoes for everyday life. Rapid growth, a new audience: the brand's team wanted to refresh the identity, moving away from a conservative look toward a more contemporary aesthetic while keeping the restraint that had always been part of its character.</p>
+            <p data-en="In partnership with Origin Design studio, I developed the visual identity and logotype. My team and I then designed the touchpoints and prepared the technical materials to bring every idea within the new identity to life." data-ru="В партнёрстве со студией Origin Design я разработала визуальную айдентику и логотип. Дальше мы с командой спроектировали носители и подготовили технические материалы, чтобы воплотить все идеи новой айдентики в жизнь.">In partnership with Origin Design studio, I developed the visual identity and logotype. My team and I then designed the touchpoints and prepared the technical materials to bring every idea within the new identity to life.</p>
+            <button type="button" class="project__see" data-case-open="case-basarab" data-en="See Project →" data-ru="Смотреть проект →">See Project →</button>
+          </div>
         </div>
+        <hr class="project__divider" />
       </article>
 
-      <article class="project project--half">
+      <article class="project project--half project--desktop-hidden">
         <div class="project__media" data-cursor-label="скоро">
           <img loading="lazy" src="images/grid-05.webp" alt="Ольга Шепет">
         </div>
@@ -1980,7 +2188,7 @@ button.project__media-link {
 
     <div class="project-pair">
 
-      <article class="project project--half project--mobile-second">
+      <article class="project project--half project--mobile-second project--desktop-hidden">
         <div class="project__media" data-cursor-label="скоро">
           <img loading="lazy" src="images/grid-04.webp" alt="App Insiders Club">
         </div>
@@ -2002,7 +2210,7 @@ button.project__media-link {
       </article>
 
       <article class="project project--half">
-        <button class="project__media-link" type="button" data-case-open="case-foundation" data-cursor-label="смотреть">
+        <button class="project__media-link" type="button" data-case-open="case-foundation" data-cursor-label="view">
           <div class="project__media">
             <img src="images/grid-03.webp" alt="Фонд «Вызов»">
           </div>
@@ -2010,7 +2218,7 @@ button.project__media-link {
         <div class="project__row">
           <h2 class="project__title">
             <span class="project__title-mobile"><button class="project__title-link" type="button" data-case-open="case-foundation">Фонд «Вызов».</button></span>
-            <span class="project__title-desktop"><button class="project__title-link" type="button" data-case-open="case-foundation">Фонд «Вызов».</button> <span class="project__title-desc">Фонд развития научно-<br>культурных связей</span></span>
+            <span class="project__title-desktop project__badge" data-en="Foundation of Science and Culture" data-ru="Фонд «Вызов»">Foundation of Science and Culture</span>
           </h2>
           <p class="project__subtitle-mobile">Фонд развития научно-культурных<br>связей</p>
           <ul class="project__tags">
@@ -2023,12 +2231,18 @@ button.project__media-link {
             <li>Логотип для выставки</li>
             <li>AI генерации</li>
           </ul>
+          <div class="project__desc">
+            <p data-en="The Foundation's mission is to reveal the names of scientists whose discoveries change lives, and to establish science and knowledge as core values of society." data-ru="Миссия фонда — открывать имена учёных, чьи открытия меняют жизни, и утверждать науку и знание как ключевые ценности общества.">The Foundation's mission is to reveal the names of scientists whose discoveries change lives, and to establish science and knowledge as core values of society.</p>
+            <p data-en="The foundation needed a unified identity that would bring together the fund itself, its award, and its exhibition projects under one visual language. In partnership with Origin studio, I developed the identity for the foundation and the award, as well as the logotype for the exhibition." data-ru="Фонду нужна была единая айдентика, которая объединила бы сам фонд, его премию и выставочные проекты общим визуальным языком. В партнёрстве со студией Origin я разработала айдентику фонда и премии, а также логотип для выставки.">The foundation needed a unified identity that would bring together the fund itself, its award, and its exhibition projects under one visual language. In partnership with Origin studio, I developed the identity for the foundation and the award, as well as the logotype for the exhibition.</p>
+            <button type="button" class="project__see" data-case-open="case-foundation" data-en="See Project →" data-ru="Смотреть проект →">See Project →</button>
+          </div>
         </div>
+        <hr class="project__divider" />
       </article>
 
     </div>
 
-    <div class="project-pair">
+    <div class="project-pair project--desktop-hidden">
 
       <article class="project project--half">
         <div class="project__media" data-cursor-label="скоро">
@@ -2357,50 +2571,7 @@ button.project__media-link {
     })();
 
     (function () {
-      var links = document.querySelectorAll('.contact__links a');
-      var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      // A tap can synthesize mouseenter without a matching mouseleave (no
-      // real pointer to "leave" with), which would start this tremor's
-      // requestAnimationFrame loop and never stop it. Mouse-only effect,
-      // so skip wiring it up at all on a touch screen.
-      if (window.matchMedia('(max-width: 700px)').matches) return;
-
-      links.forEach(function (link) {
-        var raf = null;
-        var start = 0;
-
-        function tick(now) {
-          var t = (now - start) / 1000;
-          // fade the tremor in over the first ~150ms so it doesn't
-          // snap on at full strength, and layer a harmonic (exactly
-          // double the base frequency) rather than unrelated
-          // frequencies — unrelated ones beat against each other and
-          // produce uneven, stuttery-looking pauses and kicks
-          var rampIn = Math.min(t / 0.15, 1);
-          var angle = (Math.sin(t * 32) * 2.2 + Math.sin(t * 64 + 0.9) * 0.6) * rampIn;
-          link.style.transform = 'rotate(' + angle.toFixed(2) + 'deg)';
-          raf = requestAnimationFrame(tick);
-        }
-
-        link.addEventListener('mouseenter', function () {
-          if (reduceMotion) return;
-          link.style.transition = 'color 0.25s ease';
-          start = performance.now();
-          if (raf) cancelAnimationFrame(raf);
-          raf = requestAnimationFrame(tick);
-        });
-
-        link.addEventListener('mouseleave', function () {
-          if (raf) cancelAnimationFrame(raf);
-          raf = null;
-          link.style.transition = 'color 0.25s ease, transform 0.3s ease-out';
-          link.style.transform = 'rotate(0deg)';
-        });
-      });
-    })();
-
-    (function () {
-      // Mirrors the tremor IIFE above but for touch: :active alone can
+      // Mirrors the (removed) desktop tremor IIFE but for touch: :active alone can
       // fail to render on iOS Safari for a link that's handing off to
       // another app (mailto's "Open in Mail?" prompt), since the page is
       // about to lose focus right as the tap lands. Driving a class off
@@ -2419,6 +2590,83 @@ button.project__media-link {
             link.classList.remove('is-pressed');
           });
         });
+      });
+    })();
+
+    (function () {
+      // natalia.earth-style hover: while the pointer stays over a swatch
+      // (a contact link or a project badge), its background/text colors
+      // hard-cut to a new random pair from the palette on their own
+      // independent, staggered timer -- not synced across elements, no
+      // crossfade, matching the reference video exactly. Resets to the
+      // resting grey the moment the pointer leaves.
+      //
+      // PLACEHOLDER PALETTE -- swap this array for Vika's real color
+      // pairs once she sends them; nothing else needs to change.
+      var PALETTE = [
+        { bg: '#FFD0ED', text: '#5C3B9A' },
+        { bg: '#FFD2EC', text: '#2E31AD' },
+        { bg: '#FF4D00', text: '#FFFFFF' },
+        { bg: '#00849A', text: '#FFFFFF' },
+        { bg: '#4FD400', text: '#141413' },
+        { bg: '#FF8200', text: '#FFFFFF' }
+      ];
+
+      if (window.matchMedia('(max-width: 700px)').matches) return;
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+      var swatches = document.querySelectorAll('.contact__links a, .project__badge');
+
+      swatches.forEach(function (el) {
+        var timer = null;
+        var lastPick = null;
+
+        function pickPair() {
+          if (PALETTE.length === 1) return PALETTE[0];
+          var pick;
+          do {
+            pick = PALETTE[Math.floor(Math.random() * PALETTE.length)];
+          } while (pick === lastPick);
+          lastPick = pick;
+          return pick;
+        }
+
+        function cycle() {
+          var pick = pickPair();
+          el.style.backgroundColor = pick.bg;
+          el.style.color = pick.text;
+          timer = setTimeout(cycle, 700 + Math.random() * 900);
+        }
+
+        el.addEventListener('mouseenter', cycle);
+
+        el.addEventListener('mouseleave', function () {
+          clearTimeout(timer);
+          lastPick = null;
+          el.style.backgroundColor = '';
+          el.style.color = '';
+        });
+      });
+    })();
+
+    (function () {
+      // "Read in Russian" / "Read in English": every translatable node
+      // on the desktop page carries its own data-en/data-ru pair (set
+      // via innerHTML so the ones with a <br> line break render
+      // correctly); toggling just swaps them all at once, in place.
+      var toggle = document.getElementById('langToggle');
+      if (!toggle) return;
+
+      var nodes = document.querySelectorAll('[data-en]');
+      var isRu = false;
+
+      toggle.addEventListener('click', function () {
+        isRu = !isRu;
+        var lang = isRu ? 'ru' : 'en';
+        nodes.forEach(function (node) {
+          node.innerHTML = node.getAttribute('data-' + lang);
+        });
+        toggle.classList.toggle('is-ru', isRu);
       });
     })();
 
@@ -3043,7 +3291,7 @@ button.project__media-link {
         active = true;
         var text = target.getAttribute('data-cursor-label');
         label.textContent = text;
-        cta.classList.toggle('is-see', text === 'смотреть');
+        cta.classList.toggle('is-see', text === 'view');
         cta.classList.toggle('is-soon', text === 'скоро');
         position(x, y);
         document.body.classList.add('has-custom-cursor');
