@@ -1906,6 +1906,22 @@ button.project__media-link {
     cursor: pointer;
   }
 
+  /* Crossfade for the language toggle on phone -- the desktop rule
+     with this same transition (min-width:701px block) doesn't reach
+     mobile on its own, so every translatable node the JS fades needs
+     its own copy here too, or the swap just snaps instead of fading.
+     .project__see gets its opacity folded into its own rule below
+     instead of listed here -- it already declares its own transition
+     for the gradient sweep, and a second, later "transition:" here
+     would just replace that whole list rather than add to it. */
+  .intro__p-desktop,
+  .intro__text-desktop,
+  .project__badge,
+  .project__desc-p--mobile,
+  .lang-toggle {
+    transition: opacity 0.2s ease;
+  }
+
   /* Title + tagline read as one heading -- no internal gap after all
      (the previous 24px request was walked back), and the tagline is
      black like the title instead of desktop's grey. */
@@ -1983,7 +1999,7 @@ button.project__media-link {
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
-    transition: background-position 0.4s ease;
+    transition: background-position 0.4s ease, opacity 0.2s ease;
     -webkit-tap-highlight-color: transparent;
   }
 
@@ -2399,7 +2415,7 @@ button.project__media-link {
 
   <button type="button" class="mobile-about-toggle" data-about-toggle>
     <span class="mobile-about-toggle__open"><span class="lang-fade" data-lang-en="Read about me" data-lang-ru="Почитать обо мне">Read about me</span></span>
-    <span class="mobile-about-toggle__close"><span class="lang-fade" data-lang-en="Okay, back to the work" data-lang-ru="Окей, вернемся к работе">Okay, back to the work</span></span>
+    <span class="mobile-about-toggle__close"><span class="lang-fade" data-lang-en="Okay, back to the work" data-lang-ru="Окей, вернемся к работам">Okay, back to the work</span></span>
   </button>
 
   <aside class="sidebar" id="mobile-about-sheet">
@@ -3478,8 +3494,43 @@ button.project__media-link {
         if (open === isAboutOpen()) return;
         aboutSheet.classList.toggle('is-open', open);
         aboutToggle.classList.toggle('is-open', open);
-        document.body.classList.toggle('about-open', open);
-        lockBodyScroll(open);
+
+        // Closing inside Telegram's in-app browser specifically: delay
+        // the topbar reveal + scroll-unlock until the sheet has actually
+        // finished its 0.4s slide down, instead of firing them the
+        // instant the tap lands (still the case for Safari/everywhere
+        // else). Doing both immediately forces a synchronous reflow --
+        // .mobile-topbar is position:static there, so taking body's
+        // about-open class off drops it straight back into flow, right
+        // as lockBodyScroll's own scrollTo jumps the page under it --
+        // and Telegram's WebView appears to defer painting that reflow
+        // until the sheet (still mid-slide on top of it) uncovers the
+        // area, which is the hang-then-vanish right at the logo.
+        var isTelegram = document.documentElement.classList.contains('is-telegram-webview');
+        if (isTelegram && !open) {
+          setTimeout(function () {
+            // Bail if it was reopened before this fired -- that state
+            // (and its own immediate body-class/scroll-lock) stands.
+            if (isAboutOpen()) return;
+            document.body.classList.toggle('about-open', false);
+            lockBodyScroll(false);
+          }, 400);
+        } else if (open) {
+          document.body.classList.toggle('about-open', true);
+          // One frame later, not the same frame as the class toggle just
+          // above -- lockBodyScroll's position:fixed switch is its own
+          // reflow (the sticky topbar has to recompute against it), and
+          // landing that in the very same frame the sheet's own slide-up
+          // transition starts is what showed as a jerky hitch right as
+          // the sheet passed the logo on the way up. Giving the
+          // transition a clean first frame before this lands avoids it.
+          requestAnimationFrame(function () {
+            lockBodyScroll(true);
+          });
+        } else {
+          document.body.classList.toggle('about-open', open);
+          lockBodyScroll(open);
+        }
       }
 
       function isAboutOpen() {
