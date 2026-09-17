@@ -1913,11 +1913,22 @@ button.project__media-link {
     color: #000000;
   }
 
-  /* 24px between the badge and the description text below it. */
+  /* 16px between the badge and the description text below it. */
   .project__desc {
     display: flex;
     flex-direction: column;
-    margin-top: 1.5rem;
+    margin-top: 1rem;
+  }
+
+  /* The leftover tablet-safety-net rule below (@media max-width:900px,
+     which a phone-width viewport also matches) sets 6px here at equal
+     .project--hero .project__desc specificity -- it otherwise wins over
+     the plain .project__desc rule just above regardless of source
+     order, since a class-class selector always beats a lone class one.
+     Matching its own specificity here (and coming later in the file)
+     is what actually lets the 16px stick for Vocamate too. */
+  .project--hero .project__desc {
+    margin-top: 1rem;
   }
 
   .project__desc p {
@@ -2082,6 +2093,15 @@ button.project__media-link {
     opacity: 1;
   }
 
+  /* The language swap fades this inner span's own opacity (see the
+     script) -- kept separate from the open/close crossfade just above
+     so the two don't fight over the same opacity property on the same
+     element. */
+  .lang-fade {
+    display: inline-block;
+    transition: opacity 0.2s ease;
+  }
+
   /* Single-column project list, one consistent card height regardless of
      hero/half -- the desktop hero/pair distinction doesn't carry over.
      Collapsing project-pair from 2 columns to 1 turns its two cards into
@@ -2131,12 +2151,17 @@ button.project__media-link {
     margin-top: 1.5rem;
   }
 
-  /* Same 22px/1.25/Oceanic treatment as the desktop badge title now --
-     the old Suisse/18px mobile-only title is retired along with the
-     plain (non-badge) caption below. */
+  /* Same 22px/Oceanic treatment as the desktop badge title now -- the
+     old Suisse/18px mobile-only title is retired along with the plain
+     (non-badge) caption below. Line-height trimmed a point from
+     desktop's 1.25 to close the hairline seam that otherwise showed
+     between the title and tagline's own EAEAEB staircase rectangles
+     (two adjacent line boxes with no shared border always leave that
+     seam at 1.25; nudging it down tightens the boxes until they touch
+     with no visible gap). */
   .project__title {
     font-size: 1.375rem;
-    line-height: 1.25;
+    line-height: 1.24;
     font-family: var(--font-serif);
   }
 
@@ -2373,8 +2398,8 @@ button.project__media-link {
   </div>
 
   <button type="button" class="mobile-about-toggle" data-about-toggle>
-    <span class="mobile-about-toggle__open" data-lang-en="Read about me" data-lang-ru="Почитать обо мне">Read about me</span>
-    <span class="mobile-about-toggle__close" data-lang-en="Okay, back to the work" data-lang-ru="Окей, вернемся к работе">Okay, back to the work</span>
+    <span class="mobile-about-toggle__open"><span class="lang-fade" data-lang-en="Read about me" data-lang-ru="Почитать обо мне">Read about me</span></span>
+    <span class="mobile-about-toggle__close"><span class="lang-fade" data-lang-en="Okay, back to the work" data-lang-ru="Окей, вернемся к работе">Okay, back to the work</span></span>
   </button>
 
   <aside class="sidebar" id="mobile-about-sheet">
@@ -3082,13 +3107,13 @@ button.project__media-link {
       // The mobile "Read about me" pill's open/close labels have their
       // own opacity-driven crossfade (see .mobile-about-toggle.is-open --
       // each is absolutely positioned and faded against the other).
-      // Using the same data-en/data-ru + inline-opacity swap as
-      // everything else would fight that: the crossfade below sets
-      // style.opacity='1' on every translated node once it's done,
-      // which -- being an inline style -- always beats the is-open CSS
-      // rule trying to hold one of these two at opacity:0. A plain
-      // textContent swap, kept out of that mechanism entirely, doesn't
-      // touch opacity at all.
+      // Reusing the SAME element for the language fade would fight
+      // that -- this crossfade's own opacity=1 at the end, being an
+      // inline style, would always beat the is-open CSS rule trying to
+      // hold one of the two labels at opacity:0. Fading a separate
+      // .lang-fade span nested inside each one instead (see the HTML)
+      // keeps the two crossfades on different elements entirely, so
+      // they can both run without touching each other's opacity.
       var langLabelNodes = document.querySelectorAll('[data-lang-en]');
       var isRu = false;
       var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -3101,19 +3126,22 @@ button.project__media-link {
           node.setAttribute('data-cursor-label', isRu ? node.getAttribute('data-cursor-label-ru') : 'view');
         });
 
-        langLabelNodes.forEach(function (node) {
-          node.textContent = node.getAttribute('data-lang-' + lang);
-        });
-
         if (reduceMotion) {
           nodes.forEach(function (node) {
             node.innerHTML = node.getAttribute('data-' + lang);
           });
+          langLabelNodes.forEach(function (node) {
+            node.textContent = node.getAttribute('data-lang-' + lang);
+          });
           toggle.classList.toggle('is-ru', isRu);
+          document.dispatchEvent(new Event('langchange'));
           return;
         }
 
         nodes.forEach(function (node) {
+          node.style.opacity = '0';
+        });
+        langLabelNodes.forEach(function (node) {
           node.style.opacity = '0';
         });
         setTimeout(function () {
@@ -3121,7 +3149,12 @@ button.project__media-link {
             node.innerHTML = node.getAttribute('data-' + lang);
             node.style.opacity = '1';
           });
+          langLabelNodes.forEach(function (node) {
+            node.textContent = node.getAttribute('data-lang-' + lang);
+            node.style.opacity = '1';
+          });
           toggle.classList.toggle('is-ru', isRu);
+          document.dispatchEvent(new Event('langchange'));
         }, 200);
       });
     })();
@@ -3402,6 +3435,14 @@ button.project__media-link {
         };
         syncToggleWidths();
         window.addEventListener('resize', syncToggleWidths);
+        // Re-measure once the language swap has actually landed (see
+        // the langchange dispatch in the toggle's own click handler) --
+        // "Read about me" and "Почитать обо мне" aren't the same
+        // length, so the old EN-measured --w-open/--w-close would
+        // otherwise stay stuck at the wrong width after switching,
+        // leaving the button either clipped or with lopsided padding
+        // instead of the fixed 20px this is supposed to keep either way.
+        document.addEventListener('langchange', syncToggleWidths);
       }
 
       // The sheet floats on top of the grid rather than replacing it, so
