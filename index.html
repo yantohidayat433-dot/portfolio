@@ -1719,6 +1719,23 @@ button.project__media-link {
     gap: 1.25rem;
   }
 
+  /* .intro__block/.intro__block p/.intro__text carry a fixed 363-365px
+     max-width from the desktop sidebar layout (below) -- fine there,
+     since desktop's root font-size never changes, but on phone the
+     fluid html font-size rule at the top of this file can grow past
+     16px (up to the 20.48px cap on a wide-enough phone), which grows
+     the TEXT without growing this fixed-px column to match. Past a
+     certain width the authored <br> breaks stopped being the only wrap
+     point -- a line would also wrap naturally mid-line once its own
+     rendered width outgrew 363px, showing as a broken-looking double
+     wrap. The sheet's own padding is what should actually bound the
+     column width on phone, not this leftover desktop number. */
+  .intro__block,
+  .intro__block p,
+  .intro__text {
+    max-width: none;
+  }
+
   .intro__block p:first-child {
     margin-bottom: 1rem;
   }
@@ -1889,16 +1906,18 @@ button.project__media-link {
     cursor: pointer;
   }
 
-  /* 24px between the title line and the tagline below it. */
-  .project__badge-gap {
-    height: 1.5rem;
+  /* Title + tagline read as one heading -- no internal gap after all
+     (the previous 24px request was walked back), and the tagline is
+     black like the title instead of desktop's grey. */
+  .project__badge-tag {
+    color: #000000;
   }
 
-  /* 16px between the badge and the description text below it. */
+  /* 24px between the badge and the description text below it. */
   .project__desc {
     display: flex;
     flex-direction: column;
-    margin-top: 1rem;
+    margin-top: 1.5rem;
   }
 
   .project__desc p {
@@ -2011,10 +2030,10 @@ button.project__media-link {
        of leaving the button to collapse to just its padding. */
     height: 3.325rem;
     overflow: hidden;
-    padding: 0.9375rem 3rem;
+    padding: 0.9375rem 1.25rem;
     border: none;
     background: #FFD0ED;
-    color: var(--color-ink);
+    color: #00849A;
     font-family: var(--font-serif);
     font-size: 1rem;
     line-height: 1.45;
@@ -2032,8 +2051,8 @@ button.project__media-link {
 
   .mobile-about-toggle.is-open {
     width: var(--w-close, auto);
-    background: #484BB7;
-    color: #fff;
+    background: #00849A;
+    color: #FFD0ED;
   }
 
   /* Both labels stay in the DOM and share the same centered spot (the
@@ -2354,8 +2373,8 @@ button.project__media-link {
   </div>
 
   <button type="button" class="mobile-about-toggle" data-about-toggle>
-    <span class="mobile-about-toggle__open">Read about me</span>
-    <span class="mobile-about-toggle__close">продолжить смотреть</span>
+    <span class="mobile-about-toggle__open" data-lang-en="Read about me" data-lang-ru="Почитать обо мне">Read about me</span>
+    <span class="mobile-about-toggle__close" data-lang-en="Okay, back to the work" data-lang-ru="Окей, вернемся к работе">Okay, back to the work</span>
   </button>
 
   <aside class="sidebar" id="mobile-about-sheet">
@@ -3060,6 +3079,17 @@ button.project__media-link {
       // read fresh from the attribute on every hover -- so it gets its
       // own tiny swap, keyed off the same isRu flag.
       var cursorLabelNodes = document.querySelectorAll('[data-cursor-label-ru]');
+      // The mobile "Read about me" pill's open/close labels have their
+      // own opacity-driven crossfade (see .mobile-about-toggle.is-open --
+      // each is absolutely positioned and faded against the other).
+      // Using the same data-en/data-ru + inline-opacity swap as
+      // everything else would fight that: the crossfade below sets
+      // style.opacity='1' on every translated node once it's done,
+      // which -- being an inline style -- always beats the is-open CSS
+      // rule trying to hold one of these two at opacity:0. A plain
+      // textContent swap, kept out of that mechanism entirely, doesn't
+      // touch opacity at all.
+      var langLabelNodes = document.querySelectorAll('[data-lang-en]');
       var isRu = false;
       var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
@@ -3069,6 +3099,10 @@ button.project__media-link {
 
         cursorLabelNodes.forEach(function (node) {
           node.setAttribute('data-cursor-label', isRu ? node.getAttribute('data-cursor-label-ru') : 'view');
+        });
+
+        langLabelNodes.forEach(function (node) {
+          node.textContent = node.getAttribute('data-lang-' + lang);
         });
 
         if (reduceMotion) {
