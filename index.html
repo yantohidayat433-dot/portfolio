@@ -415,8 +415,7 @@ ul {
    tablet treatment for them. */
 
 .mobile-topbar,
-.mobile-about-toggle,
-.mobile-about-close {
+.mobile-about-toggle {
   display: none;
 }
 
@@ -1763,6 +1762,18 @@ button.project__media-link {
     color: #BE41F3;
   }
 
+  /* Persistent purple once actually toggled to RU (desktop's .is-ru) --
+     :active above is only the transient tap preview, which isn't
+     enough on its own: without this the color snapped back to orange
+     the instant the tap released instead of staying switched. */
+  .lang-toggle.is-ru {
+    color: #BE41F3;
+  }
+
+  .lang-toggle.is-ru:active {
+    color: #FF8200;
+  }
+
   .lang-toggle.is-ru:active {
     color: #FF8200;
   }
@@ -1889,8 +1900,11 @@ button.project__media-link {
   }
 
   /* Same gradient-sweep "See Project" button and arrow as desktop
-     (min-width:701px block), at the same 18px-equivalent size -- :active
-     stands in for :hover since there's no real hover on a touch screen. */
+     (min-width:701px block), matched to the surrounding 16px body text
+     here instead of desktop's 18px. :active stands in for :hover since
+     there's no real hover on a touch screen -- .is-pressed (set by the
+     touchstart/touchend script, same as the contact links above) backs
+     it up, since :active alone is unreliable on some mobile browsers. */
   .project__see {
     appearance: none;
     background: none;
@@ -1898,7 +1912,7 @@ button.project__media-link {
     padding: 0;
     margin-top: 1.5rem;
     font: inherit;
-    font-size: 1.125rem;
+    font-size: 1rem;
     line-height: 1.45;
     letter-spacing: var(--tracking-serif);
     width: fit-content;
@@ -1915,7 +1929,8 @@ button.project__media-link {
     -webkit-tap-highlight-color: transparent;
   }
 
-  .project__see:active {
+  .project__see:active,
+  .project__see.is-pressed {
     background-position: 0% 0;
   }
 
@@ -1927,7 +1942,8 @@ button.project__media-link {
     transition: color 0.4s ease, transform 0.3s ease;
   }
 
-  .project__see:active .project__see-arrow {
+  .project__see:active .project__see-arrow,
+  .project__see.is-pressed .project__see-arrow {
     color: #004BA7;
     transform: translateX(4px);
   }
@@ -2017,29 +2033,6 @@ button.project__media-link {
 
   .mobile-about-toggle.is-open .mobile-about-toggle__close {
     opacity: 1;
-  }
-
-  /* Second close affordance living inside the sheet's own scrollable
-     content (see the phone PDF) -- same closeAbout() the floating pill
-     above calls, just reachable without hunting for the pill once
-     you've scrolled down through the bio/links. No border-radius, teal
-     fill + pink text pulled straight from the PDF (both already
-     established brand colors elsewhere on the page). */
-  .mobile-about-close {
-    appearance: none;
-    display: block;
-    margin: 1.5rem auto 0;
-    padding: 0.9375rem 2rem;
-    border: none;
-    background: #00849A;
-    color: #FFD0ED;
-    font-family: var(--font-serif);
-    font-size: 1rem;
-    line-height: 1.45;
-    letter-spacing: var(--tracking-serif);
-    white-space: nowrap;
-    cursor: pointer;
-    -webkit-tap-highlight-color: transparent;
   }
 
   /* Single-column project list, one consistent card height regardless of
@@ -2333,7 +2326,7 @@ button.project__media-link {
   </div>
 
   <button type="button" class="mobile-about-toggle" data-about-toggle>
-    <span class="mobile-about-toggle__open" data-lang-en="Read about me" data-lang-ru="почитать обо мне">Read about me</span>
+    <span class="mobile-about-toggle__open">Read about me</span>
     <span class="mobile-about-toggle__close">продолжить смотреть</span>
   </button>
 
@@ -2384,8 +2377,6 @@ button.project__media-link {
         </div>
         <button type="button" class="lang-toggle" id="langToggle" data-en="Read in Russian" data-ru="Читать на английском">Read in Russian</button>
       </div>
-
-      <button type="button" class="mobile-about-close" data-en="Okay, back to the work" data-ru="Окей, вернемся к работам">Okay, back to the work</button>
 
     </div>
   </aside>
@@ -2884,7 +2875,7 @@ button.project__media-link {
       // goes through or gets cancelled.
       if (!window.matchMedia('(max-width: 700px)').matches) return;
 
-      document.querySelectorAll('.contact__links a').forEach(function (link) {
+      document.querySelectorAll('.contact__links a, .project__see').forEach(function (link) {
         link.addEventListener('touchstart', function () {
           link.classList.add('is-pressed');
         }, { passive: true });
@@ -3036,17 +3027,6 @@ button.project__media-link {
       // read fresh from the attribute on every hover -- so it gets its
       // own tiny swap, keyed off the same isRu flag.
       var cursorLabelNodes = document.querySelectorAll('[data-cursor-label-ru]');
-      // The mobile "Read about me" pill's open-state label has its own
-      // opacity-driven show/hide (see .mobile-about-toggle.is-open --
-      // it's absolutely positioned and crossfades against its "close"
-      // counterpart). Using the same data-en/data-ru + inline-opacity
-      // swap as everything else would fight that: the crossfade below
-      // sets style.opacity='1' on every translated node once it's done,
-      // which -- being an inline style -- always beats the is-open CSS
-      // rule trying to hold this one at opacity:0 while the sheet is
-      // open. A plain textContent swap, kept out of that mechanism
-      // entirely, doesn't touch opacity at all.
-      var langLabelNodes = document.querySelectorAll('[data-lang-en]');
       var isRu = false;
       var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
@@ -3056,10 +3036,6 @@ button.project__media-link {
 
         cursorLabelNodes.forEach(function (node) {
           node.setAttribute('data-cursor-label', isRu ? node.getAttribute('data-cursor-label-ru') : 'view');
-        });
-
-        langLabelNodes.forEach(function (node) {
-          node.textContent = node.getAttribute('data-lang-' + lang);
         });
 
         if (reduceMotion) {
@@ -3580,13 +3556,6 @@ button.project__media-link {
             openAbout();
           }
         });
-      }
-
-      // The "Okay, back to the work" button lives inside the sheet
-      // itself (see the phone PDF) -- same close as the floating pill.
-      var aboutCloseButton = document.querySelector('.mobile-about-close');
-      if (aboutCloseButton) {
-        aboutCloseButton.addEventListener('click', closeAbout);
       }
 
       // Both logo instances (the fixed phone top bar and the desktop
