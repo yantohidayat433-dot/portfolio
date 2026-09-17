@@ -617,6 +617,27 @@ body.has-custom-cursor * {
   color: #7F7F80;
 }
 
+/* Split out of .project__badge (see it in both the min-width:701px and
+   max-width:700px blocks) so the title/tagline can each independently
+   keep the per-line EAEAEB staircase (inline, own background) while
+   still allowing a real gap between them -- a plain inline element's
+   margin can't do that (top/bottom margin on inline content is
+   ignored), so .project__badge-gap is a zero-height block-level spacer
+   between them instead; a block sibling forces the line break without
+   disturbing either inline run's own per-line fragmentation. Zero
+   height by default (desktop keeps its original ~touching spacing);
+   the phone breakpoint below is the only one that gives it real height. */
+.project__badge-title,
+.project__badge-tag {
+  display: inline;
+  background-color: #EAEAEB;
+}
+
+.project__badge-gap {
+  display: block;
+  height: 0;
+}
+
 .project__title-mobile {
   display: none;
 }
@@ -1267,9 +1288,12 @@ button.project__media-link {
     /* inline (not inline-block) is what makes a multi-line background
        wrap as a staircase hugging each line's own width -- an
        inline-block would paint one rectangle sized to the widest
-       line, covering the shorter ones too. */
+       line, covering the shorter ones too. The background itself now
+       lives on .project__badge-title/-tag instead of here (see the
+       base rule), so the title and tagline can have a real gap
+       between them via a block-level spacer without losing the
+       staircase -- inline elements ignore top/bottom margin. */
     display: inline;
-    background-color: #EAEAEB;
     /* It's now an <a>/<button> (clicking it opens the case, same as
        the image and "See Project") -- strip the UA chrome back down
        to plain text. */
@@ -1856,7 +1880,6 @@ button.project__media-link {
      child element. */
   .project__badge {
     display: inline;
-    background-color: #EAEAEB;
     appearance: none;
     border: none;
     margin: 0;
@@ -1864,6 +1887,11 @@ button.project__media-link {
     font: inherit;
     text-align: left;
     cursor: pointer;
+  }
+
+  /* 24px between the title line and the tagline below it. */
+  .project__badge-gap {
+    height: 1.5rem;
   }
 
   /* 16px between the badge and the description text below it. */
@@ -2394,7 +2422,7 @@ button.project__media-link {
       <div class="project__row">
         <h2 class="project__title">
           <span class="project__title-mobile"><a class="project__title-link" href="https://www.behance.net/gallery/235073919/Vocamate-AI-Brand-Identity-Website" target="_blank" rel="noopener noreferrer">Vocamate AI.</a></span>
-          <a class="project__title-desktop project__badge" href="https://www.behance.net/gallery/235073919/Vocamate-AI-Brand-Identity-Website" target="_blank" rel="noopener noreferrer" data-en="Vocamate AI.&lt;br&gt;&lt;span class=&quot;project__badge-tag&quot;&gt;Voice bots and chatbots&lt;/span&gt;" data-ru="Vocamate AI.&lt;br&gt;&lt;span class=&quot;project__badge-tag&quot;&gt;Голосовые роботы&lt;br&gt;и чат-боты&lt;/span&gt;">Vocamate AI.<br><span class="project__badge-tag">Voice bots and chatbots</span></a>
+          <a class="project__title-desktop project__badge" href="https://www.behance.net/gallery/235073919/Vocamate-AI-Brand-Identity-Website" target="_blank" rel="noopener noreferrer" data-en="&lt;span class=&quot;project__badge-title&quot;&gt;Vocamate AI.&lt;/span&gt;&lt;span class=&quot;project__badge-gap&quot; aria-hidden=&quot;true&quot;&gt;&lt;/span&gt;&lt;span class=&quot;project__badge-tag&quot;&gt;Voice bots and chatbots&lt;/span&gt;" data-ru="&lt;span class=&quot;project__badge-title&quot;&gt;Vocamate AI.&lt;/span&gt;&lt;span class=&quot;project__badge-gap&quot; aria-hidden=&quot;true&quot;&gt;&lt;/span&gt;&lt;span class=&quot;project__badge-tag&quot;&gt;Голосовые роботы&lt;br&gt;и чат-боты&lt;/span&gt;"><span class="project__badge-title">Vocamate AI.</span><span class="project__badge-gap" aria-hidden="true"></span><span class="project__badge-tag">Voice bots and chatbots</span></a>
         </h2>
         <p class="project__subtitle-mobile">Голосовые роботы и чат-боты</p>
         <ul class="project__tags">
@@ -2430,7 +2458,7 @@ button.project__media-link {
         <div class="project__row">
           <h2 class="project__title">
             <span class="project__title-mobile"><button class="project__title-link" type="button" data-case-open="case-basarab">Basarab.</button></span>
-            <span role="button" tabindex="0" class="project__title-desktop project__badge" data-case-open="case-basarab" data-en="Basarab.&lt;br&gt;&lt;span class=&quot;project__badge-tag&quot;&gt;Family footwear brand&lt;/span&gt;" data-ru="Basarab.&lt;br&gt;&lt;span class=&quot;project__badge-tag&quot;&gt;Семейный бренд обуви&lt;/span&gt;">Basarab.<br><span class="project__badge-tag">Family footwear brand</span></span>
+            <span role="button" tabindex="0" class="project__title-desktop project__badge" data-case-open="case-basarab" data-en="&lt;span class=&quot;project__badge-title&quot;&gt;Basarab.&lt;/span&gt;&lt;span class=&quot;project__badge-gap&quot; aria-hidden=&quot;true&quot;&gt;&lt;/span&gt;&lt;span class=&quot;project__badge-tag&quot;&gt;Family footwear brand&lt;/span&gt;" data-ru="&lt;span class=&quot;project__badge-title&quot;&gt;Basarab.&lt;/span&gt;&lt;span class=&quot;project__badge-gap&quot; aria-hidden=&quot;true&quot;&gt;&lt;/span&gt;&lt;span class=&quot;project__badge-tag&quot;&gt;Семейный бренд обуви&lt;/span&gt;"><span class="project__badge-title">Basarab.</span><span class="project__badge-gap" aria-hidden="true"></span><span class="project__badge-tag">Family footwear brand</span></span>
           </h2>
           <p class="project__subtitle-mobile">Семейный бренд обуви</p>
           <ul class="project__tags">
@@ -2511,7 +2539,7 @@ button.project__media-link {
         <div class="project__row">
           <h2 class="project__title">
             <span class="project__title-mobile"><button class="project__title-link" type="button" data-case-open="case-foundation">Фонд «Вызов».</button></span>
-            <span role="button" tabindex="0" class="project__title-desktop project__badge" data-case-open="case-foundation" data-en="Vyzov Foundation.&lt;br&gt;&lt;span class=&quot;project__badge-tag&quot;&gt;The Foundation for the&lt;br&gt;Development of Scientific&lt;br&gt;and Cultural Ties.&lt;/span&gt;" data-ru="Фонд «Вызов».&lt;br&gt;&lt;span class=&quot;project__badge-tag&quot;&gt;Фонд развития научно-&lt;br&gt;культурных связей&lt;/span&gt;">Vyzov Foundation.<br><span class="project__badge-tag">The Foundation for the<br>Development of Scientific<br>and Cultural Ties.</span></span>
+            <span role="button" tabindex="0" class="project__title-desktop project__badge" data-case-open="case-foundation" data-en="&lt;span class=&quot;project__badge-title&quot;&gt;Vyzov Foundation.&lt;/span&gt;&lt;span class=&quot;project__badge-gap&quot; aria-hidden=&quot;true&quot;&gt;&lt;/span&gt;&lt;span class=&quot;project__badge-tag&quot;&gt;The Foundation for the&lt;br&gt;Development of Scientific&lt;br&gt;and Cultural Ties.&lt;/span&gt;" data-ru="&lt;span class=&quot;project__badge-title&quot;&gt;Фонд «Вызов».&lt;/span&gt;&lt;span class=&quot;project__badge-gap&quot; aria-hidden=&quot;true&quot;&gt;&lt;/span&gt;&lt;span class=&quot;project__badge-tag&quot;&gt;Фонд развития научно-&lt;br&gt;культурных связей&lt;/span&gt;"><span class="project__badge-title">Vyzov Foundation.</span><span class="project__badge-gap" aria-hidden="true"></span><span class="project__badge-tag">The Foundation for the<br>Development of Scientific<br>and Cultural Ties.</span></span>
           </h2>
           <p class="project__subtitle-mobile">Фонд развития научно-культурных<br>связей</p>
           <ul class="project__tags">
@@ -2947,11 +2975,16 @@ button.project__media-link {
         el.style.backgroundColor = pick;
         var text = contrastText(pick);
         el.style.color = text;
-        // The badge's grey tagline span has its own explicit color,
-        // which would otherwise sit unchanged on top of the new
-        // background -- keep it in step with the rest of the text.
-        el.querySelectorAll('.project__badge-tag').forEach(function (tag) {
-          tag.style.color = text;
+        // A badge's title/tagline now carry their own background (split
+        // out of .project__badge itself so a real gap can sit between
+        // them -- see .project__badge-gap), so the picked color has to
+        // be pushed onto both of them directly, or a badge's hover/tap
+        // color would never actually become visible. The tagline also
+        // has its own explicit grey color that would otherwise sit
+        // unchanged on top of the new background.
+        el.querySelectorAll('.project__badge-title, .project__badge-tag').forEach(function (part) {
+          part.style.backgroundColor = pick;
+          part.style.color = text;
         });
       }
 
