@@ -1499,21 +1499,27 @@ button.project__media-link {
     border-radius: 0;
   }
 
+  /* 39px, not 36 -- measured directly off the PDF's own text/image
+     geometry (line-box bottom to the next image's top, from the
+     document's actual bbox data, not a pixel guess), and it's
+     exactly 39.04 in four different spots across this case
+     (the intro paragraph and three separate quotes), so this is the
+     real spec regardless of what the original brief said. */
   #case-basarab .case__intro {
-    margin-bottom: 36px;
+    margin-bottom: 39px;
   }
 
-  /* Same 32px-top/36px-bottom rhythm as .case__intro above, since
+  /* Same 32px-top/39px-bottom rhythm as .case__intro above, since
      every .case__quote here is exactly the same "image, text, image"
      shape repeated -- base .case__quote's own 32px/48px double-counts
      the previous image's 8px margin-bottom into a 40px top gap, and
-     doesn't match the 36px spec on the bottom either. Top/bottom only
+     doesn't match the 39px spec on the bottom either. Top/bottom only
      -- the margin shorthand would reset margin-left too, wiping out
      .case__quote--right's own offset that aligns it under the second
      image in the row above. */
   #case-basarab .case__quote {
     margin-top: 24px;
-    margin-bottom: 36px;
+    margin-bottom: 39px;
   }
 
   /* Matches .project__title on the main page (22px Oceanic, same
