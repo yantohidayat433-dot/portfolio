@@ -1534,9 +1534,15 @@ button.project__media-link {
      keeps its topbar in flow (position:static, see its own override),
      so it already gets that spacing for free and doesn't need this too
      -- see the override right below. */
+  /* Bottom padding is sized to clear .mobile-about-toggle, which floats
+     fixed above this content rather than sitting in flow -- 0.75rem is
+     its own offset off the safe area, 3.325rem its height, plus 2rem of
+     breathing room so the last divider/line never ends up scrolled to
+     directly under the pill. Applies to .projects and .case alike since
+     both share this padding (see the reset right below). */
   .page {
     gap: 0;
-    padding: 3.875rem 0.5rem 1.5rem;
+    padding: 3.875rem 0.5rem calc(env(safe-area-inset-bottom, 0px) + 0.75rem + 3.325rem + 2rem);
   }
 
   .is-telegram-webview .page {
