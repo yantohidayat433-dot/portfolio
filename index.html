@@ -3617,29 +3617,47 @@ button.project__media-link {
         aboutSheet.classList.toggle('is-open', open);
         aboutToggle.classList.toggle('is-open', open);
 
-        // Closing inside Telegram's in-app browser specifically: delay
-        // the topbar reveal + scroll-unlock until the sheet has actually
-        // finished its 0.4s slide down, instead of firing them the
-        // instant the tap lands (still the case for Safari/everywhere
-        // else). .mobile-topbar is position:static there, so taking
-        // body's about-open class off drops it straight back into flow
-        // while the sheet (still mid-slide on top of it) hasn't
-        // uncovered that area yet -- doing that a beat early is what
-        // originally showed as a hang-then-vanish right at the logo.
-        // This is about the topbar's own display:none/flex timing
-        // against the sheet's animation, not about which scroll-lock
-        // mechanism lockBodyScroll happens to use underneath (that
-        // changed since this comment was first written; this delay
-        // didn't need to).
+        // Telegram's in-app browser: body.about-open is what drops
+        // .mobile-topbar to display:none there (see its own rule) --
+        // everywhere else it only ever recolors an always-visible topbar,
+        // so this timing dance is Telegram-only.
+        //
+        // The sheet covers the full screen and animates with a single
+        // uniform transform, so which edge of the screen it uncovers
+        // first (and when) depends only on which way it's sliding --
+        // not on when its own 0.4s transition happens to finish:
+        //  - Opening, it slides UP from fully off-screen at the bottom,
+        //    so its top edge doesn't reach the top of the screen until
+        //    the very end of that 0.4s. Hiding the topbar immediately
+        //    on tap (the old behavior) left the top uncovered by
+        //    neither the topbar nor the sheet for that whole stretch --
+        //    the "hole" reported when opening scrolled partway down the
+        //    page. Delaying the hide to match how long the sheet
+        //    actually takes to arrive closes that gap.
+        //  - Closing, it slides straight back DOWN from fully covering
+        //    the screen, so its top edge starts uncovering the top
+        //    almost immediately, not at the end of its 0.4s. Delaying
+        //    the topbar's return to match that non-existent "end" (the
+        //    old behavior, originally added to dodge a reflow from
+        //    lockBodyScroll's since-removed position:fixed switch) just
+        //    left it lagging behind an area the sheet had already
+        //    exposed -- the "hang-then-vanish" reported when closing.
+        //    Revealing it immediately instead matches how fast that
+        //    area is actually uncovered now.
         var isTelegram = document.documentElement.classList.contains('is-telegram-webview');
-        if (isTelegram && !open) {
+        if (isTelegram && open) {
           setTimeout(function () {
-            // Bail if it was reopened before this fired -- that state
-            // (and its own immediate body-class/scroll-lock) stands.
-            if (isAboutOpen()) return;
-            document.body.classList.toggle('about-open', false);
-            lockBodyScroll(false);
+            // Bail if it was closed again before this fired -- that
+            // state (already applied synchronously below) stands.
+            if (!isAboutOpen()) return;
+            document.body.classList.toggle('about-open', true);
           }, 400);
+          requestAnimationFrame(function () {
+            lockBodyScroll(true);
+          });
+        } else if (isTelegram && !open) {
+          document.body.classList.toggle('about-open', false);
+          lockBodyScroll(false);
         } else if (open) {
           document.body.classList.toggle('about-open', true);
           // One frame later, not the same frame as the class toggle just
