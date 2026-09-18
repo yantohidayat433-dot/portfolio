@@ -1522,6 +1522,21 @@ button.project__media-link {
     margin-bottom: 36px;
   }
 
+  /* .case__quote p:last-child (base rule) zeroes the true last DOM
+     child's own margin-bottom to avoid double-spacing before the
+     div's 36px -- but in the one quote with two paragraphs, that
+     true last child is the hidden (display:none) mobile duplicate of
+     the 2nd paragraph, not the visible desktop one sitting right
+     before it. The visible paragraph's own 20px margin doesn't
+     collapse away through the hidden sibling, so it was quietly
+     adding 20px on top of the div's 36px -- 56px total, only ever
+     visible here since this is the only quote with more than one
+     paragraph. Target the desktop paragraph that's actually last by
+     what precedes the hidden final child, not DOM order. */
+  #case-basarab .case__quote-p--desktop:has(+ .case__quote-p--mobile:last-child) {
+    margin-bottom: 0;
+  }
+
   /* Matches .project__title on the main page (22px Oceanic, same
      trimmed line-height) instead of the desktop-default Suisse/28px
      heading style -- the two-part title/subtitle color split (black
