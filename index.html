@@ -1268,6 +1268,13 @@ button.project__media-link {
     max-width: var(--media-width);
   }
 
+  /* Title + tagline read as one heading on desktop too, same as the
+     phone breakpoint's own version of this fix -- the tagline no
+     longer breaks off into desktop's grey. */
+  .project__badge-tag {
+    color: #000000;
+  }
+
   .project--half .project__media {
     max-width: var(--media-width);
     aspect-ratio: 1015 / 600;
@@ -1482,18 +1489,37 @@ button.project__media-link {
   }
 
   /* Basarab desktop-only tweaks (see the PDF-confirmed redesign notes):
-     square corners instead of the shared 6px radius, a tighter 36px
-     gap from the intro text down to the next image (the 32px gap
-     above it already falls out of the base .case__intro margin-top
-     (24px) plus the previous image's own 8px margin-bottom -- see
-     their own rules -- so nothing to override there), and a badge-
-     styled nav swapped in for the plain "back/next" pair. */
+     square corners instead of the shared 6px radius, a 32px/36px
+     image-to-text/text-to-image rhythm applied everywhere that
+     pattern repeats in this case (not just the intro -- .case__quote
+     recurs several more times further down), a title that matches
+     the main page's own heading style, and a badge-styled nav
+     swapped in for the plain "back/next" pair. */
   #case-basarab .case__media {
     border-radius: 0;
   }
 
   #case-basarab .case__intro {
     margin-bottom: 36px;
+  }
+
+  /* Same 32px-top/36px-bottom rhythm as .case__intro above, since
+     every .case__quote here is exactly the same "image, text, image"
+     shape repeated -- base .case__quote's own 32px/48px double-counts
+     the previous image's 8px margin-bottom into a 40px top gap, and
+     doesn't match the 36px spec on the bottom either. */
+  #case-basarab .case__quote {
+    margin: 24px 0 36px;
+  }
+
+  /* Matches .project__title on the main page (22px Oceanic, same
+     trimmed line-height) instead of the desktop-default Suisse/28px
+     heading style -- the two-part title/subtitle color split (black
+     "Basarab." + grey description) is unchanged, just the type. */
+  #case-basarab .case__intro h2 {
+    font-family: var(--font-serif);
+    font-size: 22px;
+    line-height: 1.20;
   }
 
   #case-basarab .case__nav--mobile {
@@ -2816,11 +2842,6 @@ button.project__media-link {
     <div class="case__intro reveal">
       <div class="case__intro-left">
         <h2 data-en="Basarab&lt;span class=&quot;case__intro-title-desc&quot;&gt;. Family &lt;br&gt;footwear brand&lt;/span&gt;" data-ru="Basarab&lt;span class=&quot;case__intro-title-desc&quot;&gt;. Семейный &lt;br&gt;бренд обуви&lt;/span&gt;">Basarab<span class="case__intro-title-desc">. Family <br>footwear brand</span></h2>
-        <ul class="case__intro-tags">
-          <li>Айдентика</li>
-          <li>Логотип</li>
-          <li>Дизайн упаковки</li>
-        </ul>
         <ul class="project__tags-mobile">
           <li>Айдентика</li>
           <li>Логотип</li>
