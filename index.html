@@ -1651,11 +1651,25 @@ button.project__media-link {
      but WebKit's position:fixed rendering can desync from the visual
      viewport during Telegram's elastic overscroll, letting the real
      (position:static, still sitting at its normal document spot) topbar
-     flash through the gap -- read as a "second logo". Taking it out of
-     the render entirely while the sheet is open removes the thing that
-     glitch could ever reveal, rather than chasing the glitch itself. */
+     flash through the gap -- read as a "second logo". Hiding it while
+     the sheet is open removes the thing that glitch could ever reveal,
+     rather than chasing the glitch itself.
+     visibility:hidden, not display:none -- .mobile-topbar is
+     position:static (in-flow) here, so display:none used to make it
+     stop reserving its own 3.875rem of document height the instant
+     this class landed. Toggling that height while the page's own
+     scroll-lock was still holding an older, frozen snapshot (see
+     lockBodyScroll's Telegram branch, and the delay between it and
+     this class toggle in setAboutOpen) opened a gap the size of the
+     topbar right at the top of the page for as long as the two were
+     out of sync, which then snapped shut all at once once the lock
+     finally released -- the jerky "extra padding" reported on close.
+     visibility:hidden still paints nothing and blocks interaction, but
+     keeps the box's layout footprint constant whether it's showing or
+     not, so there's no height left to ever get out of sync in the
+     first place. */
   .is-telegram-webview body.about-open .mobile-topbar {
-    display: none;
+    visibility: hidden;
   }
 
   .mobile-topbar__logo {
