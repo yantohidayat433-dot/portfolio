@@ -1631,6 +1631,20 @@ button.project__media-link {
      away with the rest of the page like ordinary content. */
   .is-telegram-webview .mobile-topbar {
     position: static;
+    /* The base rule's GPU-layer hint (translateZ(0)/will-change, added
+       for a Safari-only blank-frame bug) was never scoped away from
+       Telegram, even though Telegram's own position stays static here
+       regardless. Telegram already toggles this element's display
+       between none and flex every time the about sheet opens/closes --
+       forcing it onto its own persistent compositing layer on top of
+       that appears to make WebKit much slower to recomposite it back
+       in on WKWebView specifically, which is exactly the multi-frame
+       hang (and the layout jump alongside it) that showed up right
+       after that hint was added. Canceling it here restores the plain,
+       non-layered element Telegram had before that, with no effect on
+       Safari's own copy of the rule. */
+    transform: none;
+    will-change: auto;
   }
 
   /* The about sheet already covers the real topbar (z-index/paint order),
