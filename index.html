@@ -1478,6 +1478,15 @@ button.project__media-link {
     font-size: min(calc(100vw * 16 / 375), 20.48px);
   }
 
+  /* Set/removed by lockBodyScroll (JS) while the about sheet is open --
+     see its own comment there for why this replaced a position:fixed
+     toggle on <body>. Applies to both html and body since either can
+     be the actual root scroller depending on content height. */
+  html.scroll-locked,
+  body.scroll-locked {
+    overflow: hidden;
+  }
+
   /* Telegram's in-app browser (a WKWebView) has its own native
      rubber-band bounce for the whole page, separate from any CSS
      overflow/scroll container -- overscroll-behavior on just the about
@@ -1603,18 +1612,15 @@ button.project__media-link {
     padding: 0 0.375rem;
     background: #fff;
     z-index: 60;
-    /* A screen recording caught it exactly: the topbar goes fully
-       blank for a single frame right as the about sheet starts
-       opening (worst right after scrolling first, on a case page).
-       Matches a known Safari quirk -- a position:fixed element can
-       render blank for a frame when it gets promoted to its own
-       compositing layer at the exact moment a nearby ancestor's own
-       positioning changes (here, <body> flipping to position:fixed
-       for the scroll lock, timed one requestAnimationFrame after the
-       tap). Forcing it onto its own GPU layer up front, always, means
-       there's no promotion event left to glitch on right at that
-       moment. translateZ(0) doesn't move anything (it's a no-op
-       transform value), so this is purely a compositing hint. */
+    /* A screen recording had caught the topbar going fully blank for a
+       single frame right as the about sheet started opening -- traced
+       at the time to <body> flipping to position:fixed for the scroll
+       lock (see lockBodyScroll), which no longer happens now that the
+       lock is an overflow:hidden toggle instead. Left in place anyway:
+       forcing a persistently-fixed header onto its own GPU layer is a
+       reasonable general defense against other position:fixed repaint
+       hiccups on iOS Safari, and translateZ(0) doesn't move anything
+       (it's a no-op transform value), so this costs nothing either way. */
     -webkit-transform: translateZ(0);
     transform: translateZ(0);
     will-change: transform;
@@ -3511,28 +3517,50 @@ button.project__media-link {
       // The sheet floats on top of the grid rather than replacing it, so
       // without this the grid underneath stayed both visible through any
       // seam and (worse) still scrollable while "on" the about screen.
-      // position: fixed on body is the standard reliable way to lock
-      // scrolling on mobile (plain overflow:hidden isn't always enough on
-      // iOS); offsetting by the saved scrollY keeps the page from
-      // visually jumping to the top the moment it locks, and restoring
-      // that exact position on close is what puts the grid back exactly
-      // where it was when "почитать обо мне" was tapped.
-      var savedScrollY = 0;
+      //
+      // This used to flip <body> itself to position:fixed (the classic
+      // trick for reliable scroll-lock on iOS, since plain overflow:hidden
+      // alone doesn't always fully stop it there). That turned out to be
+      // the root cause of a whole family of Safari/Telegram-WebKit
+      // glitches chased over several rounds -- .mobile-topbar sits inside
+      // body, and every one of those glitches (a blank frame, a stray
+      // logo box floating mid-page, the Telegram hang) traced back to
+      // WebKit doing something unreliable with a position:fixed
+      // descendant at the exact moment its position:fixed ancestor's own
+      // box changed. Switching the lock mechanism to overflow:hidden +
+      // blocking touchmove by hand removes body's position from the
+      // picture entirely, so there's no longer an ancestor-position
+      // change for the topbar to glitch around. overflow:hidden alone
+      // stops wheel/keyboard/programmatic scroll and halts any momentum
+      // scroll already in flight; the touchmove listener is what stops a
+      // fresh touch-drag from scrolling the page, since overflow:hidden
+      // by itself doesn't reliably catch that on iOS. Both apply to
+      // <html> as well as <body> since either can end up being the
+      // actual root scroller depending on content height.
+      //
+      // No saved-scroll-position bookkeeping needed either, unlike the
+      // old position:fixed version -- the page is never actually moved
+      // or unpinned here, just genuinely prevented from scrolling, so
+      // there's nothing to restore afterward.
+      function blockBackgroundTouchScroll(event) {
+        if (aboutSheet && aboutSheet.contains(event.target)) return;
+        event.preventDefault();
+      }
+
+      var scrollLocked = false;
 
       function lockBodyScroll(lock) {
         if (!window.matchMedia('(max-width: 700px)').matches) return;
+        if (lock === scrollLocked) return;
+        scrollLocked = lock;
         if (lock) {
-          savedScrollY = window.scrollY;
-          document.body.style.position = 'fixed';
-          document.body.style.top = -savedScrollY + 'px';
-          document.body.style.left = '0';
-          document.body.style.width = '100%';
+          document.documentElement.classList.add('scroll-locked');
+          document.body.classList.add('scroll-locked');
+          document.addEventListener('touchmove', blockBackgroundTouchScroll, { passive: false });
         } else {
-          document.body.style.position = '';
-          document.body.style.top = '';
-          document.body.style.left = '';
-          document.body.style.width = '';
-          window.scrollTo(0, savedScrollY);
+          document.documentElement.classList.remove('scroll-locked');
+          document.body.classList.remove('scroll-locked');
+          document.removeEventListener('touchmove', blockBackgroundTouchScroll, { passive: false });
         }
       }
 
@@ -3546,13 +3574,14 @@ button.project__media-link {
         // the topbar reveal + scroll-unlock until the sheet has actually
         // finished its 0.4s slide down, instead of firing them the
         // instant the tap lands (still the case for Safari/everywhere
-        // else). Doing both immediately forces a synchronous reflow --
-        // .mobile-topbar is position:static there, so taking body's
-        // about-open class off drops it straight back into flow, right
-        // as lockBodyScroll's own scrollTo jumps the page under it --
-        // and Telegram's WebView appears to defer painting that reflow
-        // until the sheet (still mid-slide on top of it) uncovers the
-        // area, which is the hang-then-vanish right at the logo.
+        // else). .mobile-topbar is position:static there, so taking
+        // body's about-open class off drops it straight back into flow
+        // while the sheet (still mid-slide on top of it) hasn't
+        // uncovered that area yet -- doing that a beat early is what
+        // originally showed as a hang-then-vanish right at the logo.
+        // Kept even after lockBodyScroll stopped doing anything as
+        // heavy as a position:fixed switch, since the class toggle
+        // itself is still what the fix targets.
         var isTelegram = document.documentElement.classList.contains('is-telegram-webview');
         if (isTelegram && !open) {
           setTimeout(function () {
@@ -3565,12 +3594,12 @@ button.project__media-link {
         } else if (open) {
           document.body.classList.toggle('about-open', true);
           // One frame later, not the same frame as the class toggle just
-          // above -- lockBodyScroll's position:fixed switch is its own
-          // reflow (the sticky topbar has to recompute against it), and
-          // landing that in the very same frame the sheet's own slide-up
-          // transition starts is what showed as a jerky hitch right as
-          // the sheet passed the logo on the way up. Giving the
-          // transition a clean first frame before this lands avoids it.
+          // above -- kept from when lockBodyScroll did a heavier
+          // position:fixed switch that could hitch if it landed in the
+          // same frame as the sheet's own slide-up transition starting.
+          // Still a harmless, cheap deferral now that the lock is just
+          // an overflow:hidden toggle, so left in place rather than
+          // re-tested back out.
           requestAnimationFrame(function () {
             lockBodyScroll(true);
           });
