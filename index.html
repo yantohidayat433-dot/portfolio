@@ -3603,26 +3603,12 @@ button.project__media-link {
         aboutSheet.classList.toggle('is-open', open);
         aboutToggle.classList.toggle('is-open', open);
 
-        // Closing inside Telegram's in-app browser specifically: delay
-        // the topbar reveal + scroll-unlock until the sheet has actually
-        // finished its 0.4s slide down, instead of firing them the
-        // instant the tap lands (still the case for Safari/everywhere
-        // else). .mobile-topbar is position:static there, so taking
-        // body's about-open class off drops it straight back into flow,
-        // right as lockBodyScroll's own scrollTo jumps the page under
-        // it -- and Telegram's WebView appears to defer painting that
-        // reflow until the sheet (still mid-slide on top of it) uncovers
-        // the area, which is the hang-then-vanish right at the logo.
-        var isTelegram = document.documentElement.classList.contains('is-telegram-webview');
-        if (isTelegram && !open) {
-          setTimeout(function () {
-            // Bail if it was reopened before this fired -- that state
-            // (and its own immediate body-class/scroll-lock) stands.
-            if (isAboutOpen()) return;
-            document.body.classList.toggle('about-open', false);
-            lockBodyScroll(false);
-          }, 400);
-        } else if (open) {
+        // Closing on Telegram used to be delayed 400ms here (waiting for
+        // the sheet's own slide-down before revealing the topbar again),
+        // added to dodge a hang-then-vanish at the logo. Removed at the
+        // client's request -- close is back to firing immediately, same
+        // as everywhere else, only for Telegram.
+        if (open) {
           document.body.classList.toggle('about-open', true);
           // One frame later, not the same frame as the class toggle just
           // above -- lockBodyScroll's position:fixed switch is its own
