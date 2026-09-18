@@ -1598,6 +1598,34 @@ button.project__media-link {
     margin-bottom: 0;
   }
 
+  /* The real bug behind the "jump with page text flashing in by the
+     logo" report: .mobile-topbar is position:sticky, and lockBodyScroll
+     flips <body> itself to position:fixed to lock scroll while the
+     sheet is open. Safari recomputes a sticky descendant's offset when
+     its scrolling ancestor's positioning changes like that, and for a
+     frame or two before it resettles it can render the topbar at its
+     plain in-flow position instead of pinned to top:0 -- which reveals
+     whatever real content is actually sitting there in the document
+     (a project title, scrolled past minutes ago). Switching it to
+     position:fixed for the whole time body.about-open is set (which
+     already brackets lockBodyScroll's own fixed/static toggling, see
+     setAboutOpen) sidesteps the recompute entirely -- position:fixed
+     is anchored to the viewport regardless of what an ancestor's own
+     position does. Telegram already hides the topbar outright while
+     open (its own higher-specificity rule below), so this never
+     applies there. */
+  body.about-open .mobile-topbar {
+    position: fixed;
+    top: 0;
+    /* Matches .page's own 0.5rem side padding, which the sticky version
+       relied on for its horizontal inset by simply sitting inside it --
+       position:fixed escapes that padding box, so it has to be restated
+       here or the logo would jump 8px closer to the screen edge for as
+       long as the sheet is open. */
+    left: 0.5rem;
+    right: 0.5rem;
+  }
+
   /* Same "2nd state" the desktop logo gets on :hover -- while the about
      sheet is open, the fixed topbar logo (which stays visible above it)
      switches to that pink/bold look instead of staying in its plain
