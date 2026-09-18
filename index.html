@@ -415,8 +415,7 @@ ul {
    tablet treatment for them. */
 
 .mobile-topbar,
-.mobile-about-toggle,
-.mobile-about-backdrop {
+.mobile-about-toggle {
   display: none;
 }
 
@@ -1517,10 +1516,22 @@ button.project__media-link {
   /* The base .page is a flex column with a 17px gap between children --
      meant for the desktop sidebar/projects split. On phone the top bar
      is the first child and the grid should butt up against it flush
-     with no gap, so it's zeroed out here. */
+     with no gap, so it's zeroed out here. .mobile-topbar is
+     position:fixed now (out of flow, see its own rule), so it no longer
+     reserves its 3.875rem of height by sitting in the document -- this
+     top padding adds that height back so .projects/.case (the only
+     children left in flow here) start exactly where they always did,
+     instead of sliding up underneath the now-floating topbar. Telegram
+     keeps its topbar in flow (position:static, see its own override),
+     so it already gets that spacing for free and doesn't need this too
+     -- see the override right below. */
   .page {
     gap: 0;
-    padding: 0 0.5rem 1.5rem;
+    padding: 3.875rem 0.5rem 1.5rem;
+  }
+
+  .is-telegram-webview .page {
+    padding-top: 0;
   }
 
   .projects,
@@ -1553,22 +1564,42 @@ button.project__media-link {
     display: none;
   }
 
-  /* position: sticky instead of fixed -- Telegram's iOS in-app browser
-     (and other embedded WebViews) position a fixed element against a
-     layout viewport that can drift out of sync with what's actually
-     visible while its own chrome collapses/scrolls, so the bar appears
-     to lag behind and content scrolls past above it. Sticky is pinned
-     off the real document scroll position instead, which these WebViews
-     track correctly, and looks identical to fixed at rest since it's
-     already the first thing in the page. */
+  /* Always position:fixed, not sticky -- and not just while the about
+     sheet is open, but at all times on normal mobile. Two glued-together
+     bugs led here: (1) Telegram's WKWebView positions a truly fixed
+     element against a layout viewport that can drift out of sync while
+     its own chrome collapses/scrolls, which sticky avoids -- but that's
+     Telegram-specific and it already gets its own position:static
+     override below regardless of what the base rule says. (2) Safari
+     itself recomputes a sticky element's pinned offset whenever the
+     element it's tracking against changes (lockBodyScroll flips <body>
+     to position:fixed to lock scroll while the sheet is open), and for
+     a frame or two before it resettles it can render the topbar at its
+     plain in-flow document position instead of pinned to top:0 --
+     revealing whatever real content actually sits there (a project
+     title scrolled past minutes ago), read as a jump with page text
+     flashing in by the logo. A scoped fix that only switched to fixed
+     while the sheet was open (so the switch itself only ever happened
+     right as the body's own position was changing) didn't reliably stop
+     it either -- so this goes with always-fixed instead, removing the
+     sticky recompute from the picture entirely rather than timing
+     around it. Taking it out of flow this way means its normal 3.875rem
+     of document height has to be added back some other way -- see
+     .page's own padding-top below. */
   .mobile-topbar {
     display: flex;
-    position: sticky;
+    position: fixed;
     top: 0;
+    /* Matches .page's own 0.5rem side padding, which the topbar relied
+       on for its horizontal inset by simply sitting inside it while it
+       was still in flow -- position:fixed escapes that padding box, so
+       it has to be restated here. */
+    left: 0.5rem;
+    right: 0.5rem;
     height: 3.875rem;
     align-items: center;
-    /* .page already insets by 8px (0.5rem); +6px (0.375rem) here gets
-       the logo to 14px from the true screen edge. */
+    /* +6px (0.375rem) of its own on top of the 8px above gets the logo
+       to 14px from the true screen edge. */
     padding: 0 0.375rem;
     background: #fff;
     z-index: 60;
@@ -1596,34 +1627,6 @@ button.project__media-link {
     width: 11.875rem;
     height: 1.625rem;
     margin-bottom: 0;
-  }
-
-  /* The real bug behind the "jump with page text flashing in by the
-     logo" report: .mobile-topbar is position:sticky, and lockBodyScroll
-     flips <body> itself to position:fixed to lock scroll while the
-     sheet is open. Safari recomputes a sticky descendant's offset when
-     its scrolling ancestor's positioning changes like that, and for a
-     frame or two before it resettles it can render the topbar at its
-     plain in-flow position instead of pinned to top:0 -- which reveals
-     whatever real content is actually sitting there in the document
-     (a project title, scrolled past minutes ago). Switching it to
-     position:fixed for the whole time body.about-open is set (which
-     already brackets lockBodyScroll's own fixed/static toggling, see
-     setAboutOpen) sidesteps the recompute entirely -- position:fixed
-     is anchored to the viewport regardless of what an ancestor's own
-     position does. Telegram already hides the topbar outright while
-     open (its own higher-specificity rule below), so this never
-     applies there. */
-  body.about-open .mobile-topbar {
-    position: fixed;
-    top: 0;
-    /* Matches .page's own 0.5rem side padding, which the sticky version
-       relied on for its horizontal inset by simply sitting inside it --
-       position:fixed escapes that padding box, so it has to be restated
-       here or the logo would jump 8px closer to the screen edge for as
-       long as the sheet is open. */
-    left: 0.5rem;
-    right: 0.5rem;
   }
 
   /* Same "2nd state" the desktop logo gets on :hover -- while the about
@@ -1701,42 +1704,6 @@ button.project__media-link {
 
   .is-telegram-webview .mobile-about-toggle {
     bottom: calc(env(safe-area-inset-bottom, 0px) + var(--tg-bottom-gap, 0px) + 1rem);
-  }
-
-  /* The sheet itself is a single box already sized to its full open
-     area (top:3.875rem to the bottom), but it gets there by sliding
-     via transform, not by growing -- while it's still mid-slide, the
-     strip between the topbar and the sheet's rising/falling edge isn't
-     covered by anything, so whatever the real page happens to have
-     underneath (live, at the user's actual scroll position) shows
-     through for a frame or two. That reads as a jump with page text
-     flashing in right around the logo, especially once scrolled past
-     the very top of the page. This flat-color filler sits in that same
-     strip the whole time, appears the instant the sheet starts opening
-     (0s transition, no delay) and only disappears once the close slide
-     has fully finished (0s transition delayed by the sheet's own 0.4s),
-     so the gap always shows this instead of live content underneath. */
-  .mobile-about-backdrop {
-    display: block;
-    position: fixed;
-    left: 0;
-    right: 0;
-    top: 3.875rem;
-    bottom: 0;
-    background: #F2F2F2;
-    z-index: 49;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0s linear 0.4s;
-  }
-
-  .mobile-about-backdrop.is-open {
-    opacity: 1;
-    transition: opacity 0s linear 0s;
-  }
-
-  .is-telegram-webview .mobile-about-backdrop {
-    top: 0;
   }
 
   #mobile-about-sheet {
@@ -2482,8 +2449,6 @@ button.project__media-link {
     <span class="mobile-about-toggle__open"><span class="lang-fade" data-lang-en="Read about me" data-lang-ru="Почитать обо мне">Read about me</span></span>
     <span class="mobile-about-toggle__close"><span class="lang-fade" data-lang-en="Okay, back to the work" data-lang-ru="Окей, вернемся к работам">Okay, back to the work</span></span>
   </button>
-
-  <div class="mobile-about-backdrop" id="mobile-about-backdrop" aria-hidden="true"></div>
 
   <aside class="sidebar" id="mobile-about-sheet">
     <a href="#" class="logo" aria-label="Vika Ivanova">
@@ -3483,7 +3448,6 @@ button.project__media-link {
       // as its own independent `about` flag.
       var aboutSheet = document.getElementById('mobile-about-sheet');
       var aboutToggle = document.querySelector('.mobile-about-toggle');
-      var aboutBackdrop = document.getElementById('mobile-about-backdrop');
 
       // The CTA's two labels ("почитать обо мне" / "продолжить смотреть")
       // are different lengths, and the pill is meant to smoothly resize
@@ -3562,7 +3526,6 @@ button.project__media-link {
         if (open === isAboutOpen()) return;
         aboutSheet.classList.toggle('is-open', open);
         aboutToggle.classList.toggle('is-open', open);
-        if (aboutBackdrop) aboutBackdrop.classList.toggle('is-open', open);
 
         // Closing inside Telegram's in-app browser specifically: delay
         // the topbar reveal + scroll-unlock until the sheet has actually
