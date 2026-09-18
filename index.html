@@ -1651,25 +1651,11 @@ button.project__media-link {
      but WebKit's position:fixed rendering can desync from the visual
      viewport during Telegram's elastic overscroll, letting the real
      (position:static, still sitting at its normal document spot) topbar
-     flash through the gap -- read as a "second logo". Hiding it while
-     the sheet is open removes the thing that glitch could ever reveal,
-     rather than chasing the glitch itself.
-     visibility:hidden, not display:none -- .mobile-topbar is
-     position:static (in-flow) here, so display:none used to make it
-     stop reserving its own 3.875rem of document height the instant
-     this class landed. Toggling that height while the page's own
-     scroll-lock was still holding an older, frozen snapshot (see
-     lockBodyScroll's Telegram branch, and the delay between it and
-     this class toggle in setAboutOpen) opened a gap the size of the
-     topbar right at the top of the page for as long as the two were
-     out of sync, which then snapped shut all at once once the lock
-     finally released -- the jerky "extra padding" reported on close.
-     visibility:hidden still paints nothing and blocks interaction, but
-     keeps the box's layout footprint constant whether it's showing or
-     not, so there's no height left to ever get out of sync in the
-     first place. */
+     flash through the gap -- read as a "second logo". Taking it out of
+     the render entirely while the sheet is open removes the thing that
+     glitch could ever reveal, rather than chasing the glitch itself. */
   .is-telegram-webview body.about-open .mobile-topbar {
-    visibility: hidden;
+    display: none;
   }
 
   .mobile-topbar__logo {
@@ -3617,23 +3603,11 @@ button.project__media-link {
         aboutSheet.classList.toggle('is-open', open);
         aboutToggle.classList.toggle('is-open', open);
 
-        // Closing on Telegram used to delay the whole thing (topbar
-        // reveal + scroll-unlock together) 400ms, to dodge a hang-then-
-        // vanish at the logo. Removed at the client's request -- the
-        // topbar reveal (the about-open class toggle right below) now
-        // fires immediately, same as everywhere else, and that fixed
-        // what it was meant to. But that uncovered a related problem:
-        // lockBodyScroll(false) is the heavier half of what that class
-        // toggle used to bring along with it -- clearing body's
-        // position:fixed and calling scrollTo -- and firing that at the
-        // same instant while the sheet still has a full 0.4s of its own
-        // slide-down left to animate appears to make Telegram's WebView
-        // stall finishing that animation until the reflow settles,
-        // which is the "the whole sheet freezes for a second right
-        // before it's gone" the client reported next. So just that part
-        // (not the topbar reveal) goes back to waiting out the sheet's
-        // own transition -- delayed for Telegram specifically, everyone
-        // else keeps calling it immediately alongside the class toggle.
+        // Closing on Telegram used to be delayed 400ms here (waiting for
+        // the sheet's own slide-down before revealing the topbar again),
+        // added to dodge a hang-then-vanish at the logo. Removed at the
+        // client's request -- close is back to firing immediately, same
+        // as everywhere else, only for Telegram.
         if (open) {
           document.body.classList.toggle('about-open', true);
           // One frame later, not the same frame as the class toggle just
@@ -3648,16 +3622,7 @@ button.project__media-link {
           });
         } else {
           document.body.classList.toggle('about-open', open);
-          if (document.documentElement.classList.contains('is-telegram-webview')) {
-            setTimeout(function () {
-              // Bail if it was reopened before this fired -- that state
-              // (and its own immediate lock) stands.
-              if (isAboutOpen()) return;
-              lockBodyScroll(false);
-            }, 400);
-          } else {
-            lockBodyScroll(open);
-          }
+          lockBodyScroll(open);
         }
       }
 
