@@ -1507,9 +1507,13 @@ button.project__media-link {
      every .case__quote here is exactly the same "image, text, image"
      shape repeated -- base .case__quote's own 32px/48px double-counts
      the previous image's 8px margin-bottom into a 40px top gap, and
-     doesn't match the 36px spec on the bottom either. */
+     doesn't match the 36px spec on the bottom either. Top/bottom only
+     -- the margin shorthand would reset margin-left too, wiping out
+     .case__quote--right's own offset that aligns it under the second
+     image in the row above. */
   #case-basarab .case__quote {
-    margin: 24px 0 36px;
+    margin-top: 24px;
+    margin-bottom: 36px;
   }
 
   /* Matches .project__title on the main page (22px Oceanic, same
