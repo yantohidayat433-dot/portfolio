@@ -610,9 +610,12 @@ body.has-custom-cursor * {
   font-size: 22px;
   /* Trimmed from 1.25, same as the phone breakpoint below -- two
      adjacent EAEAEB badge-title/tag line boxes otherwise leave a
-     hairline seam between them at 1.25; nudging it down tightens the
-     boxes until they touch with no visible gap. */
-  line-height: 1.23;
+     hairline seam between them at 1.25. Deliberately past the point
+     where the boxes just touch (a hair of real overlap, not just
+     zero gap) since sub-pixel line-box rounding differs enough
+     between browsers that "just touching" in one still shows a
+     hairline seam in another. */
+  line-height: 1.20;
   letter-spacing: var(--tracking-sans);
   color: var(--color-ink);
 }
@@ -2264,7 +2267,7 @@ button.project__media-link {
      with no visible gap). */
   .project__title {
     font-size: 1.375rem;
-    line-height: 1.23;
+    line-height: 1.20;
     font-family: var(--font-serif);
   }
 
@@ -3070,15 +3073,15 @@ button.project__media-link {
       // after the pointer leaves. It does not revert on mouseleave, and
       // it does not keep cycling on a timer while the pointer sits
       // still over it; the only trigger for a new color is a fresh
-      // mouseenter.
+      // mouseenter. Text selection (::selection, further down) draws
+      // from this exact same pool and shares the same "currently in
+      // use" tracking, so a swatch and the live selection never end up
+      // showing the same color at the same time either.
       //
       // Background AND text are a fixed pair straight off the approved
       // swatch sheet (not computed -- there's no black/white
       // contrast-safety rule here, the designer already paired each
-      // background with its own text color). Every pick is checked
-      // against every OTHER swatch's current background first, so two
-      // buttons can't show the same fill at the same time (as long as
-      // the palette has at least as many pairs as visible swatches).
+      // background with its own text color).
       var PALETTE = [
         { bg: '#A02F0A', text: '#FFD0ED' },
         { bg: '#E07200', text: '#5C3B9A' },
@@ -3117,109 +3120,74 @@ button.project__media-link {
         { bg: '#121E48', text: '#D4E039' }
       ];
 
-      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      // key -> the bg hex currently shown there: one entry per swatch
+      // element, plus 'selection' for the live text-selection color.
+      // Shared by pickColor below and the mousedown handler further
+      // down, so a pick from either one excludes whatever the OTHER
+      // is currently showing too -- not just its own kind of swatch.
+      var activeColors = new Map();
 
-      var swatches = document.querySelectorAll('.contact__links a, .project__badge');
-      var currentColors = new Map(); // element -> its currently-applied bg
-
-      function pickColor(el) {
-        // Excludes every background currently showing on ANY swatch
-        // (this one included, so it never repeats itself either).
-        var taken = new Set(currentColors.values());
+      function pickFrom(excludeKey) {
+        var taken = new Set(activeColors.values());
         var available = PALETTE.filter(function (p) { return !taken.has(p.bg); });
-        if (available.length === 0) available = PALETTE.filter(function (p) { return p.bg !== currentColors.get(el); });
+        if (available.length === 0) available = PALETTE.filter(function (p) { return p.bg !== activeColors.get(excludeKey); });
         if (available.length === 0) available = PALETTE;
+        return available[Math.floor(Math.random() * available.length)];
+      }
 
-        var pick = available[Math.floor(Math.random() * available.length)];
-        currentColors.set(el, pick.bg);
-        el.style.backgroundColor = pick.bg;
-        el.style.color = pick.text;
-        // A badge's title/tagline now carry their own background (split
-        // out of .project__badge itself so a real gap can sit between
-        // them -- see .project__badge-gap), so the picked color has to
-        // be pushed onto both of them directly, or a badge's hover/tap
-        // color would never actually become visible. The tagline also
-        // has its own explicit grey color that would otherwise sit
-        // unchanged on top of the new background.
-        el.querySelectorAll('.project__badge-title, .project__badge-tag').forEach(function (part) {
-          part.style.backgroundColor = pick.bg;
-          part.style.color = pick.text;
+      if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        var swatches = document.querySelectorAll('.contact__links a, .project__badge');
+
+        var pickColor = function (el) {
+          var pick = pickFrom(el);
+          activeColors.set(el, pick.bg);
+          el.style.backgroundColor = pick.bg;
+          el.style.color = pick.text;
+          // A badge's title/tagline now carry their own background
+          // (split out of .project__badge itself so a real gap can
+          // sit between them -- see .project__badge-gap), so the
+          // picked color has to be pushed onto both of them directly,
+          // or a badge's hover/tap color would never actually become
+          // visible. The tagline also has its own explicit grey color
+          // that would otherwise sit unchanged on top of the new
+          // background.
+          el.querySelectorAll('.project__badge-title, .project__badge-tag').forEach(function (part) {
+            part.style.backgroundColor = pick.bg;
+            part.style.color = pick.text;
+          });
+        };
+
+        swatches.forEach(function (el) {
+          // mouseenter drives it on desktop (a real hover); click
+          // covers touch, where there's no hover to fire at all --
+          // tapping a badge/contact link is what "presses" it on the
+          // phone PDF. A mouse click also re-picks on desktop, which
+          // just reads as a bonus flourish on top of the hover it
+          // already got.
+          el.addEventListener('mouseenter', function () { pickColor(el); });
+          el.addEventListener('click', function () { pickColor(el); });
         });
       }
 
-      swatches.forEach(function (el) {
-        // mouseenter drives it on desktop (a real hover); click covers
-        // touch, where there's no hover to fire at all -- tapping a
-        // badge/contact link is what "presses" it on the phone PDF.
-        // A mouse click also re-picks on desktop, which just reads as a
-        // bonus flourish on top of the hover it already got.
-        el.addEventListener('mouseenter', function () { pickColor(el); });
-        el.addEventListener('click', function () { pickColor(el); });
-      });
-    })();
-
-    (function () {
       // Text selection (::selection, driven by the --sel-bg/--sel-color
-      // custom properties) gets a fresh random color from the same
-      // palette every time a new selection starts, same "picks once,
-      // holds until the next one" rule as the button/badge swatches.
+      // custom properties) gets a fresh pick from the same pool every
+      // time a new selection starts, same "picks once, holds until
+      // the next one" rule as the swatches above -- not gated by
+      // reduced-motion (a selection color swap isn't really "motion"),
+      // desktop only (mobile has no mouse-drag selection gesture).
       // mousedown is what a selection drag actually begins with, so
       // picking there (rather than on selectionchange, which fires
       // continuously as the drag grows) means one color per selection,
       // not a flicker of colors while dragging.
-      // Background AND text are a fixed pair straight off the approved
-      // swatch sheet, same as the button/badge swatches -- no
-      // black/white contrast-safety computation here either.
-      var PALETTE = [
-        { bg: '#A02F0A', text: '#FFD0ED' },
-        { bg: '#E07200', text: '#5C3B9A' },
-        { bg: '#FFD621', text: '#5C3B9A' },
-        { bg: '#2B943D', text: '#FFD0ED' },
-        { bg: '#63B5F1', text: '#5C3B9A' },
-        { bg: '#E57999', text: '#CCFEC7' },
-        { bg: '#B79930', text: '#FFD621' },
-        { bg: '#7F8E59', text: '#FFD621' },
-        { bg: '#98E7FE', text: '#5C3B9A' },
-        { bg: '#E25294', text: '#5C3B9A' },
-        { bg: '#DBC392', text: '#CCFEC7' },
-        { bg: '#00F280', text: '#5C3B9A' },
-        { bg: '#00849A', text: '#FFD0ED' },
-        { bg: '#BE41F3', text: '#FFD0ED' },
-        { bg: '#F5002C', text: '#FFD0ED' },
-        { bg: '#FBC79A', text: '#2B943D' },
-        { bg: '#D0D0C2', text: '#BE41F3' },
-        { bg: '#CCFEC7', text: '#00849A' },
-        { bg: '#8190F3', text: '#004BA7' },
-        { bg: '#D4E039', text: '#00849A' },
-        { bg: '#FFD0ED', text: '#004BA7' },
-        { bg: '#A5C1BA', text: '#FFD0ED' },
-        { bg: '#008DD4', text: '#FFD0ED' },
-        { bg: '#B781A3', text: '#FFD0ED' },
-        { bg: '#45152F', text: '#00F280' },
-        { bg: '#AE004C', text: '#A5C1BA' },
-        { bg: '#3B4E1F', text: '#98E7FE' },
-        { bg: '#00516D', text: '#D4E039' },
-        { bg: '#004BA7', text: '#FFD0ED' },
-        { bg: '#5C3B9A', text: '#CCFEC7' },
-        { bg: '#572325', text: '#CCFEC7' },
-        { bg: '#361C00', text: '#BE41F3' },
-        { bg: '#0D4834', text: '#FFD0ED' },
-        { bg: '#2C3145', text: '#FFD0ED' },
-        { bg: '#121E48', text: '#D4E039' }
-      ];
-
-      if (window.matchMedia('(max-width: 700px)').matches) return;
-
-      var root = document.documentElement;
-      var lastPick = null;
-
-      document.addEventListener('mousedown', function () {
-        var available = PALETTE.filter(function (p) { return p.bg !== lastPick; });
-        var pick = available[Math.floor(Math.random() * available.length)];
-        lastPick = pick.bg;
-        root.style.setProperty('--sel-bg', pick.bg);
-        root.style.setProperty('--sel-color', pick.text);
-      });
+      if (!window.matchMedia('(max-width: 700px)').matches) {
+        var root = document.documentElement;
+        document.addEventListener('mousedown', function () {
+          var pick = pickFrom('selection');
+          activeColors.set('selection', pick.bg);
+          root.style.setProperty('--sel-bg', pick.bg);
+          root.style.setProperty('--sel-color', pick.text);
+        });
+      }
     })();
 
     (function () {
