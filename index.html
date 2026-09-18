@@ -1651,11 +1651,21 @@ button.project__media-link {
      but WebKit's position:fixed rendering can desync from the visual
      viewport during Telegram's elastic overscroll, letting the real
      (position:static, still sitting at its normal document spot) topbar
-     flash through the gap -- read as a "second logo". Taking it out of
-     the render entirely while the sheet is open removes the thing that
-     glitch could ever reveal, rather than chasing the glitch itself. */
+     flash through the gap -- read as a "second logo". Hiding it while
+     the sheet is open removes the thing that glitch could ever reveal,
+     rather than chasing the glitch itself.
+     visibility:hidden, not display:none -- .mobile-topbar is
+     position:static (in-flow) here, so display:none would make it
+     stop reserving its own 3.875rem of document height the instant
+     this class lands, shifting everything below it up by that amount
+     for as long as the scroll-lock (a snapshot taken before that
+     shift) hasn't caught up -- a gap the size of the topbar that then
+     snaps shut once it does. visibility:hidden still paints nothing
+     and blocks interaction, but keeps the box's layout footprint
+     constant whether it's showing or not, so there's no height left
+     to ever drift out of sync in the first place. */
   .is-telegram-webview body.about-open .mobile-topbar {
-    display: none;
+    visibility: hidden;
   }
 
   .mobile-topbar__logo {
@@ -3603,11 +3613,28 @@ button.project__media-link {
         aboutSheet.classList.toggle('is-open', open);
         aboutToggle.classList.toggle('is-open', open);
 
-        // Closing on Telegram used to be delayed 400ms here (waiting for
-        // the sheet's own slide-down before revealing the topbar again),
-        // added to dodge a hang-then-vanish at the logo. Removed at the
-        // client's request -- close is back to firing immediately, same
-        // as everywhere else, only for Telegram.
+        // Telegram close: the topbar reveal (the about-open class
+        // toggle right below) fires immediately, same as everywhere
+        // else -- that's what fixed the original missing-logo problem
+        // and it stays exactly as is. lockBodyScroll(false) is the
+        // heavier half, though -- it clears body's position:fixed and
+        // calls scrollTo -- and firing that synchronously, at the same
+        // instant the sheet still has its own 0.4s slide-down left to
+        // animate, appears to make Telegram's WebView stall finishing
+        // that transition until the reflow settles, which reads as the
+        // whole sheet freezing for a second right before it's gone.
+        //
+        // A previous attempt fixed this by guessing a flat 400ms delay
+        // to match the sheet's own transition-duration -- but that's
+        // exactly what it is, a guess, and the real device doesn't
+        // always finish the animation in exactly 400ms, so the guess
+        // could still land early and cause the same stall, just less
+        // often. Waiting for the sheet's own transitionend instead
+        // means this only ever fires once the animation has actually,
+        // verifiably finished, regardless of how long that really took
+        // on the device -- with a safety-net timeout in case the event
+        // never comes (prefers-reduced-motion turns the transition off
+        // entirely elsewhere, so there'd be nothing to end).
         if (open) {
           document.body.classList.toggle('about-open', true);
           // One frame later, not the same frame as the class toggle just
@@ -3622,7 +3649,32 @@ button.project__media-link {
           });
         } else {
           document.body.classList.toggle('about-open', open);
-          lockBodyScroll(open);
+          var isTelegram = document.documentElement.classList.contains('is-telegram-webview');
+          if (isTelegram && !reduceMotion) {
+            var unlockDone = false;
+            var unlockAfterClose = function () {
+              if (unlockDone) return;
+              unlockDone = true;
+              aboutSheet.removeEventListener('transitionend', onSheetTransitionEnd);
+              clearTimeout(unlockFallback);
+              // Bail if it was reopened before this fired -- that state
+              // (and its own immediate lock) stands.
+              if (isAboutOpen()) return;
+              lockBodyScroll(false);
+            };
+            var onSheetTransitionEnd = function (event) {
+              if (event.target === aboutSheet && event.propertyName === 'transform') {
+                unlockAfterClose();
+              }
+            };
+            aboutSheet.addEventListener('transitionend', onSheetTransitionEnd);
+            // Safety net in case transitionend never fires for some
+            // reason -- comfortably past the sheet's own 0.4s so it
+            // only ever kicks in as a fallback, not a race.
+            var unlockFallback = setTimeout(unlockAfterClose, 600);
+          } else {
+            lockBodyScroll(open);
+          }
         }
       }
 
