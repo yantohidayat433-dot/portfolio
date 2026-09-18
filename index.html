@@ -415,7 +415,8 @@ ul {
    tablet treatment for them. */
 
 .mobile-topbar,
-.mobile-about-toggle {
+.mobile-about-toggle,
+.mobile-about-backdrop {
   display: none;
 }
 
@@ -1674,6 +1675,42 @@ button.project__media-link {
     bottom: calc(env(safe-area-inset-bottom, 0px) + var(--tg-bottom-gap, 0px) + 1rem);
   }
 
+  /* The sheet itself is a single box already sized to its full open
+     area (top:3.875rem to the bottom), but it gets there by sliding
+     via transform, not by growing -- while it's still mid-slide, the
+     strip between the topbar and the sheet's rising/falling edge isn't
+     covered by anything, so whatever the real page happens to have
+     underneath (live, at the user's actual scroll position) shows
+     through for a frame or two. That reads as a jump with page text
+     flashing in right around the logo, especially once scrolled past
+     the very top of the page. This flat-color filler sits in that same
+     strip the whole time, appears the instant the sheet starts opening
+     (0s transition, no delay) and only disappears once the close slide
+     has fully finished (0s transition delayed by the sheet's own 0.4s),
+     so the gap always shows this instead of live content underneath. */
+  .mobile-about-backdrop {
+    display: block;
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 3.875rem;
+    bottom: 0;
+    background: #F2F2F2;
+    z-index: 49;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0s linear 0.4s;
+  }
+
+  .mobile-about-backdrop.is-open {
+    opacity: 1;
+    transition: opacity 0s linear 0s;
+  }
+
+  .is-telegram-webview .mobile-about-backdrop {
+    top: 0;
+  }
+
   #mobile-about-sheet {
     position: fixed;
     left: 0;
@@ -2417,6 +2454,8 @@ button.project__media-link {
     <span class="mobile-about-toggle__open"><span class="lang-fade" data-lang-en="Read about me" data-lang-ru="Почитать обо мне">Read about me</span></span>
     <span class="mobile-about-toggle__close"><span class="lang-fade" data-lang-en="Okay, back to the work" data-lang-ru="Окей, вернемся к работам">Okay, back to the work</span></span>
   </button>
+
+  <div class="mobile-about-backdrop" id="mobile-about-backdrop" aria-hidden="true"></div>
 
   <aside class="sidebar" id="mobile-about-sheet">
     <a href="#" class="logo" aria-label="Vika Ivanova">
@@ -3416,6 +3455,7 @@ button.project__media-link {
       // as its own independent `about` flag.
       var aboutSheet = document.getElementById('mobile-about-sheet');
       var aboutToggle = document.querySelector('.mobile-about-toggle');
+      var aboutBackdrop = document.getElementById('mobile-about-backdrop');
 
       // The CTA's two labels ("почитать обо мне" / "продолжить смотреть")
       // are different lengths, and the pill is meant to smoothly resize
@@ -3494,6 +3534,7 @@ button.project__media-link {
         if (open === isAboutOpen()) return;
         aboutSheet.classList.toggle('is-open', open);
         aboutToggle.classList.toggle('is-open', open);
+        if (aboutBackdrop) aboutBackdrop.classList.toggle('is-open', open);
 
         // Closing inside Telegram's in-app browser specifically: delay
         // the topbar reveal + scroll-unlock until the sheet has actually
