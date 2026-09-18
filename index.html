@@ -1691,11 +1691,7 @@ button.project__media-link {
      full screen and carry its own logo bar as a stand-in header instead
      of depending on the real one's position. */
   .is-telegram-webview #mobile-about-sheet {
-    /* Was a flat 0 -- now offset by however much of the top Telegram's
-       own URL bar is actually covering right now (see the visualViewport
-       script that sets this), instead of assuming it's always fully
-       collapsed out of the way. */
-    top: var(--tg-top-gap, 0px);
+    top: 0;
     /* Stops the rubber-band bounce at the top of the sheet's own scroll
        container -- without it, pulling down past the top on iOS could
        momentarily reveal whatever sits behind/above the sticky logo bar
@@ -3429,32 +3425,6 @@ button.project__media-link {
     })();
 
     (function () {
-      // Same idea as --tg-bottom-gap just above, but for the top --
-      // needed now that the about sheet's scroll-lock (see
-      // lockBodyScroll) no longer keeps Telegram's own URL bar
-      // collapsed the way position:fixed on <body> used to. With the
-      // lighter overflow:hidden lock, that bar can stay expanded while
-      // the sheet is open, and the sheet's top:0 assumed nothing would
-      // ever sit above it -- vv.offsetTop reports exactly how much of
-      // the top is currently covered by that bar (0 wherever this isn't
-      // happening, e.g. Safari or Telegram with a collapsed bar), so
-      // feed it back as a variable the sheet can offset by instead of
-      // assuming a fixed 0.
-      var isTelegram = document.documentElement.classList.contains('is-telegram-webview');
-      if (!isTelegram || !window.visualViewport) return;
-      var vv = window.visualViewport;
-      var syncTopGap = function () {
-        document.documentElement.style.setProperty(
-          '--tg-top-gap',
-          Math.max(0, Math.round(vv.offsetTop)) + 'px'
-        );
-      };
-      vv.addEventListener('resize', syncTopGap);
-      vv.addEventListener('scroll', syncTopGap);
-      syncTopGap();
-    })();
-
-    (function () {
       // Telegram's WKWebView doesn't reliably honor overscroll-behavior
       // (already set on html/body/the sheet itself -- CSS wasn't enough
       // on its own there, unlike Safari), so pulling down past the top
@@ -3562,43 +3532,59 @@ button.project__media-link {
       // without this the grid underneath stayed both visible through any
       // seam and (worse) still scrollable while "on" the about screen.
       //
-      // This used to flip <body> itself to position:fixed (the classic
-      // trick for reliable scroll-lock on iOS, since plain overflow:hidden
-      // alone doesn't always fully stop it there). That turned out to be
-      // the root cause of a family of Safari glitches chased over several
-      // rounds -- .mobile-topbar sits inside body, and each glitch (a
-      // blank frame, a stray logo box floating mid-page) traced back to
-      // WebKit doing something unreliable with a position:fixed
-      // descendant at the exact moment its position:fixed ancestor's own
-      // box changed.
+      // This used to flip <body> itself to position:fixed everywhere (the
+      // classic trick for reliable scroll-lock on iOS, since plain
+      // overflow:hidden alone doesn't always fully stop it there). That
+      // turned out to be the root cause of a family of Safari glitches
+      // chased over several rounds -- .mobile-topbar sits inside body,
+      // and each glitch (a blank frame, a stray logo box floating mid-
+      // page) traced back to WebKit doing something unreliable with a
+      // position:fixed descendant at the exact moment its position:fixed
+      // ancestor's own box changed. Switching to overflow:hidden +
+      // blocking touchmove by hand fixed that for normal mobile Safari,
+      // confirmed on-device -- so that stays the default below.
       //
-      // Telegram was special-cased onto the old position:fixed lock for
-      // a while after that, since switching it to overflow:hidden made
-      // its own top chrome (the URL bar) stop collapsing the way it used
-      // to, leaving a gap above the sheet's top:0 that the real page
-      // peeked through. But position:fixed there brought its own cost --
-      // restoring scroll on close means clearing position:fixed and then
-      // calling scrollTo, and that scrollTo appears to be exactly what
-      // was making Telegram's own chrome visibly react (a page "jump")
-      // even though the two combined leave scrollY exactly where it
-      // started. Telegram now gets the same overflow:hidden lock as
-      // everyone else -- nothing to restore on close, so nothing left to
-      // trigger that reaction -- with the chrome-collapse problem this
-      // previously caused solved separately: see --tg-top-gap (the
-      // visualViewport script above) and #mobile-about-sheet's own top,
-      // which now tracks how much of the top Telegram's bar is actually
-      // covering instead of assuming it's always fully out of the way.
+      // Telegram's in-app browser needed the opposite call: switching
+      // it too made ITS OWN top chrome (the URL bar) stop collapsing the
+      // way it used to, leaving a gap above the sheet's top:0 that the
+      // real page peeked through, and a couple of attempts at a lighter
+      // fix for that (a dynamic --tg-top-gap, swapping which side of the
+      // open/close got the timing delay) didn't hold up on-device either.
+      // Telegram's .mobile-topbar is always position:static regardless
+      // of what the base rule says (see its own override), so none of
+      // the sticky/fixed-descendant glitches above were ever reachable
+      // there in the first place -- there's nothing to lose by keeping
+      // Telegram on the old position:fixed lock while everyone else uses
+      // the new one.
       function blockBackgroundTouchScroll(event) {
         if (aboutSheet && aboutSheet.contains(event.target)) return;
         event.preventDefault();
       }
 
       var scrollLocked = false;
+      var savedScrollY = 0;
 
       function lockBodyScroll(lock) {
         if (!window.matchMedia('(max-width: 700px)').matches) return;
         if (lock === scrollLocked) return;
         scrollLocked = lock;
+
+        if (document.documentElement.classList.contains('is-telegram-webview')) {
+          if (lock) {
+            savedScrollY = window.scrollY;
+            document.body.style.position = 'fixed';
+            document.body.style.top = -savedScrollY + 'px';
+            document.body.style.left = '0';
+            document.body.style.width = '100%';
+          } else {
+            document.body.style.position = '';
+            document.body.style.top = '';
+            document.body.style.left = '';
+            document.body.style.width = '';
+            window.scrollTo(0, savedScrollY);
+          }
+          return;
+        }
 
         if (lock) {
           document.documentElement.classList.add('scroll-locked');
@@ -3617,56 +3603,34 @@ button.project__media-link {
         aboutSheet.classList.toggle('is-open', open);
         aboutToggle.classList.toggle('is-open', open);
 
-        // Telegram's in-app browser: body.about-open is what drops
-        // .mobile-topbar to display:none there (see its own rule) --
-        // everywhere else it only ever recolors an always-visible topbar,
-        // so this timing dance is Telegram-only.
-        //
-        // The sheet covers the full screen and animates with a single
-        // uniform transform, so which edge of the screen it uncovers
-        // first (and when) depends only on which way it's sliding --
-        // not on when its own 0.4s transition happens to finish:
-        //  - Opening, it slides UP from fully off-screen at the bottom,
-        //    so its top edge doesn't reach the top of the screen until
-        //    the very end of that 0.4s. Hiding the topbar immediately
-        //    on tap (the old behavior) left the top uncovered by
-        //    neither the topbar nor the sheet for that whole stretch --
-        //    the "hole" reported when opening scrolled partway down the
-        //    page. Delaying the hide to match how long the sheet
-        //    actually takes to arrive closes that gap.
-        //  - Closing, it slides straight back DOWN from fully covering
-        //    the screen, so its top edge starts uncovering the top
-        //    almost immediately, not at the end of its 0.4s. Delaying
-        //    the topbar's return to match that non-existent "end" (the
-        //    old behavior, originally added to dodge a reflow from
-        //    lockBodyScroll's since-removed position:fixed switch) just
-        //    left it lagging behind an area the sheet had already
-        //    exposed -- the "hang-then-vanish" reported when closing.
-        //    Revealing it immediately instead matches how fast that
-        //    area is actually uncovered now.
+        // Closing inside Telegram's in-app browser specifically: delay
+        // the topbar reveal + scroll-unlock until the sheet has actually
+        // finished its 0.4s slide down, instead of firing them the
+        // instant the tap lands (still the case for Safari/everywhere
+        // else). .mobile-topbar is position:static there, so taking
+        // body's about-open class off drops it straight back into flow,
+        // right as lockBodyScroll's own scrollTo jumps the page under
+        // it -- and Telegram's WebView appears to defer painting that
+        // reflow until the sheet (still mid-slide on top of it) uncovers
+        // the area, which is the hang-then-vanish right at the logo.
         var isTelegram = document.documentElement.classList.contains('is-telegram-webview');
-        if (isTelegram && open) {
+        if (isTelegram && !open) {
           setTimeout(function () {
-            // Bail if it was closed again before this fired -- that
-            // state (already applied synchronously below) stands.
-            if (!isAboutOpen()) return;
-            document.body.classList.toggle('about-open', true);
+            // Bail if it was reopened before this fired -- that state
+            // (and its own immediate body-class/scroll-lock) stands.
+            if (isAboutOpen()) return;
+            document.body.classList.toggle('about-open', false);
+            lockBodyScroll(false);
           }, 400);
-          requestAnimationFrame(function () {
-            lockBodyScroll(true);
-          });
-        } else if (isTelegram && !open) {
-          document.body.classList.toggle('about-open', false);
-          lockBodyScroll(false);
         } else if (open) {
           document.body.classList.toggle('about-open', true);
           // One frame later, not the same frame as the class toggle just
-          // above -- kept from when lockBodyScroll did a heavier
-          // position:fixed switch that could hitch landing in the same
-          // frame as the sheet's own slide-up transition starting. It's
-          // just a cheap overflow:hidden toggle for everyone now, so the
-          // defer costs nothing either way -- left in place rather than
-          // re-tested back out.
+          // above -- lockBodyScroll's position:fixed switch is its own
+          // reflow (the sticky topbar has to recompute against it), and
+          // landing that in the very same frame the sheet's own slide-up
+          // transition starts is what showed as a jerky hitch right as
+          // the sheet passed the logo on the way up. Giving the
+          // transition a clean first frame before this lands avoids it.
           requestAnimationFrame(function () {
             lockBodyScroll(true);
           });
