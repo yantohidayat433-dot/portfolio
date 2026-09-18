@@ -947,8 +947,10 @@ button.project__media-link {
   column-gap: 4px;
   max-width: var(--media-width);
   /* 24px own margin-top + the previous media block's 8px margin-bottom
-     = 32px visible gap above; 48px below before the next media block. */
-  margin: 24px 0 48px;
+     = 32px visible gap above; 36px below before the next media block --
+     confirmed directly in Figma (the source file itself), the fixed
+     standard for every case's own image-to-text/text-to-image rhythm. */
+  margin: 24px 0 36px;
 }
 
 .case__intro-left {
@@ -957,12 +959,19 @@ button.project__media-link {
   gap: 12px;
 }
 
+/* Matches .project__title on the main page (22px Oceanic, same trimmed
+   1.20 line-height) -- the fixed standard for every case's own title,
+   in place of the plain Suisse/28px heading style this replaced. The
+   badge markup (.project__badge-title/-gap/-tag, with its EAEAEB
+   backdrop) that a case's own h2 wraps its content in comes from the
+   same global rules the main page's own badge uses -- no override
+   needed here for that part. */
 .case__intro h2 {
   margin: 0;
-  font-family: var(--font-heading);
+  font-family: var(--font-serif);
   font-weight: 400;
-  font-size: 28px;
-  line-height: 1.25;
+  font-size: 22px;
+  line-height: 1.20;
   letter-spacing: var(--tracking-sans);
   color: var(--color-ink);
 }
@@ -1005,7 +1014,13 @@ button.project__media-link {
 }
 
 .case__quote {
-  margin: 32px 0 48px;
+  /* Same 24px-top/36px-bottom rhythm as .case__intro above -- every
+     .case__quote is the same "image, text, image" shape repeated, and
+     this is the fixed standard for it, confirmed in Figma. Longhand
+     rather than a margin shorthand so it doesn't reset margin-left,
+     which .case__quote--right needs for its own offset. */
+  margin-top: 24px;
+  margin-bottom: 36px;
   max-width: 480px;
   font-family: var(--font-serif);
   font-size: 18px;
@@ -1020,6 +1035,20 @@ button.project__media-link {
 }
 
 .case__quote p:last-child {
+  margin-bottom: 0;
+}
+
+/* :last-child above zeroes the true last DOM child's own margin-bottom
+   to avoid double-spacing before the block's own 36px -- but in a
+   quote with two paragraphs, the true last child is the hidden
+   (display:none) mobile duplicate of the 2nd paragraph, not the
+   visible desktop one sitting right before it. The visible
+   paragraph's own margin doesn't collapse away through the hidden
+   sibling, so it quietly adds on top of the block's 36px. Target the
+   desktop paragraph that's actually last by what precedes the hidden
+   final child, not DOM order -- a fixed rule for any case with this
+   same desktop/mobile paragraph-pair pattern. */
+.case__quote-p--desktop:has(+ .case__quote-p--mobile:last-child) {
   margin-bottom: 0;
 }
 
@@ -1051,14 +1080,9 @@ button.project__media-link {
    slideshow/ig-ticker/final-sale variants keep their own aspect-ratio
    sizing (they're absolutely-positioned crossfade stacks, not plain crops),
    so they're excluded from the fixed-height rules below.
-   Square corners are the standing default for case images (base
-   .case__media carries no radius at all) -- Foundation is the one
-   deliberate exception, called out explicitly here rather than the
-   other way around, so a future case stays square without needing its
-   own override. */
-#case-foundation .case__media {
-  border-radius: 6px;
-}
+   Square corners are the fixed standard for every case's images now --
+   base .case__media carries no radius at all and there is no per-case
+   exception any more (Foundation's own 6px used to be one). */
 
 #case-basarab .case__row,
 #case-foundation .case__row {
@@ -1500,72 +1524,18 @@ button.project__media-link {
     }
   }
 
-  /* Basarab desktop-only tweaks (see the PDF-confirmed redesign notes):
-     a 32px/36px image-to-text/text-to-image rhythm applied everywhere
-     that pattern repeats in this case (not just the intro --
-     .case__quote recurs several more times further down), a title
-     that matches the main page's own heading style, and a badge-
-     styled nav swapped in for the plain "back/next" pair. (Square
-     corners are just the base .case__media default now -- see its
-     own rule -- so there's no override needed here any more.) */
-
-  /* 36px, confirmed directly in Figma (the source file itself) --
-     the PDF export's own text bbox measured 39px here across every
-     instance of this pattern, consistently +3px over Figma's real
-     number, pointing at some export-only quirk (an extra line/padding
-     baked into the exported text frame) rather than the true spec.
-     Figma wins as the source of truth. */
-  #case-basarab .case__intro {
-    margin-bottom: 36px;
-  }
-
-  /* Same 32px-top/36px-bottom rhythm as .case__intro above, since
-     every .case__quote here is exactly the same "image, text, image"
-     shape repeated -- base .case__quote's own 32px/48px double-counts
-     the previous image's 8px margin-bottom into a 40px top gap, and
-     doesn't match the 36px spec on the bottom either. Top/bottom only
-     -- the margin shorthand would reset margin-left too, wiping out
-     .case__quote--right's own offset that aligns it under the second
-     image in the row above. */
-  #case-basarab .case__quote {
-    margin-top: 24px;
-    margin-bottom: 36px;
-  }
-
-  /* .case__quote p:last-child (base rule) zeroes the true last DOM
-     child's own margin-bottom to avoid double-spacing before the
-     div's 36px -- but in the one quote with two paragraphs, that
-     true last child is the hidden (display:none) mobile duplicate of
-     the 2nd paragraph, not the visible desktop one sitting right
-     before it. The visible paragraph's own 20px margin doesn't
-     collapse away through the hidden sibling, so it was quietly
-     adding 20px on top of the div's 36px -- 56px total, only ever
-     visible here since this is the only quote with more than one
-     paragraph. Target the desktop paragraph that's actually last by
-     what precedes the hidden final child, not DOM order. */
-  #case-basarab .case__quote-p--desktop:has(+ .case__quote-p--mobile:last-child) {
-    margin-bottom: 0;
-  }
-
-  /* Matches .project__title on the main page (22px Oceanic, same
-     trimmed line-height) instead of the desktop-default Suisse/28px
-     heading style -- the two-part title/subtitle color split (black
-     "Basarab." + grey description) is unchanged, just the type. */
-  #case-basarab .case__intro h2 {
-    font-family: var(--font-serif);
-    font-size: 22px;
-    line-height: 1.20;
-  }
-
-  #case-basarab .case__nav--mobile {
+  /* Every case's own desktop nav swaps the plain "back/next" pair for
+     a badge-styled one (see .project__badge below) -- the fixed
+     standard for every case, not just Basarab. */
+  .case__nav--mobile {
     display: none;
   }
 
-  #case-basarab .case__nav--desktop {
+  .case__nav--desktop {
     display: flex;
   }
 
-  #case-basarab .case__nav--desktop a {
+  .case__nav--desktop a {
     font-family: var(--font-serif);
     font-size: 22px;
     line-height: 1.25;
@@ -2433,25 +2403,32 @@ button.project__media-link {
     display: inline !important;
   }
 
-  /* Basarab case page: every image is cropped to its own exact height
-     from the mobile PDF (set per-element via the --mh custom property
-     inline, in rem so it scales with the fluid vw-based root size) —
-     !important because it has to win over the desktop fixed-height
-     rules (620px/600px/427px/etc.) regardless of which one matches.
-     Two-up/three-up desktop rows become single-column stacks of
-     full-width cards, each keeping its own --mh. */
-  /* Matches .project__title on the main page's own mobile badge (22px/
-     1.375rem Oceanic, same trimmed 1.20 line-height) -- the standard
-     every future case's own mobile title should follow, same as the
-     desktop title above matches its own main-page counterpart. The
-     EAEAEB backdrop on both title and tag lines, and the tag's black
-     text, are no longer overridden here -- they come for free from
-     the same global .project__badge-title/-tag rules the main page's
-     own mobile badge uses, so the case title reads exactly like a
-     home-page project title. margin-bottom is the 24px case-text
-     standard (see .case__intro/.case__quote below) between a heading
-     and the body copy under it. */
-  #case-basarab .case__intro h2 {
+  /* Fixed standard for every case's own mobile layout (established
+     against Basarab, confirmed against its PDF, and generalized here
+     so it applies to every case rather than staying ID-scoped to just
+     the one it was built for):
+     - every image is cropped to its own exact height (set per-element
+       via the --mh custom property inline, in rem so it scales with
+       the fluid vw-based root size) -- !important because it has to
+       win over the desktop fixed-height rules (620px/600px/427px/etc.)
+       regardless of which one matches. A case that hasn't set --mh on
+       a given image (no dedicated mobile crop prepared yet) falls
+       back to auto -- full width, natural proportions, no crop --
+       rather than collapsing to 0.
+     - two-up/three-up desktop rows become single-column stacks of
+       full-width cards, each keeping its own height.
+     - the title matches the main page's own mobile badge (22px/
+       1.375rem Oceanic, same trimmed 1.20 line-height); the EAEAEB
+       backdrop on both title and tag lines, and the tag's black text,
+       come for free from the same global .project__badge-title/-tag
+       rules the main page's own mobile badge uses. margin-bottom is
+       the 24px case-text standard (see .case__intro/.case__quote
+       below) between a heading and the body copy under it.
+     - 32px image-to-text / 36px text-to-image / 8px paragraph rhythm,
+       with the title/tags column stacked title → body copy → tags
+       (reassigned independently of DOM order) instead of desktop's
+       side-by-side columns. */
+  .case__intro h2 {
     font-family: var(--font-serif);
     font-size: 1.375rem;
     line-height: 1.20;
@@ -2459,52 +2436,52 @@ button.project__media-link {
     order: 1;
   }
 
-  #case-basarab .case__intro-tags {
+  .case__intro-tags {
     display: none;
   }
 
-  #case-basarab .case__row {
+  .case__row {
     flex-direction: column;
     gap: 0.5rem;
     margin-bottom: 0.5rem;
   }
 
-  #case-basarab .case__row .case__media {
+  .case__row .case__media {
     flex: 0 0 auto;
   }
 
-  #case-basarab .case__media,
-  #case-basarab .case__row .case__media {
-    height: var(--mh) !important;
+  .case__media,
+  .case__row .case__media {
+    height: var(--mh, auto) !important;
     margin-bottom: 0.5rem;
   }
 
-  #case-basarab .case__row .case__media {
+  .case__row .case__media {
     margin-bottom: 0;
   }
 
-  #case-basarab .case__media--slideshow,
-  #case-basarab .case__media--ig-ticker,
-  #case-basarab .case__media--final-sale {
+  .case__media--slideshow,
+  .case__media--ig-ticker,
+  .case__media--final-sale {
     aspect-ratio: auto;
   }
 
-  /* Every card's mobile crop is now its own pre-composited image (client-
+  /* Every card's mobile crop is its own pre-composited image (client-
      supplied, already framed/cropped exactly as the mobile design wants
-     it -- object-fit guessing and per-image position hacks are no longer
+     it -- object-fit guessing and per-image position hacks aren't
      needed). .case__media-mobile is the only visible child of a card on
      mobile; everything else the card holds (the desktop <img>, or for the
      slideshow/ig-ticker/final-sale cards their whole cycling structure)
      is hidden outright rather than swapped out, since the desktop JS
      (cycle()) still runs against those elements regardless of viewport. */
-  /* :has() guard -- a card with no .case__media-mobile child (basarab-02,
-     which wasn't part of the supplied set) must fall through to its
-     normal desktop <img>, not go blank. */
-  #case-basarab .case__media:has(> .case__media-mobile) > *:not(.case__media-mobile) {
+  /* :has() guard -- a card with no .case__media-mobile child (no
+     dedicated mobile crop prepared for it) falls through to its
+     normal desktop <img> instead, not going blank. */
+  .case__media:has(> .case__media-mobile) > *:not(.case__media-mobile) {
     display: none !important;
   }
 
-  #case-basarab .case__media-mobile {
+  .case__media-mobile {
     display: block !important;
     width: 100%;
     height: 100%;
@@ -2514,17 +2491,17 @@ button.project__media-link {
     opacity: 1 !important;
   }
 
-  /* A mobile-only crossfade group (the slideshow's mobile crops) -- same
+  /* A mobile-only crossfade group (a slideshow's own mobile crops) -- same
      is-active/opacity pattern as the desktop .case__media--slideshow img,
      just scoped to this nested wrapper (see the cycle() :scope > img
      note) so it cycles independently of the (hidden-on-mobile) desktop
      frames sharing the same card. */
-  #case-basarab .case__media-mobile--cycle {
+  .case__media-mobile--cycle {
     position: relative;
     object-fit: initial;
   }
 
-  #case-basarab .case__media-mobile--cycle img {
+  .case__media-mobile--cycle img {
     position: absolute;
     inset: 0;
     width: 100%;
@@ -2534,18 +2511,18 @@ button.project__media-link {
     transition: opacity 0.6s ease;
   }
 
-  #case-basarab .case__media-mobile--cycle img.is-active {
+  .case__media-mobile--cycle img.is-active {
     opacity: 1 !important;
   }
 
-  /* Same idea for the two ig-ticker cards, but a hard cut (no crossfade)
-     to match .case__media--ig-ticker img's own desktop behavior. */
-  #case-basarab .case__media-mobile--cycle-hard {
+  /* Same idea for ig-ticker cards, but a hard cut (no crossfade) to
+     match .case__media--ig-ticker img's own desktop behavior. */
+  .case__media-mobile--cycle-hard {
     position: relative;
     object-fit: initial;
   }
 
-  #case-basarab .case__media-mobile--cycle-hard img {
+  .case__media-mobile--cycle-hard img {
     position: absolute;
     inset: 0;
     width: 100%;
@@ -2554,60 +2531,61 @@ button.project__media-link {
     opacity: 0 !important;
   }
 
-  #case-basarab .case__media-mobile--cycle-hard img.is-active {
+  .case__media-mobile--cycle-hard img.is-active {
     opacity: 1 !important;
   }
 
   /* Text column: 14px from the viewport edge (vs. 8px for images) --
      the extra 6px lives as the text block's own padding since the page's
      shared 8px inset is common to both. Vertical rhythm per the case
-     text spec: 24px from the image above down to the text, 32px from
+     text spec: 24px from the image above down to the text, 36px from
      the text down to the next image. */
-  #case-basarab .case__intro {
+  .case__intro {
     margin: 1.5rem 0 2.25rem;
     padding: 0 0.375rem;
     row-gap: 0;
   }
 
-  #case-basarab .case__intro-left {
+  .case__intro-left {
     display: contents;
   }
 
   /* Desktop lays the title/tags column beside the body-copy column;
-     the phone PDF instead stacks them title → body copy → tags, so the
+     mobile instead stacks them title → body copy → tags, so the
      visual order is reassigned independently of DOM order. */
-  #case-basarab .case__intro-right {
+  .case__intro-right {
     order: 2;
     gap: 0.5rem;
   }
 
-  #case-basarab .case__intro .project__tags-mobile {
+  .case__intro .project__tags-mobile {
     order: 3;
     margin-top: 1rem;
   }
 
-  #case-basarab .case__quote {
+  .case__quote {
     margin: 1.5rem 0.375rem 2.25rem;
   }
 
-  #case-basarab .case__quote p {
+  .case__quote p {
     margin: 0 0 0.5rem;
   }
 
-  #case-basarab .case__quote p:last-child {
+  .case__quote p:last-child {
     margin-bottom: 0;
   }
 
   /* Mobile-specific line-break variants (see the shared .case__quote-p--
-     mobile/.case__intro-p--mobile rule above) swap in for Basarab only --
-     the desktop copy keeps its own wider-column <br> placements. */
-  #case-basarab .case__intro-p--desktop,
-  #case-basarab .case__quote-p--desktop {
+     mobile/.case__intro-p--mobile rule above) swap in wherever a case
+     has them -- the desktop copy keeps its own wider-column <br>
+     placements. */
+  .case__intro-p--desktop,
+  .case__quote-p--desktop {
     display: none;
   }
 
-  #case-basarab .case__intro-p--mobile,
-  #case-basarab .case__quote-p--mobile {
+  .case__intro-p--mobile,
+  .case__quote-p--mobile {
     display: block;
   }
 
@@ -2651,8 +2629,8 @@ button.project__media-link {
 
   /* The plain "назад/дальше" text nav (and its own top border line)
      is superseded by the rich .case__next preview above -- hide it so
-     it doesn't show twice at the end of the case. */
-  #case-basarab .case__nav--mobile {
+     it doesn't show twice at the end of the case, for every case. */
+  .case__nav--mobile {
     display: none;
   }
 }
@@ -3120,21 +3098,27 @@ button.project__media-link {
 
     <div class="case__intro reveal">
       <div class="case__intro-left">
-        <h2>Фонд «Вызов»</h2>
-        <ul class="case__intro-tags">
-          <li>Визуальная айдентика</li>
-          <li>Логотип</li>
-          <li>Упаковка</li>
+        <h2 data-en="&lt;span class=&quot;project__badge-title&quot;&gt;Vyzov Foundation.&lt;/span&gt;&lt;span class=&quot;project__badge-gap&quot; aria-hidden=&quot;true&quot;&gt;&lt;/span&gt;&lt;span class=&quot;project__badge-tag&quot;&gt;The Foundation for the&lt;br&gt;Development of Scientific&lt;br&gt;and Cultural Ties.&lt;/span&gt;" data-ru="&lt;span class=&quot;project__badge-title&quot;&gt;Фонд «Вызов».&lt;/span&gt;&lt;span class=&quot;project__badge-gap&quot; aria-hidden=&quot;true&quot;&gt;&lt;/span&gt;&lt;span class=&quot;project__badge-tag&quot;&gt;Фонд развития научно-&lt;br&gt;культурных связей&lt;/span&gt;"><span class="project__badge-title">Vyzov Foundation.</span><span class="project__badge-gap" aria-hidden="true"></span><span class="project__badge-tag">The Foundation for the<br>Development of Scientific<br>and Cultural Ties.</span></h2>
+        <ul class="project__tags-mobile">
+          <li>Айдентика</li>
+          <li>Логотип для выставки</li>
+          <li>AI генерации</li>
         </ul>
       </div>
       <div class="case__intro-right">
-        <p>Mastermind is a project by entrepreneur and investor Artur Shamalov, who has raised over $65 million for his startups. Here, he shares his experience with investment and business development. At the heart of the brand lies the concept of a &ldquo;turning point&rdquo;&mdash;the moment a person chooses to act differently. <em>(черновой текст — Вика заменит)</em></p>
+        <p class="case__intro-p--desktop" data-en="The Foundation's mission is to reveal the names of &lt;br&gt;scientists whose achievements change life for the &lt;br&gt;better, and to shape how society perceives knowledge, &lt;br&gt;science, and technology as core values." data-ru="Миссия фонда — открыть миру имена учёных, &lt;br&gt;чьи достижения меняют жизнь к лучшему, &lt;br&gt;и сформировать восприятие знаний, науки &lt;br&gt;и технологий как важнейших ценностей общества.">The Foundation's mission is to reveal the names of <br>scientists whose achievements change life for the <br>better, and to shape how society perceives knowledge, <br>science, and technology as core values.</p>
+        <p class="case__intro-p--mobile" data-en="The Foundation's mission is to reveal the&lt;br&gt;names of scientists whose achievements&lt;br&gt;change life for the better, and to shape&lt;br&gt;how society perceives knowledge, science,&lt;br&gt;and technology as core values." data-ru="Миссия фонда — открыть миру имена&lt;br&gt;учёных, чьи достижения меняют жизнь&lt;br&gt;к лучшему, и сформировать восприятие&lt;br&gt;знаний, науки и технологий как&lt;br&gt;важнейших ценностей общества.">The Foundation's mission is to reveal the<br>names of scientists whose achievements<br>change life for the better, and to shape<br>how society perceives knowledge, science,<br>and technology as core values.</p>
+        <p class="case__intro-p--desktop" data-en="The Foundation needed a unified brand identity &lt;br&gt;that would bring together the foundation itself, the &lt;br&gt;award it presents, and its exhibition projects within &lt;br&gt;one shared visual language" data-ru="Фонду требовался единый фирменный стиль, &lt;br&gt;объединяющий сам фонд, присуждаемую им премию &lt;br&gt;и выставочные проекты в рамках общего визуального &lt;br&gt;языка">The Foundation needed a unified brand identity <br>that would bring together the foundation itself, the <br>award it presents, and its exhibition projects within <br>one shared visual language</p>
+        <p class="case__intro-p--mobile" data-en="The Foundation needed a unified brand&lt;br&gt;identity that would bring together the&lt;br&gt;foundation itself, the award it presents,&lt;br&gt;and its exhibition projects within one&lt;br&gt;shared visual language" data-ru="Фонду требовался единый фирменный&lt;br&gt;стиль, объединяющий сам фонд,&lt;br&gt;присуждаемую им премию и выставочные&lt;br&gt;проекты в рамках общего визуального&lt;br&gt;языка">The Foundation needed a unified brand<br>identity that would bring together the<br>foundation itself, the award it presents,<br>and its exhibition projects within one<br>shared visual language</p>
       </div>
     </div>
 
     <div class="case__media reveal">
       <img loading="lazy" src="images/foundation-02.webp" alt="Brand mood photography">
     </div>
+
+    <p class="case__quote case__quote-p--desktop reveal" data-en="Light became the central metaphor of the foundation's &lt;br&gt;visual identity -- it illuminates the people, events, and &lt;br&gt;discoveries that usually stay in the shadows. This idea &lt;br&gt;runs through all the graphics: a warm accent color &lt;br&gt;emerges from a deep dark background, as if pulling its &lt;br&gt;subjects and their stories out of the darkness, like a &lt;br&gt;spotlight beam." data-ru="Главной метафорой визуальной айдентики фонда &lt;br&gt;стал свет — он освещает людей, события и открытия, &lt;br&gt;которые обычно остаются в тени. Эта идея пронизывает &lt;br&gt;всю графику: тёплый акцентный цвет проступает &lt;br&gt;из глубокого тёмного фона, будто выхватывая героев &lt;br&gt;и их истории из темноты, как луч прожектора.">Light became the central metaphor of the foundation's <br>visual identity -- it illuminates the people, events, and <br>discoveries that usually stay in the shadows. This idea <br>runs through all the graphics: a warm accent color <br>emerges from a deep dark background, as if pulling its <br>subjects and their stories out of the darkness, like a <br>spotlight beam.</p>
+    <p class="case__quote case__quote-p--mobile reveal" data-en="Light became the central metaphor of the&lt;br&gt;foundation's visual identity -- it illuminates&lt;br&gt;the people, events, and discoveries that&lt;br&gt;usually stay in the shadows. This idea runs&lt;br&gt;through all the graphics: a warm accent&lt;br&gt;color emerges from a deep dark background,&lt;br&gt;as if pulling its subjects and their stories&lt;br&gt;out of the darkness, like a spotlight beam." data-ru="Главной метафорой визуальной айдентики&lt;br&gt;фонда стал свет — он освещает людей,&lt;br&gt;события и открытия, которые обычно&lt;br&gt;остаются в тени. Эта идея пронизывает всю&lt;br&gt;графику: тёплый акцентный цвет проступает&lt;br&gt;из глубокого тёмного фона, будто&lt;br&gt;выхватывая героев и их истории из&lt;br&gt;темноты, как луч прожектора.">Light became the central metaphor of the<br>foundation's visual identity -- it illuminates<br>the people, events, and discoveries that<br>usually stay in the shadows. This idea runs<br>through all the graphics: a warm accent<br>color emerges from a deep dark background,<br>as if pulling its subjects and their stories<br>out of the darkness, like a spotlight beam.</p>
 
     <div class="case__media reveal">
       <img loading="lazy" src="images/foundation-03.webp" alt="We light the way toward humanity's greatest discoveries">
@@ -3144,6 +3128,9 @@ button.project__media-link {
       <div class="case__media"><img loading="lazy" src="images/foundation-04.webp" alt="Open dialogue — mission statement"></div>
       <div class="case__media"><img loading="lazy" src="images/foundation-05.webp" alt="Brand mood detail"></div>
     </div>
+
+    <p class="case__quote case__quote--right case__quote-p--desktop reveal" data-en="To show the connection between science and culture, &lt;br&gt;we chose a contrasting typography: a strict grotesque &lt;br&gt;carries the precision and rationality of science, while &lt;br&gt;more fluid, expressive accents speak to the foundation's &lt;br&gt;cultural, humanitarian side. Together they form one &lt;br&gt;voice with many facets." data-ru="Чтобы показать связь науки и культуры, &lt;br&gt;мы выбрали контрастную типографику: строгий &lt;br&gt;гротеск отвечает за точность и рациональность &lt;br&gt;науки, а более пластичные, выразительные &lt;br&gt;акценты — за культурную, гуманитарную &lt;br&gt;сторону фонда. Вместе они формируют единый, &lt;br&gt;но многогранный визуальный голос.">To show the connection between science and culture, <br>we chose a contrasting typography: a strict grotesque <br>carries the precision and rationality of science, while <br>more fluid, expressive accents speak to the foundation's <br>cultural, humanitarian side. Together they form one <br>voice with many facets.</p>
+    <p class="case__quote case__quote--right case__quote-p--mobile reveal" data-en="To show the connection between science&lt;br&gt;and culture, we chose a contrasting&lt;br&gt;typography: a strict grotesque carries the&lt;br&gt;precision and rationality of science, while&lt;br&gt;more fluid, expressive accents speak to&lt;br&gt;the foundation's cultural, humanitarian&lt;br&gt;side. Together they form one voice with&lt;br&gt;many facets." data-ru="Чтобы показать связь науки и культуры,&lt;br&gt;мы выбрали контрастную типографику:&lt;br&gt;строгий гротеск отвечает за точность и&lt;br&gt;рациональность науки, а более пластичные,&lt;br&gt;выразительные акценты — за культурную,&lt;br&gt;гуманитарную сторону фонда. Вместе они&lt;br&gt;формируют единый, но многогранный&lt;br&gt;визуальный голос.">To show the connection between science<br>and culture, we chose a contrasting<br>typography: a strict grotesque carries the<br>precision and rationality of science, while<br>more fluid, expressive accents speak to<br>the foundation's cultural, humanitarian<br>side. Together they form one voice with<br>many facets.</p>
 
     <div class="case__media reveal">
       <img loading="lazy" src="images/foundation-06.webp" alt="Billboard — We are proud of science">
@@ -3205,9 +3192,29 @@ button.project__media-link {
     </div>
 
 
-    <nav class="case__nav">
+    <div class="case__next reveal">
+      <hr class="project__divider" />
+      <button class="project__media-link" type="button" data-case-open="case-basarab" data-cursor-label="view" data-cursor-label-ru="смотреть" data-cursor-kind="see">
+        <div class="case__next-media">
+          <img loading="lazy" src="images/grid-02-mobile.webp" alt="Basarab">
+        </div>
+      </button>
+      <div class="project__row">
+        <h2 class="project__title">
+          <span role="button" tabindex="0" class="project__title-desktop project__badge" data-case-open="case-basarab" data-en="&lt;span class=&quot;project__badge-title&quot;&gt;Basarab.&lt;/span&gt;&lt;span class=&quot;project__badge-gap&quot; aria-hidden=&quot;true&quot;&gt;&lt;/span&gt;&lt;span class=&quot;project__badge-tag&quot;&gt;Family footwear brand&lt;/span&gt;" data-ru="&lt;span class=&quot;project__badge-title&quot;&gt;Basarab.&lt;/span&gt;&lt;span class=&quot;project__badge-gap&quot; aria-hidden=&quot;true&quot;&gt;&lt;/span&gt;&lt;span class=&quot;project__badge-tag&quot;&gt;Семейный бренд обуви&lt;/span&gt;"><span class="project__badge-title">Basarab.</span><span class="project__badge-gap" aria-hidden="true"></span><span class="project__badge-tag">Family footwear brand</span></span>
+        </h2>
+        <button type="button" class="project__see" data-case-open="case-basarab" data-en="See Project &lt;span class=&quot;project__see-arrow&quot;&gt;→&lt;/span&gt;" data-ru="Смотреть &lt;span class=&quot;project__see-arrow&quot;&gt;→&lt;/span&gt;">See Project <span class="project__see-arrow">→</span></button>
+      </div>
+    </div>
+
+    <nav class="case__nav case__nav--mobile">
       <a href="#" data-case-nav="prev">&larr; назад</a>
       <a href="#" data-case-nav="next">дальше &rarr;</a>
+    </nav>
+
+    <nav class="case__nav case__nav--desktop">
+      <a href="#" class="project__badge" data-case-nav="prev" data-en="&lt;span class=&quot;project__badge-title&quot;&gt;prev project&lt;/span&gt;" data-ru="&lt;span class=&quot;project__badge-title&quot;&gt;предыдущий проект&lt;/span&gt;"><span class="project__badge-title">prev project</span></a>
+      <a href="#" class="project__badge" data-case-nav="next" data-en="&lt;span class=&quot;project__badge-title&quot;&gt;next project&lt;/span&gt;" data-ru="&lt;span class=&quot;project__badge-title&quot;&gt;следующий проект&lt;/span&gt;"><span class="project__badge-title">next project</span></a>
     </nav>
 
   </section>
