@@ -608,7 +608,11 @@ body.has-custom-cursor * {
   font-family: var(--font-serif);
   font-weight: 400;
   font-size: 22px;
-  line-height: 1.25;
+  /* Trimmed a point from 1.25, same as the phone breakpoint below --
+     two adjacent EAEAEB badge-title/tag line boxes otherwise leave a
+     hairline seam between them at 1.25; nudging it down tightens the
+     boxes until they touch with no visible gap. */
+  line-height: 1.24;
   letter-spacing: var(--tracking-sans);
   color: var(--color-ink);
 }
@@ -3075,14 +3079,13 @@ button.project__media-link {
       // two buttons can't show the same fill at the same time (as long
       // as the palette has at least as many colors as visible swatches).
       var PALETTE = [
-        '#A5C1BA', '#00849A', '#98E7FE', '#0D4834', '#FBC79A',
-        '#5C3B9A', '#A02F0A', '#8190F3', '#E07200', '#A49F27',
-        '#FFD621', '#004BA7', '#E25294', '#572325', '#BE41F3',
-        '#40AD00', '#00516D', '#D0D0C2', '#CCFEC7', '#E57999',
-        '#DBC392', '#FFD0ED', '#AE004C', '#B79930', '#00F280',
-        '#3B4E1F', '#361C00', '#7F8E59', '#008DD4', '#2B943D',
-        '#B781A3', '#2C3145', '#63B5F1', '#F5002C', '#D4E039',
-        '#45152F', '#121E48'
+        '#A02F0A', '#E07200', '#FFD621', '#2B943D', '#63B5F1',
+        '#E57999', '#B79930', '#7F8E59', '#98E7FE', '#E25294',
+        '#DBC392', '#00F280', '#00849A', '#BE41F3', '#F5002C',
+        '#FBC79A', '#D0D0C2', '#CCFEC7', '#8190F3', '#D4E039',
+        '#FFD0ED', '#A5C1BA', '#008DD4', '#B781A3', '#45152F',
+        '#AE004C', '#3B4E1F', '#00516D', '#004BA7', '#5C3B9A',
+        '#572325', '#361C00', '#0D4834', '#2C3145', '#121E48'
       ];
 
       function contrastText(hex) {
@@ -3152,14 +3155,13 @@ button.project__media-link {
       // continuously as the drag grows) means one color per selection,
       // not a flicker of colors while dragging.
       var PALETTE = [
-        '#A5C1BA', '#00849A', '#98E7FE', '#0D4834', '#FBC79A',
-        '#5C3B9A', '#A02F0A', '#8190F3', '#E07200', '#A49F27',
-        '#FFD621', '#004BA7', '#E25294', '#572325', '#BE41F3',
-        '#40AD00', '#00516D', '#D0D0C2', '#CCFEC7', '#E57999',
-        '#DBC392', '#FFD0ED', '#AE004C', '#B79930', '#00F280',
-        '#3B4E1F', '#361C00', '#7F8E59', '#008DD4', '#2B943D',
-        '#B781A3', '#2C3145', '#63B5F1', '#F5002C', '#D4E039',
-        '#45152F', '#121E48'
+        '#A02F0A', '#E07200', '#FFD621', '#2B943D', '#63B5F1',
+        '#E57999', '#B79930', '#7F8E59', '#98E7FE', '#E25294',
+        '#DBC392', '#00F280', '#00849A', '#BE41F3', '#F5002C',
+        '#FBC79A', '#D0D0C2', '#CCFEC7', '#8190F3', '#D4E039',
+        '#FFD0ED', '#A5C1BA', '#008DD4', '#B781A3', '#45152F',
+        '#AE004C', '#3B4E1F', '#00516D', '#004BA7', '#5C3B9A',
+        '#572325', '#361C00', '#0D4834', '#2C3145', '#121E48'
       ];
 
       function contrastText(hex) {
