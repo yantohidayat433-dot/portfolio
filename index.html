@@ -1045,15 +1045,17 @@ button.project__media-link {
 
 /* Basarab/Foundation case-specific media sizing — confirmed independently
    against each case's own PDF export (see project notes): 620px full-width
-   / 600px in a two-up row / 6px corner radius / 8px gap between blocks.
-   ID-scoped rather than folded into the base .case__media/.case__row rules
-   so a future case with different proportions isn't silently dragged along.
-   The slideshow/ig-ticker/final-sale variants keep their own aspect-ratio
+   / 600px in a two-up row / 8px gap between blocks. ID-scoped rather than
+   folded into the base .case__media/.case__row rules so a future case
+   with different proportions isn't silently dragged along. The
+   slideshow/ig-ticker/final-sale variants keep their own aspect-ratio
    sizing (they're absolutely-positioned crossfade stacks, not plain crops),
-   so they're excluded from the fixed-height rules below. Basarab's radius
-   is zeroed back out on desktop only, in the min-width:701px block below
-   -- this rule alone still covers Basarab's mobile corners, untouched. */
-#case-basarab .case__media,
+   so they're excluded from the fixed-height rules below.
+   Square corners are the standing default for case images (base
+   .case__media carries no radius at all) -- Foundation is the one
+   deliberate exception, called out explicitly here rather than the
+   other way around, so a future case stays square without needing its
+   own override. */
 #case-foundation .case__media {
   border-radius: 6px;
 }
@@ -1153,6 +1155,16 @@ button.project__media-link {
    min-width:701px block) -- hidden here so mobile keeps showing the
    plain .case__nav--mobile pair unchanged. */
 .case__nav--desktop {
+  display: none;
+}
+
+/* A "next project" preview at the very end of a case, mobile only --
+   a smaller version of the home page's own mobile project card
+   (badge title + See Project button), reusable as the standard for
+   any future case's own end-of-case preview. Desktop keeps its
+   separate badge-styled prev/next nav (.case__nav--desktop) instead,
+   so this stays hidden there. */
+.case__next {
   display: none;
 }
 
@@ -1489,15 +1501,13 @@ button.project__media-link {
   }
 
   /* Basarab desktop-only tweaks (see the PDF-confirmed redesign notes):
-     square corners instead of the shared 6px radius, a 32px/36px
-     image-to-text/text-to-image rhythm applied everywhere that
-     pattern repeats in this case (not just the intro -- .case__quote
-     recurs several more times further down), a title that matches
-     the main page's own heading style, and a badge-styled nav
-     swapped in for the plain "back/next" pair. */
-  #case-basarab .case__media {
-    border-radius: 0;
-  }
+     a 32px/36px image-to-text/text-to-image rhythm applied everywhere
+     that pattern repeats in this case (not just the intro --
+     .case__quote recurs several more times further down), a title
+     that matches the main page's own heading style, and a badge-
+     styled nav swapped in for the plain "back/next" pair. (Square
+     corners are just the base .case__media default now -- see its
+     own rule -- so there's no override needed here any more.) */
 
   /* 36px, confirmed directly in Figma (the source file itself) --
      the PDF export's own text bbox measured 39px here across every
@@ -2410,6 +2420,19 @@ button.project__media-link {
     display: none;
   }
 
+  /* The exclusion above only checks the element .case__quote sits on --
+     for a quote block with two paragraphs, that's the wrapping div, and
+     its own --mobile variant lives one level down on the child <p>, not
+     on the div itself, so the div still matches ":not(.case__quote-p--
+     mobile)" and the rule above was wiping out the mobile paragraph's
+     own hand-placed <br>s too (words visibly running together with no
+     space). Restore them specifically; !important since the rule being
+     corrected already has the higher selector specificity. */
+  .case__quote-p--mobile br,
+  .case__intro-p--mobile br {
+    display: inline !important;
+  }
+
   /* Basarab case page: every image is cropped to its own exact height
      from the mobile PDF (set per-element via the --mh custom property
      inline, in rem so it scales with the fluid vw-based root size) —
@@ -2417,26 +2440,24 @@ button.project__media-link {
      rules (620px/600px/427px/etc.) regardless of which one matches.
      Two-up/three-up desktop rows become single-column stacks of
      full-width cards, each keeping its own --mh. */
+  /* Matches .project__title on the main page's own mobile badge (22px/
+     1.375rem Oceanic, same trimmed 1.20 line-height) -- the standard
+     every future case's own mobile title should follow, same as the
+     desktop title above matches its own main-page counterpart. The
+     EAEAEB backdrop on both title and tag lines, and the tag's black
+     text, are no longer overridden here -- they come for free from
+     the same global .project__badge-title/-tag rules the main page's
+     own mobile badge uses, so the case title reads exactly like a
+     home-page project title. margin-bottom is the 24px case-text
+     standard (see .case__intro/.case__quote below) between a heading
+     and the body copy under it. */
   #case-basarab .case__intro h2 {
-    font-size: 1.75rem;
-    line-height: 1.45;
-    margin-bottom: 1rem;
+    font-size: 1.375rem;
+    line-height: 1.20;
+    margin-bottom: 1.5rem;
     order: 1;
   }
 
-  /* Mobile keeps showing just plain "Basarab." -- no backdrop, no
-     tagline -- exactly like the old .case__intro-title-desc setup it
-     replaces (the EAEAEB backdrop is a desktop-only addition, to
-     match the main page's badge style; see the min-width:701px
-     block). .project__badge-title carries that backdrop globally, so
-     it needs zeroing out here specifically, not just hiding the
-     tag/gap. */
-  #case-basarab .case__intro h2 .project__badge-title {
-    background-color: transparent;
-  }
-
-  #case-basarab .case__intro h2 .project__badge-gap,
-  #case-basarab .case__intro h2 .project__badge-tag,
   #case-basarab .case__intro-tags {
     display: none;
   }
@@ -2542,7 +2563,7 @@ button.project__media-link {
      text spec: 24px from the image above down to the text, 32px from
      the text down to the next image. */
   #case-basarab .case__intro {
-    margin: 1.5rem 0 2rem;
+    margin: 1.5rem 0 2.25rem;
     padding: 0 0.375rem;
     row-gap: 0;
   }
@@ -2565,7 +2586,7 @@ button.project__media-link {
   }
 
   #case-basarab .case__quote {
-    margin: 1.5rem 0.375rem 2rem;
+    margin: 1.5rem 0.375rem 2.25rem;
   }
 
   #case-basarab .case__quote p {
@@ -2587,6 +2608,44 @@ button.project__media-link {
   #case-basarab .case__intro-p--mobile,
   #case-basarab .case__quote-p--mobile {
     display: block;
+  }
+
+  /* End-of-case "next project" preview (see .case__next above). Reuses
+     .project__divider, .project__row, .project__title/.project__badge
+     and .project__see as-is -- their own mobile margins (48px above
+     the divider, 24px divider-to-image handled by .case__next-media's
+     own margin-top below, 24px image-to-title via .project__row, 24px
+     title-to-button via .project__see) already give exactly the
+     rhythm confirmed in the PDF, so only the image itself needs a
+     custom size (359x160, vs. the home grid's own much taller crop). */
+  .case__next {
+    display: block;
+  }
+
+  /* 48px total from the last case image to this divider, confirmed in
+     the PDF -- .project__divider's own reused margin-top is 3rem, but
+     the .case__media immediately before it already contributes its
+     own 8px margin-bottom (flex items don't collapse margins), so
+     this trims the divider's own share to 2.5rem to land on 48px
+     combined instead of double-counting to 56px. */
+  .case__next .project__divider {
+    margin-top: 2.5rem;
+  }
+
+  .case__next-media {
+    display: block;
+    width: 100%;
+    height: 10rem;
+    margin-top: 3rem;
+    overflow: hidden;
+    background: var(--color-media-bg);
+  }
+
+  .case__next-media img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
   }
 }
 </style>
@@ -2887,16 +2946,16 @@ button.project__media-link {
       </div>
       <div class="case__intro-right">
         <p class="case__intro-p--desktop" data-en="Basarab is a family-run footwear brand with its &lt;br&gt;own production, making well-made stylish shoes &lt;br&gt;for everyday life." data-ru="Basarab — семейный бренд обуви с собственным &lt;br&gt;производством, который делает классную, &lt;br&gt;качественную обувь для повседневной жизни.">Basarab is a family-run footwear brand with its <br>own production, making well-made stylish shoes <br>for everyday life.</p>
-        <p class="case__intro-p--mobile">Basarab — семейный бренд обуви <br>с собственным производством. Он появился <br>из стремления делать удобную, надёжную <br>и красивую обувь для повседневной жизни.</p>
+        <p class="case__intro-p--mobile" data-en="Basarab is a family-run footwear brand with&lt;br&gt;its own production, making well-made stylish&lt;br&gt;shoes for everyday life." data-ru="Basarab — семейный бренд обуви&lt;br&gt;с собственным производством, который&lt;br&gt;делает классную, качественную обувь&lt;br&gt;для повседневной жизни.">Basarab is a family-run footwear brand with<br>its own production, making well-made stylish<br>shoes for everyday life.</p>
         <p class="case__intro-p--desktop" data-en="Rapid growth, a new audience: the brand's team &lt;br&gt;wanted to refresh the identity, moving away from &lt;br&gt;a conservative look toward a more contemporary &lt;br&gt;aesthetic, while keeping the restraint that had always &lt;br&gt;been part of its character." data-ru="Бурный рост, новая аудитория: у команды &lt;br&gt;бренда появилось желание обновить айдентику, уйти &lt;br&gt;от консервативного образа к современной эстетике, &lt;br&gt;при этом сохранить сдержанность, которая всегда &lt;br&gt;была в его характере.">Rapid growth, a new audience: the brand's team <br>wanted to refresh the identity, moving away from <br>a conservative look toward a more contemporary <br>aesthetic, while keeping the restraint that had always <br>been part of its character.</p>
-        <p class="case__intro-p--mobile">Долгое время бренд был близок взрослой <br>аудитории. Появилось желание привлечь <br>более молодой сегмент, но прежний образ <br>казался слишком возрастным <br>и консервативным. Поэтому бренд <br>обратился к нам, чтобы обновить айдентику, <br>стать визуально более современным, <br>сохранив спокойствие и сдержанность, <br>на которых он всегда держался.</p>
+        <p class="case__intro-p--mobile" data-en="Rapid growth, a new audience: the brand's&lt;br&gt;team wanted to refresh the identity, moving&lt;br&gt;away from a conservative look toward a more&lt;br&gt;contemporary aesthetic, while keeping the&lt;br&gt;restraint that had always been part of its&lt;br&gt;character." data-ru="Бурный рост, новая аудитория: у команды&lt;br&gt;бренда появилось желание обновить&lt;br&gt;айдентику, уйти от консервативного&lt;br&gt;образа к современной эстетике, при&lt;br&gt;этом сохранить сдержанность, которая&lt;br&gt;всегда была в его характере.">Rapid growth, a new audience: the brand's<br>team wanted to refresh the identity, moving<br>away from a conservative look toward a more<br>contemporary aesthetic, while keeping the<br>restraint that had always been part of its<br>character.</p>
       </div>
     </div>
 
     <div class="case__media reveal" style="--mh:14.375rem"><img loading="lazy" src="images/basarab-02.webp" alt="" width="2030" height="1240" /><img loading="lazy" class="case__media-mobile" src="images/basarab-m02.webp" alt="" width="1077" height="690" /></div>
 
     <p class="case__quote case__quote-p--desktop reveal" data-en="The logotype is built on a bold, expressive grotesque, &lt;br&gt;where monumental letterforms meet soft curves and &lt;br&gt;eye-catching details. In that contrast, both classic &lt;br&gt;restraint and a bold character come through." data-ru="В основе логотипа яркий, выразительный гротеск, &lt;br&gt;в котором монументальность формы сочетается &lt;br&gt;с мягкими изгибами и цепляющими взгляд деталями. &lt;br&gt;В этом контрасте читаются и классическая &lt;br&gt;сдержанность, и яркий характер.">The logotype is built on a bold, expressive grotesque, <br>where monumental letterforms meet soft curves and <br>eye-catching details. In that contrast, both classic <br>restraint and a bold character come through.</p>
-    <p class="case__quote case__quote-p--mobile reveal">В основе логотипа яркий, выразительный <br>гротеск, в котором монументальность <br>формы сочетается с мягкими изгибами <br>и цепляющими взгляд деталями. В этом <br>контрасте читаются и классическая <br>сдержанность, и яркий характер.</p>
+    <p class="case__quote case__quote-p--mobile reveal" data-en="The logotype is built on a bold, expressive&lt;br&gt;grotesque, where monumental letterforms&lt;br&gt;meet soft curves and eye-catching details.&lt;br&gt;In that contrast, both classic restraint and&lt;br&gt;a bold character come through." data-ru="В основе логотипа яркий, выразительный&lt;br&gt;гротеск, в котором монументальность&lt;br&gt;формы сочетается с мягкими изгибами&lt;br&gt;и цепляющими взгляд деталями. В этом&lt;br&gt;контрасте читаются и классическая&lt;br&gt;сдержанность, и яркий характер.">The logotype is built on a bold, expressive<br>grotesque, where monumental letterforms<br>meet soft curves and eye-catching details.<br>In that contrast, both classic restraint and<br>a bold character come through.</p>
 
     <div class="case__row reveal">
       <div class="case__media" style="--mh:27.5rem"><img loading="lazy" src="images/basarab-03.webp" alt="" width="1016" height="1240" /><img loading="lazy" class="case__media-mobile" src="images/basarab-m03.webp" alt="" width="1077" height="1320" /></div>
@@ -2904,7 +2963,7 @@ button.project__media-link {
     </div>
 
     <p class="case__quote case__quote--right case__quote-p--desktop reveal" data-en="When developing the mark, we considered several &lt;br&gt;options and settled on one whose geometry stands &lt;br&gt;clearly apart from the typographic part, allowing &lt;br&gt;it to work as a standalone element of the identity." data-ru="При разработке знака мы рассмотрели несколько &lt;br&gt;вариантов и остановились на том, который по своей &lt;br&gt;геометрии заметно отличается от типографической &lt;br&gt;части, благодаря чему он может выступать в качестве &lt;br&gt;самостоятельного элемента айдентики.">When developing the mark, we considered several <br>options and settled on one whose geometry stands <br>clearly apart from the typographic part, allowing <br>it to work as a standalone element of the identity.</p>
-    <p class="case__quote case__quote--right case__quote-p--mobile reveal">При разработке знака мы прорабатывали <br>разные формы — от сдержанных <br>и формальных до более живых <br>и выразительных. Один из вариантов <br>настолько зацепил Инну, создательницу <br>бренда, что она захотела использовать его <br>как самостоятельный элемент айдентики.</p>
+    <p class="case__quote case__quote--right case__quote-p--mobile reveal" data-en="When developing the mark, we considered&lt;br&gt;several options and settled on one whose&lt;br&gt;geometry stands clearly apart from the&lt;br&gt;typographic part, allowing it to work&lt;br&gt;as a standalone element of the identity." data-ru="При разработке знака мы рассмотрели&lt;br&gt;несколько вариантов и остановились на том,&lt;br&gt;который по своей геометрии заметно&lt;br&gt;отличается от типографической части,&lt;br&gt;благодаря чему он может выступать в&lt;br&gt;качестве самостоятельного элемента&lt;br&gt;айдентики.">When developing the mark, we considered<br>several options and settled on one whose<br>geometry stands clearly apart from the<br>typographic part, allowing it to work<br>as a standalone element of the identity.</p>
 
     <div class="case__row reveal">
       <div class="case__media" style="--mh:21.25rem"><img loading="lazy" src="images/basarab-05.webp" alt="" width="337" height="427" /><img loading="lazy" class="case__media-mobile" src="images/basarab-m05.webp" alt="" width="1077" height="1020" /></div>
@@ -2930,9 +2989,9 @@ button.project__media-link {
 
     <div class="case__quote reveal">
       <p class="case__quote-p--desktop" data-en="Following the principles of fashion branding, we chose &lt;br&gt;to avoid flashy graphic elements to keep the focus on the &lt;br&gt;product itself." data-ru="Следуя принципам брендинга в сфере моды, &lt;br&gt;мы решили отказаться от броских графических &lt;br&gt;элементов, чтобы сохранить фокус на самом продукте.">Following the principles of fashion branding, we chose <br>to avoid flashy graphic elements to keep the focus on the <br>product itself.</p>
-      <p class="case__quote-p--mobile">В духе модного брендинга мы не стали <br>добавлять ярких графических элементов — <br>акцент всегда остаётся на продукции. <br>Центральной частью айдентики стала <br>типографика. Мы сохранили спокойствие <br>и уверенный образ бренда, но за счёт <br>шрифта и вёрстки придали ему <br>индивидуальность, чтобы он стал <br>более узнаваемым в своей категории.</p>
+      <p class="case__quote-p--mobile" data-en="Following the principles of fashion branding,&lt;br&gt;we chose to avoid flashy graphic elements&lt;br&gt;to keep the focus on the product itself." data-ru="Следуя принципам брендинга в сфере&lt;br&gt;моды, мы решили отказаться от броских&lt;br&gt;графических элементов, чтобы сохранить&lt;br&gt;фокус на самом продукте.">Following the principles of fashion branding,<br>we chose to avoid flashy graphic elements<br>to keep the focus on the product itself.</p>
       <p class="case__quote-p--desktop" data-en="Typography became the central element of the identity. &lt;br&gt;We preserved the brand's calm, confident image, while &lt;br&gt;using type and layout to give it a distinct character that &lt;br&gt;sets it apart from competitors." data-ru="Центральным элементом айдентики стала &lt;br&gt;типографика. Мы сохранили спокойный и уверенный &lt;br&gt;образ бренда, но при этом с помощью шрифтов &lt;br&gt;и вёрстки придали ему уникальный характер, &lt;br&gt;выделяющий его на фоне конкурентов.">Typography became the central element of the identity. <br>We preserved the brand's calm, confident image, while <br>using type and layout to give it a distinct character that <br>sets it apart from competitors.</p>
-      <p class="case__quote-p--mobile">В цвете мы нашли баланс между яркостью <br>и спокойствием, при этом ушли от <br>привычных для категории решений.</p>
+      <p class="case__quote-p--mobile" data-en="Typography became the central element&lt;br&gt;of the identity. We preserved the brand's calm,&lt;br&gt;confident image, while using type and layout&lt;br&gt;to give it a distinct character that sets it apart&lt;br&gt;from competitors." data-ru="Центральным элементом айдентики стала&lt;br&gt;типографика. Мы сохранили спокойный&lt;br&gt;и уверенный образ бренда, но при этом&lt;br&gt;с помощью шрифтов и верстки придали&lt;br&gt;ему уникальный характер, выделяющий&lt;br&gt;его на фоне конкурентов.">Typography became the central element<br>of the identity. We preserved the brand's calm,<br>confident image, while using type and layout<br>to give it a distinct character that sets it apart<br>from competitors.</p>
     </div>
 
     <div class="case__media reveal" style="--mh:14.375rem"><img loading="lazy" src="images/basarab-13.webp" alt="" width="2030" height="1240" /><img loading="lazy" class="case__media-mobile" src="images/basarab-m10.webp" alt="" width="1077" height="690" /></div>
@@ -3019,6 +3078,20 @@ button.project__media-link {
 
     <div class="case__media reveal" style="--mh:14.375rem"><img loading="lazy" src="images/basarab-42.webp" alt="" width="2030" height="1346" /><img loading="lazy" class="case__media-mobile" src="images/basarab-m31.webp" alt="" width="1077" height="690" /></div>
 
+    <div class="case__next reveal">
+      <hr class="project__divider" />
+      <button class="project__media-link" type="button" data-case-open="case-foundation" data-cursor-label="view" data-cursor-label-ru="смотреть" data-cursor-kind="see">
+        <div class="case__next-media">
+          <img loading="lazy" src="images/grid-03-mobile.webp" alt="Фонд «Вызов»">
+        </div>
+      </button>
+      <div class="project__row">
+        <h2 class="project__title">
+          <span role="button" tabindex="0" class="project__title-desktop project__badge" data-case-open="case-foundation" data-en="&lt;span class=&quot;project__badge-title&quot;&gt;Vyzov Foundation.&lt;/span&gt;&lt;span class=&quot;project__badge-gap&quot; aria-hidden=&quot;true&quot;&gt;&lt;/span&gt;&lt;span class=&quot;project__badge-tag&quot;&gt;The Foundation for the&lt;br&gt;Development of Scientific&lt;br&gt;and Cultural Ties.&lt;/span&gt;" data-ru="&lt;span class=&quot;project__badge-title&quot;&gt;Фонд «Вызов».&lt;/span&gt;&lt;span class=&quot;project__badge-gap&quot; aria-hidden=&quot;true&quot;&gt;&lt;/span&gt;&lt;span class=&quot;project__badge-tag&quot;&gt;Фонд развития научно-&lt;br&gt;культурных связей&lt;/span&gt;"><span class="project__badge-title">Vyzov Foundation.</span><span class="project__badge-gap" aria-hidden="true"></span><span class="project__badge-tag">The Foundation for the<br>Development of Scientific<br>and Cultural Ties.</span></span>
+        </h2>
+        <button type="button" class="project__see" data-case-open="case-foundation" data-en="See Project &lt;span class=&quot;project__see-arrow&quot;&gt;→&lt;/span&gt;" data-ru="Смотреть &lt;span class=&quot;project__see-arrow&quot;&gt;→&lt;/span&gt;">See Project <span class="project__see-arrow">→</span></button>
+      </div>
+    </div>
 
     <nav class="case__nav case__nav--mobile">
       <a href="#" data-case-nav="prev">&larr; назад</a>
