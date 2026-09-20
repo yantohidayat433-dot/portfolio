@@ -1127,6 +1127,16 @@ button.project__media-link {
   height: 667px;
 }
 
+/* The 04/05 row (poster mockup + glasses) is taller/narrower than the
+   standard two-up row -- both source photos are natively 504x640, not
+   504x600, and the shared 600px height was cropping real content off
+   them. 640px at the same 504px cell width keeps the images uncropped.
+   Specificity has to match the 600px rule above (same :not() chain) or
+   that rule -- declared first but equally ID-scoped -- would win. */
+#case-foundation .case__row--tall .case__media:not(.case__media--slideshow):not(.case__media--ig-ticker):not(.case__media--final-sale) {
+  height: 640px;
+}
+
 /* The slideshow/ig-ticker/final-sale variants are excluded from the fixed
    620/600 heights above (they size themselves via aspect-ratio instead),
    but they were also getting silently excluded from the 8px gap below
@@ -3118,7 +3128,7 @@ button.project__media-link {
 
     <div class="case__media reveal" style="--mh:22.5rem"><img loading="lazy" src="images/foundation-03.webp" alt="We light the way toward humanity's greatest discoveries" /><img loading="lazy" class="case__media-mobile" src="images/foundation-m3.webp" alt="We light the way toward humanity's greatest discoveries" width="1077" height="1080" /></div>
 
-    <div class="case__row reveal">
+    <div class="case__row case__row--tall reveal">
       <div class="case__media" style="--mh:27.5rem"><img loading="lazy" src="images/foundation-04.webp" alt="Chance discovery in science — event poster mockup" /><img loading="lazy" class="case__media-mobile" src="images/foundation-m4.webp" alt="Chance discovery in science — event poster mockup" width="1077" height="1320" /></div>
       <div class="case__media" style="--mh:27.5rem"><img loading="lazy" src="images/foundation-05.webp" alt="Brand mood detail — glasses" /><img loading="lazy" class="case__media-mobile" src="images/foundation-m5.webp" alt="Brand mood detail — glasses" width="1077" height="1320" /></div>
     </div>
