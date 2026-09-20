@@ -3322,20 +3322,34 @@ button.project__media-link {
         var pickColor = function (el) {
           var pick = pickFrom(el);
           activeColors.set(el, pick.bg);
-          el.style.backgroundColor = pick.bg;
-          el.style.color = pick.text;
-          // A badge's title/tagline now carry their own background
-          // (split out of .project__badge itself so a real gap can
-          // sit between them -- see .project__badge-gap), so the
-          // picked color has to be pushed onto both of them directly,
-          // or a badge's hover/tap color would never actually become
-          // visible. The tagline also has its own explicit grey color
-          // that would otherwise sit unchanged on top of the new
-          // background.
-          el.querySelectorAll('.project__badge-title, .project__badge-tag').forEach(function (part) {
-            part.style.backgroundColor = pick.bg;
-            part.style.color = pick.text;
-          });
+          // A badge's title/tagline carry their own background (split
+          // out of .project__badge itself so a real gap can sit
+          // between them -- see .project__badge-gap), so the picked
+          // color has to be pushed onto them directly, or a badge's
+          // hover/tap color would never actually become visible.
+          // Setting it on .project__badge itself too (rather than only
+          // these parts) used to leak: the language toggle rebuilds a
+          // badge's title/tag spans from scratch on every switch
+          // (innerHTML from its data-en/data-ru), which wipes their own
+          // inline color/background -- but not .project__badge's own,
+          // since only its children get replaced. The fresh title span
+          // has no color of its own, so it was quietly inheriting
+          // .project__badge's stale leftover color from whatever was
+          // last picked, while the tagline's own explicit black-text
+          // rule masked the same leak. Coloring only the parts a badge
+          // actually has (falling back to the element itself for a
+          // plain contact link, which has no such parts) keeps nothing
+          // stale on the parent to inherit from.
+          var parts = el.querySelectorAll('.project__badge-title, .project__badge-tag');
+          if (parts.length) {
+            parts.forEach(function (part) {
+              part.style.backgroundColor = pick.bg;
+              part.style.color = pick.text;
+            });
+          } else {
+            el.style.backgroundColor = pick.bg;
+            el.style.color = pick.text;
+          }
         };
 
         swatches.forEach(function (el) {
