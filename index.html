@@ -560,18 +560,16 @@ body.has-custom-cursor * {
   transition: opacity 0.15s ease, clip-path 0.4s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-.hover-cta.is-see {
+.hover-cta.is-see,
+.hover-cta.is-soon {
   /* Sized to the label's own text box (same convention as the badge/
      contact-link/lang-toggle pills), not a fixed width -- "view" and
-     "смотреть" are very different lengths and a fixed width either
-     clipped the Russian label or left the English one oddly padded. */
+     "смотреть" (and "soon"'s own, much longer, EN/RU labels) are very
+     different lengths and a fixed width either clipped the longer
+     label or left the shorter one oddly padded. */
   width: auto;
   height: 26px;
   padding: 0;
-}
-
-.hover-cta.is-soon {
-  width: 70px;
 }
 
 .hover-cta.is-active {
@@ -587,7 +585,8 @@ body.has-custom-cursor * {
   white-space: nowrap;
 }
 
-.hover-cta.is-see .hover-cta__label {
+.hover-cta.is-see .hover-cta__label,
+.hover-cta.is-soon .hover-cta__label {
   color: #5C3B9A;
 }
 
@@ -4062,6 +4061,38 @@ button.project__media-link {
         setTimeout(finishExit, 900);
       }
 
+      // Desktop only: tapping the logo while scrolled down the grid (no
+      // case open) fades the grid back to its own top through the same
+      // exit/enter transform+opacity animation swap() uses between the
+      // grid and a case, rather than just snapping the scroll position.
+      function scrollProjectsToTop() {
+        if (reduceMotion) {
+          projects.scrollTop = 0;
+          return;
+        }
+        if (projects.classList.contains('is-exiting') || projects.classList.contains('is-entering-start')) return;
+        projects.classList.add('is-exiting');
+
+        var done = false;
+        function finish(event) {
+          if (event && event.target !== projects) return;
+          if (done) return;
+          done = true;
+          projects.scrollTop = 0;
+          projects.classList.remove('is-exiting');
+          projects.classList.add('is-entering-start');
+          void projects.offsetHeight;
+          requestAnimationFrame(function () {
+            requestAnimationFrame(function () {
+              projects.classList.remove('is-entering-start');
+            });
+          });
+        }
+
+        projects.addEventListener('transitionend', finish, { once: true });
+        setTimeout(finish, 900);
+      }
+
       function currentSection() {
         return document.querySelector('.projects:not(.is-hidden), .case:not(.is-hidden)');
       }
@@ -4176,9 +4207,15 @@ button.project__media-link {
             return;
           }
           var openCaseEl = document.querySelector('.case:not(.is-hidden)');
-          if (!openCaseEl || openCaseEl.classList.contains('is-exiting')) return;
-          event.preventDefault();
-          closeCase();
+          if (openCaseEl && !openCaseEl.classList.contains('is-exiting')) {
+            event.preventDefault();
+            closeCase();
+            return;
+          }
+          if (!openCaseEl && !window.matchMedia('(max-width: 700px)').matches && projects.scrollTop > 0) {
+            event.preventDefault();
+            scrollProjectsToTop();
+          }
         });
       });
 
