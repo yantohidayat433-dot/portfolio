@@ -4015,19 +4015,35 @@ button.project__media-link {
         hide.classList.add('is-exiting');
 
         var done = false;
+        var fallbackId;
         function finishExit(event) {
           // transitionend bubbles, and .case/.projects are full of
           // .reveal children with their own transitions (scroll-in
-          // fades) that can still be mid-flight when a case is opened.
-          // Without this check, one of THEIR transitionend events could
-          // reach this listener first and end the exit early, before
-          // hide's own transform/opacity transition actually finished --
-          // which is exactly what made this intermittent rather than
-          // reliably broken (it only misfires when a child happens to be
-          // mid-transition at the moment of the click).
+          // fades) that can still be mid-flight when a case is opened
+          // (most reliably reproduced by scrolling a long case, like
+          // Basarab's, all the way to its own .reveal'd case__next
+          // block and immediately closing it). Without this check, one
+          // of THEIR transitionend events could reach this listener
+          // first and end the exit early, before hide's own transform/
+          // opacity transition actually finished.
+          //
+          // That alone isn't enough, though: addEventListener's `once`
+          // used to be set here, which removes the listener after the
+          // very first transitionend it receives -- including one of
+          // these bubbled child events that this check just decided to
+          // ignore. That silently left hide's own, later transitionend
+          // with nothing listening for it, so completion fell back
+          // entirely to the blind 900ms setTimeout below, which has no
+          // real relationship to when the animation actually finishes
+          // on a heavier, just-scrolled page -- hence the visible snap
+          // instead of a clean finish. Removing the listener by hand,
+          // only once the real target resolves it, keeps it armed
+          // through any number of irrelevant child bubbles in between.
           if (event && event.target !== hide) return;
           if (done) return;
           done = true;
+          hide.removeEventListener('transitionend', finishExit);
+          clearTimeout(fallbackId);
           hide.classList.add('is-hidden');
           hide.classList.remove('is-exiting');
 
@@ -4057,8 +4073,8 @@ button.project__media-link {
           });
         }
 
-        hide.addEventListener('transitionend', finishExit, { once: true });
-        setTimeout(finishExit, 900);
+        hide.addEventListener('transitionend', finishExit);
+        fallbackId = setTimeout(finishExit, 900);
       }
 
       // Desktop only: tapping the logo while scrolled down the grid (no
@@ -4074,10 +4090,17 @@ button.project__media-link {
         projects.classList.add('is-exiting');
 
         var done = false;
+        var fallbackId;
         function finish(event) {
+          // Same fix as swap()'s finishExit: remove the listener by
+          // hand, only once the real target resolves it, rather than
+          // via `once` -- which would let a bubbled transitionend from
+          // an unrelated child silently consume it first.
           if (event && event.target !== projects) return;
           if (done) return;
           done = true;
+          projects.removeEventListener('transitionend', finish);
+          clearTimeout(fallbackId);
           projects.scrollTop = 0;
           projects.classList.remove('is-exiting');
           projects.classList.add('is-entering-start');
@@ -4089,8 +4112,8 @@ button.project__media-link {
           });
         }
 
-        projects.addEventListener('transitionend', finish, { once: true });
-        setTimeout(finish, 900);
+        projects.addEventListener('transitionend', finish);
+        fallbackId = setTimeout(finish, 900);
       }
 
       function currentSection() {
