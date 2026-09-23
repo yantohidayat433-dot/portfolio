@@ -607,7 +607,7 @@ body.has-custom-cursor * {
   margin: 0;
   font-family: var(--font-serif);
   font-weight: 400;
-  font-size: 22px;
+  font-size: 20px;
   /* Trimmed from 1.25, same as the phone breakpoint below -- two
      adjacent EAEAEB badge-title/tag line boxes otherwise leave a
      hairline seam between them at 1.25. Deliberately past the point
@@ -1314,6 +1314,16 @@ button.project__media-link {
     max-width: var(--media-width);
   }
 
+  /* Every card in a pair now stacks full-width (see display:block
+     above), so two real cards sharing one .project-pair (Rovno Home +
+     Nadoswap, App Insiders Club + 3I Tech) need the same 32px gap
+     between them that .projects > * + * already gives pairs
+     themselves -- without this the divider under the first card sits
+     flush against the second card's image. */
+  .project-pair > .project + .project {
+    margin-top: 32px;
+  }
+
   /* Title + tagline read as one heading on desktop too, same as the
      phone breakpoint's own version of this fix -- the tagline no
      longer breaks off into desktop's grey. */
@@ -1332,13 +1342,14 @@ button.project__media-link {
 
   .project__row {
     display: grid;
-    /* Measured directly off the PDF: description column starts ~310px
-       from the row's own left edge (which sits flush with the image,
-       no side inset). */
-    grid-template-columns: 310px 1fr;
+    /* Matches Figma exactly (Sep 2026 update): description column
+       starts 409px from the row's own left edge (which sits flush
+       with the image, no side inset). */
+    grid-template-columns: 409px 1fr;
     column-gap: 0;
     align-items: start;
-    margin-top: 24px;
+    /* Image-to-row gap, per Figma. */
+    margin-top: 32px;
   }
 
   .project__title {
@@ -1388,13 +1399,12 @@ button.project__media-link {
     grid-row: 1;
     display: flex;
     flex-direction: column;
-    /* Wide enough that the explicit <br> breaks in the copy (matched to
-       the PDF's own line wraps) are what actually ends each line, not
-       the container -- a narrower box would double-wrap them. The
-       longest line renders at ~640px; the grid column itself caps this
-       at 705px (1015 - the 310px badge column), so 660px clears every
-       line with room to spare. */
-    max-width: 660px;
+    /* Wide enough that the explicit <br> breaks in the copy are what
+       actually end each line, not the container -- a narrower box
+       would double-wrap them. The grid column itself caps this at
+       606px (1015 - the 409px badge column, per Figma), so this just
+       mirrors that rather than adding its own narrower limit. */
+    max-width: 606px;
   }
 
   /* Crossfade for the language toggle -- the JS fades a node's opacity
@@ -2903,7 +2913,7 @@ button.project__media-link {
         </div>
         <div class="project__row">
           <h2 class="project__title">
-            <span class="project__title-desktop project__badge" data-en="&lt;span class=&quot;project__badge-title&quot;&gt;Nadoswap.&lt;/span&gt;&lt;span class=&quot;project__badge-gap&quot; aria-hidden=&quot;true&quot;&gt;&lt;/span&gt;&lt;span class=&quot;project__badge-tag&quot;&gt;Independent Crypto&lt;br&gt;Monitoring&lt;/span&gt;" data-ru="&lt;span class=&quot;project__badge-title&quot;&gt;Nadoswap.&lt;/span&gt;&lt;span class=&quot;project__badge-gap&quot; aria-hidden=&quot;true&quot;&gt;&lt;/span&gt;&lt;span class=&quot;project__badge-tag&quot;&gt;Независимый мониторинг&lt;br&gt;криптобирж&lt;/span&gt;"><span class="project__badge-title">Nadoswap.</span><span class="project__badge-gap" aria-hidden="true"></span><span class="project__badge-tag">Independent Crypto<br>Monitoring</span></span>
+            <span class="project__title-desktop project__badge" data-en="&lt;span class=&quot;project__badge-title&quot;&gt;Nadoswap.&lt;/span&gt;&lt;span class=&quot;project__badge-gap&quot; aria-hidden=&quot;true&quot;&gt;&lt;/span&gt;&lt;span class=&quot;project__badge-tag&quot;&gt;Independent Crypto Monitoring&lt;/span&gt;" data-ru="&lt;span class=&quot;project__badge-title&quot;&gt;Nadoswap.&lt;/span&gt;&lt;span class=&quot;project__badge-gap&quot; aria-hidden=&quot;true&quot;&gt;&lt;/span&gt;&lt;span class=&quot;project__badge-tag&quot;&gt;Независимый мониторинг криптобирж&lt;/span&gt;"><span class="project__badge-title">Nadoswap.</span><span class="project__badge-gap" aria-hidden="true"></span><span class="project__badge-tag">Independent Crypto Monitoring</span></span>
           </h2>
           <div class="project__desc">
  <p data-en="Nadoswap is an independent crypto exchange monitoring&lt;br&gt;service that helps pick the best route." data-ru="Nadoswap — независимый сервис мониторинга криптобирж,&lt;br&gt;который помогает выбрать лучший маршрут обмена.">Nadoswap is an independent crypto exchange monitoring<br>service that helps pick the best route.</p>
@@ -2924,7 +2934,7 @@ button.project__media-link {
         </div>
         <div class="project__row">
           <h2 class="project__title">
-            <span class="project__title-desktop project__badge" data-en="&lt;span class=&quot;project__badge-title&quot;&gt;App Insiders Club.&lt;/span&gt;&lt;span class=&quot;project__badge-gap&quot; aria-hidden=&quot;true&quot;&gt;&lt;/span&gt;&lt;span class=&quot;project__badge-tag&quot;&gt;Media platform about&lt;br&gt;mobile app development&lt;/span&gt;" data-ru="&lt;span class=&quot;project__badge-title&quot;&gt;App Insiders Club.&lt;/span&gt;&lt;span class=&quot;project__badge-gap&quot; aria-hidden=&quot;true&quot;&gt;&lt;/span&gt;&lt;span class=&quot;project__badge-tag&quot;&gt;Медиаплатформа о&lt;br&gt;разработке&lt;br&gt;мобильных приложений&lt;/span&gt;"><span class="project__badge-title">App Insiders Club.</span><span class="project__badge-gap" aria-hidden="true"></span><span class="project__badge-tag">Media platform about<br>mobile app development</span></span>
+            <span class="project__title-desktop project__badge" data-en="&lt;span class=&quot;project__badge-title&quot;&gt;App Insiders Club.&lt;/span&gt;&lt;span class=&quot;project__badge-gap&quot; aria-hidden=&quot;true&quot;&gt;&lt;/span&gt;&lt;span class=&quot;project__badge-tag&quot;&gt;Media platform about&lt;br&gt;mobile app development&lt;/span&gt;" data-ru="&lt;span class=&quot;project__badge-title&quot;&gt;App Insiders Club.&lt;/span&gt;&lt;span class=&quot;project__badge-gap&quot; aria-hidden=&quot;true&quot;&gt;&lt;/span&gt;&lt;span class=&quot;project__badge-tag&quot;&gt;Медиаплатформа о разработке&lt;br&gt;мобильных приложений&lt;/span&gt;"><span class="project__badge-title">App Insiders Club.</span><span class="project__badge-gap" aria-hidden="true"></span><span class="project__badge-tag">Media platform about<br>mobile app development</span></span>
           </h2>
           <div class="project__desc">
  <p data-en="App Insiders Club is a Yandex media platform about mobile&lt;br&gt;app development." data-ru="App Insiders Club — медиаплатформа Яндекса о разработке&lt;br&gt;мобильных приложений.">App Insiders Club is a Yandex media platform about mobile<br>app development.</p>
@@ -2945,7 +2955,7 @@ button.project__media-link {
         </div>
         <div class="project__row">
           <h2 class="project__title">
-            <span class="project__title-desktop project__badge" data-en="&lt;span class=&quot;project__badge-title&quot;&gt;3I Tech&lt;/span&gt;&lt;span class=&quot;project__badge-gap&quot; aria-hidden=&quot;true&quot;&gt;&lt;/span&gt;&lt;span class=&quot;project__badge-tag&quot;&gt;AI solutions for business&lt;br&gt;and government&lt;/span&gt;" data-ru="&lt;span class=&quot;project__badge-title&quot;&gt;3I Tech&lt;/span&gt;&lt;span class=&quot;project__badge-gap&quot; aria-hidden=&quot;true&quot;&gt;&lt;/span&gt;&lt;span class=&quot;project__badge-tag&quot;&gt;AI решения для бизнеса&lt;br&gt;и государства&lt;/span&gt;"><span class="project__badge-title">3I Tech</span><span class="project__badge-gap" aria-hidden="true"></span><span class="project__badge-tag">AI solutions for business<br>and government</span></span>
+            <span class="project__title-desktop project__badge" data-en="&lt;span class=&quot;project__badge-title&quot;&gt;3I Tech&lt;/span&gt;&lt;span class=&quot;project__badge-gap&quot; aria-hidden=&quot;true&quot;&gt;&lt;/span&gt;&lt;span class=&quot;project__badge-tag&quot;&gt;AI solutions for business&lt;br&gt;and government&lt;/span&gt;" data-ru="&lt;span class=&quot;project__badge-title&quot;&gt;3I Tech&lt;/span&gt;&lt;span class=&quot;project__badge-gap&quot; aria-hidden=&quot;true&quot;&gt;&lt;/span&gt;&lt;span class=&quot;project__badge-tag&quot;&gt;AI решения для бизнеса и государства&lt;/span&gt;"><span class="project__badge-title">3I Tech</span><span class="project__badge-gap" aria-hidden="true"></span><span class="project__badge-tag">AI solutions for business<br>and government</span></span>
           </h2>
           <div class="project__desc">
  <p data-en="3I Tech is a Russian AI vendor building speech technology,&lt;br&gt;voice biometrics, and LLM assistants." data-ru="3I Tech — российский AI-вендор, который разрабатывает&lt;br&gt;речевые технологии, голосовую биометрию и LLM-ассистентов.">3I Tech is a Russian AI vendor building speech technology,<br>voice biometrics, and LLM assistants.</p>
