@@ -307,7 +307,7 @@ ul {
   align-items: flex-start;
   gap: 24px;
   width: 100%;
-  margin-top: -5px;
+  margin-top: -15px;
 }
 
 .intro__block {
@@ -376,7 +376,7 @@ ul {
 
 .contact__links a {
   display: inline-block;
-  font-size: 18px;
+  font-size: 16px;
   line-height: 1.45;
   letter-spacing: var(--tracking-serif);
   width: fit-content;
@@ -612,29 +612,9 @@ body.has-custom-cursor * {
   color: var(--color-ink);
 }
 
-.project__badge-tag {
-  color: #7F7F80;
-}
-
-/* Split out of .project__badge (see it in both the min-width:701px and
-   max-width:700px blocks) so the title/tagline can each independently
-   keep the per-line EAEAEB staircase (inline, own background) while
-   still allowing a real gap between them -- a plain inline element's
-   margin can't do that (top/bottom margin on inline content is
-   ignored), so .project__badge-gap is a zero-height block-level spacer
-   between them instead; a block sibling forces the line break without
-   disturbing either inline run's own per-line fragmentation. Zero
-   height by default (desktop keeps its original ~touching spacing);
-   the phone breakpoint below is the only one that gives it real height. */
-.project__badge-title,
-.project__badge-tag {
+.project__badge-title {
   display: inline;
   background-color: #EAEAEB;
-}
-
-.project__badge-gap {
-  display: block;
-  height: 0;
 }
 
 .project__title-mobile {
@@ -1316,13 +1296,6 @@ button.project__media-link {
     margin-top: 32px;
   }
 
-  /* Title + tagline read as one heading on desktop too, same as the
-     phone breakpoint's own version of this fix -- the tagline no
-     longer breaks off into desktop's grey. */
-  .project__badge-tag {
-    color: #000000;
-  }
-
   .project--half .project__media {
     max-width: var(--media-width);
     aspect-ratio: 1015 / 600;
@@ -1515,7 +1488,7 @@ button.project__media-link {
     background: none;
     font: inherit;
     font-family: var(--font-serif);
-    font-size: 18px;
+    font-size: 16px;
     line-height: 1.45;
     letter-spacing: var(--tracking-serif);
     cursor: pointer;
@@ -2110,13 +2083,6 @@ button.project__media-link {
   .project__desc-p--mobile,
   .lang-toggle {
     transition: opacity 0.2s ease;
-  }
-
-  /* Title + tagline read as one heading -- no internal gap after all
-     (the previous 24px request was walked back), and the tagline is
-     black like the title instead of desktop's grey. */
-  .project__badge-tag {
-    color: #000000;
   }
 
   /* 16px between the badge and the description text below it. */
@@ -2749,7 +2715,7 @@ button.project__media-link {
       <div class="project__row">
         <h2 class="project__title">
           <span class="project__title-mobile"><a class="project__title-link" href="https://www.behance.net/gallery/235073919/Vocamate-AI-Brand-Identity-Website" target="_blank" rel="noopener noreferrer">Vocamate AI.</a></span>
-          <a class="project__title-desktop project__badge" href="https://www.behance.net/gallery/235073919/Vocamate-AI-Brand-Identity-Website" target="_blank" rel="noopener noreferrer" data-en="&lt;span class=&quot;project__badge-title&quot;&gt;Vocamate AI&lt;/span&gt;&lt;span class=&quot;project__badge-gap&quot; aria-hidden=&quot;true&quot;&gt;&lt;/span&gt;&lt;span class=&quot;project__badge-tag&quot;&gt;Voice bots and chatbots&lt;/span&gt;" data-ru="&lt;span class=&quot;project__badge-title&quot;&gt;Vocamate AI&lt;/span&gt;&lt;span class=&quot;project__badge-gap&quot; aria-hidden=&quot;true&quot;&gt;&lt;/span&gt;&lt;span class=&quot;project__badge-tag&quot;&gt;Голосовые роботы&lt;br&gt;и чат-боты&lt;/span&gt;"><span class="project__badge-title">Vocamate AI</span><span class="project__badge-gap" aria-hidden="true"></span><span class="project__badge-tag">Voice bots and chatbots</span></a>
+          <a class="project__title-desktop project__badge" href="https://www.behance.net/gallery/235073919/Vocamate-AI-Brand-Identity-Website" target="_blank" rel="noopener noreferrer" data-en="&lt;span class=&quot;project__badge-title&quot;&gt;Vocamate AI&lt;/span&gt;" data-ru="&lt;span class=&quot;project__badge-title&quot;&gt;Vocamate AI&lt;/span&gt;"><span class="project__badge-title">Vocamate AI</span></a>
         </h2>
         <p class="project__subtitle-mobile">Голосовые роботы и чат-боты</p>
         <ul class="project__tags">
@@ -2785,7 +2751,7 @@ button.project__media-link {
         <div class="project__row">
           <h2 class="project__title">
             <span class="project__title-mobile"><button class="project__title-link" type="button" data-case-open="case-basarab">Basarab.</button></span>
-            <span role="button" tabindex="0" class="project__title-desktop project__badge" data-case-open="case-basarab" data-en="&lt;span class=&quot;project__badge-title&quot;&gt;Basarab&lt;/span&gt;&lt;span class=&quot;project__badge-gap&quot; aria-hidden=&quot;true&quot;&gt;&lt;/span&gt;&lt;span class=&quot;project__badge-tag&quot;&gt;Family footwear brand&lt;/span&gt;" data-ru="&lt;span class=&quot;project__badge-title&quot;&gt;Basarab&lt;/span&gt;&lt;span class=&quot;project__badge-gap&quot; aria-hidden=&quot;true&quot;&gt;&lt;/span&gt;&lt;span class=&quot;project__badge-tag&quot;&gt;Семейный бренд обуви&lt;/span&gt;"><span class="project__badge-title">Basarab</span><span class="project__badge-gap" aria-hidden="true"></span><span class="project__badge-tag">Family footwear brand</span></span>
+            <span role="button" tabindex="0" class="project__title-desktop project__badge" data-case-open="case-basarab" data-en="&lt;span class=&quot;project__badge-title&quot;&gt;Basarab&lt;/span&gt;" data-ru="&lt;span class=&quot;project__badge-title&quot;&gt;Basarab&lt;/span&gt;"><span class="project__badge-title">Basarab</span></span>
           </h2>
           <p class="project__subtitle-mobile">Семейный бренд обуви</p>
           <ul class="project__tags">
@@ -2845,7 +2811,7 @@ button.project__media-link {
         <div class="project__row">
           <h2 class="project__title">
             <span class="project__title-mobile"><button class="project__title-link" type="button" data-case-open="case-foundation">Фонд «Вызов».</button></span>
-            <span role="button" tabindex="0" class="project__title-desktop project__badge" data-case-open="case-foundation" data-en="&lt;span class=&quot;project__badge-title&quot;&gt;Фонд «Вызов»&lt;/span&gt;&lt;span class=&quot;project__badge-gap&quot; aria-hidden=&quot;true&quot;&gt;&lt;/span&gt;&lt;span class=&quot;project__badge-tag&quot;&gt;The Foundation for the&lt;br&gt;development of Scientific&lt;br&gt;and Cultural Ties&lt;/span&gt;" data-ru="&lt;span class=&quot;project__badge-title&quot;&gt;Фонд «Вызов»&lt;/span&gt;&lt;span class=&quot;project__badge-gap&quot; aria-hidden=&quot;true&quot;&gt;&lt;/span&gt;&lt;span class=&quot;project__badge-tag&quot;&gt;Фонд развития научно-&lt;br&gt;культурных связей&lt;/span&gt;"><span class="project__badge-title">Фонд «Вызов»</span><span class="project__badge-gap" aria-hidden="true"></span><span class="project__badge-tag">The Foundation for the<br>development of Scientific<br>and Cultural Ties</span></span>
+            <span role="button" tabindex="0" class="project__title-desktop project__badge" data-case-open="case-foundation" data-en="&lt;span class=&quot;project__badge-title&quot;&gt;Фонд «Вызов»&lt;/span&gt;" data-ru="&lt;span class=&quot;project__badge-title&quot;&gt;Фонд «Вызов»&lt;/span&gt;"><span class="project__badge-title">Фонд «Вызов»</span></span>
           </h2>
           <p class="project__subtitle-mobile">Фонд развития научно-культурных<br>связей</p>
           <ul class="project__tags">
@@ -2880,7 +2846,7 @@ button.project__media-link {
         </div>
         <div class="project__row">
           <h2 class="project__title">
-            <span class="project__title-desktop project__badge" data-en="&lt;span class=&quot;project__badge-title&quot;&gt;Rovno Home&lt;/span&gt;&lt;span class=&quot;project__badge-gap&quot; aria-hidden=&quot;true&quot;&gt;&lt;/span&gt;&lt;span class=&quot;project__badge-tag&quot;&gt;Curtains made with love&lt;/span&gt;" data-ru="&lt;span class=&quot;project__badge-title&quot;&gt;Rovno Home&lt;/span&gt;&lt;span class=&quot;project__badge-gap&quot; aria-hidden=&quot;true&quot;&gt;&lt;/span&gt;&lt;span class=&quot;project__badge-tag&quot;&gt;Текстиль для дома&lt;/span&gt;"><span class="project__badge-title">Rovno Home</span><span class="project__badge-gap" aria-hidden="true"></span><span class="project__badge-tag">Curtains made with love</span></span>
+            <span class="project__title-desktop project__badge" data-en="&lt;span class=&quot;project__badge-title&quot;&gt;Rovno Home&lt;/span&gt;" data-ru="&lt;span class=&quot;project__badge-title&quot;&gt;Rovno Home&lt;/span&gt;"><span class="project__badge-title">Rovno Home</span></span>
           </h2>
           <div class="project__desc">
  <p data-en="Rovno Home crafts custom textiles for apartments,&lt;br&gt;private homes, restaurants, and hotels." data-ru="Rovno Home создаёт текстиль на заказ для квартир,&lt;br&gt;частных домов, ресторанов и гостиниц.">Rovno Home crafts custom textiles for apartments,<br>private homes, restaurants, and hotels.</p>
@@ -2900,7 +2866,7 @@ button.project__media-link {
         </div>
         <div class="project__row">
           <h2 class="project__title">
-            <span class="project__title-desktop project__badge" data-en="&lt;span class=&quot;project__badge-title&quot;&gt;Nadoswap&lt;/span&gt;&lt;span class=&quot;project__badge-gap&quot; aria-hidden=&quot;true&quot;&gt;&lt;/span&gt;&lt;span class=&quot;project__badge-tag&quot;&gt;Independent Crypto Monitoring&lt;/span&gt;" data-ru="&lt;span class=&quot;project__badge-title&quot;&gt;Nadoswap&lt;/span&gt;&lt;span class=&quot;project__badge-gap&quot; aria-hidden=&quot;true&quot;&gt;&lt;/span&gt;&lt;span class=&quot;project__badge-tag&quot;&gt;Независимый мониторинг&lt;br&gt;криптообменников&lt;/span&gt;"><span class="project__badge-title">Nadoswap</span><span class="project__badge-gap" aria-hidden="true"></span><span class="project__badge-tag">Independent Crypto Monitoring</span></span>
+            <span class="project__title-desktop project__badge" data-en="&lt;span class=&quot;project__badge-title&quot;&gt;Nadoswap&lt;/span&gt;" data-ru="&lt;span class=&quot;project__badge-title&quot;&gt;Nadoswap&lt;/span&gt;"><span class="project__badge-title">Nadoswap</span></span>
           </h2>
           <div class="project__desc">
  <p data-en="Nadoswap is an independent crypto exchange&lt;br&gt;monitoring service that helps pick the best route." data-ru="Независимый сервис мониторинга криптообменников,&lt;br&gt;который помогает выбрать лучший маршрут обмена.">Nadoswap is an independent crypto exchange<br>monitoring service that helps pick the best route.</p>
@@ -2924,7 +2890,7 @@ button.project__media-link {
         </div>
         <div class="project__row">
           <h2 class="project__title">
-            <span class="project__title-desktop project__badge" data-en="&lt;span class=&quot;project__badge-title&quot;&gt;App Insiders Club&lt;/span&gt;&lt;span class=&quot;project__badge-gap&quot; aria-hidden=&quot;true&quot;&gt;&lt;/span&gt;&lt;span class=&quot;project__badge-tag&quot;&gt;Media platform about&lt;br&gt;mobile app development&lt;/span&gt;" data-ru="&lt;span class=&quot;project__badge-title&quot;&gt;App Insiders Club&lt;/span&gt;&lt;span class=&quot;project__badge-gap&quot; aria-hidden=&quot;true&quot;&gt;&lt;/span&gt;&lt;span class=&quot;project__badge-tag&quot;&gt;Медиаплатформа о разработке&lt;br&gt;мобильных приложений&lt;/span&gt;"><span class="project__badge-title">App Insiders Club</span><span class="project__badge-gap" aria-hidden="true"></span><span class="project__badge-tag">Media platform about<br>mobile app development</span></span>
+            <span class="project__title-desktop project__badge" data-en="&lt;span class=&quot;project__badge-title&quot;&gt;App Insiders Club&lt;/span&gt;" data-ru="&lt;span class=&quot;project__badge-title&quot;&gt;App Insiders Club&lt;/span&gt;"><span class="project__badge-title">App Insiders Club</span></span>
           </h2>
           <div class="project__desc">
  <p data-en="App Insiders Club is a Yandex media platform&lt;br&gt;about mobile app development." data-ru="App Insiders Club — медиаплатформа Яндекса&lt;br&gt;о разработке мобильных приложений.">App Insiders Club is a Yandex media platform<br>about mobile app development.</p>
@@ -2948,7 +2914,7 @@ button.project__media-link {
         </div>
         <div class="project__row">
           <h2 class="project__title">
-            <span class="project__title-desktop project__badge" data-en="&lt;span class=&quot;project__badge-title&quot;&gt;3I Tech&lt;/span&gt;&lt;span class=&quot;project__badge-gap&quot; aria-hidden=&quot;true&quot;&gt;&lt;/span&gt;&lt;span class=&quot;project__badge-tag&quot;&gt;AI solutions for business&lt;br&gt;and government&lt;/span&gt;" data-ru="&lt;span class=&quot;project__badge-title&quot;&gt;3I Tech&lt;/span&gt;&lt;span class=&quot;project__badge-gap&quot; aria-hidden=&quot;true&quot;&gt;&lt;/span&gt;&lt;span class=&quot;project__badge-tag&quot;&gt;AI решения для бизнеса&lt;br&gt;и государства&lt;/span&gt;"><span class="project__badge-title">3I Tech</span><span class="project__badge-gap" aria-hidden="true"></span><span class="project__badge-tag">AI solutions for business<br>and government</span></span>
+            <span class="project__title-desktop project__badge" data-en="&lt;span class=&quot;project__badge-title&quot;&gt;3I Tech&lt;/span&gt;" data-ru="&lt;span class=&quot;project__badge-title&quot;&gt;3I Tech&lt;/span&gt;"><span class="project__badge-title">3I Tech</span></span>
           </h2>
           <div class="project__desc">
  <p data-en="3I Tech is a Russian AI vendor building speech&lt;br&gt;technology, voice biometrics, and LLM assistants." data-ru="3I Tech — российский вендор ИИ-решений,&lt;br&gt;разрабатывающий речевые технологии, голосовую&lt;br&gt;биометрию и LLM-ассистентов.">3I Tech is a Russian AI vendor building speech<br>technology, voice biometrics, and LLM assistants.</p>
@@ -2992,7 +2958,7 @@ button.project__media-link {
 
     <div class="case__intro reveal">
       <div class="case__intro-left">
-        <h2 data-en="&lt;span class=&quot;project__badge-title&quot;&gt;Basarab&lt;/span&gt;&lt;span class=&quot;project__badge-gap&quot; aria-hidden=&quot;true&quot;&gt;&lt;/span&gt;&lt;span class=&quot;project__badge-tag&quot;&gt;Family footwear brand&lt;/span&gt;" data-ru="&lt;span class=&quot;project__badge-title&quot;&gt;Basarab&lt;/span&gt;&lt;span class=&quot;project__badge-gap&quot; aria-hidden=&quot;true&quot;&gt;&lt;/span&gt;&lt;span class=&quot;project__badge-tag&quot;&gt;Семейный бренд обуви&lt;/span&gt;"><span class="project__badge-title">Basarab</span><span class="project__badge-gap" aria-hidden="true"></span><span class="project__badge-tag">Family footwear brand</span></h2>
+        <h2 data-en="&lt;span class=&quot;project__badge-title&quot;&gt;Basarab&lt;/span&gt;" data-ru="&lt;span class=&quot;project__badge-title&quot;&gt;Basarab&lt;/span&gt;"><span class="project__badge-title">Basarab</span></h2>
         <ul class="project__tags-mobile">
           <li>Айдентика</li>
           <li>Логотип</li>
@@ -3142,7 +3108,7 @@ button.project__media-link {
       </button>
       <div class="project__row">
         <h2 class="project__title">
-          <span role="button" tabindex="0" class="project__title-desktop project__badge" data-case-open="case-foundation" data-en="&lt;span class=&quot;project__badge-title&quot;&gt;Фонд «Вызов»&lt;/span&gt;&lt;span class=&quot;project__badge-gap&quot; aria-hidden=&quot;true&quot;&gt;&lt;/span&gt;&lt;span class=&quot;project__badge-tag&quot;&gt;The Foundation for the&lt;br&gt;development of Scientific&lt;br&gt;and Cultural Ties&lt;/span&gt;" data-ru="&lt;span class=&quot;project__badge-title&quot;&gt;Фонд «Вызов»&lt;/span&gt;&lt;span class=&quot;project__badge-gap&quot; aria-hidden=&quot;true&quot;&gt;&lt;/span&gt;&lt;span class=&quot;project__badge-tag&quot;&gt;Фонд развития научно-&lt;br&gt;культурных связей&lt;/span&gt;"><span class="project__badge-title">Фонд «Вызов»</span><span class="project__badge-gap" aria-hidden="true"></span><span class="project__badge-tag">The Foundation for the<br>development of Scientific<br>and Cultural Ties</span></span>
+          <span role="button" tabindex="0" class="project__title-desktop project__badge" data-case-open="case-foundation" data-en="&lt;span class=&quot;project__badge-title&quot;&gt;Фонд «Вызов»&lt;/span&gt;" data-ru="&lt;span class=&quot;project__badge-title&quot;&gt;Фонд «Вызов»&lt;/span&gt;"><span class="project__badge-title">Фонд «Вызов»</span></span>
         </h2>
         <button type="button" class="project__see" data-case-open="case-foundation" data-en="See Project &lt;span class=&quot;project__see-arrow&quot;&gt;→&lt;/span&gt;" data-ru="Смотреть &lt;span class=&quot;project__see-arrow&quot;&gt;→&lt;/span&gt;">See Project <span class="project__see-arrow">→</span></button>
       </div>
@@ -3165,7 +3131,7 @@ button.project__media-link {
 
     <div class="case__intro reveal">
       <div class="case__intro-left">
-        <h2 data-en="&lt;span class=&quot;project__badge-title&quot;&gt;Фонд «Вызов»&lt;/span&gt;&lt;span class=&quot;project__badge-gap&quot; aria-hidden=&quot;true&quot;&gt;&lt;/span&gt;&lt;span class=&quot;project__badge-tag&quot;&gt;The Foundation for the&lt;br&gt;development of Scientific&lt;br&gt;and Cultural Ties&lt;/span&gt;" data-ru="&lt;span class=&quot;project__badge-title&quot;&gt;Фонд «Вызов»&lt;/span&gt;&lt;span class=&quot;project__badge-gap&quot; aria-hidden=&quot;true&quot;&gt;&lt;/span&gt;&lt;span class=&quot;project__badge-tag&quot;&gt;Фонд развития научно-&lt;br&gt;культурных связей&lt;/span&gt;"><span class="project__badge-title">Фонд «Вызов»</span><span class="project__badge-gap" aria-hidden="true"></span><span class="project__badge-tag">The Foundation for the<br>development of Scientific<br>and Cultural Ties</span></h2>
+        <h2 data-en="&lt;span class=&quot;project__badge-title&quot;&gt;Фонд «Вызов»&lt;/span&gt;" data-ru="&lt;span class=&quot;project__badge-title&quot;&gt;Фонд «Вызов»&lt;/span&gt;"><span class="project__badge-title">Фонд «Вызов»</span></h2>
         <ul class="project__tags-mobile">
           <li>Айдентика</li>
           <li>Логотип для выставки</li>
@@ -3255,7 +3221,7 @@ button.project__media-link {
       </button>
       <div class="project__row">
         <h2 class="project__title">
-          <span role="button" tabindex="0" class="project__title-desktop project__badge" data-case-open="case-basarab" data-en="&lt;span class=&quot;project__badge-title&quot;&gt;Basarab&lt;/span&gt;&lt;span class=&quot;project__badge-gap&quot; aria-hidden=&quot;true&quot;&gt;&lt;/span&gt;&lt;span class=&quot;project__badge-tag&quot;&gt;Family footwear brand&lt;/span&gt;" data-ru="&lt;span class=&quot;project__badge-title&quot;&gt;Basarab&lt;/span&gt;&lt;span class=&quot;project__badge-gap&quot; aria-hidden=&quot;true&quot;&gt;&lt;/span&gt;&lt;span class=&quot;project__badge-tag&quot;&gt;Семейный бренд обуви&lt;/span&gt;"><span class="project__badge-title">Basarab</span><span class="project__badge-gap" aria-hidden="true"></span><span class="project__badge-tag">Family footwear brand</span></span>
+          <span role="button" tabindex="0" class="project__title-desktop project__badge" data-case-open="case-basarab" data-en="&lt;span class=&quot;project__badge-title&quot;&gt;Basarab&lt;/span&gt;" data-ru="&lt;span class=&quot;project__badge-title&quot;&gt;Basarab&lt;/span&gt;"><span class="project__badge-title">Basarab</span></span>
         </h2>
         <button type="button" class="project__see" data-case-open="case-basarab" data-en="See Project &lt;span class=&quot;project__see-arrow&quot;&gt;→&lt;/span&gt;" data-ru="Смотреть &lt;span class=&quot;project__see-arrow&quot;&gt;→&lt;/span&gt;">See Project <span class="project__see-arrow">→</span></button>
       </div>
@@ -3391,25 +3357,22 @@ button.project__media-link {
         var pickColor = function (el) {
           var pick = pickFrom(el);
           activeColors.set(el, pick.bg);
-          // A badge's title/tagline carry their own background (split
-          // out of .project__badge itself so a real gap can sit
-          // between them -- see .project__badge-gap), so the picked
-          // color has to be pushed onto them directly, or a badge's
-          // hover/tap color would never actually become visible.
-          // Setting it on .project__badge itself too (rather than only
-          // these parts) used to leak: the language toggle rebuilds a
-          // badge's title/tag spans from scratch on every switch
-          // (innerHTML from its data-en/data-ru), which wipes their own
-          // inline color/background -- but not .project__badge's own,
-          // since only its children get replaced. The fresh title span
-          // has no color of its own, so it was quietly inheriting
-          // .project__badge's stale leftover color from whatever was
-          // last picked, while the tagline's own explicit black-text
-          // rule masked the same leak. Coloring only the parts a badge
-          // actually has (falling back to the element itself for a
-          // plain contact link, which has no such parts) keeps nothing
-          // stale on the parent to inherit from.
-          var parts = el.querySelectorAll('.project__badge-title, .project__badge-tag');
+          // A badge's title carries its own background (split out of
+          // .project__badge itself), so the picked color has to be
+          // pushed onto it directly, or a badge's hover/tap color would
+          // never actually become visible. Setting it on .project__badge
+          // itself too (rather than only this part) used to leak: the
+          // language toggle rebuilds a badge's title span from scratch
+          // on every switch (innerHTML from its data-en/data-ru), which
+          // wipes its own inline color/background -- but not
+          // .project__badge's own, since only its children get
+          // replaced. The fresh title span has no color of its own, so
+          // it was quietly inheriting .project__badge's stale leftover
+          // color from whatever was last picked. Coloring only the part
+          // a badge actually has (falling back to the element itself
+          // for a plain contact link, which has no such part) keeps
+          // nothing stale on the parent to inherit from.
+          var parts = el.querySelectorAll('.project__badge-title');
           if (parts.length) {
             parts.forEach(function (part) {
               part.style.backgroundColor = pick.bg;
