@@ -920,8 +920,17 @@ button.project__media-link {
   /* 409px title column, matching the same fixed width used by
      .project__row's title/button split on the main grid — confirmed
      against the Basarab case PDF, where the body-copy column starts
-     409px from the media column's own left edge. */
-  grid-template-columns: 409px 1fr;
+     409px from the media column's own left edge. min(409px, 40.3%)
+     (409/1015, --media-width's own ratio) instead of a bare 409px:
+     below roughly 1015px of available width (any desktop viewport
+     narrower than ~1430px once the sidebar is subtracted — a common
+     laptop width, not an edge case) a fixed-pixel column doesn't
+     shrink at all while the 1fr body-text column next to it does,
+     so the two columns stop scaling together and the body column
+     can shrink enough that its own hard <br> breaks (sized for the
+     full column) start re-wrapping mid-line. The percentage fallback
+     keeps both columns shrinking in proportion instead. */
+  grid-template-columns: min(409px, 40.3%) 1fr;
   column-gap: 0;
   max-width: var(--media-width);
   /* 24px own margin-top + the previous media block's 8px margin-bottom
@@ -1065,17 +1074,34 @@ button.project__media-link {
   margin-left: calc(var(--media-width) / 2);
 }
 
-/* Basarab's new design aligns its right-hand quotes with the same
-   409px text column as .case__intro-right (confirmed against the
-   case PDF), not with the 2-up image-row split the base rule above
-   assumes -- Foundation's own case__quote--right still uses that
-   base rule unchanged. Desktop-only: min-width keeps it from beating
-   the tablet/phone breakpoints' own margin-left:0 reset below, which
-   would otherwise win on specificity (an #id selector) despite
-   coming first in source order. */
+/* Both Basarab's and Foundation's right-hand quotes align with the
+   same 409px text column as .case__intro-right (confirmed by pixel-
+   measuring each case's own PDF export), not with the 2-up image-row
+   split the base rule above assumes. Desktop-only: min-width keeps
+   it from beating the tablet/phone breakpoints' own margin-left:0
+   reset below, which would otherwise win on specificity (an #id
+   selector) despite coming first in source order.
+
+   This was originally added for Basarab only, on the (wrong)
+   assumption that Foundation's own layout hadn't changed and still
+   matched the base rule's 2-up-row alignment -- it hadn't been
+   measured. Left un-fixed, the base rule's margin-left
+   (--media-width/2 = 507.5px) doesn't shrink with the viewport the
+   way the rest of the case's content does, so at any desktop width
+   narrower than ~1440px the quote block's available width collapses
+   toward zero and the text wraps mid-word onto cascading one-word
+   lines. Always add a case here (and measure its own max-width) for
+   any case using case__quote--right -- never assume the base rule is
+   fine without checking. */
 @media (min-width: 901px) {
+  /* min(409px, 40.3%) for the same reason as .case__intro's own grid
+     column above -- a bare 409px margin doesn't shrink with the
+     viewport, so the quote's own available width (whatever's left
+     after the margin) collapses much faster than the margin itself
+     does, down to single-digit pixels at the narrow end of the
+     desktop range. */
   #case-basarab .case__quote--right {
-    margin-left: 409px;
+    margin-left: min(409px, 40.3%);
     /* The base .case__quote max-width (480px) is tuned for the
        generic 2-up-row-derived column; measured directly against the
        case PDF, Basarab's 409px text column actually runs ~506px
@@ -1083,6 +1109,12 @@ button.project__media-link {
        so the shared cap clips it a bit short and forces narrower
        <br> breaks than the design calls for. */
     max-width: 510px;
+  }
+
+  #case-foundation .case__quote--right {
+    margin-left: min(409px, 40.3%);
+    /* Measured ~471px wide against Foundation's own PDF -- close
+       enough to the shared 480px cap that no override is needed. */
   }
 }
 
@@ -3223,7 +3255,7 @@ button.project__media-link {
       <div class="case__media" style="--mh:27.5rem"><img loading="lazy" src="images/foundation-05.webp" alt="Brand mood detail — glasses" /><img loading="lazy" class="case__media-mobile" src="images/foundation-m5.webp" alt="Brand mood detail — glasses" width="1077" height="1320" /></div>
     </div>
 
-    <p class="case__quote case__quote--right case__quote-p--desktop reveal" data-en="To express the connection between science and culture, we chose&lt;br&gt;contrasting typography: a strict grotesque carries the precision&lt;br&gt;and rationality of science, while softer, more expressive accents&lt;br&gt;speak to the foundation's cultural, human side. Together, they&lt;br&gt;form a single yet multifaceted visual voice." data-ru="Чтобы показать связь науки и культуры, мы выбрали&lt;br&gt;контрастную типографику: строгий гротеск отвечает&lt;br&gt;за точность и рациональность науки, а более пластичные,&lt;br&gt;выразительные акценты за культурную, гуманитарную&lt;br&gt;сторону фонда. Вместе они формируют единый,&lt;br&gt;но многогранный визуальный голос">To express the connection between science and culture, we chose<br>contrasting typography: a strict grotesque carries the precision<br>and rationality of science, while softer, more expressive accents<br>speak to the foundation's cultural, human side. Together, they<br>form a single yet multifaceted visual voice.</p>
+    <p class="case__quote case__quote--right case__quote-p--desktop reveal" data-en="To express the connection between science and culture, we&lt;br&gt;chose contrasting typography: a strict grotesque carries the&lt;br&gt;precision and rationality of science, while softer, more&lt;br&gt;expressive accents speak to the foundation's cultural, human&lt;br&gt;side. Together, they form a single yet multifaceted visual&lt;br&gt;voice." data-ru="Чтобы показать связь науки и культуры, мы выбрали&lt;br&gt;контрастную типографику: строгий гротеск отвечает&lt;br&gt;за точность и рациональность науки, а более пластичные,&lt;br&gt;выразительные акценты за культурную, гуманитарную&lt;br&gt;сторону фонда. Вместе они формируют единый,&lt;br&gt;но многогранный визуальный голос">To express the connection between science and culture, we<br>chose contrasting typography: a strict grotesque carries the<br>precision and rationality of science, while softer, more<br>expressive accents speak to the foundation's cultural, human<br>side. Together, they form a single yet multifaceted visual<br>voice.</p>
     <p class="case__quote case__quote--right case__quote-p--mobile reveal" data-en="To express the connection between science&lt;br&gt;and culture, we chose contrasting typography:&lt;br&gt;a strict grotesque carries the precision and&lt;br&gt;rationality of science, while softer, more&lt;br&gt;expressive accents speak to the foundation's&lt;br&gt;cultural, human side. Together, they form&lt;br&gt;a single yet multifaceted visual voice." data-ru="Чтобы показать связь науки и культуры,&lt;br&gt;мы выбрали контрастную типографику:&lt;br&gt;строгий гротеск отвечает за точность&lt;br&gt;и рациональность науки, а более&lt;br&gt;пластичные, выразительные акценты —&lt;br&gt;за культурную, гуманитарную&lt;br&gt;сторону фонда. Вместе они формируют&lt;br&gt;единый, но многогранный визуальный голос">To express the connection between science<br>and culture, we chose contrasting typography:<br>a strict grotesque carries the precision and<br>rationality of science, while softer, more<br>expressive accents speak to the foundation's<br>cultural, human side. Together, they form<br>a single yet multifaceted visual voice.</p>
 
     <div class="case__media reveal" style="--mh:14.375rem"><img loading="lazy" src="images/foundation-06.webp" alt="Billboard — We are proud of science" /><img loading="lazy" class="case__media-mobile" src="images/foundation-m6.webp" alt="Billboard — We are proud of science" width="1077" height="690" /></div>
