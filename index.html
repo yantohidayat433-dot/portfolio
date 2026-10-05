@@ -2521,6 +2521,17 @@ button.project__media-link {
     opacity: 1 !important;
   }
 
+  /* A handful of Basarab packaging shots (wrapping paper, shoe tongue
+     tag, bag, care guide, denim label) are meant to show the whole
+     client-supplied frame at this card's 340px (21.25rem) height,
+     not get cropped to fill the card's full width -- contain instead
+     of the site-wide cover default. !important because the global
+     "#case-basarab .case__media img" / ".case__row .case__media img"
+     rules (ID selector, several :not()s) outrank a flat class here. */
+  .case__media-mobile--contain {
+    object-fit: contain !important;
+  }
+
   /* A mobile-only crossfade group (a slideshow's own mobile crops) -- same
      is-active/opacity pattern as the desktop .case__media--slideshow img,
      just scoped to this nested wrapper (see the cycle() :scope > img
@@ -3033,7 +3044,7 @@ button.project__media-link {
         <p class="case__intro-title-desc case__intro-title-desc--desktop case__intro-title-desc--first" data-en="Worked in partnership with the Origin&lt;br&gt;Design team and directly with the brand" data-ru="Работала в партнерстве с командой &lt;br&gt;Origin Design и напрямую с брендом">Worked in partnership with the Origin<br>Design team and directly with the brand</p>
         <p class="case__intro-title-desc case__intro-title-desc--mobile case__intro-title-desc--first" data-en="Worked in partnership with the Origin&lt;br&gt;Design team and directly with the brand" data-ru="Работала в партнерстве с командой &lt;br&gt;Origin Design и напрямую с брендом">Worked in partnership with the Origin<br>Design team and directly with the brand</p>
         <p class="case__intro-title-desc case__intro-title-desc--desktop case__intro-title-desc--second" data-en="Developed the visual identity and logotype.&lt;br&gt;Led my team in designing the touchpoints and&lt;br&gt;preparing production-ready files for the new identity" data-ru="Разработала визуальную айдентику и логотип.&lt;br&gt;Руководила командой при разработке носителей&lt;br&gt;и подготовке макетов для производства в рамках&lt;br&gt;новой айдентики.">Developed the visual identity and logotype.<br>Led my team in designing the touchpoints and<br>preparing production-ready files for the new identity</p>
-        <p class="case__intro-title-desc case__intro-title-desc--mobile case__intro-title-desc--second" data-en="Developed the visual identity and logotype.&lt;br&gt;Led my team in designing the touchpoints and&lt;br&gt;preparing production-ready files for the new&lt;br&gt;identity" data-ru="Разработала визуальную айдентику и&lt;br&gt;логотип. Руководила командой при&lt;br&gt;разработке носителей и подготовке макетов&lt;br&gt;для производства в рамках новой айдентики.">Developed the visual identity and logotype.<br>Led my team in designing the touchpoints and<br>preparing production-ready files for the new<br>identity</p>
+        <p class="case__intro-title-desc case__intro-title-desc--mobile case__intro-title-desc--second" data-en="Developed the visual identity and logotype.&lt;br&gt;Led my team in designing the touchpoints and&lt;br&gt;preparing production-ready files for the new&lt;br&gt;identity" data-ru="Разработала визуальную айдентику&lt;br&gt;и логотип. Руководила командой при&lt;br&gt;разработке носителей и подготовке макетов&lt;br&gt;для производства в рамках новой айдентики.">Developed the visual identity and logotype.<br>Led my team in designing the touchpoints and<br>preparing production-ready files for the new<br>identity</p>
       </div>
       <div class="case__intro-right">
         <p class="case__intro-p--desktop" data-en="Basarab is a family-run footwear brand with its own&lt;br&gt;production, making reliable, beautiful shoes for everyday life." data-ru="Basarab — семейный бренд обуви с собственным &lt;br&gt;производством, который создает надёжную и красивую &lt;br&gt;обувь для повседневной жизни.">Basarab is a family-run footwear brand with its own<br>production, making reliable, beautiful shoes for everyday life.</p>
@@ -3080,7 +3091,7 @@ button.project__media-link {
 
     <div class="case__quote reveal">
       <p class="case__quote-p--desktop" data-en="To keep the focus on the product, we avoided flashy graphic&lt;br&gt;elements. Monumental typography takes center stage in the&lt;br&gt;identity. We preserved the brand's confident, fairly classic&lt;br&gt;image, while using layout to give it a distinct character." data-ru="Чтобы сохранить фокус на продукте, мы отказались &lt;br&gt;от броских графических элементов. Центральное место &lt;br&gt;в айдентике занимает монументальная типографика. &lt;br&gt;Мы сохранили уверенный и довольно классический &lt;br&gt;образ бренда, при этом с помощью верстки придали &lt;br&gt;ему уникальный характер.">To keep the focus on the product, we avoided flashy graphic<br>elements. Monumental typography takes center stage in the<br>identity. We preserved the brand's confident, fairly classic<br>image, while using layout to give it a distinct character.</p>
-      <p class="case__quote-p--mobile" data-en="To keep the focus on the product, we&lt;br&gt;avoided flashy graphic elements. Monumental&lt;br&gt;typography takes center stage in the identity.&lt;br&gt;We preserved the brand's confident, fairly&lt;br&gt;classic image, while using layout to give&lt;br&gt;it a distinct character." data-ru="Чтобы сохранить фокус на продукте,&lt;br&gt;мы отказались от броских графических&lt;br&gt;элементов. Центральное место в айдентике&lt;br&gt;занимает монументальная типографика.&lt;br&gt;Мы сохранили уверенный и довольно&lt;br&gt;классический образ бренда, при этом с&lt;br&gt;помощью верстки придали ему уникальный&lt;br&gt;характер.">To keep the focus on the product, we<br>avoided flashy graphic elements. Monumental<br>typography takes center stage in the identity.<br>We preserved the brand's confident, fairly<br>classic image, while using layout to give<br>it a distinct character.</p>
+      <p class="case__quote-p--mobile" data-en="To keep the focus on the product, we&lt;br&gt;avoided flashy graphic elements. Monumental&lt;br&gt;typography takes center stage in the identity.&lt;br&gt;We preserved the brand's confident, fairly&lt;br&gt;classic image, while using layout to give&lt;br&gt;it a distinct character." data-ru="Чтобы сохранить фокус на продукте,&lt;br&gt;мы отказались от броских графических&lt;br&gt;элементов. Центральное место в айдентике&lt;br&gt;занимает монументальная типографика.&lt;br&gt;Мы сохранили уверенный и довольно&lt;br&gt;классический образ бренда, при этом&lt;br&gt;с помощью верстки придали ему&lt;br&gt;уникальный характер.">To keep the focus on the product, we<br>avoided flashy graphic elements. Monumental<br>typography takes center stage in the identity.<br>We preserved the brand's confident, fairly<br>classic image, while using layout to give<br>it a distinct character.</p>
     </div>
 
     <div class="case__media reveal" style="--mh:14.375rem"><img loading="lazy" src="images/basarab-10.webp?v=2" alt="New collection SS 25–26" width="2030" height="1240" /><img loading="lazy" class="case__media-mobile" src="images/basarab-m10.webp?v=2" alt="New collection SS 25–26" width="1077" height="690" /></div>
@@ -3088,8 +3099,8 @@ button.project__media-link {
     <div class="case__media reveal" style="--mh:21.25rem"><img loading="lazy" src="images/basarab-11.webp?v=2" alt="" width="2032" height="1156" /><img loading="lazy" class="case__media-mobile" src="images/basarab-m11.webp?v=2" alt="" width="1077" height="1020" /></div>
 
     <div class="case__row reveal">
-      <div class="case__media" style="--mh:21.25rem"><img loading="lazy" src="images/basarab-12.webp?v=2" alt="" width="1006" height="1200" /><img loading="lazy" class="case__media-mobile" src="images/basarab-m12.webp?v=2" alt="" width="1077" height="1020" /></div>
-      <div class="case__media" style="--mh:21.25rem"><img loading="lazy" src="images/basarab-13.webp?v=2" alt="" width="1006" height="1200" /><img loading="lazy" class="case__media-mobile" src="images/basarab-m13.webp?v=2" alt="" width="1077" height="1020" /></div>
+      <div class="case__media" style="--mh:21.25rem"><img loading="lazy" src="images/basarab-12.webp?v=2" alt="" width="1006" height="1200" /><img loading="lazy" class="case__media-mobile case__media-mobile--contain" src="images/basarab-m12.webp?v=3" alt="" width="1436" height="1760" /></div>
+      <div class="case__media" style="--mh:21.25rem"><img loading="lazy" src="images/basarab-13.webp?v=2" alt="" width="1006" height="1200" /><img loading="lazy" class="case__media-mobile case__media-mobile--contain" src="images/basarab-m13.webp?v=3" alt="" width="1436" height="1760" /></div>
     </div>
 
     <div class="case__media case__media--ig-ticker reveal" style="--mh:14.375rem">
@@ -3113,8 +3124,8 @@ button.project__media-link {
     <div class="case__media reveal" style="--mh:13.25rem"><img loading="lazy" src="images/basarab-16.webp?v=2" alt="" width="2032" height="1240" /><img loading="lazy" class="case__media-mobile" src="images/basarab-m17.webp?v=2" alt="" width="1077" height="636" /></div>
 
     <div class="case__row reveal">
-      <div class="case__media" style="--mh:21.25rem"><img loading="lazy" src="images/basarab-20.webp?v=2" alt="" width="1008" height="1274" /><img loading="lazy" class="case__media-mobile" src="images/basarab-m18.webp?v=2" alt="" width="1077" height="1020" /></div>
-      <div class="case__media" style="--mh:21.25rem"><img loading="lazy" src="images/basarab-21.webp?v=2" alt="" width="1010" height="1274" /><img loading="lazy" class="case__media-mobile" src="images/basarab-m19.webp?v=2" alt="" width="1077" height="1020" /></div>
+      <div class="case__media" style="--mh:21.25rem"><img loading="lazy" src="images/basarab-20.webp?v=2" alt="" width="1008" height="1274" /><img loading="lazy" class="case__media-mobile case__media-mobile--contain" src="images/basarab-m18.webp?v=3" alt="" width="1224" height="1500" /></div>
+      <div class="case__media" style="--mh:21.25rem"><img loading="lazy" src="images/basarab-21.webp?v=2" alt="" width="1010" height="1274" /><img loading="lazy" class="case__media-mobile case__media-mobile--contain" src="images/basarab-m19.webp?v=3" alt="" width="1436" height="1760" /></div>
     </div>
 
     <div class="case__media case__media--ig-ticker reveal" style="--mh:14.375rem">
@@ -3130,7 +3141,7 @@ button.project__media-link {
 
     <div class="case__row reveal">
       <div class="case__media" style="--mh:27.5rem"><img loading="lazy" src="images/basarab-25.webp?v=2" alt="" width="1008" height="1200" /><img loading="lazy" class="case__media-mobile" src="images/basarab-m21.webp?v=2" alt="" width="1077" height="1320" /></div>
-      <div class="case__media" style="--mh:21.25rem"><img loading="lazy" src="images/basarab-26.webp?v=2" alt="" width="1006" height="1200" /><img loading="lazy" class="case__media-mobile" src="images/basarab-m22.webp?v=2" alt="" width="1077" height="1020" /></div>
+      <div class="case__media" style="--mh:21.25rem"><img loading="lazy" src="images/basarab-26.webp?v=2" alt="" width="1006" height="1200" /><img loading="lazy" class="case__media-mobile case__media-mobile--contain" src="images/basarab-m22.webp?v=3" alt="" width="1224" height="1500" /></div>
     </div>
 
     <div class="case__media reveal" style="--mh:14.375rem"><img loading="lazy" src="images/basarab-27.webp?v=2" alt="New collection. Reliable clothes for the everyday. From dawn to dusk." width="2000" height="1253" /><img loading="lazy" class="case__media-mobile" src="images/basarab-m23.webp?v=2" alt="New collection. Reliable clothes for the everyday. From dawn to dusk." width="1077" height="690" /></div>
