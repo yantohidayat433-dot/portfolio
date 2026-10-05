@@ -915,8 +915,12 @@ button.project__media-link {
 
 .case__intro {
   display: grid;
-  grid-template-columns: calc(var(--media-width) / 2) 1fr;
-  column-gap: 4px;
+  /* 409px title column, matching the same fixed width used by
+     .project__row's title/button split on the main grid — confirmed
+     against the Basarab case PDF, where the body-copy column starts
+     409px from the media column's own left edge. */
+  grid-template-columns: 409px 1fr;
+  column-gap: 0;
   max-width: var(--media-width);
   /* 24px own margin-top + the previous media block's 8px margin-bottom
      = 32px visible gap above; 36px below before the next media block --
@@ -954,7 +958,14 @@ button.project__media-link {
   font-size: 14px;
   line-height: 1.45;
   letter-spacing: var(--tracking-serif);
-  color: #757575;
+  color: #898989;
+}
+
+/* Pins the pair of credits paragraphs to the bottom of the left
+   column, flush with the bottom of the body copy on the right --
+   confirmed against the case PDF. */
+.case__intro-title-desc:first-of-type {
+  margin-top: auto;
 }
 
 .case__intro-tags {
@@ -1045,6 +1056,15 @@ button.project__media-link {
      so it would drift out of alignment whenever the two aren't the
      same width. */
   margin-left: calc(var(--media-width) / 2);
+}
+
+/* Basarab's new design aligns its right-hand quotes with the same
+   409px text column as .case__intro-right (confirmed against the
+   case PDF), not with the 2-up image-row split the base rule above
+   assumes -- Foundation's own case__quote--right still uses that
+   base rule unchanged. */
+#case-basarab .case__quote--right {
+  margin-left: 409px;
 }
 
 /* Basarab/Foundation case-specific media sizing — confirmed independently
@@ -2558,13 +2578,25 @@ button.project__media-link {
 
   .case__intro-title-desc {
     order: 3;
-    margin-top: 1rem;
+  }
+
+  .case__intro-title-desc:first-of-type {
+    margin-top: 2rem;
+  }
+
+  .case__intro-title-desc + .case__intro-title-desc {
+    margin-top: 0.75rem;
   }
 
   /* The new Basarab design shows credits text (.case__intro-title-desc)
-     in this slot instead of the tag pills. */
+     in this slot instead of the tag pills, and needs more room below it
+     (48px) than the case-wide 36px text-to-image standard. */
   #case-basarab .case__intro .project__tags-mobile {
     display: none;
+  }
+
+  #case-basarab .case__intro {
+    margin-bottom: 3rem;
   }
 
   .case__quote {
@@ -3009,8 +3041,19 @@ button.project__media-link {
     </div>
 
     <div class="case__row reveal">
-      <div class="case__media" style="--mh:27.5rem"><img loading="lazy" src="images/basarab-08.webp" alt="Reliable shoes for the everyday. For the young and the old. From dawn to dusk." width="1006" height="1188" /><img loading="lazy" class="case__media-mobile" src="images/basarab-m08.webp" alt="Reliable shoes for the everyday. For the young and the old. From dawn to dusk." width="1077" height="1320" /></div>
-      <div class="case__media" style="--mh:27.5rem"><img loading="lazy" src="images/basarab-09.webp" alt="" width="1004" height="1188" /><img loading="lazy" class="case__media-mobile" src="images/basarab-m09.webp" alt="" width="1077" height="1320" /></div>
+      <div class="case__media" style="--mh:27.5rem"><img loading="lazy" src="images/basarab-08.webp" alt="Reliable shoes for the everyday. For the young and the old. From dawn to dusk." width="1000" height="1220" /><img loading="lazy" class="case__media-mobile" src="images/basarab-m08.webp" alt="Reliable shoes for the everyday. For the young and the old. From dawn to dusk." width="1077" height="1320" /></div>
+      <div class="case__media case__media--slideshow" style="--mh:27.5rem">
+        <img loading="lazy" class="is-active" src="images/basarab-09.webp" alt="" width="1000" height="1220" />
+        <img loading="lazy" src="images/basarab-09b.webp" alt="" width="1000" height="1220" />
+        <img loading="lazy" src="images/basarab-09c.webp" alt="" width="1000" height="1220" />
+        <img loading="lazy" src="images/basarab-09d.webp" alt="" width="1000" height="1220" />
+        <div class="case__media-mobile case__media-mobile--cycle">
+          <img loading="lazy" class="is-active" src="images/basarab-m09-1.webp" alt="" width="1077" height="1320" />
+          <img loading="lazy" src="images/basarab-m09-2.webp" alt="" width="1077" height="1320" />
+          <img loading="lazy" src="images/basarab-m09-3.webp" alt="" width="1077" height="1320" />
+          <img loading="lazy" src="images/basarab-m09-4.webp" alt="" width="1077" height="1320" />
+        </div>
+      </div>
     </div>
 
     <div class="case__quote reveal">
@@ -3038,7 +3081,7 @@ button.project__media-link {
       </div>
     </div>
 
-    <p class="case__quote case__quote--right case__quote-p--desktop reveal" data-en="Over time, the business outgrew the footwear brand&lt;br&gt;format and began producing clothing. We designed all&lt;br&gt;the touchpoints and prepared production-ready files for&lt;br&gt;tags, labels, boxes, ribbons, and many other items the&lt;br&gt;business needed at that stage." data-ru="Со временем бизнес перерос формат обувного бренда и начал &lt;br&gt;выпускать одежду. Мы разработали дизайн всех носителей &lt;br&gt;и подготовили макеты для производства — бирки, ярлыки, &lt;br&gt;коробки, ленты и много других носителей, которые &lt;br&gt;необходимы были бизнесу на этом этапе.">Over time, the business outgrew the footwear brand<br>format and began producing clothing. We designed all<br>the touchpoints and prepared production-ready files for<br>tags, labels, boxes, ribbons, and many other items the<br>business needed at that stage.</p>
+    <p class="case__quote case__quote--right case__quote-p--desktop reveal" data-en="Over time, the business outgrew the footwear brand&lt;br&gt;format and began producing clothing. We designed all&lt;br&gt;the touchpoints and prepared production-ready files for&lt;br&gt;tags, labels, boxes, ribbons, and many other items the&lt;br&gt;business needed at that stage." data-ru="Со временем бизнес перерос формат обувного бренда и&lt;br&gt;начал выпускать одежду. Мы разработали дизайн всех&lt;br&gt;носителей и подготовили макеты для производства —&lt;br&gt;бирки, ярлыки, коробки, ленты и много других&lt;br&gt;носителей, которые необходимы были бизнесу на этом&lt;br&gt;этапе.">Over time, the business outgrew the footwear brand<br>format and began producing clothing. We designed all<br>the touchpoints and prepared production-ready files for<br>tags, labels, boxes, ribbons, and many other items the<br>business needed at that stage.</p>
     <p class="case__quote case__quote--right case__quote-p--mobile reveal" data-en="Over time, the business outgrew the footwear&lt;br&gt;brand format and began producing clothing.&lt;br&gt;We designed all the touchpoints and prepared&lt;br&gt;production-ready files for tags, labels, boxes,&lt;br&gt;ribbons, and many other items the business&lt;br&gt;needed at that stage." data-ru="Со временем бизнес перерос формат&lt;br&gt;обувного бренда и начал выпускать одежду.&lt;br&gt;Мы разработали дизайн всех носителей и&lt;br&gt;подготовили макеты для производства —&lt;br&gt;бирки, ярлыки, коробки, ленты и много&lt;br&gt;других носителей, которые необходимы&lt;br&gt;были бизнесу на этом этапе.">Over time, the business outgrew the footwear<br>brand format and began producing clothing.<br>We designed all the touchpoints and prepared<br>production-ready files for tags, labels, boxes,<br>ribbons, and many other items the business<br>needed at that stage.</p>
 
     <div class="case__media reveal" style="--mh:27.5rem"><img loading="lazy" src="images/basarab-14.webp" alt="" width="2032" height="1212" /><img loading="lazy" class="case__media-mobile" src="images/basarab-m15.webp" alt="" width="1077" height="1320" /></div>
