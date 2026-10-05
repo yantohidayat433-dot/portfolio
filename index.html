@@ -2429,8 +2429,7 @@ button.project__media-link {
     order: 1;
   }
 
-  .case__intro-tags,
-  .case__intro-title-desc {
+  .case__intro-tags {
     display: none;
   }
 
@@ -2555,6 +2554,17 @@ button.project__media-link {
   .case__intro .project__tags-mobile {
     order: 3;
     margin-top: 1rem;
+  }
+
+  .case__intro-title-desc {
+    order: 3;
+    margin-top: 1rem;
+  }
+
+  /* The new Basarab design shows credits text (.case__intro-title-desc)
+     in this slot instead of the tag pills. */
+  #case-basarab .case__intro .project__tags-mobile {
+    display: none;
   }
 
   .case__quote {
@@ -2973,9 +2983,9 @@ button.project__media-link {
       </div>
       <div class="case__intro-right">
         <p class="case__intro-p--desktop" data-en="Basarab is a family-run footwear brand with its own&lt;br&gt;production, making reliable, beautiful shoes for everyday&lt;br&gt;life." data-ru="Basarab — семейный бренд обуви с собственным &lt;br&gt;производством, который создает надёжную и красивую &lt;br&gt;обувь для повседневной жизни.">Basarab is a family-run footwear brand with its own<br>production, making reliable, beautiful shoes for everyday<br>life.</p>
-        <p class="case__intro-p--mobile" data-en="Basarab is a family-run footwear brand&lt;br&gt;with its own production, making reliable,&lt;br&gt;beautiful shoes for everyday life." data-ru="Basarab — семейный бренд обуви&lt;br&gt;с собственным производством, который&lt;br&gt;создает надёжную и красивую обувь&lt;br&gt;для повседневной жизни.">Basarab is a family-run footwear brand<br>with its own production, making reliable,<br>beautiful shoes for everyday life.</p>
+        <p class="case__intro-p--mobile" data-en="Basarab is a family-run footwear brand with&lt;br&gt;its own production, making reliable, beautiful&lt;br&gt;shoes for everyday life." data-ru="Basarab — семейный бренд обуви&lt;br&gt;с собственным производством, который&lt;br&gt;создает надёжную и красивую обувь&lt;br&gt;для повседневной жизни.">Basarab is a family-run footwear brand with<br>its own production, making reliable, beautiful<br>shoes for everyday life.</p>
         <p class="case__intro-p--desktop" data-en="Rapid growth and a new, younger audience prompted&lt;br&gt;the brand's team to refresh the identity, moving away&lt;br&gt;from a conservative image toward a contemporary aesthetic.&lt;br&gt;At the same time, it was important to preserve the restraint&lt;br&gt;inherent to the brand so as not to alienate the audience&lt;br&gt;it already had." data-ru="Бурный рост и новая, более молодая аудитория &lt;br&gt;подтолкнули команду бренда обновить айдентику, чтобы &lt;br&gt;уйти от консервативного образа к современной эстетике. &lt;br&gt;При этом важно было сохранить присущую бренду &lt;br&gt;сдержанность, чтобы не оттолкнуть ту аудиторию, &lt;br&gt;которая у него уже была.">Rapid growth and a new, younger audience prompted<br>the brand's team to refresh the identity, moving away<br>from a conservative image toward a contemporary aesthetic.<br>At the same time, it was important to preserve the restraint<br>inherent to the brand so as not to alienate the audience<br>it already had.</p>
-        <p class="case__intro-p--mobile" data-en="Rapid growth and a new, younger audience&lt;br&gt;prompted the brand's team to refresh the&lt;br&gt;identity, moving away from a conservative&lt;br&gt;image toward a contemporary aesthetic. At&lt;br&gt;the same time, it was important to preserve&lt;br&gt;the restraint inherent to the brand so as&lt;br&gt;not to alienate the audience it already had." data-ru="Бурный рост и новая, более молодая&lt;br&gt;аудитория подтолкнули команду бренда&lt;br&gt;обновить айдентику, чтобы уйти от&lt;br&gt;консервативного образа к современной&lt;br&gt;эстетике. При этом важно было сохранить&lt;br&gt;присущую бренду сдержанность, чтобы не&lt;br&gt;оттолкнуть ту аудиторию, которая у него&lt;br&gt;уже была.">Rapid growth and a new, younger audience<br>prompted the brand's team to refresh the<br>identity, moving away from a conservative<br>image toward a contemporary aesthetic. At<br>the same time, it was important to preserve<br>the restraint inherent to the brand so as<br>not to alienate the audience it already had.</p>
+        <p class="case__intro-p--mobile" data-en="Rapid growth and a new, younger audience&lt;br&gt;prompted the brand's team to refresh the&lt;br&gt;identity, moving away from a conservative&lt;br&gt;image toward a contemporary aesthetic.&lt;br&gt;At the same time, it was important to preserve&lt;br&gt;the restraint inherent to the brand so as not&lt;br&gt;to alienate the audience it already had." data-ru="Бурный рост и новая, более молодая&lt;br&gt;аудитория подтолкнули команду бренда&lt;br&gt;обновить айдентику, чтобы уйти от&lt;br&gt;консервативного образа к современной&lt;br&gt;эстетике. При этом важно было сохранить&lt;br&gt;присущую бренду сдержанность, чтобы не&lt;br&gt;оттолкнуть ту аудиторию, которая у него&lt;br&gt;уже была.">Rapid growth and a new, younger audience<br>prompted the brand's team to refresh the<br>identity, moving away from a conservative<br>image toward a contemporary aesthetic.<br>At the same time, it was important to preserve<br>the restraint inherent to the brand so as not<br>to alienate the audience it already had.</p>
       </div>
     </div>
 
@@ -2990,7 +3000,7 @@ button.project__media-link {
     </div>
 
     <p class="case__quote case__quote--right case__quote-p--desktop reveal" data-en="We also developed a brand mark whose geometry&lt;br&gt;stands apart from the typographic part, so it works&lt;br&gt;as a standalone element, like a small, distinctive detail." data-ru="Также мы разработали фирменный знак, который &lt;br&gt;по своей геометрии отличается от шрифтовой части, &lt;br&gt;благодаря чему выступает в качестве самостоятельного &lt;br&gt;элемента, как маленькая, уникальная деталь.">We also developed a brand mark whose geometry<br>stands apart from the typographic part, so it works<br>as a standalone element, like a small, distinctive detail.</p>
-    <p class="case__quote case__quote--right case__quote-p--mobile reveal" data-en="We also developed a brand mark whose&lt;br&gt;geometry stands apart from the typographic&lt;br&gt;part, so it works as a standalone element,&lt;br&gt;like a small, distinctive detail." data-ru="Также мы разработали фирменный знак,&lt;br&gt;который по своей геометрии отличается от&lt;br&gt;шрифтовой части, благодаря чему&lt;br&gt;выступает в качестве самостоятельного&lt;br&gt;элемента, как маленькая, уникальная&lt;br&gt;деталь.">We also developed a brand mark whose<br>geometry stands apart from the typographic<br>part, so it works as a standalone element,<br>like a small, distinctive detail.</p>
+    <p class="case__quote case__quote--right case__quote-p--mobile reveal" data-en="We also developed a brand mark whose&lt;br&gt;geometry stands apart from the typographic&lt;br&gt;part, so it works as a standalone element, like&lt;br&gt;a small, distinctive detail." data-ru="Также мы разработали фирменный знак,&lt;br&gt;который по своей геометрии отличается от&lt;br&gt;шрифтовой части, благодаря чему&lt;br&gt;выступает в качестве самостоятельного&lt;br&gt;элемента, как маленькая, уникальная&lt;br&gt;деталь.">We also developed a brand mark whose<br>geometry stands apart from the typographic<br>part, so it works as a standalone element, like<br>a small, distinctive detail.</p>
 
     <div class="case__row reveal">
       <div class="case__media" style="--mh:21.25rem"><img loading="lazy" src="images/basarab-05.webp" alt="" width="668" height="850" /><img loading="lazy" class="case__media-mobile" src="images/basarab-m05.webp" alt="" width="1077" height="1020" /></div>
@@ -3029,13 +3039,13 @@ button.project__media-link {
     </div>
 
     <p class="case__quote case__quote--right case__quote-p--desktop reveal" data-en="Over time, the business outgrew the footwear brand&lt;br&gt;format and began producing clothing. We designed all&lt;br&gt;the touchpoints and prepared production-ready files for&lt;br&gt;tags, labels, boxes, ribbons, and many other items the&lt;br&gt;business needed at that stage." data-ru="Со временем бизнес перерос формат обувного бренда и начал &lt;br&gt;выпускать одежду. Мы разработали дизайн всех носителей &lt;br&gt;и подготовили макеты для производства — бирки, ярлыки, &lt;br&gt;коробки, ленты и много других носителей, которые &lt;br&gt;необходимы были бизнесу на этом этапе.">Over time, the business outgrew the footwear brand<br>format and began producing clothing. We designed all<br>the touchpoints and prepared production-ready files for<br>tags, labels, boxes, ribbons, and many other items the<br>business needed at that stage.</p>
-    <p class="case__quote case__quote--right case__quote-p--mobile reveal" data-en="Over time, the business outgrew the&lt;br&gt;footwear brand format and began producing&lt;br&gt;clothing. We designed all the touchpoints&lt;br&gt;and prepared production-ready files for&lt;br&gt;tags, labels, boxes, ribbons, and many&lt;br&gt;other items the business needed at that&lt;br&gt;stage." data-ru="Со временем бизнес перерос формат&lt;br&gt;обувного бренда и начал выпускать одежду.&lt;br&gt;Мы разработали дизайн всех носителей и&lt;br&gt;подготовили макеты для производства —&lt;br&gt;бирки, ярлыки, коробки, ленты и много&lt;br&gt;других носителей, которые необходимы&lt;br&gt;были бизнесу на этом этапе.">Over time, the business outgrew the<br>footwear brand format and began producing<br>clothing. We designed all the touchpoints<br>and prepared production-ready files for<br>tags, labels, boxes, ribbons, and many<br>other items the business needed at that<br>stage.</p>
+    <p class="case__quote case__quote--right case__quote-p--mobile reveal" data-en="Over time, the business outgrew the footwear&lt;br&gt;brand format and began producing clothing.&lt;br&gt;We designed all the touchpoints and prepared&lt;br&gt;production-ready files for tags, labels, boxes,&lt;br&gt;ribbons, and many other items the business&lt;br&gt;needed at that stage." data-ru="Со временем бизнес перерос формат&lt;br&gt;обувного бренда и начал выпускать одежду.&lt;br&gt;Мы разработали дизайн всех носителей и&lt;br&gt;подготовили макеты для производства —&lt;br&gt;бирки, ярлыки, коробки, ленты и много&lt;br&gt;других носителей, которые необходимы&lt;br&gt;были бизнесу на этом этапе.">Over time, the business outgrew the footwear<br>brand format and began producing clothing.<br>We designed all the touchpoints and prepared<br>production-ready files for tags, labels, boxes,<br>ribbons, and many other items the business<br>needed at that stage.</p>
 
     <div class="case__media reveal" style="--mh:27.5rem"><img loading="lazy" src="images/basarab-14.webp" alt="" width="2032" height="1212" /><img loading="lazy" class="case__media-mobile" src="images/basarab-m15.webp" alt="" width="1077" height="1320" /></div>
 
     <div class="case__media reveal" style="--mh:21.25rem"><img loading="lazy" src="images/basarab-15.webp" alt="" width="2032" height="1020" /><img loading="lazy" class="case__media-mobile" src="images/basarab-m16.webp" alt="" width="1077" height="1020" /></div>
 
-    <div class="case__media reveal" style="--mh:14.375rem"><img loading="lazy" src="images/basarab-16.webp" alt="" width="2032" height="1240" /><img loading="lazy" class="case__media-mobile" src="images/basarab-m17.webp" alt="" width="1077" height="658" /></div>
+    <div class="case__media reveal" style="--mh:13.25rem"><img loading="lazy" src="images/basarab-16.webp" alt="" width="2032" height="1240" /><img loading="lazy" class="case__media-mobile" src="images/basarab-m17.webp" alt="" width="1077" height="636" /></div>
 
     <div class="case__row reveal">
       <div class="case__media" style="--mh:21.25rem"><img loading="lazy" src="images/basarab-20.webp" alt="" width="1008" height="1274" /><img loading="lazy" class="case__media-mobile" src="images/basarab-m18.webp" alt="" width="1077" height="1020" /></div>
