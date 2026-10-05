@@ -1113,8 +1113,14 @@ button.project__media-link {
 
   #case-foundation .case__quote--right {
     margin-left: min(409px, 40.3%);
-    /* Measured ~471px wide against Foundation's own PDF -- close
-       enough to the shared 480px cap that no override is needed. */
+    /* Same 409px text column as Basarab's quote (both cases share the
+       .case__intro-right column width), so it needs the same wider
+       cap -- the client's own reference wrap for this quote's EN text
+       measures 510px on its longest line, which the shared 480px cap
+       clips short. An earlier ~471px PDF measurement for this quote
+       was wrong; this value is confirmed against her own screenshot
+       of the intended line breaks, not re-derived from the PDF. */
+    max-width: 510px;
   }
 }
 
@@ -3255,7 +3261,7 @@ button.project__media-link {
       <div class="case__media" style="--mh:27.5rem"><img loading="lazy" src="images/foundation-05.webp" alt="Brand mood detail — glasses" /><img loading="lazy" class="case__media-mobile" src="images/foundation-m5.webp" alt="Brand mood detail — glasses" width="1077" height="1320" /></div>
     </div>
 
-    <p class="case__quote case__quote--right case__quote-p--desktop reveal" data-en="To express the connection between science and culture, we&lt;br&gt;chose contrasting typography: a strict grotesque carries the&lt;br&gt;precision and rationality of science, while softer, more&lt;br&gt;expressive accents speak to the foundation's cultural, human&lt;br&gt;side. Together, they form a single yet multifaceted visual&lt;br&gt;voice." data-ru="Чтобы показать связь науки и культуры, мы выбрали&lt;br&gt;контрастную типографику: строгий гротеск отвечает&lt;br&gt;за точность и рациональность науки, а более пластичные,&lt;br&gt;выразительные акценты за культурную, гуманитарную&lt;br&gt;сторону фонда. Вместе они формируют единый,&lt;br&gt;но многогранный визуальный голос">To express the connection between science and culture, we<br>chose contrasting typography: a strict grotesque carries the<br>precision and rationality of science, while softer, more<br>expressive accents speak to the foundation's cultural, human<br>side. Together, they form a single yet multifaceted visual<br>voice.</p>
+    <p class="case__quote case__quote--right case__quote-p--desktop reveal" data-en="To express the connection between science and culture, we chose&lt;br&gt;contrasting typography: a strict grotesque carries the precision&lt;br&gt;and rationality of science, while softer, more expressive accents&lt;br&gt;speak to the foundation's cultural, human side. Together, they&lt;br&gt;form a single yet multifaceted visual voice." data-ru="Чтобы показать связь науки и культуры, мы выбрали&lt;br&gt;контрастную типографику: строгий гротеск отвечает&lt;br&gt;за точность и рациональность науки, а более пластичные,&lt;br&gt;выразительные акценты за культурную, гуманитарную&lt;br&gt;сторону фонда. Вместе они формируют единый,&lt;br&gt;но многогранный визуальный голос">To express the connection between science and culture, we chose<br>contrasting typography: a strict grotesque carries the precision<br>and rationality of science, while softer, more expressive accents<br>speak to the foundation's cultural, human side. Together, they<br>form a single yet multifaceted visual voice.</p>
     <p class="case__quote case__quote--right case__quote-p--mobile reveal" data-en="To express the connection between science&lt;br&gt;and culture, we chose contrasting typography:&lt;br&gt;a strict grotesque carries the precision and&lt;br&gt;rationality of science, while softer, more&lt;br&gt;expressive accents speak to the foundation's&lt;br&gt;cultural, human side. Together, they form&lt;br&gt;a single yet multifaceted visual voice." data-ru="Чтобы показать связь науки и культуры,&lt;br&gt;мы выбрали контрастную типографику:&lt;br&gt;строгий гротеск отвечает за точность&lt;br&gt;и рациональность науки, а более&lt;br&gt;пластичные, выразительные акценты —&lt;br&gt;за культурную, гуманитарную&lt;br&gt;сторону фонда. Вместе они формируют&lt;br&gt;единый, но многогранный визуальный голос">To express the connection between science<br>and culture, we chose contrasting typography:<br>a strict grotesque carries the precision and<br>rationality of science, while softer, more<br>expressive accents speak to the foundation's<br>cultural, human side. Together, they form<br>a single yet multifaceted visual voice.</p>
 
     <div class="case__media reveal" style="--mh:14.375rem"><img loading="lazy" src="images/foundation-06.webp" alt="Billboard — We are proud of science" /><img loading="lazy" class="case__media-mobile" src="images/foundation-m6.webp" alt="Billboard — We are proud of science" width="1077" height="690" /></div>
