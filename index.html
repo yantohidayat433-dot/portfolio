@@ -1062,9 +1062,14 @@ button.project__media-link {
    409px text column as .case__intro-right (confirmed against the
    case PDF), not with the 2-up image-row split the base rule above
    assumes -- Foundation's own case__quote--right still uses that
-   base rule unchanged. */
-#case-basarab .case__quote--right {
-  margin-left: 409px;
+   base rule unchanged. Desktop-only: min-width keeps it from beating
+   the tablet/phone breakpoints' own margin-left:0 reset below, which
+   would otherwise win on specificity (an #id selector) despite
+   coming first in source order. */
+@media (min-width: 901px) {
+  #case-basarab .case__quote--right {
+    margin-left: 409px;
+  }
 }
 
 /* Basarab/Foundation case-specific media sizing — confirmed independently
@@ -3011,7 +3016,7 @@ button.project__media-link {
           <li>Дизайн упаковки</li>
         </ul>
         <p class="case__intro-title-desc" data-en="Worked in partnership with the Origin&lt;br&gt;Design team and directly with the brand" data-ru="Работала в партнерстве с командой &lt;br&gt;Origin Design и напрямую с брендом">Worked in partnership with the Origin<br>Design team and directly with the brand</p>
-        <p class="case__intro-title-desc" data-en="Developed the visual identity and logotype.&lt;br&gt;Led my team in designing the touchpoints and&lt;br&gt;preparing production-ready files within the&lt;br&gt;new identity." data-ru="Разработала визуальную айдентику и логотип. &lt;br&gt;Руководила командой при разработке носителей &lt;br&gt;и подготовке макетов для производства в рамках &lt;br&gt;новой айдентики.">Developed the visual identity and logotype.<br>Led my team in designing the touchpoints and<br>preparing production-ready files within the<br>new identity.</p>
+        <p class="case__intro-title-desc" data-en="Developed the visual identity and logotype.&lt;br&gt;Led my team in designing the touchpoints and&lt;br&gt;preparing production-ready files for the new&lt;br&gt;identity" data-ru="Разработала визуальную айдентику и логотип. &lt;br&gt;Руководила командой при разработке носителей &lt;br&gt;и подготовке макетов для производства в рамках &lt;br&gt;новой айдентики.">Developed the visual identity and logotype.<br>Led my team in designing the touchpoints and<br>preparing production-ready files for the new<br>identity</p>
       </div>
       <div class="case__intro-right">
         <p class="case__intro-p--desktop" data-en="Basarab is a family-run footwear brand with its own&lt;br&gt;production, making reliable, beautiful shoes for everyday&lt;br&gt;life." data-ru="Basarab — семейный бренд обуви с собственным &lt;br&gt;производством, который создает надёжную и красивую &lt;br&gt;обувь для повседневной жизни.">Basarab is a family-run footwear brand with its own<br>production, making reliable, beautiful shoes for everyday<br>life.</p>
@@ -3031,8 +3036,8 @@ button.project__media-link {
       <div class="case__media" style="--mh:27.5rem"><img loading="lazy" src="images/basarab-04.webp" alt="" width="1006" height="1200" /><img loading="lazy" class="case__media-mobile" src="images/basarab-m04.webp" alt="" width="1077" height="1320" /></div>
     </div>
 
-    <p class="case__quote case__quote--right case__quote-p--desktop reveal" data-en="We also developed a brand mark whose geometry&lt;br&gt;stands apart from the typographic part, so it works&lt;br&gt;as a standalone element, like a small, distinctive detail." data-ru="Также мы разработали фирменный знак, который &lt;br&gt;по своей геометрии отличается от шрифтовой части, &lt;br&gt;благодаря чему выступает в качестве самостоятельного &lt;br&gt;элемента, как маленькая, уникальная деталь.">We also developed a brand mark whose geometry<br>stands apart from the typographic part, so it works<br>as a standalone element, like a small, distinctive detail.</p>
-    <p class="case__quote case__quote--right case__quote-p--mobile reveal" data-en="We also developed a brand mark whose&lt;br&gt;geometry stands apart from the typographic&lt;br&gt;part, so it works as a standalone element, like&lt;br&gt;a small, distinctive detail." data-ru="Также мы разработали фирменный знак,&lt;br&gt;который по своей геометрии отличается от&lt;br&gt;шрифтовой части, благодаря чему&lt;br&gt;выступает в качестве самостоятельного&lt;br&gt;элемента, как маленькая, уникальная&lt;br&gt;деталь.">We also developed a brand mark whose<br>geometry stands apart from the typographic<br>part, so it works as a standalone element, like<br>a small, distinctive detail.</p>
+    <p class="case__quote case__quote--right case__quote-p--desktop reveal" data-en="We also developed a brand mark whose geometry stands&lt;br&gt;apart from the logotype, so it works as a standalone&lt;br&gt;element, like a small, distinctive detail." data-ru="Также мы разработали фирменный знак, который &lt;br&gt;по своей геометрии отличается от шрифтовой части, &lt;br&gt;благодаря чему выступает в качестве самостоятельного &lt;br&gt;элемента, как маленькая, уникальная деталь.">We also developed a brand mark whose geometry stands<br>apart from the logotype, so it works as a standalone<br>element, like a small, distinctive detail.</p>
+    <p class="case__quote case__quote--right case__quote-p--mobile reveal" data-en="We also developed a brand mark whose&lt;br&gt;geometry stands apart from the logotype,&lt;br&gt;so it works as a standalone element, like&lt;br&gt;a small, distinctive detail." data-ru="Также мы разработали фирменный знак,&lt;br&gt;который по своей геометрии отличается от&lt;br&gt;шрифтовой части, благодаря чему&lt;br&gt;выступает в качестве самостоятельного&lt;br&gt;элемента, как маленькая, уникальная&lt;br&gt;деталь.">We also developed a brand mark whose<br>geometry stands apart from the logotype,<br>so it works as a standalone element, like<br>a small, distinctive detail.</p>
 
     <div class="case__row reveal">
       <div class="case__media" style="--mh:21.25rem"><img loading="lazy" src="images/basarab-05.webp" alt="" width="668" height="850" /><img loading="lazy" class="case__media-mobile" src="images/basarab-m05.webp" alt="" width="1077" height="1020" /></div>
