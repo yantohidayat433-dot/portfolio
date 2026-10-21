@@ -137,7 +137,7 @@ body:not(.pw-locked) #pw-gate {
 /* ---------- Foundation case: typographic posters ----------
    Built in animations/foundation-typo/index.html (lines placed from the client's
    layouts, 1% tracking, SVG logotype). Five layouts cross-fade every 2.8s; each
-   layout's lines rise in together. Fills the slot like object-fit: cover. */
+   layout's lines rise in together. Contain-fitted, so the 16px margins survive any width. */
 @font-face {
   font-family: 'PP Fragment Sans Regular';
   src: url(fonts/pp-fragment-sans-regular.woff2) format('woff2');
@@ -5204,10 +5204,12 @@ button.project__media-link {
   document.querySelectorAll('[data-typo]').forEach(function (root) {
     var stage = root.querySelector('.typo__stage');
     var pages = Array.prototype.slice.call(root.querySelectorAll('.typo__page'));
-    // Cover the slot (640px tall on desktop, --mh on phones) and centre, like the
-    // object-fit: cover poster image this replaced.
+    // Fit the whole layout inside the slot and centre it (contain, not cover): the
+    // slot is 640px tall but its width follows the window, and cropping the sides
+    // ate into the 16px margins. The leftover band is the same #0E0E0E, so it
+    // just reads as a little more margin.
     function fit() {
-      var w = root.clientWidth, h = root.clientHeight, s = Math.max(w / 1008, h / 1280);
+      var w = root.clientWidth, h = root.clientHeight, s = Math.min(w / 1008, h / 1280);
       stage.style.setProperty('--s', s);
       stage.style.setProperty('--tx', (w - 1008 * s) / 2 + 'px');
       stage.style.setProperty('--ty', (h - 1280 * s) / 2 + 'px');

@@ -316,7 +316,8 @@ in PP Fragment **Sans Regular** (`'PP Fragment Sans Regular'` family — the
 site's `'PP Fragment Sans'` face is Medium), headlines in Glare, the Science
 & Art mark is her SVG (`images/foundation-science-art-logo.svg`). Layouts
 cross-fade every 2.8s; the new one's lines all rise and fade in together
-(no stagger). Cover-fits the slot (640px desktop, `--mh` mobile). All
+(no stagger). Contain-fits the slot (640px desktop, `--mh` mobile) so the
+16px margins survive narrow windows — cover-fitting cropped the sides. All
 selectors prefixed `.case__media.case__media--typo` (row img rules would
 otherwise stretch the logo). Sandbox: `animations/foundation-typo/index.html`.
 
