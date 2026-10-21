@@ -134,6 +134,46 @@ body:not(.pw-locked) #pw-gate {
 }
 
 
+/* ---------- Foundation case: citylight with rolling posters ----------
+   Built in animations/foundation-citylight/index.html. The street photo stays still;
+   the two posters roll down inside its screen. Pinned to the slot's bottom edge and
+   cropped at the top, like the foundation-12 still it replaced (desktop and mobile). */
+.case__media--citylight { position: relative; }
+.case__media--citylight .citylight {
+  position: absolute; left: 0; right: 0; bottom: 0;
+  aspect-ratio: 1493 / 2000;
+  background: url(images/foundation-citylight-mockup.webp) center / 100% 100% no-repeat;
+  overflow: hidden;
+}
+.case__media--citylight .citylight__screen {
+  position: absolute;
+  left: calc(464 / 1493 * 100%);
+  top: calc(536 / 2000 * 100%);
+  width: calc(559 / 1493 * 100%);
+  height: calc(999 / 2000 * 100%);
+  overflow: hidden;
+}
+.case__media--citylight .citylight__strip {
+  position: absolute; left: 0; top: 0; width: 100%; height: 300%;
+  will-change: transform;
+  animation: citylight-scroll 7.4s infinite;
+}
+.case__media--citylight .citylight.is-paused .citylight__strip { animation-play-state: paused; }
+.case__media.case__media--citylight .citylight__strip img {
+  display: block; width: 100%; height: calc(100% / 3);
+  object-fit: cover;
+  opacity: .9; /* lets the dark panel of the photo through, so the poster sits in the box */
+}
+/* Each banner holds 2.7s, then a 1s slide; two banners per 7.4s cycle. */
+@keyframes citylight-scroll {
+  0%, 36.49%   { transform: translateY(-66.6667%); animation-timing-function: cubic-bezier(.65, 0, .35, 1); }
+  50%, 86.49%  { transform: translateY(-33.3333%); animation-timing-function: cubic-bezier(.65, 0, .35, 1); }
+  100%         { transform: translateY(0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .case__media--citylight .citylight__strip { animation: none; }
+}
+
 /* ---------- Foundation case: "We light the way" breathing-light slide ----------
    Built in animations/foundation-light/index.html (the sandbox copy). The shape is
    the client's own, fitted to her slide; desktop only, phones keep foundation-m3. */
@@ -1374,9 +1414,9 @@ button.project__media-link {
 }
 
 #case-basarab .case__media:not(.case__media--slideshow):not(.case__media--ig-ticker):not(.case__media--final-sale) img,
-#case-foundation .case__media:not(.case__media--slideshow):not(.case__media--ig-ticker):not(.case__media--final-sale):not(.case__media--goals):not(.case__media--light) img,
+#case-foundation .case__media:not(.case__media--slideshow):not(.case__media--ig-ticker):not(.case__media--final-sale):not(.case__media--goals):not(.case__media--light):not(.case__media--citylight) img,
 #case-basarab .case__media:not(.case__media--slideshow):not(.case__media--ig-ticker):not(.case__media--final-sale) video,
-#case-foundation .case__media:not(.case__media--slideshow):not(.case__media--ig-ticker):not(.case__media--final-sale):not(.case__media--goals):not(.case__media--light) video {
+#case-foundation .case__media:not(.case__media--slideshow):not(.case__media--ig-ticker):not(.case__media--final-sale):not(.case__media--goals):not(.case__media--light):not(.case__media--citylight) video {
   height: 100%;
   object-fit: cover;
 }
@@ -3576,7 +3616,17 @@ button.project__media-link {
 
     <div class="case__row reveal">
       <div class="case__media" style="--mh:27.5rem"><img loading="lazy" src="images/foundation-11.webp" alt="Lectures in August — poster" /><img loading="lazy" class="case__media-mobile" src="images/foundation-m11.webp" alt="Lectures in August — poster" width="1077" height="1320" /></div>
-      <div class="case__media" style="--mh:27.5rem"><img loading="lazy" src="images/foundation-12.webp" alt="How to communicate to the general public — citylight" /><img loading="lazy" class="case__media-mobile" src="images/foundation-m12.webp" alt="How to communicate to the general public — citylight" width="1077" height="1320" /></div>
+      <div class="case__media case__media--citylight" style="--mh:27.5rem">
+        <div class="citylight" data-citylight role="img" aria-label="How to communicate to the general public — citylight">
+          <div class="citylight__screen">
+            <div class="citylight__strip">
+              <img loading="lazy" src="images/foundation-citylight-poster-1.webp" alt="" />
+              <img loading="lazy" src="images/foundation-citylight-poster-2.webp" alt="" />
+              <img loading="lazy" src="images/foundation-citylight-poster-1.webp" alt="" />
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
 
     <div class="case__media case__media--ig-ticker reveal" style="--mh:14.375rem">
@@ -4987,6 +5037,15 @@ button.project__media-link {
     if ('IntersectionObserver' in window) {
       new IntersectionObserver(function (e) { root.classList.toggle('is-paused', !e[0].isIntersecting); }).observe(root);
     }
+  });
+})();
+</script>
+<script>
+(function () {
+  // Pause the poster roll while the citylight is off screen or the case is closed.
+  if (!('IntersectionObserver' in window)) return;
+  document.querySelectorAll('[data-citylight]').forEach(function (el) {
+    new IntersectionObserver(function (e) { el.classList.toggle('is-paused', !e[0].isIntersecting); }).observe(el);
   });
 })();
 </script>

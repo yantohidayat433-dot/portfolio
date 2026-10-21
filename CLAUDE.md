@@ -292,6 +292,20 @@ Sandbox: `animations/foundation-light/index.html`. Same scoping rules as
 the goals stack (prefixed selectors, `:not(.case__media--light)` on the
 620px img/video rule, `font-feature-settings: normal`).
 
+## Foundation citylight (`.case__media--citylight`)
+
+The `foundation-12` slot (right cell of the "Lectures in August" row) is
+the client's static street mockup with her two posters rolling **down**
+inside the screen (new banner enters from above): hold 2.7s, slide 1s,
+7.4s cycle, posters at 90% opacity so the photo's dark panel shows
+through. Screen panel measured on the 1493x2000 photo: x 464-1023,
+y 536-1535 (positioned in % so it scales). No glass layer (client asked
+for none). Mockup is width-fit and bottom-pinned in the slot, matching the
+old still's crop; works on desktop and mobile (no separate mobile image).
+`.case__row .case__media img` would force `height:100%` on the posters,
+hence the doubled-class selector on the strip images. Sandbox:
+`animations/foundation-citylight/index.html`.
+
 ## Verification checklist (every text or crop change)
 
 1. Serve the repo locally (`http-server` if video is involved, plain

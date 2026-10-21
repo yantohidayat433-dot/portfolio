@@ -26,7 +26,6 @@
     width: calc(559 / 1493 * 100%);
     height: calc(999 / 2000 * 100%);
     overflow: hidden;
-    background: #2f2f2f;
   }
 
   /* Posters stacked in a strip (1, 2, 1). It starts on the bottom copy and slides
@@ -35,17 +34,18 @@
   .citylight__strip {
     position: absolute; left: 0; top: 0; width: 100%; height: 300%;
     will-change: transform;
-    animation: citylight-scroll 9.4s infinite;
+    animation: citylight-scroll 7.4s infinite;
   }
   .citylight__strip img {
     display: block; width: 100%; height: calc(100% / 3);
     object-fit: cover;
+    opacity: .9; /* lets the dark panel of the photo through, so the poster sits in the box */
   }
-  /* Timing measured on the client's reference clip: each banner holds ~3.7s,
-     then a ~1s slide; two banners per 9.4s cycle. */
+  /* Each banner holds 2.7s, then a 1s slide (pace from the client's reference clip);
+     two banners per 7.4s cycle. */
   @keyframes citylight-scroll {
-    0%, 39.4%    { transform: translateY(-66.6667%); animation-timing-function: cubic-bezier(.65, 0, .35, 1); }
-    50%, 89.4%   { transform: translateY(-33.3333%); animation-timing-function: cubic-bezier(.65, 0, .35, 1); }
+    0%, 36.49%   { transform: translateY(-66.6667%); animation-timing-function: cubic-bezier(.65, 0, .35, 1); }
+    50%, 86.49%  { transform: translateY(-33.3333%); animation-timing-function: cubic-bezier(.65, 0, .35, 1); }
     100%         { transform: translateY(0); }
   }
 
