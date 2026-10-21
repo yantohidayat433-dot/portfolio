@@ -432,16 +432,17 @@ body:not(.pw-locked) #pw-gate {
   /* The frosted inactive tab is part of the baked card image; only the white
      active fill is live (16 live backdrop blurs under moving cards stalled browsers). */
   background-color: rgba(255,255,255,0);
-  transition: background-color .45s ease-out;
+  transition: background-color .9s ease-out;
 }
 /* Everything static on a card (photo, shades, glows, frosted tabs, label, arrows, rule)
    is one pre-rendered image per card, so moving a card is a single layer. */
 .goals-scroller .goal__bg { left: 0; top: 0; width: 1376px; height: 680px; max-width: none; }
-.goals-scroller .goal__tab span { top: 17px; color: #fff; transition: color .45s ease-out; }
+.goals-scroller .goal__tab span { top: 17px; color: #fff; transition: color .9s ease-out; }
 .goals-scroller .goal__tab span:first-child { left: 20px; }
 .goals-scroller .goal__tab span:nth-child(2) { right: 20px; }
-.goals-scroller .goal__tab.is-on { background-color: #fff; transition: background-color .5s cubic-bezier(.25,.1,.25,1); }
-.goals-scroller .goal__tab.is-on span { color: #121212; transition: color .5s cubic-bezier(.25,.1,.25,1); }
+/* Lights over the same ~1s as the headline rises (both start in activate()), softly. */
+.goals-scroller .goal__tab.is-on { background-color: #fff; transition: background-color 1s cubic-bezier(.33,1,.68,1); }
+.goals-scroller .goal__tab.is-on span { color: #121212; transition: color 1s cubic-bezier(.33,1,.68,1); }
 
 /* Darkness over cards still on their way up; JS drives its opacity from position. */
 .goals-scroller .goal__veil { inset: 0; background: #0B0401; opacity: 0; pointer-events: none; }
