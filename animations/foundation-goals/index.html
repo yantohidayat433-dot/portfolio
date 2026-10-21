@@ -176,8 +176,8 @@
   ];
   var HOLD = 2000;      // ms each card rests at the top
   var MOVE = 750;       // ms of travel between cards
-  var ACTIVATE_AT = .7;
-  var MAX_DARK = .88;   // veil opacity on the card peeking in at the bottom // fraction of the travel at which the arriving card lights up
+  var ACTIVATE_AT = .7; // fraction of the travel at which the arriving card lights up
+  var MAX_DARK = .88;   // veil opacity on the card peeking in at the bottom
 
   function ease(t) { return t < .5 ? 8 * t * t * t * t : 1 - Math.pow(-2 * t + 2, 4) / 2; }
   function line(text, i) { return '<span class="goal__line"><span style="--i:' + i + '">' + text + '</span></span>'; }
