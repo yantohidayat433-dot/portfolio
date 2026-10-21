@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Foundation light</title>
+<style>
+  @font-face { font-family: 'PP Fragment Glare'; src: url(src/pp-fragment-glare-regular.woff2) format('woff2'); font-display: swap; }
+
+  html, body { margin: 0; background: #1a1a1a; }
+  body { min-height: 100vh; display: grid; place-items: center; padding: 16px; box-sizing: border-box; }
+
+  /* Frame: 1015x620, #0E0E0E. Everything inside is laid out in that design space
+     and scaled to the frame's real width (--s). */
+  .light {
+    position: relative;
+    width: min(1015px, 100%);
+    aspect-ratio: 1015 / 620;
+    background: #0E0E0E;
+    overflow: hidden;
+  }
+  .light__stage {
+    position: absolute; left: 0; top: 0;
+    width: 1015px; height: 620px;
+    transform: scale(var(--s, 1)); transform-origin: 0 0;
+  }
+  .light__stage > * { position: absolute; }
+
+  /* The shape, placed exactly as on the approved slide (fitted to it:
+     2724px wide, shifted and tilted -3.76deg, 82% opacity). */
+  .light__shape {
+    left: 0; top: 0; width: 2724.27px; height: 1618.2px;
+    transform: translate(-738.65px, 97.05px) rotate(-3.762deg);
+    transform-origin: 0 0;
+  }
+  .light__shape img {
+    position: absolute; inset: 0; width: 100%; height: 100%;
+    transform-origin: 30% 32%;   /* the lit lump that shows in the frame */
+    will-change: transform, opacity;
+  }
+
+  /* 1. The shape itself breathes: a slow drift, a couple of degrees of turn, a
+        little swell and brightening. */
+  .light__shape--base img { opacity: .819; animation: base-drift 13s ease-in-out infinite alternate; }
+  /* Turning about the lit lump makes the long tail on the right rise and sink,
+     so the light seems to sweep along the curve. */
+  @keyframes base-drift {
+    0%   { transform: translate(0, 0) rotate(-1.4deg) scale(1);      opacity: .78; }
+    50%  { transform: translate(18px, -8px) rotate(1.6deg) scale(1.03); opacity: .9; }
+    100% { transform: translate(-10px, 6px) rotate(-.4deg) scale(1.012); opacity: .82; }
+  }
+
+  /* 2. A second, offset copy blended as light: it swells in and fades out,
+        so the glow seems to spread across the space and pull back. */
+  /* Copies stay tight to the base edge (their faint yellow fringe turns olive over
+     the dark if it strays above it) and lean orange rather than yellow. */
+  .light__shape--spill { mix-blend-mode: screen; }
+  .light__shape--spill img { filter: saturate(1.25) hue-rotate(-10deg); }
+  .light__shape--spill img { opacity: 0; animation: spill 17s ease-in-out infinite; }
+  @keyframes spill {
+    0%, 100% { transform: translate(-12px, 10px) rotate(-.8deg) scale(1);    opacity: 0; }
+    45%      { transform: translate(14px, -8px)  rotate(.8deg)  scale(1.025); opacity: .3; }
+  }
+
+  .light__text {
+    left: 0; right: 0; top: 0; bottom: 0;
+    display: grid; place-items: center;
+    margin: 0;
+    color: #fff;
+    font-family: 'PP Fragment Glare', serif;
+    font-size: 21.5px; letter-spacing: .25px; line-height: 1;
+    text-transform: uppercase; white-space: nowrap;
+    transform: translateY(1.5px);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .light__shape img { animation: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="light" data-light role="img" aria-label="We light the way toward humanity's greatest discoveries">
+  <div class="light__stage">
+    <div class="light__shape light__shape--base"><img src="src/shape-1000.webp" alt="" /></div>
+    <div class="light__shape light__shape--spill"><img src="src/shape-1000.webp" alt="" /></div>
+    <p class="light__text">We light the way toward humanity's greatest discoveries</p>
+  </div>
+</div>
+
+<script>
+(function () {
+  document.querySelectorAll('[data-light]').forEach(function (root) {
+    var stage = root.querySelector('.light__stage');
+    function fit() { stage.style.setProperty('--s', root.clientWidth / 1015); }
+    fit();
+    if ('ResizeObserver' in window) new ResizeObserver(fit).observe(root);
+    else window.addEventListener('resize', fit);
+  });
+})();
+</script>
+</body>
+</html>
