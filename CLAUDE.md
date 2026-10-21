@@ -272,6 +272,22 @@ lights its tab and lifts its number/headline in.
   `localStorage['portfolio-unlocked'] = '1'` (e.g. Playwright
   `addInitScript`) before loading, then open via `/#case-foundation`.
 
+## Foundation "We light the way" light slide (`.case__media--light`)
+
+Desktop-only CSS animation in the `foundation-03` slot (phones keep the
+static `foundation-m3` crop via the usual `.case__media-mobile` rule).
+The glow is the client's own shape (`images/foundation-light-shape.webp`)
+placed exactly as on her slide — transform found by optimisation against
+the slide: 2724.27px wide, `translate(-738.65px, 97.05px) rotate(-3.762deg)`,
+opacity .819 — then a base layer sways/swells and a screen-blended copy
+flares in and out. Copies must stay tight to the base edge: their faint
+yellow fringe turns olive over the dark background if it strays above it.
+Text: Glare 20px / 98% / 10% tracking, `mix-blend-mode: difference`,
+nudged `translate(2px, .5px)` for optical centring (measured on the caps).
+Sandbox: `animations/foundation-light/index.html`. Same scoping rules as
+the goals stack (prefixed selectors, `:not(.case__media--light)` on the
+620px img/video rule, `font-feature-settings: normal`).
+
 ## Verification checklist (every text or crop change)
 
 1. Serve the repo locally (`http-server` if video is involved, plain
