@@ -82,23 +82,19 @@
   .goal.is-active .goal__line > span { transform: none; }
 
   /* Tabs */
+  /* Lighting a tab is a plain colour transition on the tab itself: an opacity-animated
+     overlay inside the backdrop-blurred box made Chrome paint the fill in patches. */
   .goal__tab {
     top: 603px; width: 323.5px; height: 49px; border-radius: 8px;
-    background: rgba(255,255,255,.25);
+    background-color: rgba(255,255,255,.25);
     -webkit-backdrop-filter: blur(22.3px); backdrop-filter: blur(22.3px);
+    transition: background-color .45s ease-out;
   }
-  .goal__tab span { top: 17px; color: #fff; }
+  .goal__tab span { top: 17px; color: #fff; transition: color .45s ease-out; }
   .goal__tab span:first-child { left: 20px; }
   .goal__tab span:nth-child(2) { right: 20px; }
-  /* Active layer = white fill + dark copy of the text. It glows in softly once the
-     card has settled; no other tab is lit before that. */
-  .goal__tab-fill {
-    inset: 0; border-radius: inherit; background: #fff;
-    opacity: 0;
-    transition: opacity .45s ease-out;
-  }
-  .goal__tab-fill span { color: #121212; }
-  .goal__tab.is-on .goal__tab-fill { opacity: 1; transition: opacity .5s cubic-bezier(.25,.1,.25,1); }
+  .goal__tab.is-on { background-color: #fff; transition: background-color .5s cubic-bezier(.25,.1,.25,1); }
+  .goal__tab.is-on span { color: #121212; transition: color .5s cubic-bezier(.25,.1,.25,1); }
 
   /* Darkness over cards still on their way up; JS drives its opacity from position. */
   .goal__veil { inset: 0; background: #0B0401; opacity: 0; pointer-events: none; }
@@ -223,12 +219,6 @@
     originals.forEach(function (card, k) {
       var ui = card.querySelector('.goal__ui');
       ui.replaceWith(tpl.content.cloneNode(true));
-      card.querySelectorAll('.goal__tab').forEach(function (tab) {
-        var fill = document.createElement('div');
-        fill.className = 'goal__tab-fill';
-        fill.innerHTML = tab.innerHTML;
-        tab.appendChild(fill);
-      });
       var veil = document.createElement('div');
       veil.className = 'goal__veil';
       card.querySelector('.goal__stage').appendChild(veil);
@@ -259,6 +249,9 @@
       });
     }
     function activate(k) {
+      // The card that is leaving (scrolled up / covered) lets its tab go dark.
+      var prev = (k + count - 1) % count;
+      copies(prev).forEach(function (c) { c.querySelectorAll('.goal__tab')[prev].classList.remove('is-on'); });
       copies(k).forEach(function (c) {
         var tabs = c.querySelectorAll('.goal__tab');
         tabs[k].classList.add('is-on');
