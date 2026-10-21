@@ -46,14 +46,14 @@
   .goal__stage * { position: absolute; margin: 0; }
   .goal__stage img { max-width: none; pointer-events: none; }
 
-  /* Photo-to-dark falloff: a 380px smootherstep ramp (no hard start or end), then solid black. */
-  .goal__shade { top: -100px; width: 1400px; height: 880px; background: linear-gradient(to right, rgba(0,1,0,0.000) 0px, rgba(0,1,0,0.005) 32px, rgba(0,1,0,0.035) 63px, rgba(0,1,0,0.104) 95px, rgba(0,1,0,0.210) 127px, rgba(0,1,0,0.347) 158px, rgba(0,1,0,0.500) 190px, rgba(0,1,0,0.653) 222px, rgba(0,1,0,0.790) 253px, rgba(0,1,0,0.896) 285px, rgba(0,1,0,0.965) 317px, rgba(0,1,0,0.995) 348px, rgba(0,1,0,1.000) 380px); }
+  /* Photo-to-dark falloff: per-card ramps (inline) sampled from the approved card renders. */
+  .goal__shade { left: 0; top: -100px; width: 1400px; height: 880px; }
 
   .goal__glow { display: flex; align-items: center; justify-content: center; }
   .goal__glow img { position: relative; object-fit: cover; }
   .goal__glow--top { left: calc(50% + 496.04px); top: -1540px; width: 1896.082px; height: 1896.083px; transform: translateX(-50%); }
   .goal__glow--top img { width: 1634.62px; height: 1634.62px; transform: rotate(79.89deg) scaleY(-1); }
-  .goal__glow--bottom { left: calc(50% - 977px); top: 310px; width: 1582px; height: 1582px; transform: translateX(-50%); }
+  .goal__glow--bottom { left: calc(50% - 1057px); top: 130px; width: 1582px; height: 1582px; transform: translateX(-50%); }
   .goal__glow--bottom img { width: 1582px; height: 1582px; transform: rotate(-90deg) scaleY(-1); }
 
   .goal__photo { overflow: hidden; }
@@ -114,8 +114,8 @@
 
     <div class="goal" data-goal="0">
       <div class="goal__stage">
-        <div class="goal__photo" style="left:-23px;top:-65px;width:806px;height:806px"><img src="src/c1-photo.webp" alt="" /></div>
-        <div class="goal__shade" style="left:268px"></div>
+        <div class="goal__photo" style="left:23px;top:-16px;width:746px;height:746px"><img src="src/c1-photo.webp" alt="" /></div>
+        <div class="goal__shade" style="background:linear-gradient(to right, rgba(0,1,0,0) 496px, rgba(0,1,0,0.048) 508px, rgba(0,1,0,0.096) 520px, rgba(0,1,0,0.143) 532px, rgba(0,1,0,0.19) 544px, rgba(0,1,0,0.237) 556px, rgba(0,1,0,0.284) 568px, rgba(0,1,0,0.329) 580px, rgba(0,1,0,0.372) 592px, rgba(0,1,0,0.415) 604px, rgba(0,1,0,0.459) 616px, rgba(0,1,0,0.509) 628px, rgba(0,1,0,0.559) 640px, rgba(0,1,0,0.606) 652px, rgba(0,1,0,0.655) 664px, rgba(0,1,0,0.704) 676px, rgba(0,1,0,0.749) 688px, rgba(0,1,0,0.79) 700px, rgba(0,1,0,0.844) 712px, rgba(0,1,0,0.898) 724px, rgba(0,1,0,0.944) 736px, rgba(0,1,0,1) 748px)"></div>
         <div class="goal__glow goal__glow--top"><img src="src/glow.webp" alt="" /></div>
         <div class="goal__ui"></div>
       </div>
@@ -124,7 +124,7 @@
     <div class="goal" data-goal="1">
       <div class="goal__stage">
         <div class="goal__photo" style="left:0;top:-60px;width:740px;height:740px"><img src="src/c2-photo.webp" alt="" /></div>
-        <div class="goal__shade" style="left:311px"></div>
+        <div class="goal__shade" style="background:linear-gradient(to right, rgba(0,1,0,0) 568px, rgba(0,1,0,0.053) 580px, rgba(0,1,0,0.108) 592px, rgba(0,1,0,0.165) 604px, rgba(0,1,0,0.226) 616px, rgba(0,1,0,0.291) 628px, rgba(0,1,0,0.352) 640px, rgba(0,1,0,0.404) 652px, rgba(0,1,0,0.451) 664px, rgba(0,1,0,0.507) 676px, rgba(0,1,0,0.572) 688px, rgba(0,1,0,0.634) 700px, rgba(0,1,0,0.69) 712px, rgba(0,1,0,0.75) 724px, rgba(0,1,0,0.807) 736px, rgba(0,1,0,0.871) 748px, rgba(0,1,0,0.933) 760px, rgba(0,1,0,1) 768px)"></div>
         <div class="goal__glow goal__glow--top"><img src="src/glow.webp" alt="" /></div>
         <div class="goal__glow goal__glow--bottom"><img src="src/glow.webp" alt="" /></div>
         <div class="goal__ui"></div>
@@ -134,7 +134,7 @@
     <div class="goal" data-goal="2">
       <div class="goal__stage">
         <div class="goal__photo" style="left:-10px;top:-24px;width:877px;height:877px"><img src="src/c3-photo.webp" alt="" /></div>
-        <div class="goal__shade" style="left:240px"></div>
+        <div class="goal__shade" style="background:linear-gradient(to right, rgba(0,1,0,0) 512px, rgba(0,1,0,0.056) 524px, rgba(0,1,0,0.136) 536px, rgba(0,1,0,0.216) 548px, rgba(0,1,0,0.292) 560px, rgba(0,1,0,0.367) 572px, rgba(0,1,0,0.442) 584px, rgba(0,1,0,0.516) 596px, rgba(0,1,0,0.592) 608px, rgba(0,1,0,0.668) 620px, rgba(0,1,0,0.742) 632px, rgba(0,1,0,0.825) 644px, rgba(0,1,0,0.902) 656px, rgba(0,1,0,0.952) 668px, rgba(0,1,0,1) 672px)"></div>
         <div class="goal__glow goal__glow--top"><img src="src/glow.webp" alt="" /></div>
         <div class="goal__glow goal__glow--bottom"><img src="src/glow.webp" alt="" /></div>
         <div class="goal__ui"></div>
@@ -143,8 +143,8 @@
 
     <div class="goal" data-goal="3">
       <div class="goal__stage">
-        <div class="goal__photo" style="left:-18px;top:calc(50% - 20.5px);width:843px;height:881px;transform:translateY(-50%)"><img src="src/c4-photo.webp" alt="" /></div>
-        <div class="goal__shade" style="left:303px"></div>
+        <div class="goal__photo" style="left:-22px;top:-121px;width:843px;height:881px"><img src="src/c4-photo.webp" alt="" /></div>
+        <div class="goal__shade" style="background:linear-gradient(to right, rgba(0,1,0,0) 532px, rgba(0,1,0,0.049) 544px, rgba(0,1,0,0.111) 556px, rgba(0,1,0,0.174) 568px, rgba(0,1,0,0.23) 580px, rgba(0,1,0,0.282) 592px, rgba(0,1,0,0.341) 604px, rgba(0,1,0,0.402) 616px, rgba(0,1,0,0.462) 628px, rgba(0,1,0,0.521) 640px, rgba(0,1,0,0.581) 652px, rgba(0,1,0,0.641) 664px, rgba(0,1,0,0.701) 676px, rgba(0,1,0,0.762) 688px, rgba(0,1,0,0.823) 700px, rgba(0,1,0,0.883) 712px, rgba(0,1,0,0.938) 724px, rgba(0,1,0,1) 732px)"></div>
         <div class="goal__glow goal__glow--top"><img src="src/glow.webp" alt="" /></div>
         <div class="goal__glow goal__glow--bottom"><img src="src/glow.webp" alt="" /></div>
         <div class="goal__ui"></div>
@@ -172,7 +172,7 @@
 (function () {
   var TITLES = [
     ['To make scientific activity', 'in demand and prestigious,', 'to form a new perception'],
-    ['Formation of an expert', 'community in the field', 'of future technologies'],
+    ['Building an expert', 'community in emerging', 'technologies'],
     ['Establishing a mechanism', 'for interaction between', 'science and business'],
     ['Maintaining a sustained', 'international scientific', 'dialogue']
   ];
