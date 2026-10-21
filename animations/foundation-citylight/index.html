@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Foundation citylight</title>
+<style>
+  html, body { margin: 0; background: #1a1a1a; }
+  body { min-height: 100vh; display: grid; place-items: center; padding: 16px; box-sizing: border-box; }
+
+  /* The static street photo (1493x2000); the screen is positioned in % of it,
+     so the whole thing scales with its width. */
+  .citylight {
+    position: relative;
+    width: min(620px, 100%);
+    aspect-ratio: 1493 / 2000;
+    background: url(src/mockup.webp) center / 100% 100% no-repeat;
+    overflow: hidden;
+  }
+
+  /* Flat panel inside the frame's bevel, measured on the photo: x 464-1023, y 536-1535. */
+  .citylight__screen {
+    position: absolute;
+    left: calc(464 / 1493 * 100%);
+    top: calc(536 / 2000 * 100%);
+    width: calc(559 / 1493 * 100%);
+    height: calc(999 / 2000 * 100%);
+    overflow: hidden;
+    background: #2f2f2f;
+  }
+
+  /* Posters stacked in a strip (1, 2, then 1 again so the loop is seamless);
+     each step slides the strip up by one poster. */
+  .citylight__strip {
+    position: absolute; left: 0; top: 0; width: 100%; height: 300%;
+    will-change: transform;
+    animation: citylight-scroll 6s infinite;
+  }
+  .citylight__strip img {
+    display: block; width: 100%; height: calc(100% / 3);
+    object-fit: cover;
+  }
+  /* Hold 2.4s, slide 0.6s, twice per cycle. */
+  @keyframes citylight-scroll {
+    0%, 40%  { transform: translateY(0);           animation-timing-function: cubic-bezier(.65, 0, .35, 1); }
+    50%, 90% { transform: translateY(-33.3333%);   animation-timing-function: cubic-bezier(.65, 0, .35, 1); }
+    100%     { transform: translateY(-66.6667%); }
+  }
+
+  /* Glass, which the photo doesn't have: the panel sits recessed behind the frame
+     (inner shadow, heavier along the top lip), a soft diagonal sheen like a pane
+     catching the sky, and a slight falloff towards the edges. */
+  .citylight__glass {
+    position: absolute; inset: 0; pointer-events: none;
+    box-shadow:
+      inset 0 7px 12px -6px rgba(0, 0, 0, .55),
+      inset 4px 0 8px -6px rgba(0, 0, 0, .35),
+      inset -4px 0 8px -6px rgba(0, 0, 0, .35),
+      inset 0 0 0 1px rgba(0, 0, 0, .35);
+    background:
+      linear-gradient(118deg, rgba(255, 255, 255, .13) 0%, rgba(255, 255, 255, .06) 22%, rgba(255, 255, 255, 0) 23%,
+                      rgba(255, 255, 255, 0) 58%, rgba(255, 255, 255, .045) 59%, rgba(255, 255, 255, .02) 72%, rgba(255, 255, 255, 0) 73%),
+      radial-gradient(ellipse at 50% 45%, rgba(0, 0, 0, 0) 55%, rgba(0, 0, 0, .16) 100%);
+  }
+  .citylight__sheen { position: absolute; inset: 0; pointer-events: none; mix-blend-mode: screen;
+    background: linear-gradient(180deg, rgba(220, 230, 240, .07), rgba(220, 230, 240, 0) 30%); }
+
+  @media (prefers-reduced-motion: reduce) {
+    .citylight__strip { animation: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="citylight" role="img" aria-label="Citylight with Foundation lecture posters">
+  <div class="citylight__screen">
+    <div class="citylight__strip">
+      <img src="src/poster-1.webp" alt="" />
+      <img src="src/poster-2.webp" alt="" />
+      <img src="src/poster-1.webp" alt="" />
+    </div>
+    <div class="citylight__sheen"></div>
+    <div class="citylight__glass"></div>
+  </div>
+</div>
+
+</body>
+</html>
