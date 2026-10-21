@@ -306,6 +306,20 @@ old still's crop; works on desktop and mobile (no separate mobile image).
 hence the doubled-class selector on the strip images. Sandbox:
 `animations/foundation-citylight/index.html`.
 
+## Foundation typographic posters (`.case__media--typo`)
+
+The `foundation-04` slot (left cell of the tall 04/05 row, beside the
+glasses) is five of the client's event posters rebuilt as live type in their
+1008x1280 (2x) space: each line placed from its measured ink box, sizes
+evened out per style, **1% tracking everywhere** (client's rule), small text
+in PP Fragment **Sans Regular** (`'PP Fragment Sans Regular'` family — the
+site's `'PP Fragment Sans'` face is Medium), headlines in Glare, the Science
+& Art mark is her SVG (`images/foundation-science-art-logo.svg`). Layouts
+cross-fade every 2.8s; the new one's lines all rise and fade in together
+(no stagger). Cover-fits the slot (640px desktop, `--mh` mobile). All
+selectors prefixed `.case__media.case__media--typo` (row img rules would
+otherwise stretch the logo). Sandbox: `animations/foundation-typo/index.html`.
+
 ## Verification checklist (every text or crop change)
 
 1. Serve the repo locally (`http-server` if video is involved, plain
