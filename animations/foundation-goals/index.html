@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Foundation goals — scroll</title>
+<style>
+  html, body { margin: 0; background: #1a1a1a; }
+  body { min-height: 100vh; display: grid; place-items: center; padding: 16px; box-sizing: border-box; }
+
+  /* Frame: 1015x620, background #0E0E0E. Scales down on narrow screens. */
+  .goals-scroller {
+    --gutter: 24px;
+    --gap: 14px;
+    position: relative;
+    width: min(1015px, 100%);
+    aspect-ratio: 1015 / 620;
+    background: #0E0E0E;
+    overflow: hidden;
+  }
+  .goals-scroller__track {
+    position: absolute;
+    inset: var(--gutter) var(--gutter) auto;
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap);
+    will-change: transform;
+  }
+  .goals-scroller__track img {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 2000 / 988;
+  }
+</style>
+</head>
+<body>
+
+<div class="goals-scroller" data-goals-scroller>
+  <div class="goals-scroller__track">
+    <img src="goal-1.webp" width="2000" height="988" alt="" />
+    <img src="goal-2.webp" width="2000" height="988" alt="" />
+    <img src="goal-3.webp" width="2000" height="988" alt="" />
+    <img src="goal-4.webp" width="2000" height="988" alt="" />
+  </div>
+</div>
+
+<script>
+(function () {
+  var HOLD = 1500;   // ms each card rests at the top
+  var MOVE = 950;    // ms of travel between cards
+
+  // easeInOutQuart: slow start, quick middle, soft landing (like a flicked scroll).
+  function ease(t) { return t < .5 ? 8 * t * t * t * t : 1 - Math.pow(-2 * t + 2, 4) / 2; }
+
+  document.querySelectorAll('[data-goals-scroller]').forEach(function (root) {
+    var track = root.querySelector('.goals-scroller__track');
+    var originals = Array.prototype.slice.call(track.children);
+    var count = originals.length;
+    // Clone the set once so the loop wraps seamlessly from card 4 back to card 1.
+    originals.forEach(function (img) { track.appendChild(img.cloneNode(true)); });
+    var cards = track.children;
+
+    var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var visible = true;
+    var start = null, paused = 0, pauseAt = null;
+
+    function offsetOf(i) { return cards[i].offsetTop; }
+
+    function frame(now) {
+      if (!visible) { if (pauseAt === null) pauseAt = now; requestAnimationFrame(frame); return; }
+      if (pauseAt !== null) { paused += now - pauseAt; pauseAt = null; }
+      if (start === null) start = now;
+
+      var cycle = HOLD + MOVE;
+      var t = (now - start - paused) % (cycle * count);
+      var step = Math.floor(t / cycle);
+      var local = t - step * cycle;
+      var p = local < HOLD ? 0 : ease((local - HOLD) / MOVE);
+      var from = offsetOf(step), to = offsetOf(step + 1);
+      // When the clone of card 1 reaches the top, the cycle restarts at offset 0 — same picture.
+      track.style.transform = 'translate3d(0,' + (-(from + (to - from) * p)) + 'px,0)';
+      requestAnimationFrame(frame);
+    }
+
+    if (reduced) return; // static first card
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver(function (e) { visible = e[0].isIntersecting; }).observe(root);
+    }
+    requestAnimationFrame(frame);
+  });
+})();
+</script>
+</body>
+</html>
