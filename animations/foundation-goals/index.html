@@ -84,18 +84,19 @@
   .goal__tab span { top: 17px; color: #fff; }
   .goal__tab span:first-child { left: 20px; }
   .goal__tab span:nth-child(2) { right: 20px; }
-  /* Active layer = white fill + dark copy of the text, revealed by one clip-path.
-     It wipes in from the left; the outgoing tab's layer wipes out to the right,
-     so the highlight reads as travelling from the previous tab to the next one,
-     and the text changes colour exactly at the wipe's edge. */
+  /* Active layer = white fill + dark copy of the text. It softly fades in once the
+     card has settled; the outgoing tab's layer fades out a little quicker. */
   .goal__tab-fill {
     inset: 0; border-radius: inherit; background: #fff;
-    clip-path: inset(0 100% 0 0 round 8px);
-    transition: clip-path .75s cubic-bezier(.65,0,.35,1);
+    opacity: 0;
+    transition: opacity .45s ease-out;
   }
   .goal__tab-fill span { color: #121212; }
-  .goal__tab.is-on .goal__tab-fill { clip-path: inset(0 0 0 0 round 8px); }
-  .goal__tab.is-gone .goal__tab-fill { clip-path: inset(0 0 0 100% round 8px); }
+  .goal__tab.is-on .goal__tab-fill { opacity: 1; transition: opacity .9s cubic-bezier(.33,0,.2,1) .15s; }
+
+  /* Darkness over cards still on their way up; JS drives its opacity from position. */
+  .goal__veil { inset: 0; background: #000; opacity: 0; pointer-events: none; }
+  .goal + .goal .goal__veil { opacity: .88; }
 
   .goal.no-anim * { transition: none !important; }
 
@@ -173,9 +174,10 @@
     ['Establishing a mechanism', 'for interaction between', 'science and business'],
     ['Maintaining a sustained', 'international scientific', 'dialogue']
   ];
-  var HOLD = 2400;      // ms each card rests at the top
-  var MOVE = 1000;      // ms of travel between cards
-  var ACTIVATE_AT = .7; // fraction of the travel at which the arriving card lights up
+  var HOLD = 2000;      // ms each card rests at the top
+  var MOVE = 750;       // ms of travel between cards
+  var ACTIVATE_AT = .7;
+  var MAX_DARK = .88;   // veil opacity on the card peeking in at the bottom // fraction of the travel at which the arriving card lights up
 
   function ease(t) { return t < .5 ? 8 * t * t * t * t : 1 - Math.pow(-2 * t + 2, 4) / 2; }
   function line(text, i) { return '<span class="goal__line"><span style="--i:' + i + '">' + text + '</span></span>'; }
@@ -196,12 +198,16 @@
         fill.innerHTML = tab.innerHTML;
         tab.appendChild(fill);
       });
+      var veil = document.createElement('div');
+      veil.className = 'goal__veil';
+      card.querySelector('.goal__stage').appendChild(veil);
       card.querySelector('.goal__num').innerHTML = line('0' + (k + 1), 0);
       card.querySelector('.goal__title').innerHTML = TITLES[k].map(function (t, i) { return line(t, i + 1); }).join('');
     });
     // Clone the set once so the loop wraps seamlessly from card 4 back to card 1.
     originals.forEach(function (card) { track.appendChild(card.cloneNode(true)); });
     var cards = Array.prototype.slice.call(track.children);
+    var veils = cards.map(function (c) { return c.querySelector('.goal__veil'); });
 
     function fit() {
       var s = cards[0].getBoundingClientRect().width / 1376;
@@ -219,7 +225,7 @@
         c.classList.add('no-anim');
         c.classList.remove('is-active');
         var tabs = c.querySelectorAll('.goal__tab');
-        tabs.forEach(function (t) { t.classList.remove('is-on', 'is-gone'); });
+        tabs.forEach(function (t) { t.classList.remove('is-on'); });
         if (k > 0) tabs[k - 1].classList.add('is-on');
         void c.offsetWidth;
         c.classList.remove('no-anim');
@@ -228,7 +234,7 @@
     function activate(k) {
       copies(k).forEach(function (c) {
         var tabs = c.querySelectorAll('.goal__tab');
-        if (k > 0) { tabs[k - 1].classList.remove('is-on'); tabs[k - 1].classList.add('is-gone'); }
+        if (k > 0) tabs[k - 1].classList.remove('is-on');
         tabs[k].classList.add('is-on');
         c.classList.add('is-active');
       });
@@ -255,7 +261,15 @@
       var raw = local < HOLD ? 0 : (local - HOLD) / MOVE;
       var p = ease(raw);
       var from = cards[step].offsetTop, to = cards[step + 1].offsetTop;
-      track.style.transform = 'translate3d(0,' + (-(from + (to - from) * p)) + 'px,0)';
+      var offset = from + (to - from) * p;
+      track.style.transform = 'translate3d(0,' + (-offset) + 'px,0)';
+
+      // A card is fully dark one slot below the top and clears as it rises into place.
+      var slot = to - from;
+      veils.forEach(function (v, i) {
+        var d = Math.min(Math.max((cards[i].offsetTop - offset) / slot, 0), 1);
+        v.style.opacity = (MAX_DARK * Math.pow(d, .7)).toFixed(3);
+      });
 
       var now_k = (raw >= ACTIVATE_AT ? step + 1 : step) % count;
       if (now_k !== current) {
