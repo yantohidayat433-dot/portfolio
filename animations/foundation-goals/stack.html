@@ -180,8 +180,8 @@
     ['Establishing a mechanism', 'for interaction between', 'science and business'],
     ['Maintaining a sustained', 'international scientific', 'dialogue']
   ];
-  var HOLD = 2000;      // ms each card rests at the top
-  var MOVE = 1250;      // ms of travel between cards
+  var HOLD = 1800;      // ms each card rests at the top
+  var MOVE = 1100;      // ms of travel between cards
   var ACTIVATE_AT = .4; // fraction of the travel at which the arriving card lights up
   var MAX_DARK = .88;   // veil opacity on the card peeking in at the bottom
   var RISE_SCALE = .07; // arriving card starts this much smaller and grows into place
@@ -231,6 +231,8 @@
     function fit() {
       var s = cards[0].getBoundingClientRect().width / 1376;
       cards.forEach(function (c) { c.querySelector('.goal__stage').style.setProperty('--s', s); });
+      // The resting card sits centred in the frame, not pinned under the top gutter.
+      track.style.top = Math.max((root.clientHeight - cards[0].offsetHeight) / 2, 0) + 'px';
     }
     fit();
     window.addEventListener('resize', fit);
