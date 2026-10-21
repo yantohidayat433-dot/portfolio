@@ -330,6 +330,17 @@ cross-fade every 2.8s; the new one's lines all rise and fade in together
 selectors prefixed `.case__media.case__media--typo` (row img rules would
 otherwise stretch the logo). Sandbox: `animations/foundation-typo/index.html`.
 
+## Foundation Instagram sets (`.case__media--ig-fade`)
+
+Foundation's ig-ticker (4 sets of 3 post mockups, `images/foundation-ig-N.webp`
+2000x1222 + mobile `foundation-ig-mN.webp` 1077x690 centre crops) cross-fades
+instead of hard-cutting: `case__media--ig-fade` on desktop and
+`case__media-mobile--cycle-fade` on mobile, 2.8s per set, 1.1s fade. The
+incoming set fades in on top (z-index 2) while the outgoing one stays opaque
+underneath and only drops out after the fade (delayed `opacity` transition),
+so there's no dip to black. Basarab's tickers keep the shared hard-cut
+classes and 1.3s interval (the generic cycle() call excludes `--ig-fade`).
+
 ## Verification checklist (every text or crop change)
 
 1. Serve the repo locally (`http-server` if video is involved, plain

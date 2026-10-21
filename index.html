@@ -1191,6 +1191,12 @@ button.project__media-link {
   opacity: 1;
 }
 
+/* Foundation's Instagram sets cross-fade instead of cutting: the incoming set
+   fades in above the outgoing one, which only drops out once it's covered, so
+   there's no dip to the background mid-change. */
+.case__media--ig-fade img { z-index: 1; transition: opacity 0s linear 1.1s; }
+.case__media--ig-fade img.is-active { z-index: 2; transition: opacity 1.1s cubic-bezier(.4, 0, .2, 1); }
+
 .case__media--final-sale {
   /* the shoe colorway cycles (hard cut, no crossfade) behind a single
      fixed "Final Sale" wordmark — every frame shares the exact same
@@ -2938,6 +2944,26 @@ button.project__media-link {
     opacity: 1 !important;
   }
 
+  /* Same cross-fade for Foundation's mobile Instagram sets. */
+  .case__media-mobile--cycle-fade {
+    position: relative;
+  }
+  .case__media-mobile--cycle-fade img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0 !important;
+    z-index: 1;
+    transition: opacity 0s linear 1.1s;
+  }
+  .case__media-mobile--cycle-fade img.is-active {
+    opacity: 1 !important;
+    z-index: 2;
+    transition: opacity 1.1s cubic-bezier(.4, 0, .2, 1);
+  }
+
   /* Text column: 14px from the viewport edge (vs. 8px for images) --
      the extra 6px lives as the text block's own padding since the page's
      shared 8px inset is common to both. Vertical rhythm per the case
@@ -3762,17 +3788,18 @@ button.project__media-link {
       </div>
     </div>
 
-    <div class="case__media case__media--ig-ticker reveal" style="--mh:14.375rem">
-      <img loading="lazy" class="is-active" src="images/foundation-13-1.webp" alt="Instagram posts — Cultural Challenge, To make scientific activity, Physicists and Lyricists" width="2030" height="1240" />
-      <img loading="lazy" src="images/foundation-13-2.webp" alt="Instagram posts — Scientific Awards 2026, Voices of the Future" width="2030" height="1240" />
-      <img loading="lazy" src="images/foundation-13-3.webp" alt="Instagram posts — The Fragile Atmosphere, Lectures" width="2030" height="1240" />
-      <img loading="lazy" src="images/foundation-13-4.webp" alt="Instagram posts — Circuits of Thought, Science for a Great Future" width="2030" height="1240" />
-      <div class="case__media-mobile case__media-mobile--cycle-hard">
-        <img loading="lazy" class="is-active" src="images/foundation-m13-1.webp" alt="Instagram posts — Cultural Challenge, To make scientific activity, Physicists and Lyricists" width="1077" height="690" />
-        <img loading="lazy" src="images/foundation-m13-2.webp" alt="Instagram posts — Scientific Awards 2026, Voices of the Future" width="1077" height="690" />
-        <img loading="lazy" src="images/foundation-m13-3.webp" alt="Instagram posts — The Fragile Atmosphere, Lectures" width="1077" height="690" />
-        <img loading="lazy" src="images/foundation-m13-4.webp" alt="Instagram posts — Circuits of Thought, Science for a Great Future" width="1077" height="690" />
+    <div class="case__media case__media--ig-ticker case__media--ig-fade reveal" style="--mh:14.375rem">
+      <img loading="lazy" class="is-active" src="images/foundation-ig-1.webp" alt="Instagram posts — Cultural Challenge, To make scientific activity, Physicists and Lyricists" width="2000" height="1222" />
+      <img loading="lazy" src="images/foundation-ig-2.webp" alt="Instagram posts — Scientific Awards 2026, Peoples, Voices of the Future" width="2000" height="1222" />
+      <img loading="lazy" src="images/foundation-ig-3.webp" alt="Instagram posts — The Fragile Atmosphere, Lectures, Light through liquid" width="2000" height="1222" />
+      <img loading="lazy" src="images/foundation-ig-4.webp" alt="Instagram posts — Circuits of Thought, Science for a Great Future, A series of conversations" width="2000" height="1222" />
+      <div class="case__media-mobile case__media-mobile--cycle-fade">
+        <img loading="lazy" class="is-active" src="images/foundation-ig-m1.webp" alt="Instagram posts — Cultural Challenge, To make scientific activity, Physicists and Lyricists" width="1077" height="690" />
+        <img loading="lazy" src="images/foundation-ig-m2.webp" alt="Instagram posts — Scientific Awards 2026, Peoples, Voices of the Future" width="1077" height="690" />
+        <img loading="lazy" src="images/foundation-ig-m3.webp" alt="Instagram posts — The Fragile Atmosphere, Lectures, Light through liquid" width="1077" height="690" />
+        <img loading="lazy" src="images/foundation-ig-m4.webp" alt="Instagram posts — Circuits of Thought, Science for a Great Future, A series of conversations" width="1077" height="690" />
       </div>
+    </div>
     </div>
 
     <div class="case__media reveal" style="--mh:14.375rem"><img loading="lazy" src="images/foundation-14.webp" alt="Portrait" /><img loading="lazy" class="case__media-mobile" src="images/foundation-m14.webp" alt="Portrait" width="1077" height="690" /></div>
@@ -4841,7 +4868,9 @@ button.project__media-link {
       }
 
       cycle('.case__media--slideshow', 1500);
-      cycle('.case__media--ig-ticker', 1300);
+      cycle('.case__media--ig-ticker:not(.case__media--ig-fade)', 1300);
+      cycle('.case__media--ig-fade', 2800);
+      cycle('.case__media-mobile--cycle-fade', 2800);
       cycle('.case__media--final-sale-ticker', 1200);
       cycle('.case__media-mobile--cycle', 1500);
       cycle('.case__media-mobile--cycle-hard', 1300);
