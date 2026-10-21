@@ -15,32 +15,39 @@
   /* Frame: the posters' own 1008x1280 space, scaled to the real width (--s). */
   .typo { position: relative; width: min(504px, 100%); aspect-ratio: 1008 / 1280; background: #0E0E0E; overflow: hidden; font-feature-settings: normal; }
   .typo__stage { position: absolute; left: 0; top: 0; width: 1008px; height: 1280px; transform: scale(var(--s, 1)); transform-origin: 0 0; }
-  .typo__page { position: absolute; inset: 0; visibility: hidden; }
-  .typo__page.is-on { visibility: visible; }
+  /* Cross-fade between layouts: the old one fades out while the new one's lines
+     rise and fade in, instead of a hard cut. */
+  .typo__page { position: absolute; inset: 0; visibility: hidden; opacity: 0; }
+  .typo__page.is-on { visibility: visible; opacity: 1; }
+  .typo__page.is-out { visibility: visible; opacity: 0; transition: opacity .7s ease, visibility 0s linear .7s; }
+  /* The outgoing layout keeps its lines and rules in place while it fades. */
+  .typo__page.is-out .typo__line > span, .typo__page.is-out .typo__rule { transform: none; opacity: 1; }
 
   /* Every line is placed on its own, measured against the client's layouts
      (ink box -> size, tracking and position; sizes and tracking then evened out
      per text style). Lines sit in a clip box and all rise into it together. */
   .typo__line { position: absolute; display: block; overflow: hidden; white-space: nowrap; line-height: 1;
     padding: 0 .12em .22em; margin-bottom: -.22em; }
-  .typo__line > span { display: block; transform: translateY(105%); }
+  .typo__line > span { display: block; transform: translateY(105%); opacity: 0; }
   /* Lines with several words keep each word where the layout has it (its word
      spacing isn't the font's). */
   .typo__words { position: relative; height: 1em; }
   .typo__words > span { position: absolute; top: 0; }
+  /* The Science & Art logotype is the client's SVG (drawn at the layouts' 2x), masked like a line. */
+  .typo__logo img { display: block; }
   .typo__g { font-family: 'PP Fragment Glare', serif; font-weight: 400; }
   .typo__s { font-family: 'PP Fragment Sans', sans-serif; font-weight: 500; }
   .typo__r { font-family: 'PP Fragment Sans', sans-serif; font-weight: 400; }
-  .typo__page.is-on .typo__line > span { transform: none; transition: transform 1.2s cubic-bezier(.25, 1, .5, 1); }
+  .typo__page.is-on .typo__line > span { transform: none; opacity: 1; transition: transform 1.5s cubic-bezier(.22, 1, .36, 1) .25s, opacity 1.1s ease .25s; }
 
   /* Rules draw in from the left; ones that sit in the same place on the previous
      layout stay put (data-keep), so the frame lines don't flicker on every cut. */
   .typo__rule { position: absolute; height: 2px; transform: scaleX(0); transform-origin: 0 50%; }
-  .typo__page.is-on .typo__rule { transform: none; transition: transform 1.2s cubic-bezier(.25, 1, .5, 1); }
+  .typo__page.is-on .typo__rule { transform: none; transition: transform 1.5s cubic-bezier(.22, 1, .36, 1) .25s; }
   .typo__page.is-on .typo__rule[data-keep] { transition: none; }
 
   @media (prefers-reduced-motion: reduce) {
-    .typo__line > span, .typo__rule { transform: none !important; transition: none !important; }
+    .typo__line > span, .typo__rule { transform: none !important; opacity: 1 !important; transition: none !important; }
   }
 </style>
 </head>
@@ -52,104 +59,102 @@
       <span class="typo__rule" style="left:32px;top:31px;width:944px;background:#3E3E3E" data-key="32-31-944"></span>
       <span class="typo__rule" style="left:32px;top:639px;width:944px;background:#3E3E3E" data-key="32-639-944"></span>
       <span class="typo__rule" style="left:32px;top:1247px;width:944px;background:#3E3E3E" data-key="32-1247-944"></span>
-      <span class="typo__line typo__r" style="left:27.44px;top:51.52px;font-size:37.97px;letter-spacing:-1.190px;color:#F5F5F5"><span>SCIENCE</span></span>
-      <span class="typo__line typo__r" style="left:27.50px;top:85.25px;font-size:37.50px;letter-spacing:0.958px;color:#F5F5F5"><span>&amp;ART</span></span>
-      <span class="typo__line typo__r" style="left:342.96px;top:52.84px;font-size:25.32px;letter-spacing:-0.500px;color:#F5F5F5"><span>28.08.2026</span></span>
-      <span class="typo__line typo__r" style="left:861.96px;top:52.84px;font-size:25.32px;letter-spacing:-0.500px;color:#F5F5F5"><span>LECTURE</span></span>
-      <span class="typo__line typo__r" style="left:26.30px;top:660.25px;font-size:47.50px;letter-spacing:-0.297px;color:#F5F5F5"><span>19:30</span></span>
-      <span class="typo__line typo__g" style="left:334.46px;top:659.40px;font-size:96.20px;letter-spacing:0.777px;color:#F1F1F1"><span>CHANCE</span></span>
-      <span class="typo__line typo__g" style="left:334.46px;top:756.40px;font-size:96.20px;letter-spacing:0.777px;color:#F1F1F1"><span>DISCOVERY</span></span>
-      <span class="typo__line typo__g" style="left:334.46px;top:852.40px;font-size:96.20px;letter-spacing:0.777px;color:#F1F1F1"><span class="typo__words" style="width:572.00px"><span style="left:1.00px">IN</span><span style="left:132.00px">SCIENCE</span></span></span>
-      <span class="typo__line typo__g" style="left:334.46px;top:948.40px;font-size:96.20px;letter-spacing:0.777px;color:#F1F1F1"><span>MUSIC</span></span>
-      <span class="typo__line typo__r" style="left:342.96px;top:1202.84px;font-size:25.32px;letter-spacing:-0.500px;color:#F5F5F5"><span>FOUNDATION.COM</span></span>
-      <span class="typo__line typo__r" style="left:930.96px;top:1202.84px;font-size:25.32px;letter-spacing:-0.500px;color:#F5F5F5"><span>16+</span></span>
+      <span class="typo__line typo__logo" style="left:26.68px;top:41.62px;font-size:40px"><span><img src="src/logo-science-art.svg" width="164" height="88" alt="Science &amp; Art" /></span></span>
+      <span class="typo__line typo__r" style="left:342.96px;top:52.84px;font-size:25.32px;letter-spacing:0.253px;color:#F5F5F5"><span>28.08.2026</span></span>
+      <span class="typo__line typo__r" style="left:858.60px;top:52.84px;font-size:25.32px;letter-spacing:0.253px;color:#F5F5F5"><span>LECTURE</span></span>
+      <span class="typo__line typo__r" style="left:26.30px;top:660.25px;font-size:47.50px;letter-spacing:0.475px;color:#F5F5F5"><span>19:30</span></span>
+      <span class="typo__line typo__g" style="left:334.46px;top:659.40px;font-size:96.20px;letter-spacing:0.962px;color:#F1F1F1"><span>CHANCE</span></span>
+      <span class="typo__line typo__g" style="left:334.46px;top:756.40px;font-size:96.20px;letter-spacing:0.962px;color:#F1F1F1"><span>DISCOVERY</span></span>
+      <span class="typo__line typo__g" style="left:334.46px;top:852.40px;font-size:96.20px;letter-spacing:0.962px;color:#F1F1F1"><span>IN SCIENCE</span></span>
+      <span class="typo__line typo__g" style="left:334.46px;top:948.40px;font-size:96.20px;letter-spacing:0.962px;color:#F1F1F1"><span>MUSIC</span></span>
+      <span class="typo__line typo__r" style="left:342.96px;top:1202.84px;font-size:25.32px;letter-spacing:0.253px;color:#F5F5F5"><span>FOUNDATION.COM</span></span>
+      <span class="typo__line typo__r" style="left:928.23px;top:1202.84px;font-size:25.32px;letter-spacing:0.253px;color:#F5F5F5"><span>16+</span></span>
     </div>
     <div class="typo__page" data-page="winter">
       <span class="typo__rule" style="left:32px;top:31px;width:944px;background:#3E3E3E" data-key="32-31-944"></span>
       <span class="typo__rule" style="left:32px;top:1247px;width:944px;background:#3E3E3E" data-key="32-1247-944"></span>
-      <span class="typo__line typo__r" style="left:28.96px;top:56.84px;font-size:25.32px;letter-spacing:-0.500px;color:#F5F5F5"><span class="typo__words" style="width:227.00px"><span style="left:0.00px">BORIS</span><span style="left:83.00px">KUCHEROV</span></span></span>
-      <span class="typo__line typo__r" style="left:722.96px;top:56.84px;font-size:25.32px;letter-spacing:-0.500px;color:#F5F5F5"><span class="typo__words" style="width:252.00px"><span style="left:0.00px">19.08</span><span style="left:71.00px">—</span><span style="left:105.00px">28.08.2026</span></span></span>
-      <span class="typo__line typo__g" style="left:152.14px;top:289.75px;font-size:140.51px;letter-spacing:0.954px;color:#FFFFFF"><span>SCIENCE.</span></span>
-      <span class="typo__line typo__g" style="left:83.14px;top:429.75px;font-size:140.51px;letter-spacing:0.954px;color:#FFFFFF"><span>DIALOGUE.</span></span>
-      <span class="typo__line typo__g" style="left:249.14px;top:569.75px;font-size:140.51px;letter-spacing:0.954px;color:#FFFFFF"><span>TRUST.</span></span>
-      <span class="typo__line typo__g" style="left:205.14px;top:709.75px;font-size:140.51px;letter-spacing:0.954px;color:#808080"><span>WINTER</span></span>
-      <span class="typo__line typo__g" style="left:267.14px;top:849.75px;font-size:140.51px;letter-spacing:0.954px;color:#808080"><span>TALKS</span></span>
-      <span class="typo__line typo__r" style="left:28.96px;top:1202.84px;font-size:25.32px;letter-spacing:-0.500px;color:#F5F5F5"><span>2026</span></span>
-      <span class="typo__line typo__r" style="left:382.96px;top:1202.84px;font-size:25.32px;letter-spacing:-0.500px;color:#F5F5F5"><span>FOUNDATION.COM</span></span>
-      <span class="typo__line typo__r" style="left:930.96px;top:1202.84px;font-size:25.32px;letter-spacing:-0.500px;color:#F5F5F5"><span>16+</span></span>
+      <span class="typo__line typo__r" style="left:28.96px;top:56.84px;font-size:25.32px;letter-spacing:0.253px;color:#F5F5F5"><span>BORIS KUCHEROV</span></span>
+      <span class="typo__line typo__r" style="left:705.63px;top:56.84px;font-size:25.32px;letter-spacing:0.253px;color:#F5F5F5"><span>19.08 — 28.08.2026</span></span>
+      <span class="typo__line typo__g" style="left:150.48px;top:289.75px;font-size:140.51px;letter-spacing:1.405px;color:#FFFFFF"><span>SCIENCE.</span></span>
+      <span class="typo__line typo__g" style="left:81.43px;top:429.75px;font-size:140.51px;letter-spacing:1.405px;color:#FFFFFF"><span>DIALOGUE.</span></span>
+      <span class="typo__line typo__g" style="left:248.13px;top:569.75px;font-size:140.51px;letter-spacing:1.405px;color:#FFFFFF"><span>TRUST.</span></span>
+      <span class="typo__line typo__g" style="left:204.01px;top:709.75px;font-size:140.51px;letter-spacing:1.405px;color:#808080"><span>WINTER</span></span>
+      <span class="typo__line typo__g" style="left:265.85px;top:849.75px;font-size:140.51px;letter-spacing:1.405px;color:#808080"><span>TALKS</span></span>
+      <span class="typo__line typo__r" style="left:28.96px;top:1202.84px;font-size:25.32px;letter-spacing:0.253px;color:#F5F5F5"><span>2026</span></span>
+      <span class="typo__line typo__r" style="left:378.12px;top:1202.84px;font-size:25.32px;letter-spacing:0.253px;color:#F5F5F5"><span>FOUNDATION.COM</span></span>
+      <span class="typo__line typo__r" style="left:928.23px;top:1202.84px;font-size:25.32px;letter-spacing:0.253px;color:#F5F5F5"><span>16+</span></span>
     </div>
     <div class="typo__page" data-page="diplomacy">
       <span class="typo__rule" style="left:32px;top:31px;width:944px;background:#3E3E3E" data-key="32-31-944"></span>
       <span class="typo__rule" style="left:268px;top:881px;width:708px;background:#3E3E3E" data-key="268-881-708"></span>
       <span class="typo__rule" style="left:32px;top:1247px;width:944px;background:#3E3E3E" data-key="32-1247-944"></span>
-      <span class="typo__line typo__r" style="left:27.44px;top:59.52px;font-size:37.97px;letter-spacing:-1.190px;color:#F5F5F5"><span>SCIENCE</span></span>
-      <span class="typo__line typo__r" style="left:27.50px;top:93.25px;font-size:37.50px;letter-spacing:0.958px;color:#F5F5F5"><span>&amp;ART</span></span>
-      <span class="typo__line typo__g" style="left:256.46px;top:51.40px;font-size:96.20px;letter-spacing:0.777px;color:#808080"><span>NEW</span></span>
-      <span class="typo__line typo__g" style="left:257.46px;top:148.40px;font-size:96.20px;letter-spacing:0.777px;color:#808080"><span>HORIZONS</span></span>
-      <span class="typo__line typo__g" style="left:256.46px;top:244.40px;font-size:96.20px;letter-spacing:0.777px;color:#FFFFFF"><span class="typo__words" style="width:607.00px"><span style="left:1.00px">OF</span><span style="left:167.00px">SCIENCE</span></span></span>
-      <span class="typo__line typo__g" style="left:256.46px;top:339.40px;font-size:96.20px;letter-spacing:0.777px;color:#FFFFFF"><span>DIPLOMACY</span></span>
-      <span class="typo__line typo__r" style="left:264.96px;top:832.84px;font-size:25.32px;letter-spacing:-0.500px;color:#F5F5F5"><span class="typo__words" style="width:253.00px"><span style="left:0.00px">19.08</span><span style="left:71.00px">—</span><span style="left:105.00px">28.08.2026</span></span></span>
-      <span class="typo__line typo__r" style="left:263.69px;top:910.03px;font-size:35.94px;letter-spacing:0.000px;color:#808080"><span class="typo__words" style="width:551.00px"><span style="left:0.00px">Representatives</span><span style="left:284.00px">of</span><span style="left:327.00px">the</span><span style="left:394.00px">scientific</span></span></span>
-      <span class="typo__line typo__r" style="left:263.69px;top:963.03px;font-size:35.94px;letter-spacing:0.000px;color:#808080"><span class="typo__words" style="width:548.00px"><span style="left:0.00px">community</span><span style="left:201.00px">and</span><span style="left:273.00px">the</span><span style="left:339.00px">government</span></span></span>
-      <span class="typo__line typo__r" style="left:263.69px;top:1015.03px;font-size:35.94px;letter-spacing:0.000px;color:#808080"><span class="typo__words" style="width:639.00px"><span style="left:0.00px">discussed</span><span style="left:179.00px">approaches</span><span style="left:386.00px">to</span><span style="left:432.00px">establishing</span></span></span>
-      <span class="typo__line typo__r" style="left:264.69px;top:1066.03px;font-size:35.94px;letter-spacing:0.000px;color:#808080"><span class="typo__words" style="width:235.00px"><span style="left:0.00px">scientific</span><span style="left:163.00px">ties.</span></span></span>
-      <span class="typo__line typo__r" style="left:28.96px;top:1202.84px;font-size:25.32px;letter-spacing:-0.500px;color:#F5F5F5"><span>2026</span></span>
-      <span class="typo__line typo__r" style="left:264.96px;top:1202.84px;font-size:25.32px;letter-spacing:-0.500px;color:#F5F5F5"><span>FOUNDATION.COM</span></span>
-      <span class="typo__line typo__r" style="left:930.96px;top:1202.84px;font-size:25.32px;letter-spacing:-0.500px;color:#F5F5F5"><span>16+</span></span>
+      <span class="typo__line typo__logo" style="left:26.68px;top:49.62px;font-size:40px"><span><img src="src/logo-science-art.svg" width="164" height="88" alt="Science &amp; Art" /></span></span>
+      <span class="typo__line typo__g" style="left:256.46px;top:51.40px;font-size:96.20px;letter-spacing:0.962px;color:#808080"><span>NEW</span></span>
+      <span class="typo__line typo__g" style="left:257.46px;top:148.40px;font-size:96.20px;letter-spacing:0.962px;color:#808080"><span>HORIZONS</span></span>
+      <span class="typo__line typo__g" style="left:256.46px;top:244.40px;font-size:96.20px;letter-spacing:0.962px;color:#FFFFFF"><span>OF SCIENCE</span></span>
+      <span class="typo__line typo__g" style="left:256.46px;top:339.40px;font-size:96.20px;letter-spacing:0.962px;color:#FFFFFF"><span>DIPLOMACY</span></span>
+      <span class="typo__line typo__r" style="left:264.96px;top:832.84px;font-size:25.32px;letter-spacing:0.253px;color:#F5F5F5"><span>19.08 — 28.08.2026</span></span>
+      <span class="typo__line typo__r" style="left:263.68px;top:910.00px;font-size:36.00px;letter-spacing:0.360px;color:#808080"><span>Representatives of the scientific</span></span>
+      <span class="typo__line typo__r" style="left:263.68px;top:963.00px;font-size:36.00px;letter-spacing:0.360px;color:#808080"><span>community and the government</span></span>
+      <span class="typo__line typo__r" style="left:263.68px;top:1015.00px;font-size:36.00px;letter-spacing:0.360px;color:#808080"><span>discussed approaches to establishing</span></span>
+      <span class="typo__line typo__r" style="left:264.68px;top:1066.00px;font-size:36.00px;letter-spacing:0.360px;color:#808080"><span>scientific ties.</span></span>
+      <span class="typo__line typo__r" style="left:28.96px;top:1202.84px;font-size:25.32px;letter-spacing:0.253px;color:#F5F5F5"><span>2026</span></span>
+      <span class="typo__line typo__r" style="left:264.96px;top:1202.84px;font-size:25.32px;letter-spacing:0.253px;color:#F5F5F5"><span>FOUNDATION.COM</span></span>
+      <span class="typo__line typo__r" style="left:928.23px;top:1202.84px;font-size:25.32px;letter-spacing:0.253px;color:#F5F5F5"><span>16+</span></span>
     </div>
     <div class="typo__page" data-page="tula">
       <span class="typo__rule" style="left:32px;top:31px;width:944px;background:#3E3E3E" data-key="32-31-944"></span>
       <span class="typo__rule" style="left:286px;top:105px;width:436px;background:#3E3E3E" data-key="286-105-436"></span>
       <span class="typo__rule" style="left:32px;top:1247px;width:944px;background:#3E3E3E" data-key="32-1247-944"></span>
-      <span class="typo__line typo__r" style="left:422.96px;top:56.84px;font-size:25.32px;letter-spacing:-0.500px;color:#F5F5F5"><span>WORKSHOP</span></span>
-      <span class="typo__line typo__g" style="left:284.14px;top:125.75px;font-size:140.51px;letter-spacing:0.954px;color:#F1F1F1"><span>OPEN</span></span>
-      <span class="typo__line typo__g" style="left:97.14px;top:265.75px;font-size:140.51px;letter-spacing:0.954px;color:#F1F1F1"><span>DIALOGUE</span></span>
-      <span class="typo__line typo__g" style="left:203.14px;top:405.75px;font-size:140.51px;letter-spacing:0.954px;color:#F1F1F1"><span class="typo__words" style="width:571.00px"><span style="left:0.00px">IN</span><span style="left:188.00px">TULA</span></span></span>
-      <span class="typo__line typo__r" style="left:251.17px;top:784.03px;font-size:31.93px;letter-spacing:0.000px;color:#808080"><span class="typo__words" style="width:499.00px"><span style="left:0.00px">The</span><span style="left:65.00px">combination</span><span style="left:262.00px">of</span><span style="left:302.00px">an</span><span style="left:347.00px">emotional</span></span></span>
-      <span class="typo__line typo__r" style="left:229.17px;top:830.03px;font-size:31.93px;letter-spacing:0.000px;color:#808080"><span class="typo__words" style="width:543.00px"><span style="left:0.00px">perception</span><span style="left:173.00px">of</span><span style="left:213.00px">science</span><span style="left:337.00px">and</span><span style="left:402.00px">a</span><span style="left:429.00px">rational</span></span></span>
-      <span class="typo__line typo__r" style="left:292.17px;top:876.03px;font-size:31.93px;letter-spacing:0.000px;color:#808080"><span class="typo__words" style="width:418.00px"><span style="left:0.00px">view</span><span style="left:74.00px">of</span><span style="left:114.00px">art</span><span style="left:166.00px">creates</span><span style="left:288.00px">a</span><span style="left:314.00px">unique</span></span></span>
-      <span class="typo__line typo__r" style="left:402.17px;top:922.03px;font-size:31.93px;letter-spacing:0.000px;color:#808080"><span>environment.</span></span>
-      <span class="typo__line typo__r" style="left:28.96px;top:1202.84px;font-size:25.32px;letter-spacing:-0.500px;color:#F5F5F5"><span>2026</span></span>
-      <span class="typo__line typo__r" style="left:382.96px;top:1202.84px;font-size:25.32px;letter-spacing:-0.500px;color:#F5F5F5"><span>FOUNDATION.COM</span></span>
-      <span class="typo__line typo__r" style="left:930.96px;top:1202.84px;font-size:25.32px;letter-spacing:-0.500px;color:#F5F5F5"><span>16+</span></span>
+      <span class="typo__line typo__r" style="left:419.75px;top:56.84px;font-size:25.32px;letter-spacing:0.253px;color:#F5F5F5"><span>WORKSHOP</span></span>
+      <span class="typo__line typo__g" style="left:282.94px;top:125.75px;font-size:140.51px;letter-spacing:1.405px;color:#F1F1F1"><span>OPEN</span></span>
+      <span class="typo__line typo__g" style="left:95.71px;top:265.75px;font-size:140.51px;letter-spacing:1.405px;color:#F1F1F1"><span>DIALOGUE</span></span>
+      <span class="typo__line typo__g" style="left:199.74px;top:405.75px;font-size:140.51px;letter-spacing:1.405px;color:#F1F1F1"><span>IN TULA</span></span>
+      <span class="typo__line typo__r" style="left:246.08px;top:784.03px;font-size:31.93px;letter-spacing:0.319px;color:#808080"><span>The combination of an emotional</span></span>
+      <span class="typo__line typo__r" style="left:223.61px;top:830.03px;font-size:31.93px;letter-spacing:0.319px;color:#808080"><span>perception of science and a rational</span></span>
+      <span class="typo__line typo__r" style="left:287.16px;top:876.03px;font-size:31.93px;letter-spacing:0.319px;color:#808080"><span>view of art creates a unique</span></span>
+      <span class="typo__line typo__r" style="left:400.01px;top:922.03px;font-size:31.93px;letter-spacing:0.319px;color:#808080"><span>environment.</span></span>
+      <span class="typo__line typo__r" style="left:28.96px;top:1202.84px;font-size:25.32px;letter-spacing:0.253px;color:#F5F5F5"><span>2026</span></span>
+      <span class="typo__line typo__r" style="left:378.12px;top:1202.84px;font-size:25.32px;letter-spacing:0.253px;color:#F5F5F5"><span>FOUNDATION.COM</span></span>
+      <span class="typo__line typo__r" style="left:928.23px;top:1202.84px;font-size:25.32px;letter-spacing:0.253px;color:#F5F5F5"><span>16+</span></span>
     </div>
     <div class="typo__page" data-page="lectures">
       <span class="typo__rule" style="left:32px;top:31px;width:944px;background:#3E3E3E" data-key="32-31-944"></span>
-      <span class="typo__line typo__g" style="left:29.05px;top:54.55px;font-size:32.91px;letter-spacing:-0.710px;color:#FFFFFF"><span class="typo__words" style="width:114.00px"><span style="left:0.00px">MAY</span><span style="left:77.00px">10</span></span></span>
-      <span class="typo__line typo__g" style="left:264.05px;top:54.55px;font-size:32.91px;letter-spacing:-0.710px;color:#FFFFFF"><span class="typo__words" style="width:643.00px"><span style="left:0.00px">THE</span><span style="left:73.00px">ORIGINS</span><span style="left:223.00px">OF</span><span style="left:278.00px">SCIENTIFIC</span><span style="left:470.00px">THOUGHT</span></span></span>
+      <span class="typo__line typo__g" style="left:29.05px;top:54.55px;font-size:32.91px;letter-spacing:0.329px;color:#FFFFFF"><span>MAY 10</span></span>
+      <span class="typo__line typo__g" style="left:264.05px;top:54.55px;font-size:32.91px;letter-spacing:0.329px;color:#FFFFFF"><span>THE ORIGINS OF SCIENTIFIC THOUGHT</span></span>
       <span class="typo__rule" style="left:32px;top:107px;width:944px;background:#3E3E3E" data-key="32-107-944"></span>
-      <span class="typo__line typo__g" style="left:29.05px;top:130.55px;font-size:32.91px;letter-spacing:-0.710px;color:#FFFFFF"><span class="typo__words" style="width:113.00px"><span style="left:0.00px">MAY</span><span style="left:77.00px">12</span></span></span>
-      <span class="typo__line typo__g" style="left:264.05px;top:130.55px;font-size:32.91px;letter-spacing:-0.710px;color:#FFFFFF"><span class="typo__words" style="width:665.00px"><span style="left:0.00px">A</span><span style="left:32.00px">DIALOGUE</span><span style="left:216.00px">BETWEEN</span><span style="left:378.00px">ART</span><span style="left:448.00px">AND</span><span style="left:532.00px">MATTER</span></span></span>
+      <span class="typo__line typo__g" style="left:29.05px;top:130.55px;font-size:32.91px;letter-spacing:0.329px;color:#FFFFFF"><span>MAY 12</span></span>
+      <span class="typo__line typo__g" style="left:264.05px;top:130.55px;font-size:32.91px;letter-spacing:0.329px;color:#FFFFFF"><span>A DIALOGUE BETWEEN ART AND MATTER</span></span>
       <span class="typo__rule" style="left:32px;top:183px;width:944px;background:#3E3E3E" data-key="32-183-944"></span>
-      <span class="typo__line typo__g" style="left:29.05px;top:206.55px;font-size:32.91px;letter-spacing:-0.710px;color:#FFFFFF"><span class="typo__words" style="width:115.00px"><span style="left:0.00px">MAY</span><span style="left:77.00px">14</span></span></span>
-      <span class="typo__line typo__g" style="left:264.05px;top:206.55px;font-size:32.91px;letter-spacing:-0.710px;color:#FFFFFF"><span class="typo__words" style="width:583.00px"><span style="left:0.00px">THE</span><span style="left:72.00px">ARCHITECTURE</span><span style="left:335.00px">OF</span><span style="left:390.00px">DISCOVERY</span></span></span>
+      <span class="typo__line typo__g" style="left:29.05px;top:206.55px;font-size:32.91px;letter-spacing:0.329px;color:#FFFFFF"><span>MAY 14</span></span>
+      <span class="typo__line typo__g" style="left:264.05px;top:206.55px;font-size:32.91px;letter-spacing:0.329px;color:#FFFFFF"><span>THE ARCHITECTURE OF DISCOVERY</span></span>
       <span class="typo__rule" style="left:32px;top:259px;width:944px;background:#3E3E3E" data-key="32-259-944"></span>
-      <span class="typo__line typo__g" style="left:29.05px;top:282.55px;font-size:32.91px;letter-spacing:-0.710px;color:#FFFFFF"><span class="typo__words" style="width:115.00px"><span style="left:0.00px">MAY</span><span style="left:77.00px">16</span></span></span>
-      <span class="typo__line typo__g" style="left:265.05px;top:282.55px;font-size:32.91px;letter-spacing:-0.710px;color:#FFFFFF"><span class="typo__words" style="width:654.00px"><span style="left:0.00px">PATTERNS</span><span style="left:170.00px">BENEATH</span><span style="left:326.00px">THE</span><span style="left:399.00px">VISIBLE</span><span style="left:526.00px">WORLD</span></span></span>
+      <span class="typo__line typo__g" style="left:29.05px;top:282.55px;font-size:32.91px;letter-spacing:0.329px;color:#FFFFFF"><span>MAY 16</span></span>
+      <span class="typo__line typo__g" style="left:265.05px;top:282.55px;font-size:32.91px;letter-spacing:0.329px;color:#FFFFFF"><span>PATTERNS BENEATH THE VISIBLE WORLD</span></span>
       <span class="typo__rule" style="left:32px;top:335px;width:944px;background:#3E3E3E" data-key="32-335-944"></span>
-      <span class="typo__line typo__g" style="left:29.05px;top:358.55px;font-size:32.91px;letter-spacing:-0.710px;color:#FFFFFF"><span class="typo__words" style="width:116.00px"><span style="left:0.00px">MAY</span><span style="left:77.00px">18</span></span></span>
-      <span class="typo__line typo__g" style="left:264.05px;top:358.55px;font-size:32.91px;letter-spacing:-0.710px;color:#FFFFFF"><span class="typo__words" style="width:574.00px"><span style="left:0.00px">THE</span><span style="left:74.00px">LANGUAGE</span><span style="left:267.00px">OF</span><span style="left:322.00px">NATURAL</span><span style="left:482.00px">LAWS</span></span></span>
+      <span class="typo__line typo__g" style="left:29.05px;top:358.55px;font-size:32.91px;letter-spacing:0.329px;color:#FFFFFF"><span>MAY 18</span></span>
+      <span class="typo__line typo__g" style="left:264.05px;top:358.55px;font-size:32.91px;letter-spacing:0.329px;color:#FFFFFF"><span>THE LANGUAGE OF NATURAL LAWS</span></span>
       <span class="typo__rule" style="left:32px;top:411px;width:944px;background:#3E3E3E" data-key="32-411-944"></span>
-      <span class="typo__line typo__g" style="left:29.05px;top:434.55px;font-size:32.91px;letter-spacing:-0.710px;color:#FFFFFF"><span class="typo__words" style="width:121.00px"><span style="left:0.00px">MAY</span><span style="left:78.00px">20</span></span></span>
-      <span class="typo__line typo__g" style="left:265.05px;top:434.55px;font-size:32.91px;letter-spacing:-0.710px;color:#FFFFFF"><span class="typo__words" style="width:543.00px"><span style="left:0.00px">FRAGMENTS</span><span style="left:210.00px">OF</span><span style="left:264.00px">A</span><span style="left:295.00px">LIVING</span><span style="left:416.00px">SYSTEM</span></span></span>
+      <span class="typo__line typo__g" style="left:29.05px;top:434.55px;font-size:32.91px;letter-spacing:0.329px;color:#FFFFFF"><span>MAY 20</span></span>
+      <span class="typo__line typo__g" style="left:265.05px;top:434.55px;font-size:32.91px;letter-spacing:0.329px;color:#FFFFFF"><span>FRAGMENTS OF A LIVING SYSTEM</span></span>
       <span class="typo__rule" style="left:32px;top:487px;width:944px;background:#3E3E3E" data-key="32-487-944"></span>
-      <span class="typo__line typo__g" style="left:29.05px;top:510.55px;font-size:32.91px;letter-spacing:-0.710px;color:#FFFFFF"><span class="typo__words" style="width:120.00px"><span style="left:0.00px">MAY</span><span style="left:78.00px">22</span></span></span>
-      <span class="typo__line typo__g" style="left:264.05px;top:510.55px;font-size:32.91px;letter-spacing:-0.710px;color:#FFFFFF"><span class="typo__words" style="width:529.00px"><span style="left:0.00px">THE</span><span style="left:73.00px">GEOMETRY</span><span style="left:265.00px">OF</span><span style="left:320.00px">PERCEPTION</span></span></span>
+      <span class="typo__line typo__g" style="left:29.05px;top:510.55px;font-size:32.91px;letter-spacing:0.329px;color:#FFFFFF"><span>MAY 22</span></span>
+      <span class="typo__line typo__g" style="left:264.05px;top:510.55px;font-size:32.91px;letter-spacing:0.329px;color:#FFFFFF"><span>THE GEOMETRY OF PERCEPTION</span></span>
       <span class="typo__rule" style="left:32px;top:563px;width:944px;background:#3E3E3E" data-key="32-563-944"></span>
-      <span class="typo__line typo__g" style="left:29.05px;top:586.54px;font-size:32.91px;letter-spacing:-0.710px;color:#FFFFFF"><span class="typo__words" style="width:121.00px"><span style="left:0.00px">MAY</span><span style="left:78.00px">24</span></span></span>
-      <span class="typo__line typo__g" style="left:265.05px;top:586.54px;font-size:32.91px;letter-spacing:-0.710px;color:#FFFFFF"><span class="typo__words" style="width:478.00px"><span style="left:0.00px">ECHOES</span><span style="left:144.00px">OF</span><span style="left:198.00px">THE</span><span style="left:272.00px">EXPERIMENT</span></span></span>
+      <span class="typo__line typo__g" style="left:29.05px;top:586.54px;font-size:32.91px;letter-spacing:0.329px;color:#FFFFFF"><span>MAY 24</span></span>
+      <span class="typo__line typo__g" style="left:265.05px;top:586.54px;font-size:32.91px;letter-spacing:0.329px;color:#FFFFFF"><span>ECHOES OF THE EXPERIMENT</span></span>
       <span class="typo__rule" style="left:32px;top:639px;width:944px;background:#3E3E3E" data-key="32-639-944"></span>
-      <span class="typo__line typo__g" style="left:29.05px;top:662.54px;font-size:32.91px;letter-spacing:-0.710px;color:#FFFFFF"><span class="typo__words" style="width:122.00px"><span style="left:0.00px">MAY</span><span style="left:78.00px">26</span></span></span>
-      <span class="typo__line typo__g" style="left:264.05px;top:662.54px;font-size:32.91px;letter-spacing:-0.710px;color:#FFFFFF"><span class="typo__words" style="width:529.00px"><span style="left:0.00px">THE</span><span style="left:74.00px">FUTURE</span><span style="left:209.00px">ENCODED</span><span style="left:387.00px">IN</span><span style="left:430.00px">FORM</span></span></span>
+      <span class="typo__line typo__g" style="left:29.05px;top:662.54px;font-size:32.91px;letter-spacing:0.329px;color:#FFFFFF"><span>MAY 26</span></span>
+      <span class="typo__line typo__g" style="left:264.05px;top:662.54px;font-size:32.91px;letter-spacing:0.329px;color:#FFFFFF"><span>THE FUTURE ENCODED IN FORM</span></span>
       <span class="typo__rule" style="left:32px;top:715px;width:944px;background:#3E3E3E" data-key="32-715-944"></span>
-      <span class="typo__line typo__g" style="left:10.28px;top:1066.99px;font-size:181.01px;letter-spacing:0.290px;color:#FFFFFF"><span>LECTURES</span></span>
+      <span class="typo__line typo__g" style="left:4.96px;top:1066.99px;font-size:181.01px;letter-spacing:1.810px;color:#FFFFFF"><span>LECTURES</span></span>
     </div>
   </div>
 </div>
 
 <script>
 (function () {
-  var HOLD = 2800; // ms each layout stays up (its lines finish rising in ~1.2s)
+  var HOLD = 2800; // ms each layout stays up (its lines finish rising in ~1.7s)
   document.querySelectorAll('[data-typo]').forEach(function (root) {
     var stage = root.querySelector('.typo__stage');
     var pages = Array.prototype.slice.call(root.querySelectorAll('.typo__page'));
@@ -167,7 +172,11 @@
 
     var k = 0, timer = null, visible = true, started = false;
     function show(n) {
-      pages.forEach(function (p, i) { if (i !== n) p.classList.remove('is-on'); });
+      pages.forEach(function (p, i) {
+        if (i === n) { p.classList.remove('is-out'); return; }
+        if (p.classList.contains('is-on')) { p.classList.remove('is-on'); p.classList.add('is-out'); }
+        else p.classList.remove('is-out');
+      });
       void pages[n].offsetWidth; // restart its transitions from the hidden state
       pages[n].classList.add('is-on');
     }
