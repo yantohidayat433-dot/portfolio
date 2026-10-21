@@ -311,7 +311,7 @@ hence the doubled-class selector on the strip images. Sandbox:
 The `foundation-04` slot (left cell of the tall 04/05 row, beside the
 glasses) is five of the client's event posters rebuilt as live type in their
 1008x1280 (2x) space: each line placed from its measured ink box, sizes
-evened out per style, **1% tracking everywhere** (client's rule; the gray body copy on New Horizons and Tula is 2%), small text
+evened out per style, **2% tracking everywhere** (client's rule; LECTURES is shrunk 0.6% so it still fits between the frame rules), small text
 in PP Fragment **Sans Regular** (`'PP Fragment Sans Regular'` family — the
 site's `'PP Fragment Sans'` face is Medium), headlines in Glare, the Science
 & Art mark is her SVG (`images/foundation-science-art-logo.svg`). Layouts
