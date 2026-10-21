@@ -272,8 +272,15 @@ lights its tab and lifts its number/headline in.
   version (8 huge glow layers + 16 `backdrop-filter`s under moving cards)
   stalled real browsers mid-transition. If a card's look changes, rebuild it
   in the sandbox and re-bake (render each `.goal__stage` with texts hidden).
-  The loop requests its next frame before doing work (try/catch), and starts
-  at the latest 2.5s after load even if an asset is slow.
+  The card motion is Web Animations of transform/opacity only (keyframes
+  sampled from the same `look()` path, rebuilt on resize, paused off-screen),
+  so it runs on the compositor and a busy main thread can't make it stutter
+  (a per-frame rAF `style.transform` loop still hitched in real browsers).
+  The veil sits beside `.goal__stage`, not inside its scaled rounded clip, so
+  dimming doesn't repaint the card. Only tab/headline lighting is left to a
+  rAF loop reading the animation's `currentTime` (next frame requested
+  first, try/catch); it starts at the latest 2.5s after load even if an
+  asset is slow.
 - Tabs light via a background-color transition on the tab itself. Don't
   go back to an opacity-animated overlay inside the `backdrop-filter`
   box: Chrome painted it in patches.

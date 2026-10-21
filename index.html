@@ -450,8 +450,12 @@ body:not(.pw-locked) #pw-gate {
 .goals-scroller .goal__tab.is-on { background-color: #fff; transition: background-color 1s cubic-bezier(.33,1,.68,1); }
 .goals-scroller .goal__tab.is-on span { color: #121212; transition: color 1s cubic-bezier(.33,1,.68,1); }
 
-/* Darkness over cards still on their way up; JS drives its opacity from position. */
-.goals-scroller .goal__veil { inset: 0; background: #0B0401; opacity: 0; pointer-events: none; }
+/* Darkness over cards still on their way up. It sits beside the stage (not inside its
+   scaled, rounded clip) as its own layer, so dimming it is compositor-only. */
+.goals-scroller .goal > .goal__veil {
+  position: absolute; inset: 0; border-radius: calc(16px * var(--s, 1));
+  background: #0B0401; opacity: 0; pointer-events: none; will-change: opacity;
+}
 
 .goals-scroller .goal.no-anim * { transition: none !important; }
 
@@ -5057,7 +5061,7 @@ button.project__media-link {
       ui.replaceWith(tpl.content.cloneNode(true));
       var veil = document.createElement('div');
       veil.className = 'goal__veil';
-      card.querySelector('.goal__stage').appendChild(veil);
+      card.appendChild(veil);
       card.querySelector('.goal__num').innerHTML = line('0' + (k + 1), 0);
       card.querySelector('.goal__title').innerHTML = TITLES[k].map(function (t, i) { return line(t, i + 1); }).join('');
     });
@@ -5073,13 +5077,14 @@ button.project__media-link {
     function slotSize() { return slotPx; }
     function fit() {
       var s = cards[0].getBoundingClientRect().width / 1376;
-      cards.forEach(function (c) { c.querySelector('.goal__stage').style.setProperty('--s', s); });
+      cards.forEach(function (c) { c.style.setProperty('--s', s); });
       // The resting card sits centred in the frame, not pinned under the top gutter.
       track.style.top = Math.max((root.clientHeight - cards[0].offsetHeight) / 2, 0) + 'px';
       unitPx = root.clientWidth / 1015;
       slotPx = cards[0].offsetHeight + 14 * unitPx;
       lastPos = null;
       place(curPos, slotPx); // also lays the stack out correctly while waiting to start
+      if (anims) build(); // the motion is in px, so it is rebuilt at the new size
     }
 
     function copies(k) { return [cards[k]]; }
@@ -5111,10 +5116,7 @@ button.project__media-link {
     // pos = which card is on top (fractional while moving). For each card, o is its
     // distance in slots from the top spot: o > 0 still on its way up from below,
     // o < 0 already covered by the cards that slid over it.
-    function place(pos, slot) {
-      if (pos === lastPos) return; // resting between moves: nothing to repaint
-      lastPos = curPos = pos;
-      cards.forEach(function (c, i) {
+    function look(i, pos, slot) {
         var o = ((i - pos) % count + count) % count;
         if (o > count - 2) o -= count; // range (-2, 2]: the deepest card wraps while hidden
         var y, scale, dark;
@@ -5129,10 +5131,57 @@ button.project__media-link {
           scale = 1 - BACK_SCALE * b;
           dark = BACK_DARK * b;
         }
-        c.style.zIndex = Math.round((o + 2) * 10);
-        c.style.transform = 'translate3d(0,' + y.toFixed(2) + 'px,0) scale(' + scale.toFixed(4) + ')';
-        veils[i].style.opacity = dark.toFixed(3);
+        return {
+          z: Math.round((o + 2) * 10),
+          transform: 'translate3d(0,' + y.toFixed(2) + 'px,0) scale(' + scale.toFixed(4) + ')',
+          opacity: dark.toFixed(3)
+        };
+    }
+    function place(pos, slot) {
+      if (pos === lastPos) return; // resting between moves: nothing to repaint
+      lastPos = curPos = pos;
+      cards.forEach(function (c, i) {
+        var v = look(i, pos, slot);
+        c.style.zIndex = v.z;
+        c.style.transform = v.transform;
+        veils[i].style.opacity = v.opacity;
       });
+    }
+
+    // The loop itself runs as Web Animations of transform/opacity only, which the
+    // browser plays on the compositor: a busy page (images decoding while the case
+    // is scrolled, the video, other slides) can no longer make the cards stutter.
+    // The same path as place(), sampled densely along each eased move.
+    var CYCLE = HOLD + MOVE, PERIOD = CYCLE * count, SAMPLES = 32;
+    var anims = null;
+    function keyframes(i, slot) {
+      var mv = [], dk = [], zs = [];
+      function add(t, pos) {
+        var v = look(i, pos, slot), off = t / PERIOD;
+        mv.push({ offset: off, transform: v.transform });
+        dk.push({ offset: off, opacity: v.opacity });
+        zs.push({ offset: off, zIndex: v.z });
+      }
+      for (var n = 0; n < count; n++) {
+        var t0 = n * CYCLE;
+        add(t0, n);             // lands exactly here (a hidden card wraps at this instant)
+        add(t0 + HOLD, n);
+        for (var k = 1; k < SAMPLES; k++) add(t0 + HOLD + MOVE * k / SAMPLES, n + ease(k / SAMPLES));
+        add(t0 + CYCLE, n + 1 - 1e-6); // just before the next landing, so the wrap stays a jump
+      }
+      add(PERIOD, count);
+      return [mv, dk, zs];
+    }
+    function build() {
+      var time = anims ? anims[0].currentTime : 0, playing = anims ? anims[0].playState !== 'paused' : visible;
+      if (anims) anims.forEach(function (a) { a.cancel(); });
+      anims = [];
+      cards.forEach(function (c, i) {
+        var f = keyframes(i, slotSize());
+        var opts = { duration: PERIOD, iterations: Infinity, easing: 'linear' };
+        anims.push(c.animate(f[0], opts), veils[i].animate(f[1], opts), c.animate(f[2], opts));
+      });
+      anims.forEach(function (a) { a.currentTime = time; if (!playing) a.pause(); });
     }
     fit();
     if ('ResizeObserver' in window) new ResizeObserver(fit).observe(root);
@@ -5140,29 +5189,26 @@ button.project__media-link {
 
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) { activate(0); return; }
 
-    var visible = true, start = null, paused = 0, pauseAt = null, current = -1;
+    var visible = true, current = -1;
     if ('IntersectionObserver' in window) {
-      new IntersectionObserver(function (e) { visible = e[0].isIntersecting; }).observe(root);
+      new IntersectionObserver(function (e) {
+        visible = e[0].isIntersecting;
+        if (anims) anims.forEach(function (a) { if (visible) a.play(); else a.pause(); });
+      }).observe(root);
     }
 
-    // Ask for the next frame first, so one failing frame can't stop the loop.
-    function frame(now) {
+    // Only the lighting of tabs and headlines is left to this loop, read off the
+    // animations' own clock. It asks for the next frame first, so one failing frame
+    // can't stop it.
+    function frame() {
       requestAnimationFrame(frame);
-      try { step(now); } catch (e) { /* keep going */ }
+      try { step(); } catch (e) { /* keep going */ }
     }
-    function step(now) {
-      if (!visible) { if (pauseAt === null) pauseAt = now; return; }
-      if (pauseAt !== null) { paused += now - pauseAt; pauseAt = null; }
-      if (start === null) start = now;
-
-      var cycle = HOLD + MOVE;
-      var t = (now - start - paused) % (cycle * count);
-      var n = Math.floor(t / cycle);
-      var local = t - n * cycle;
+    function step() {
+      var t = (anims[0].currentTime || 0) % PERIOD;
+      var n = Math.floor(t / CYCLE);
+      var local = t - n * CYCLE;
       var raw = local < HOLD ? 0 : (local - HOLD) / MOVE;
-      var p = ease(raw);
-      place(n + p, slotSize());
-
       var now_k = (raw >= ACTIVATE_AT ? n + 1 : n) % count;
       if (now_k !== current) {
         current = now_k;
@@ -5184,7 +5230,13 @@ button.project__media-link {
     // Start when everything is ready, but never later than 2.5s: a slow or stuck
     // request must not leave the cards standing still.
     var started = false;
-    function go() { if (started) return; started = true; setTimeout(function () { requestAnimationFrame(frame); }, 300); }
+    function go() {
+      if (started) return; started = true;
+      setTimeout(function () {
+        if (!cards[0].animate) { activate(0); return; } // no Web Animations: show the first card still
+        build(); requestAnimationFrame(frame);
+      }, 300);
+    }
     Promise.all(ready).then(go, go);
     setTimeout(go, 2500);
   });
