@@ -84,15 +84,15 @@
   .goal__tab span { top: 17px; color: #fff; }
   .goal__tab span:first-child { left: 20px; }
   .goal__tab span:nth-child(2) { right: 20px; }
-  /* Active layer = white fill + dark copy of the text. It softly fades in once the
-     card has settled; the outgoing tab's layer fades out a little quicker. */
+  /* Active layer = white fill + dark copy of the text. It glows in softly once the
+     card has settled; no other tab is lit before that. */
   .goal__tab-fill {
     inset: 0; border-radius: inherit; background: #fff;
     opacity: 0;
     transition: opacity .45s ease-out;
   }
   .goal__tab-fill span { color: #121212; }
-  .goal__tab.is-on .goal__tab-fill { opacity: 1; transition: opacity .9s cubic-bezier(.33,0,.2,1) .15s; }
+  .goal__tab.is-on .goal__tab-fill { opacity: 1; transition: opacity 1.1s cubic-bezier(.33,0,.2,1) .2s; }
 
   /* Darkness over cards still on their way up; JS drives its opacity from position. */
   .goal__veil { inset: 0; background: #000; opacity: 0; pointer-events: none; }
@@ -219,14 +219,13 @@
     // Both copies of a logical card always share the same state.
     function copies(k) { return cards.filter(function (c) { return +c.dataset.goal === k; }); }
 
-    // "Waiting" state: previous tab still lit, own tab dim, text hidden.
+    // "Waiting" state: no tab lit, text hidden.
     function prime(k) {
       copies(k).forEach(function (c) {
         c.classList.add('no-anim');
         c.classList.remove('is-active');
         var tabs = c.querySelectorAll('.goal__tab');
         tabs.forEach(function (t) { t.classList.remove('is-on'); });
-        if (k > 0) tabs[k - 1].classList.add('is-on');
         void c.offsetWidth;
         c.classList.remove('no-anim');
       });
@@ -234,7 +233,6 @@
     function activate(k) {
       copies(k).forEach(function (c) {
         var tabs = c.querySelectorAll('.goal__tab');
-        if (k > 0) tabs[k - 1].classList.remove('is-on');
         tabs[k].classList.add('is-on');
         c.classList.add('is-active');
       });
