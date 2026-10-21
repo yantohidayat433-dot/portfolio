@@ -42,7 +42,7 @@
   /* 1. The shape itself breathes: a clear drift, a few degrees of turn about the
         lit lump (so the long tail on the right rises and sinks and the light sweeps
         along the curve), a swell, and a slight skew that makes the edge undulate. */
-  .light__shape--base img { opacity: .819; animation: base-drift 9s ease-in-out infinite alternate; }
+  .light__shape--base img { opacity: .819; animation: base-drift 7s ease-in-out infinite alternate; }
   @keyframes base-drift {
     0%   { transform: translate(-16px, 12px) rotate(-2.6deg) skewX(-2deg) scale(1);    opacity: .72; }
     35%  { transform: translate(26px, -6px)  rotate(.8deg)   skewX(1.5deg) scale(1.045); opacity: .95; }
@@ -55,11 +55,36 @@
         floating above it, where the faint yellow fringe would turn olive), then
         sinks back. Leaned orange so it reads as warm light. */
   .light__shape--spill { mix-blend-mode: screen; }
-  .light__shape--spill img { opacity: 0; filter: saturate(1.25) hue-rotate(-10deg); animation: spill 11s ease-in-out infinite; }
+  .light__shape--spill img { opacity: 0; filter: saturate(1.25) hue-rotate(-10deg); animation: spill 8.5s ease-in-out infinite; }
   @keyframes spill {
     0%, 100% { transform: translate(-10px, 10px) rotate(-1deg) scale(.99);  opacity: 0; }
-    40%      { transform: translate(12px, -6px)  rotate(1.4deg) scale(1.05); opacity: .55; }
+    40%      { transform: translate(12px, -6px)  rotate(1.4deg) scale(1.05); opacity: .62; }
     60%      { transform: translate(18px, -8px)  rotate(2deg)   scale(1.07); opacity: .45; }
+  }
+
+  /* 3. A glint sweeping left to right across the glow. It is an exact copy of the
+        base shape (same placement, same drift, so no fringe can stray above the
+        edge), seen only through a soft vertical band that travels across the
+        frame. The band moves on the outer box while the inner box counter-moves,
+        so the shape itself stays put and only the window slides. */
+  .light__sweep {
+    left: 0; top: 0; width: 520px; height: 620px;
+    mix-blend-mode: screen;
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 38%, #000 62%, transparent);
+            mask-image: linear-gradient(90deg, transparent, #000 38%, #000 62%, transparent);
+    will-change: transform;
+    animation: sweep 10s cubic-bezier(.45, 0, .35, 1) infinite;
+  }
+  .light__sweep-inner { position: absolute; left: 0; top: 0; width: 1015px; height: 620px; will-change: transform; animation: sweep-counter 10s cubic-bezier(.45, 0, .35, 1) infinite; }
+  .light__sweep-inner .light__shape { position: absolute; }
+  .light__sweep-inner img { filter: brightness(1.25) saturate(1.3) hue-rotate(-12deg); opacity: .8; animation: base-drift 7s ease-in-out infinite alternate; }
+  @keyframes sweep {
+    0%        { transform: translateX(-520px); }
+    70%, 100% { transform: translateX(1015px); }
+  }
+  @keyframes sweep-counter {
+    0%        { transform: translateX(520px); }
+    70%, 100% { transform: translateX(-1015px); }
   }
 
   .light__text {
@@ -68,16 +93,17 @@
     margin: 0;
     color: #fff;
     font-family: 'PP Fragment Glare', serif;
-    font-size: 20px; line-height: .98; letter-spacing: .1em;
+    font-size: 20px; line-height: .98; letter-spacing: .06em;
     text-transform: uppercase; white-space: nowrap;
     mix-blend-mode: difference;
     /* Optical centring, measured on the rendered caps: tracking also adds space
        after the last letter, and the line box isn't centred on cap height. */
-    transform: translate(2px, .5px);
+    transform: translate(1px, .5px);
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .light__shape img { animation: none; }
+    .light__shape img, .light__sweep, .light__sweep-inner { animation: none; }
+    .light__sweep { display: none; }
   }
 </style>
 </head>
@@ -87,6 +113,7 @@
   <div class="light__stage">
     <div class="light__shape light__shape--base"><img src="src/shape-1000.webp" alt="" /></div>
     <div class="light__shape light__shape--spill"><img src="src/shape-1000.webp" alt="" /></div>
+    <div class="light__sweep"><div class="light__sweep-inner"><div class="light__shape"><img src="src/shape-1000.webp" alt="" /></div></div></div>
     <p class="light__text">We light the way toward humanity's greatest discoveries</p>
   </div>
 </div>
