@@ -39,27 +39,27 @@
     will-change: transform, opacity;
   }
 
-  /* 1. The shape itself breathes: a slow drift, a couple of degrees of turn, a
-        little swell and brightening. */
-  .light__shape--base img { opacity: .819; animation: base-drift 13s ease-in-out infinite alternate; }
-  /* Turning about the lit lump makes the long tail on the right rise and sink,
-     so the light seems to sweep along the curve. */
+  /* 1. The shape itself breathes: a clear drift, a few degrees of turn about the
+        lit lump (so the long tail on the right rises and sinks and the light sweeps
+        along the curve), a swell, and a slight skew that makes the edge undulate. */
+  .light__shape--base img { opacity: .819; animation: base-drift 9s ease-in-out infinite alternate; }
   @keyframes base-drift {
-    0%   { transform: translate(0, 0) rotate(-1.4deg) scale(1);      opacity: .78; }
-    50%  { transform: translate(18px, -8px) rotate(1.6deg) scale(1.03); opacity: .9; }
-    100% { transform: translate(-10px, 6px) rotate(-.4deg) scale(1.012); opacity: .82; }
+    0%   { transform: translate(-16px, 12px) rotate(-2.6deg) skewX(-2deg) scale(1);    opacity: .72; }
+    35%  { transform: translate(26px, -6px)  rotate(.8deg)   skewX(1.5deg) scale(1.045); opacity: .95; }
+    70%  { transform: translate(40px, -18px) rotate(2.8deg)  skewX(-1deg)  scale(1.06);  opacity: .88; }
+    100% { transform: translate(-4px, 4px)   rotate(-.6deg)  skewX(2deg)   scale(1.02);  opacity: .8; }
   }
 
-  /* 2. A second, offset copy blended as light: it swells in and fades out,
-        so the glow seems to spread across the space and pull back. */
-  /* Copies stay tight to the base edge (their faint yellow fringe turns olive over
-     the dark if it strays above it) and lean orange rather than yellow. */
+  /* 2. A second copy blended as light, on its own period: it flares up and spreads
+        (growing about the lump, so its edge stays near the base edge rather than
+        floating above it, where the faint yellow fringe would turn olive), then
+        sinks back. Leaned orange so it reads as warm light. */
   .light__shape--spill { mix-blend-mode: screen; }
-  .light__shape--spill img { filter: saturate(1.25) hue-rotate(-10deg); }
-  .light__shape--spill img { opacity: 0; animation: spill 17s ease-in-out infinite; }
+  .light__shape--spill img { opacity: 0; filter: saturate(1.25) hue-rotate(-10deg); animation: spill 11s ease-in-out infinite; }
   @keyframes spill {
-    0%, 100% { transform: translate(-12px, 10px) rotate(-.8deg) scale(1);    opacity: 0; }
-    45%      { transform: translate(14px, -8px)  rotate(.8deg)  scale(1.025); opacity: .3; }
+    0%, 100% { transform: translate(-10px, 10px) rotate(-1deg) scale(.99);  opacity: 0; }
+    40%      { transform: translate(12px, -6px)  rotate(1.4deg) scale(1.05); opacity: .55; }
+    60%      { transform: translate(18px, -8px)  rotate(2deg)   scale(1.07); opacity: .45; }
   }
 
   .light__text {
@@ -68,9 +68,9 @@
     margin: 0;
     color: #fff;
     font-family: 'PP Fragment Glare', serif;
-    font-size: 21.5px; letter-spacing: .25px; line-height: 1;
+    font-size: 20px; line-height: .98; letter-spacing: .06em;
     text-transform: uppercase; white-space: nowrap;
-    transform: translateY(1.5px);
+    mix-blend-mode: difference;
   }
 
   @media (prefers-reduced-motion: reduce) {
