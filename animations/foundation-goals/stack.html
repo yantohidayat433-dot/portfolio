@@ -176,15 +176,16 @@
     ['Maintaining a sustained', 'international scientific', 'dialogue']
   ];
   var HOLD = 2000;      // ms each card rests at the top
-  var MOVE = 750;       // ms of travel between cards
+  var MOVE = 1150;      // ms of travel between cards
   var ACTIVATE_AT = .7; // fraction of the travel at which the arriving card lights up
   var MAX_DARK = .88;   // veil opacity on the card peeking in at the bottom
-  var RISE_SCALE = .1;  // arriving card starts this much smaller and grows into place
+  var RISE_SCALE = .07; // arriving card starts this much smaller and grows into place
   var BACK_SCALE = .06; // covered card shrinks back by this much...
   var BACK_LIFT = 14;   // ...lifts this many px so its top edge shows behind the new one
   var BACK_DARK = .6;   // ...and dims this much
 
-  function ease(t) { return t < .5 ? 8 * t * t * t * t : 1 - Math.pow(-2 * t + 2, 4) / 2; }
+  // easeInOutSine: no sudden rush mid-travel, so the arriving card glides over the previous one.
+  function ease(t) { return -(Math.cos(Math.PI * t) - 1) / 2; }
   function line(text, i) { return '<span class="goal__line"><span style="--i:' + i + '">' + text + '</span></span>'; }
 
   var tpl = document.getElementById('goal-ui');
