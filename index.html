@@ -191,16 +191,22 @@ body:not(.pw-locked) #pw-gate {
 .case__media--citylight { position: relative; }
 .case__media--citylight .citylight {
   position: absolute; left: 0; right: 0; bottom: 0;
-  aspect-ratio: 1493 / 2000;
-  background: url(images/foundation-citylight-mockup.webp) center / 100% 100% no-repeat;
+  aspect-ratio: 1246 / 1662;
+  background: url(images/foundation-citylight-street-poster.webp) center / 100% 100% no-repeat;
   overflow: hidden;
 }
+/* The street is the client's clip with the trees moving (played forward then
+   back, so the loop has no jump); the poster frame shows until it plays. */
+.case__media.case__media--citylight .citylight__street {
+  position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block;
+}
+/* Screen panel, mapped from the still mockup onto the clip's 1246x1662 frame. */
 .case__media--citylight .citylight__screen {
   position: absolute;
-  left: calc(464 / 1493 * 100%);
-  top: calc(536 / 2000 * 100%);
-  width: calc(559 / 1493 * 100%);
-  height: calc(999 / 2000 * 100%);
+  left: 31.22%;
+  top: 26.55%;
+  width: 37.22%;
+  height: 50.19%;
   overflow: hidden;
 }
 .case__media--citylight .citylight__strip {
@@ -3777,6 +3783,7 @@ button.project__media-link {
       <div class="case__media" style="--mh:27.5rem"><img loading="lazy" src="images/foundation-11.webp" alt="Lectures in August — poster" /><img loading="lazy" class="case__media-mobile" src="images/foundation-m11.webp" alt="Lectures in August — poster" width="1077" height="1320" /></div>
       <div class="case__media case__media--citylight" style="--mh:27.5rem">
         <div class="citylight" data-citylight role="img" aria-label="How to communicate to the general public — citylight">
+          <video class="citylight__street" autoplay muted loop playsinline preload="auto" poster="images/foundation-citylight-street-poster.webp" width="1008" height="1344"><source src="videos/foundation-citylight-street.mp4" type="video/mp4" /></video>
           <div class="citylight__screen">
             <div class="citylight__strip">
               <img loading="lazy" src="images/foundation-citylight-poster-1.webp" alt="" />

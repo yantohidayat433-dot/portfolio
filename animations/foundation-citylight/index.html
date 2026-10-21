@@ -8,23 +8,22 @@
   html, body { margin: 0; background: #1a1a1a; }
   body { min-height: 100vh; display: grid; place-items: center; padding: 16px; box-sizing: border-box; }
 
-  /* The static street photo (1493x2000); the screen is positioned in % of it,
-     so the whole thing scales with its width. */
+  /* The street clip (1246x1662 frame, trees moving, played forward then back so the
+     loop has no jump); the screen is positioned in % of it, so it scales with width. */
   .citylight {
     position: relative;
     width: min(620px, 100%);
-    aspect-ratio: 1493 / 2000;
-    background: url(src/mockup.webp) center / 100% 100% no-repeat;
+    aspect-ratio: 1246 / 1662;
+    background: url(../../images/foundation-citylight-street-poster.webp) center / 100% 100% no-repeat;
     overflow: hidden;
   }
 
-  /* Flat panel inside the frame's bevel, measured on the photo: x 464-1023, y 536-1535. */
+  .citylight__street { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
+
+  /* Flat panel inside the frame's bevel, mapped onto the clip's frame. */
   .citylight__screen {
     position: absolute;
-    left: calc(464 / 1493 * 100%);
-    top: calc(536 / 2000 * 100%);
-    width: calc(559 / 1493 * 100%);
-    height: calc(999 / 2000 * 100%);
+    left: 31.22%; top: 26.55%; width: 37.22%; height: 50.19%;
     overflow: hidden;
   }
 
@@ -57,6 +56,7 @@
 <body>
 
 <div class="citylight" role="img" aria-label="Citylight with Foundation lecture posters">
+  <video class="citylight__street" autoplay muted loop playsinline poster="../../images/foundation-citylight-street-poster.webp"><source src="../../videos/foundation-citylight-street.mp4" type="video/mp4" /></video>
   <div class="citylight__screen">
     <div class="citylight__strip">
       <img src="src/poster-1.webp" alt="" />

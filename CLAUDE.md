@@ -304,13 +304,19 @@ the goals stack (prefixed selectors, `:not(.case__media--light)` on the
 ## Foundation citylight (`.case__media--citylight`)
 
 The `foundation-12` slot (right cell of the "Lectures in August" row) is
-the client's static street mockup with her two posters rolling **down**
+the client's street mockup with her two posters rolling **down**
 inside the screen (new banner enters from above): hold 2.7s, slide 1s,
-7.4s cycle, posters at 90% opacity so the photo's dark panel shows
-through. Screen panel measured on the 1493x2000 photo: x 464-1023,
-y 536-1535 (positioned in % so it scales). No glass layer (client asked
-for none). Mockup is width-fit and bottom-pinned in the slot, matching the
-old still's crop; works on desktop and mobile (no separate mobile image).
+7.4s cycle, posters at 90% opacity so the dark panel shows through.
+The street is her own clip with the trees moving
+(`videos/foundation-citylight-street.mp4`, 1008x1344, re-encoded
+**ping-pong** — forward then reversed — so the loop has no jump; poster
+frame `images/foundation-citylight-street-poster.webp` = frame 0, also
+the box's CSS background until the video plays). Her clip is the old
+still scaled ~0.83 and shifted, so the screen panel was re-mapped onto
+the clip's 1246x1662 frame: left 31.22%, top 26.55%, w 37.22%, h 50.19%.
+If she re-exports the clip, re-measure the panel bevel. No glass layer
+(client asked for none). Width-fit and bottom-pinned in the slot; works on
+desktop and mobile (no separate mobile image).
 `.case__row .case__media img` would force `height:100%` on the posters,
 hence the doubled-class selector on the strip images. Sandbox:
 `animations/foundation-citylight/index.html`.
