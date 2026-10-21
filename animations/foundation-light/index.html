@@ -68,9 +68,12 @@
     margin: 0;
     color: #fff;
     font-family: 'PP Fragment Glare', serif;
-    font-size: 20px; line-height: .98; letter-spacing: .06em;
+    font-size: 20px; line-height: .98; letter-spacing: .1em;
     text-transform: uppercase; white-space: nowrap;
     mix-blend-mode: difference;
+    /* Optical centring, measured on the rendered caps: tracking also adds space
+       after the last letter, and the line box isn't centred on cap height. */
+    transform: translate(2px, .5px);
   }
 
   @media (prefers-reduced-motion: reduce) {
