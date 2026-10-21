@@ -152,7 +152,7 @@ body:not(.pw-locked) #pw-gate {
 .light-slide .light-slide__stage {
   position: absolute; left: 0; top: 0;
   width: 1015px; height: 620px;
-  transform: scale(var(--s, 1)); transform-origin: 0 0;
+  transform: translate(var(--tx, 0px), var(--ty, 0px)) scale(var(--s, 1)); transform-origin: 0 0;
 }
 .light-slide .light-slide__stage > * { position: absolute; }
 
@@ -4970,7 +4970,16 @@ button.project__media-link {
 (function () {
   document.querySelectorAll('[data-light]').forEach(function (root) {
     var stage = root.querySelector('.light-slide__stage');
-    function fit() { stage.style.setProperty('--s', root.clientWidth / 1015); }
+    // Cover the frame like the image this replaced (object-fit: cover): the case slot
+    // keeps a fixed 620px height while its width shrinks with the window, so scaling
+    // by width alone left the stage short of the bottom edge.
+    function fit() {
+      var w = root.clientWidth, h = root.clientHeight;
+      var s = Math.max(w / 1015, h / 620);
+      stage.style.setProperty('--s', s);
+      stage.style.setProperty('--tx', (w - 1015 * s) / 2 + 'px');
+      stage.style.setProperty('--ty', (h - 620 * s) / 2 + 'px');
+    }
     fit();
     if ('ResizeObserver' in window) new ResizeObserver(fit).observe(root);
     else window.addEventListener('resize', fit);
