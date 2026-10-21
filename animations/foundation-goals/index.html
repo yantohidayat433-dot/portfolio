@@ -5,10 +5,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Foundation goals — scroll</title>
 <style>
+  /* PP Fragment files go in src/fonts/; until then the site's own fonts stand in. */
+  @font-face { font-family: 'PP Fragment Glare'; src: url(src/fonts/PPFragment-GlareRegular.woff2) format('woff2'), url(../../fonts/oceanic-text.otf) format('opentype'); font-display: swap; }
+  @font-face { font-family: 'PP Fragment Sans'; src: url(src/fonts/PPFragment-SansMedium.woff2) format('woff2'), url(../../fonts/suisse-intl-book.otf) format('opentype'); font-display: swap; }
+
   html, body { margin: 0; background: #1a1a1a; }
   body { min-height: 100vh; display: grid; place-items: center; padding: 16px; box-sizing: border-box; }
 
-  /* Frame: 1015x620, background #0E0E0E. Scales down on narrow screens. */
+  /* ---------- Frame: 1015x620, #0E0E0E ---------- */
   .goals-scroller {
     --gutter: 24px;
     --gap: 14px;
@@ -26,11 +30,80 @@
     gap: var(--gap);
     will-change: transform;
   }
-  .goals-scroller__track img {
-    display: block;
-    width: 100%;
-    height: auto;
-    aspect-ratio: 2000 / 988;
+
+  /* ---------- Card: laid out in Figma's own 1376x680 px space, scaled to fit ---------- */
+  .goal { position: relative; width: 100%; aspect-ratio: 1376 / 680; }
+  .goal__stage {
+    position: absolute; left: 0; top: 0;
+    width: 1376px; height: 680px;
+    transform: scale(var(--s, 1)); transform-origin: 0 0;
+    border-radius: 16px; overflow: hidden;
+    background: #000;
+    color: #fff;
+    font-family: 'PP Fragment Sans', sans-serif;
+  }
+  .goal__stage * { position: absolute; margin: 0; }
+  .goal__stage img { max-width: none; pointer-events: none; }
+
+  .goal__bg { inset: 0; overflow: hidden; }
+  .goal__bg img { left: -20.89%; top: -55.68%; width: 100%; height: 202.35%; }
+
+  .goal__shade { background: linear-gradient(to right, rgba(0,1,0,0) 13.105%, #000100 55.175%); }
+
+  .goal__glow { display: flex; align-items: center; justify-content: center; }
+  .goal__glow img { position: relative; object-fit: cover; }
+  .goal__glow--top { left: calc(50% + 496.04px); top: -1631px; width: 1896.082px; height: 1896.083px; transform: translateX(-50%); }
+  .goal__glow--top img { width: 1634.62px; height: 1634.62px; transform: rotate(79.89deg) scaleY(-1); }
+  .goal__glow--bottom { left: calc(50% - 977px); top: 310px; width: 1582px; height: 1582px; transform: translateX(-50%); }
+  .goal__glow--bottom img { width: 1582px; height: 1582px; transform: rotate(-90deg) scaleY(-1); }
+
+  .goal__photo { overflow: hidden; }
+
+  .goal__label, .goal__tab span {
+    font-size: 12px; line-height: 1.2; letter-spacing: .24px; text-transform: uppercase; white-space: nowrap;
+  }
+  .goal__label { left: 49px; top: 32px; }
+  .goal__dot { left: 33px; top: 35px; width: 8px; height: 8px; border-radius: 50%; background: #fff; }
+  .goal__arrow { top: 35px; width: 48px; height: 48px; }
+  .goal__arrow--prev { left: 1232px; transform: scaleX(-1); }
+  .goal__arrow--next { left: 1292px; }
+  .goal__rule { left: 32px; top: 219px; width: 1308px; height: 1px; background: rgba(217,217,217,.25); }
+
+  .goal__num, .goal__title { top: 245px; font-family: 'PP Fragment Glare', serif; font-weight: 400; line-height: 1.05; }
+  .goal__num { left: 33px; font-size: 72px; }
+  .goal__title { left: 691px; font-size: 48px; }
+
+  /* Masked line reveal: each line slides up out of its own clip box. */
+  .goal__line { position: relative !important; display: block; overflow: hidden; padding-bottom: .14em; margin-bottom: -.14em; }
+  .goal__line > span { position: relative !important; display: block; transform: translateY(110%); transition: transform .9s cubic-bezier(.16,1,.3,1); transition-delay: calc(var(--i, 0) * 90ms + 150ms); }
+  .goal.is-active .goal__line > span { transform: none; }
+
+  /* Tabs */
+  .goal__tab {
+    top: 603px; width: 323.5px; height: 49px; border-radius: 8px;
+    background: rgba(255,255,255,.25);
+    -webkit-backdrop-filter: blur(22.3px); backdrop-filter: blur(22.3px);
+  }
+  .goal__tab span { top: 17px; color: #fff; }
+  .goal__tab span:first-child { left: 20px; }
+  .goal__tab span:nth-child(2) { right: 20px; }
+  /* Active layer = white fill + dark copy of the text, revealed by one clip-path.
+     It wipes in from the left; the outgoing tab's layer wipes out to the right,
+     so the highlight reads as travelling from the previous tab to the next one,
+     and the text changes colour exactly at the wipe's edge. */
+  .goal__tab-fill {
+    inset: 0; border-radius: inherit; background: #fff;
+    clip-path: inset(0 100% 0 0 round 8px);
+    transition: clip-path .75s cubic-bezier(.65,0,.35,1);
+  }
+  .goal__tab-fill span { color: #121212; }
+  .goal__tab.is-on .goal__tab-fill { clip-path: inset(0 0 0 0 round 8px); }
+  .goal__tab.is-gone .goal__tab-fill { clip-path: inset(0 0 0 100% round 8px); }
+
+  .goal.no-anim * { transition: none !important; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .goal__line > span { transform: none; }
   }
 </style>
 </head>
@@ -38,34 +111,145 @@
 
 <div class="goals-scroller" data-goals-scroller>
   <div class="goals-scroller__track">
-    <img src="goal-1.webp" width="2000" height="988" alt="" />
-    <img src="goal-2.webp" width="2000" height="988" alt="" />
-    <img src="goal-3.webp" width="2000" height="988" alt="" />
-    <img src="goal-4.webp" width="2000" height="988" alt="" />
+
+    <div class="goal" data-goal="0">
+      <div class="goal__stage">
+        <div class="goal__bg"><img src="src/c1-bg.png" alt="" /></div>
+        <div class="goal__photo" style="left:-23px;top:-65px;width:806px;height:806px"><img src="src/c1-photo.png" alt="" style="left:-22.45%;top:6.13%;width:148.88%;height:92.51%" /></div>
+        <div class="goal__shade" style="left:319px;top:-87px;width:599px;height:767px"></div>
+        <div class="goal__glow goal__glow--top"><img src="src/glow.png" alt="" /></div>
+        <div class="goal__ui"></div>
+      </div>
+    </div>
+
+    <div class="goal" data-goal="1">
+      <div class="goal__stage">
+        <div class="goal__bg"><img src="src/c2-bg.png" alt="" /></div>
+        <div class="goal__photo" style="left:calc(50% - 346px);top:calc(50% - 30px);width:1178px;height:1058px;transform:translate(-50%,-50%)"><img src="src/c2-photo-back.png" alt="" style="left:0;top:-5.71%;width:100%;height:111.42%" /></div>
+        <div class="goal__photo" style="left:0;top:-60px;width:740px;height:740px"><img src="src/c2-photo.png" alt="" style="left:-8.5%;top:0;width:132.81%;height:100%" /></div>
+        <div class="goal__shade" style="left:362px;top:-91px;width:599px;height:767px"></div>
+        <div class="goal__glow goal__glow--top"><img src="src/glow.png" alt="" /></div>
+        <div class="goal__glow goal__glow--bottom"><img src="src/glow.png" alt="" /></div>
+        <div class="goal__ui"></div>
+      </div>
+    </div>
+
+    <div class="goal" data-goal="2">
+      <div class="goal__stage">
+        <div class="goal__bg"><img src="src/c3-bg.png" alt="" /></div>
+        <div class="goal__photo" style="left:-10px;top:-24px;width:877px;height:877px"><img src="src/c3-photo.png" alt="" style="inset:0;width:100%;height:100%;object-fit:cover;transform:scaleX(-1)" /></div>
+        <div class="goal__shade" style="left:379px;top:-74px;width:663px;height:767px;background:linear-gradient(90.11deg, rgba(0,1,0,0) 13.189%, #000100 36.315%)"></div>
+        <div class="goal__glow goal__glow--top"><img src="src/glow.png" alt="" /></div>
+        <div class="goal__glow goal__glow--bottom"><img src="src/glow.png" alt="" /></div>
+        <div class="goal__ui"></div>
+      </div>
+    </div>
+
+    <div class="goal" data-goal="3">
+      <div class="goal__stage">
+        <div class="goal__bg"><img src="src/c4-bg.png" alt="" /></div>
+        <div class="goal__photo" style="left:-18px;top:calc(50% - 20.5px);width:843px;height:881px;transform:translateY(-50%)"><img src="src/c4-photo.png" alt="" style="inset:0;width:100%;height:100%;object-fit:cover" /></div>
+        <div class="goal__shade" style="left:418px;top:-96px;width:481px;height:776px"></div>
+        <div class="goal__glow goal__glow--top"><img src="src/glow.png" alt="" /></div>
+        <div class="goal__glow goal__glow--bottom"><img src="src/glow.png" alt="" /></div>
+        <div class="goal__ui"></div>
+      </div>
+    </div>
+
   </div>
 </div>
 
+<template id="goal-ui">
+  <span class="goal__dot"></span>
+  <p class="goal__label">The goals of the foundation</p>
+  <img class="goal__arrow goal__arrow--prev" src="src/arrow.svg" alt="" />
+  <img class="goal__arrow goal__arrow--next" src="src/arrow.svg" alt="" />
+  <span class="goal__rule"></span>
+  <p class="goal__num"></p>
+  <p class="goal__title"></p>
+  <div class="goal__tab" style="left:28px"><span>Popularization of science</span><span>01</span></div>
+  <div class="goal__tab" style="left:359.5px"><span>Creation of an expert community</span><span>02</span></div>
+  <div class="goal__tab" style="left:691px"><span>The mechanism of interaction</span><span>03</span></div>
+  <div class="goal__tab" style="left:1022.5px"><span>International dialogue</span><span>04</span></div>
+</template>
+
 <script>
 (function () {
-  var HOLD = 1500;   // ms each card rests at the top
-  var MOVE = 950;    // ms of travel between cards
+  var TITLES = [
+    ['To make scientific activity', 'in demand and prestigious,', 'to form a new perception'],
+    ['Formation of an expert', 'community in the field', 'of future technologies'],
+    ['Establishing a mechanism', 'for interaction between', 'science and business'],
+    ['Maintaining a sustained', 'international scientific', 'dialogue']
+  ];
+  var HOLD = 2400;      // ms each card rests at the top
+  var MOVE = 1000;      // ms of travel between cards
+  var ACTIVATE_AT = .7; // fraction of the travel at which the arriving card lights up
 
-  // easeInOutQuart: slow start, quick middle, soft landing (like a flicked scroll).
   function ease(t) { return t < .5 ? 8 * t * t * t * t : 1 - Math.pow(-2 * t + 2, 4) / 2; }
+  function line(text, i) { return '<span class="goal__line"><span style="--i:' + i + '">' + text + '</span></span>'; }
+
+  var tpl = document.getElementById('goal-ui');
 
   document.querySelectorAll('[data-goals-scroller]').forEach(function (root) {
     var track = root.querySelector('.goals-scroller__track');
     var originals = Array.prototype.slice.call(track.children);
     var count = originals.length;
+
+    originals.forEach(function (card, k) {
+      var ui = card.querySelector('.goal__ui');
+      ui.replaceWith(tpl.content.cloneNode(true));
+      card.querySelectorAll('.goal__tab').forEach(function (tab) {
+        var fill = document.createElement('div');
+        fill.className = 'goal__tab-fill';
+        fill.innerHTML = tab.innerHTML;
+        tab.appendChild(fill);
+      });
+      card.querySelector('.goal__num').innerHTML = line('0' + (k + 1), 0);
+      card.querySelector('.goal__title').innerHTML = TITLES[k].map(function (t, i) { return line(t, i + 1); }).join('');
+    });
     // Clone the set once so the loop wraps seamlessly from card 4 back to card 1.
-    originals.forEach(function (img) { track.appendChild(img.cloneNode(true)); });
-    var cards = track.children;
+    originals.forEach(function (card) { track.appendChild(card.cloneNode(true)); });
+    var cards = Array.prototype.slice.call(track.children);
 
-    var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    var visible = true;
-    var start = null, paused = 0, pauseAt = null;
+    function fit() {
+      var s = cards[0].getBoundingClientRect().width / 1376;
+      cards.forEach(function (c) { c.querySelector('.goal__stage').style.setProperty('--s', s); });
+    }
+    fit();
+    window.addEventListener('resize', fit);
 
-    function offsetOf(i) { return cards[i].offsetTop; }
+    // Both copies of a logical card always share the same state.
+    function copies(k) { return cards.filter(function (c) { return +c.dataset.goal === k; }); }
+
+    // "Waiting" state: previous tab still lit, own tab dim, text hidden.
+    function prime(k) {
+      copies(k).forEach(function (c) {
+        c.classList.add('no-anim');
+        c.classList.remove('is-active');
+        var tabs = c.querySelectorAll('.goal__tab');
+        tabs.forEach(function (t) { t.classList.remove('is-on', 'is-gone'); });
+        if (k > 0) tabs[k - 1].classList.add('is-on');
+        void c.offsetWidth;
+        c.classList.remove('no-anim');
+      });
+    }
+    function activate(k) {
+      copies(k).forEach(function (c) {
+        var tabs = c.querySelectorAll('.goal__tab');
+        if (k > 0) { tabs[k - 1].classList.remove('is-on'); tabs[k - 1].classList.add('is-gone'); }
+        tabs[k].classList.add('is-on');
+        c.classList.add('is-active');
+      });
+    }
+
+    for (var k = 0; k < count; k++) prime(k);
+
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) { activate(0); return; }
+
+    var visible = true, start = null, paused = 0, pauseAt = null, current = -1;
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver(function (e) { visible = e[0].isIntersecting; }).observe(root);
+    }
 
     function frame(now) {
       if (!visible) { if (pauseAt === null) pauseAt = now; requestAnimationFrame(frame); return; }
@@ -76,18 +260,21 @@
       var t = (now - start - paused) % (cycle * count);
       var step = Math.floor(t / cycle);
       var local = t - step * cycle;
-      var p = local < HOLD ? 0 : ease((local - HOLD) / MOVE);
-      var from = offsetOf(step), to = offsetOf(step + 1);
-      // When the clone of card 1 reaches the top, the cycle restarts at offset 0 — same picture.
+      var raw = local < HOLD ? 0 : (local - HOLD) / MOVE;
+      var p = ease(raw);
+      var from = cards[step].offsetTop, to = cards[step + 1].offsetTop;
       track.style.transform = 'translate3d(0,' + (-(from + (to - from) * p)) + 'px,0)';
+
+      var now_k = (raw >= ACTIVATE_AT ? step + 1 : step) % count;
+      if (now_k !== current) {
+        current = now_k;
+        activate(current);
+        prime((current + 2) % count); // off-screen by now: reset it for its next arrival
+      }
       requestAnimationFrame(frame);
     }
-
-    if (reduced) return; // static first card
-    if ('IntersectionObserver' in window) {
-      new IntersectionObserver(function (e) { visible = e[0].isIntersecting; }).observe(root);
-    }
-    requestAnimationFrame(frame);
+    // Short beat before the first card lights up.
+    setTimeout(function () { requestAnimationFrame(frame); }, 400);
   });
 })();
 </script>
