@@ -429,10 +429,14 @@ body:not(.pw-locked) #pw-gate {
    overlay inside the backdrop-blurred box made Chrome paint the fill in patches. */
 .goals-scroller .goal__tab {
   top: 603px; width: 323.5px; height: 49px; border-radius: 8px;
-  background-color: rgba(255,255,255,.25);
-  -webkit-backdrop-filter: blur(22.3px); backdrop-filter: blur(22.3px);
+  /* The frosted inactive tab is part of the baked card image; only the white
+     active fill is live (16 live backdrop blurs under moving cards stalled browsers). */
+  background-color: rgba(255,255,255,0);
   transition: background-color .45s ease-out;
 }
+/* Everything static on a card (photo, shades, glows, frosted tabs, label, arrows, rule)
+   is one pre-rendered image per card, so moving a card is a single layer. */
+.goals-scroller .goal__bg { left: 0; top: 0; width: 1376px; height: 680px; max-width: none; }
 .goals-scroller .goal__tab span { top: 17px; color: #fff; transition: color .45s ease-out; }
 .goals-scroller .goal__tab span:first-child { left: 20px; }
 .goals-scroller .goal__tab span:nth-child(2) { right: 20px; }
@@ -3701,44 +3705,28 @@ button.project__media-link {
 
           <div class="goal" data-goal="0">
             <div class="goal__stage">
-              <div class="goal__photo" style="left:23px;top:-16px;width:746px;height:746px"><img loading="lazy" src="images/foundation-goals-1.webp?v=2" alt="" /></div>
-              <div class="goal__shade" style="background:linear-gradient(to right, rgba(11,4,1,0) 496px, rgba(11,4,1,0.048) 508px, rgba(11,4,1,0.096) 520px, rgba(11,4,1,0.143) 532px, rgba(11,4,1,0.19) 544px, rgba(11,4,1,0.237) 556px, rgba(11,4,1,0.284) 568px, rgba(11,4,1,0.329) 580px, rgba(11,4,1,0.372) 592px, rgba(11,4,1,0.415) 604px, rgba(11,4,1,0.459) 616px, rgba(11,4,1,0.509) 628px, rgba(11,4,1,0.559) 640px, rgba(11,4,1,0.606) 652px, rgba(11,4,1,0.655) 664px, rgba(11,4,1,0.704) 676px, rgba(11,4,1,0.749) 688px, rgba(11,4,1,0.79) 700px, rgba(11,4,1,0.844) 712px, rgba(11,4,1,0.898) 724px, rgba(11,4,1,0.944) 736px, rgba(11,4,1,1) 748px)"></div>
-              <div class="goal__shade-left"></div>
-              <div class="goal__glow goal__glow--top"><img loading="lazy" src="images/foundation-goals-glow.webp?v=2" alt="" /></div>
-              <div class="goal__glow goal__glow--bottom"><img loading="lazy" src="images/foundation-goals-glow.webp?v=2" alt="" /></div>
+              <img class="goal__bg" src="images/foundation-goals-card-1.webp" width="2064" height="1020" alt="" decoding="async" />
               <div class="goal__ui"></div>
             </div>
           </div>
 
           <div class="goal" data-goal="1">
             <div class="goal__stage">
-              <div class="goal__photo" style="left:-70px;top:-65px;width:806px;height:806px"><img loading="lazy" src="images/foundation-goals-2.webp?v=2" alt="" /></div>
-              <div class="goal__shade" style="background:linear-gradient(to right, rgba(11,4,1,0) 556px, rgba(11,4,1,0.068) 568px, rgba(11,4,1,0.14) 580px, rgba(11,4,1,0.214) 592px, rgba(11,4,1,0.286) 604px, rgba(11,4,1,0.356) 616px, rgba(11,4,1,0.417) 628px, rgba(11,4,1,0.479) 640px, rgba(11,4,1,0.554) 652px, rgba(11,4,1,0.631) 664px, rgba(11,4,1,0.698) 676px, rgba(11,4,1,0.775) 688px, rgba(11,4,1,0.85) 700px, rgba(11,4,1,0.922) 712px, rgba(11,4,1,0.951) 724px, rgba(11,4,1,1) 728px)"></div>
-              <div class="goal__shade-left"></div>
-              <div class="goal__glow goal__glow--top"><img loading="lazy" src="images/foundation-goals-glow.webp?v=2" alt="" /></div>
-              <div class="goal__glow goal__glow--bottom"><img loading="lazy" src="images/foundation-goals-glow.webp?v=2" alt="" /></div>
+              <img class="goal__bg" src="images/foundation-goals-card-2.webp" width="2064" height="1020" alt="" decoding="async" />
               <div class="goal__ui"></div>
             </div>
           </div>
 
           <div class="goal" data-goal="2">
             <div class="goal__stage">
-              <div class="goal__photo" style="left:-10px;top:-24px;width:877px;height:877px"><img loading="lazy" src="images/foundation-goals-3.webp?v=2" alt="" /></div>
-              <div class="goal__shade" style="background:linear-gradient(to right, rgba(11,4,1,0) 512px, rgba(11,4,1,0.056) 524px, rgba(11,4,1,0.136) 536px, rgba(11,4,1,0.216) 548px, rgba(11,4,1,0.292) 560px, rgba(11,4,1,0.367) 572px, rgba(11,4,1,0.442) 584px, rgba(11,4,1,0.516) 596px, rgba(11,4,1,0.592) 608px, rgba(11,4,1,0.668) 620px, rgba(11,4,1,0.742) 632px, rgba(11,4,1,0.825) 644px, rgba(11,4,1,0.902) 656px, rgba(11,4,1,0.952) 668px, rgba(11,4,1,1) 672px)"></div>
-              <div class="goal__shade-left"></div>
-              <div class="goal__glow goal__glow--top"><img loading="lazy" src="images/foundation-goals-glow.webp?v=2" alt="" /></div>
-              <div class="goal__glow goal__glow--bottom"><img loading="lazy" src="images/foundation-goals-glow.webp?v=2" alt="" /></div>
+              <img class="goal__bg" src="images/foundation-goals-card-3.webp" width="2064" height="1020" alt="" decoding="async" />
               <div class="goal__ui"></div>
             </div>
           </div>
 
           <div class="goal" data-goal="3">
             <div class="goal__stage">
-              <div class="goal__photo" style="left:-22px;top:-121px;width:843px;height:881px"><img loading="lazy" src="images/foundation-goals-4.webp?v=2" alt="" /></div>
-              <div class="goal__shade" style="background:linear-gradient(to right, rgba(11,4,1,0) 380px, rgba(11,4,1,0.042) 392px, rgba(11,4,1,0.077) 404px, rgba(11,4,1,0.112) 416px, rgba(11,4,1,0.145) 428px, rgba(11,4,1,0.177) 440px, rgba(11,4,1,0.212) 452px, rgba(11,4,1,0.245) 464px, rgba(11,4,1,0.281) 476px, rgba(11,4,1,0.316) 488px, rgba(11,4,1,0.348) 500px, rgba(11,4,1,0.382) 512px, rgba(11,4,1,0.41) 524px, rgba(11,4,1,0.441) 536px, rgba(11,4,1,0.479) 548px, rgba(11,4,1,0.519) 560px, rgba(11,4,1,0.56) 572px, rgba(11,4,1,0.598) 584px, rgba(11,4,1,0.634) 596px, rgba(11,4,1,0.669) 608px, rgba(11,4,1,0.704) 620px, rgba(11,4,1,0.737) 632px, rgba(11,4,1,0.771) 644px, rgba(11,4,1,0.806) 656px, rgba(11,4,1,0.841) 668px, rgba(11,4,1,0.875) 680px, rgba(11,4,1,0.91) 692px, rgba(11,4,1,0.941) 704px, rgba(11,4,1,0.964) 716px, rgba(11,4,1,0.985) 724px, rgba(11,4,1,1) 744px)"></div>
-              <div class="goal__shade-left"></div>
-              <div class="goal__glow goal__glow--top"><img loading="lazy" src="images/foundation-goals-glow.webp?v=2" alt="" /></div>
-              <div class="goal__glow goal__glow--bottom"><img loading="lazy" src="images/foundation-goals-glow.webp?v=2" alt="" /></div>
+              <img class="goal__bg" src="images/foundation-goals-card-4.webp" width="2064" height="1020" alt="" decoding="async" />
               <div class="goal__ui"></div>
             </div>
           </div>
@@ -3747,11 +3735,6 @@ button.project__media-link {
       </div>
 
       <template id="goal-ui">
-        <span class="goal__dot"></span>
-        <p class="goal__label">The goals of the foundation</p>
-        <img class="goal__arrow goal__arrow--prev" src="images/foundation-goals-arrow.svg?v=2" alt="" />
-        <img class="goal__arrow goal__arrow--next" src="images/foundation-goals-arrow.svg?v=2" alt="" />
-        <span class="goal__rule"></span>
         <p class="goal__num"></p>
         <p class="goal__title"></p>
         <div class="goal__tab" style="left:28px"><span>Popularization of science</span><span>01</span></div>
@@ -5126,26 +5109,30 @@ button.project__media-link {
       new IntersectionObserver(function (e) { visible = e[0].isIntersecting; }).observe(root);
     }
 
+    // Ask for the next frame first, so one failing frame can't stop the loop.
     function frame(now) {
-      if (!visible) { if (pauseAt === null) pauseAt = now; requestAnimationFrame(frame); return; }
+      requestAnimationFrame(frame);
+      try { step(now); } catch (e) { /* keep going */ }
+    }
+    function step(now) {
+      if (!visible) { if (pauseAt === null) pauseAt = now; return; }
       if (pauseAt !== null) { paused += now - pauseAt; pauseAt = null; }
       if (start === null) start = now;
 
       var cycle = HOLD + MOVE;
       var t = (now - start - paused) % (cycle * count);
-      var step = Math.floor(t / cycle);
-      var local = t - step * cycle;
+      var n = Math.floor(t / cycle);
+      var local = t - n * cycle;
       var raw = local < HOLD ? 0 : (local - HOLD) / MOVE;
       var p = ease(raw);
-      place(step + p, slotSize());
+      place(n + p, slotSize());
 
-      var now_k = (raw >= ACTIVATE_AT ? step + 1 : step) % count;
+      var now_k = (raw >= ACTIVATE_AT ? n + 1 : n) % count;
       if (now_k !== current) {
         current = now_k;
         activate(current);
         prime((current + 2) % count); // off-screen by now: reset it for its next arrival
       }
-      requestAnimationFrame(frame);
     }
     // Start only once every layer is downloaded and decoded and the fonts are in,
     // so the first moves don't stutter on image decoding or a font swap.
@@ -5158,10 +5145,12 @@ button.project__media-link {
       return loaded.then(function () { return img.decode ? img.decode().catch(function () {}) : null; });
     });
     if (document.fonts && document.fonts.ready) ready.push(document.fonts.ready);
-    Promise.all(ready).then(function () {
-      // Short beat before the first card lights up.
-      setTimeout(function () { requestAnimationFrame(frame); }, 300);
-    });
+    // Start when everything is ready, but never later than 2.5s: a slow or stuck
+    // request must not leave the cards standing still.
+    var started = false;
+    function go() { if (started) return; started = true; setTimeout(function () { requestAnimationFrame(frame); }, 300); }
+    Promise.all(ready).then(go, go);
+    setTimeout(go, 2500);
   });
 })();
 </script>

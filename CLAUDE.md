@@ -265,6 +265,15 @@ lights its tab and lifts its number/headline in.
   Foundation 620px `img/video {height:100%}` rule. It also resets
   `font-feature-settings` because the site's global `dlig` turns on
   PP Fragment's ct/st ligatures.
+- **Performance:** everything static on a card (photo, shades, glows,
+  frosted inactive tabs, label, dot, arrows, rule) is baked into one image
+  per card (`images/foundation-goals-card-N.webp`, 1.5x of 1376x680); only
+  the number/headline and the tabs' white fill + text are live. The live
+  version (8 huge glow layers + 16 `backdrop-filter`s under moving cards)
+  stalled real browsers mid-transition. If a card's look changes, rebuild it
+  in the sandbox and re-bake (render each `.goal__stage` with texts hidden).
+  The loop requests its next frame before doing work (try/catch), and starts
+  at the latest 2.5s after load even if an asset is slow.
 - Tabs light via a background-color transition on the tab itself. Don't
   go back to an opacity-animated overlay inside the `backdrop-filter`
   box: Chrome painted it in patches.
