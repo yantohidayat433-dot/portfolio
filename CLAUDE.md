@@ -282,8 +282,12 @@ the slide: 2724.27px wide, `translate(-738.65px, 97.05px) rotate(-3.762deg)`,
 opacity .819 — then a base layer sways/swells and a screen-blended copy
 flares in and out. Copies must stay tight to the base edge: their faint
 yellow fringe turns olive over the dark background if it strays above it.
-Text: Glare 20px / 98% / 10% tracking, `mix-blend-mode: difference`,
-nudged `translate(2px, .5px)` for optical centring (measured on the caps).
+Text: Glare 20px / 98% / 6% tracking, `mix-blend-mode: difference`,
+nudged `translate(1px, .5px)` for optical centring (measured on the caps;
+re-measure if tracking changes). A left-to-right glint is an exact copy of
+the base shape seen through a wide bell-shaped mask window that slides
+across (outer box moves, inner box counter-moves) — keep the window soft:
+a narrow, flat-topped band read as patchy "clumps" of light.
 Sandbox: `animations/foundation-light/index.html`. Same scoping rules as
 the goals stack (prefixed selectors, `:not(.case__media--light)` on the
 620px img/video rule, `font-feature-settings: normal`).

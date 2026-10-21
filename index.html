@@ -172,7 +172,7 @@ body:not(.pw-locked) #pw-gate {
 /* 1. The shape itself breathes: a clear drift, a few degrees of turn about the
       lit lump (so the long tail on the right rises and sinks and the light sweeps
       along the curve), a swell, and a slight skew that makes the edge undulate. */
-.light-slide .light-slide__shape--base img { opacity: .819; animation: light-slide-drift 9s ease-in-out infinite alternate; }
+.light-slide .light-slide__shape--base img { opacity: .819; animation: light-slide-drift 7s ease-in-out infinite alternate; }
 @keyframes light-slide-drift {
   0%   { transform: translate(-16px, 12px) rotate(-2.6deg) skewX(-2deg) scale(1);    opacity: .72; }
   35%  { transform: translate(26px, -6px)  rotate(.8deg)   skewX(1.5deg) scale(1.045); opacity: .95; }
@@ -184,12 +184,39 @@ body:not(.pw-locked) #pw-gate {
       (growing about the lump, so its edge stays near the base edge rather than
       floating above it, where the faint yellow fringe would turn olive), then
       sinks back. Leaned orange so it reads as warm light. */
-.light-slide .light-slide__shape--spill { mix-blend-mode: screen; }
-.light-slide .light-slide__shape--spill img { opacity: 0; filter: saturate(1.25) hue-rotate(-10deg); animation: light-slide-spill 11s ease-in-out infinite; }
+.light-slide .light-slide__shape--light-slide-spill { mix-blend-mode: screen; }
+.light-slide .light-slide__shape--spill img { opacity: 0; filter: saturate(1.25) hue-rotate(-10deg); animation: light-slide-spill 8.5s ease-in-out infinite; }
 @keyframes light-slide-spill {
   0%, 100% { transform: translate(-10px, 10px) rotate(-1deg) scale(.99);  opacity: 0; }
-  40%      { transform: translate(12px, -6px)  rotate(1.4deg) scale(1.05); opacity: .55; }
+  40%      { transform: translate(12px, -6px)  rotate(1.4deg) scale(1.05); opacity: .62; }
   60%      { transform: translate(18px, -8px)  rotate(2deg)   scale(1.07); opacity: .45; }
+}
+
+/* 3. A glint sweeping left to right across the glow. It is an exact copy of the
+      base shape (same placement, same drift, so no fringe can stray above the
+      edge), seen only through a soft vertical band that travels across the
+      frame. The band moves on the outer box while the inner box counter-moves,
+      so the shape itself stays put and only the window slides. */
+.light-slide .light-slide__sweep {
+  left: 0; top: 0; width: 1100px; height: 620px;
+  mix-blend-mode: screen;
+  /* Bell-shaped window (Gaussian stops): no flat top and no straight edges,
+     so the passing light has no visible boundaries. */
+  -webkit-mask-image: linear-gradient(90deg, rgba(0,0,0,0.006) 0%, rgba(0,0,0,0.015) 5%, rgba(0,0,0,0.037) 10%, rgba(0,0,0,0.080) 15%, rgba(0,0,0,0.156) 20%, rgba(0,0,0,0.275) 25%, rgba(0,0,0,0.438) 30%, rgba(0,0,0,0.628) 35%, rgba(0,0,0,0.813) 40%, rgba(0,0,0,0.950) 45%, rgba(0,0,0,1.000) 50%, rgba(0,0,0,0.950) 55%, rgba(0,0,0,0.813) 60%, rgba(0,0,0,0.628) 65%, rgba(0,0,0,0.438) 70%, rgba(0,0,0,0.275) 75%, rgba(0,0,0,0.156) 80%, rgba(0,0,0,0.080) 85%, rgba(0,0,0,0.037) 90%, rgba(0,0,0,0.015) 95%, rgba(0,0,0,0.006) 100%);
+          mask-image: linear-gradient(90deg, rgba(0,0,0,0.006) 0%, rgba(0,0,0,0.015) 5%, rgba(0,0,0,0.037) 10%, rgba(0,0,0,0.080) 15%, rgba(0,0,0,0.156) 20%, rgba(0,0,0,0.275) 25%, rgba(0,0,0,0.438) 30%, rgba(0,0,0,0.628) 35%, rgba(0,0,0,0.813) 40%, rgba(0,0,0,0.950) 45%, rgba(0,0,0,1.000) 50%, rgba(0,0,0,0.950) 55%, rgba(0,0,0,0.813) 60%, rgba(0,0,0,0.628) 65%, rgba(0,0,0,0.438) 70%, rgba(0,0,0,0.275) 75%, rgba(0,0,0,0.156) 80%, rgba(0,0,0,0.080) 85%, rgba(0,0,0,0.037) 90%, rgba(0,0,0,0.015) 95%, rgba(0,0,0,0.006) 100%);
+  will-change: transform;
+  animation: light-slide-sweep 12s cubic-bezier(.45, 0, .55, 1) infinite;
+}
+.light-slide .light-slide__sweep-inner { position: absolute; left: 0; top: 0; width: 1015px; height: 620px; will-change: transform; animation: light-slide-sweep-counter 12s cubic-bezier(.45, 0, .55, 1) infinite; }
+.light-slide .light-slide__sweep-inner .light-slide__shape { position: absolute; }
+.light-slide .light-slide__sweep-inner img { filter: saturate(1.2) hue-rotate(-8deg); opacity: .6; animation: light-slide-drift 7s ease-in-out infinite alternate; }
+@keyframes light-slide-sweep {
+  0%        { transform: translateX(-1100px); }
+  75%, 100% { transform: translateX(1015px); }
+}
+@keyframes light-slide-sweep-counter {
+  0%        { transform: translateX(1100px); }
+  75%, 100% { transform: translateX(-1015px); }
 }
 
 .light-slide .light-slide__text {
@@ -198,16 +225,17 @@ body:not(.pw-locked) #pw-gate {
   margin: 0;
   color: #fff;
   font-family: 'PP Fragment Glare', serif;
-  font-size: 20px; line-height: .98; letter-spacing: .1em;
+  font-size: 20px; line-height: .98; letter-spacing: .06em;
   text-transform: uppercase; white-space: nowrap;
   mix-blend-mode: difference;
   /* Optical centring, measured on the rendered caps: tracking also adds space
      after the last letter, and the line box isn't centred on cap height. */
-  transform: translate(2px, .5px);
+  transform: translate(1px, .5px);
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .light-slide .light-slide__shape img { animation: none; }
+  .light-slide .light-slide__shape img, .light-slide .light-slide__sweep, .light-slide .light-slide__sweep-inner { animation: none; }
+  .light-slide .light-slide__sweep { display: none; }
 }
 
 /* ---------- Foundation case: "goals of the foundation" card stack ----------
@@ -3452,6 +3480,7 @@ button.project__media-link {
         <div class="light-slide__stage">
           <div class="light-slide__shape light-slide__shape--base"><img src="images/foundation-light-shape.webp" alt="" /></div>
           <div class="light-slide__shape light-slide__shape--spill"><img src="images/foundation-light-shape.webp" alt="" /></div>
+          <div class="light-slide__sweep"><div class="light-slide__sweep-inner"><div class="light-slide__shape"><img src="images/foundation-light-shape.webp" alt="" /></div></div></div>
           <p class="light-slide__text">We light the way toward humanity's greatest discoveries</p>
         </div>
       </div>
