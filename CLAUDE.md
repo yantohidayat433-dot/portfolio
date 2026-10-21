@@ -240,6 +240,38 @@ decode support entirely regardless of server — if `networkState`/
 this sandbox, not a real bug; verify sizing/poster/markup instead of
 chasing actual playback in headless tests.
 
+## Foundation "goals" card stack (`.case__media--goals`)
+
+The "goals of the foundation" slot in `#case-foundation` is a live
+animation, not an image: four cards stack over each other on a loop
+(next card rises from the dark, grows to full size and covers the
+previous one, which shrinks back and dims), and on arrival each card
+lights its tab and lifts its number/headline in.
+
+- Iterate in the sandbox first: `animations/foundation-goals/stack.html`
+  (assets in `animations/foundation-goals/src/`), then port to
+  `index.html`. `animations/foundation-goals/index.html` is the older
+  plain-scroll variant, kept for reference.
+- Each card is laid out in Figma's own 1376x680 px space and scaled to
+  the frame by JS (`--s`); the frame is the case slot itself (620px
+  desktop, `--mh` on phones), gutters scale with width via `cqw`.
+- Photo-to-dark ramps are per card, inline on `.goal__shade`, sampled
+  from the client's approved card renders. When she sends a new render,
+  re-fit against it (photo position via NCC, ramps by column ratio)
+  rather than eyeballing.
+- In `index.html` every component selector is prefixed with
+  `.goals-scroller` (the generic `.case__media img` rule otherwise wins),
+  and the slot is excluded via `:not(.case__media--goals)` from the
+  Foundation 620px `img/video {height:100%}` rule. It also resets
+  `font-feature-settings` because the site's global `dlig` turns on
+  PP Fragment's ct/st ligatures.
+- Tabs light via a background-color transition on the tab itself. Don't
+  go back to an opacity-animated overlay inside the `backdrop-filter`
+  box: Chrome painted it in patches.
+- Local testing: the site is password-gated; set
+  `localStorage['portfolio-unlocked'] = '1'` (e.g. Playwright
+  `addInitScript`) before loading, then open via `/#case-foundation`.
+
 ## Verification checklist (every text or crop change)
 
 1. Serve the repo locally (`http-server` if video is involved, plain
