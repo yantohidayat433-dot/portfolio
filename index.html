@@ -138,7 +138,7 @@ body:not(.pw-locked) #pw-gate {
    card layers sit in Figma's own 1376x680 space and are scaled to fit. */
 @font-face {
   font-family: 'PP Fragment Glare';
-  src: url(fonts/pp-fragment-glare-regular.otf) format('opentype');
+  src: url(fonts/pp-fragment-glare-regular.woff2) format('woff2');
   font-weight: 400;
   font-style: normal;
   font-display: swap;
@@ -146,7 +146,7 @@ body:not(.pw-locked) #pw-gate {
 
 @font-face {
   font-family: 'PP Fragment Sans';
-  src: url(fonts/pp-fragment-sans-medium.otf) format('opentype');
+  src: url(fonts/pp-fragment-sans-medium.woff2) format('woff2');
   font-weight: 400;
   font-style: normal;
   font-display: swap;
@@ -4729,18 +4729,21 @@ button.project__media-link {
 
     // The case starts hidden (display:none), so sizes are only known once it opens:
     // refit whenever the frame's size changes rather than once on load.
+    // Gap between stacked cards and the covered card's lift, both designed at 1015px wide.
+    // Measured in fit() (on resize) so the frame loop never forces a layout read.
+    var unitPx = 1, slotPx = 0, lastPos = null, curPos = 0;
+    function unit() { return unitPx; }
+    function slotSize() { return slotPx; }
     function fit() {
       var s = cards[0].getBoundingClientRect().width / 1376;
       cards.forEach(function (c) { c.querySelector('.goal__stage').style.setProperty('--s', s); });
       // The resting card sits centred in the frame, not pinned under the top gutter.
       track.style.top = Math.max((root.clientHeight - cards[0].offsetHeight) / 2, 0) + 'px';
+      unitPx = root.clientWidth / 1015;
+      slotPx = cards[0].offsetHeight + 14 * unitPx;
+      lastPos = null;
+      place(curPos, slotPx); // also lays the stack out correctly while waiting to start
     }
-    fit();
-    if ('ResizeObserver' in window) new ResizeObserver(fit).observe(root);
-    else window.addEventListener('resize', fit);
-    // Gap between stacked cards and the covered card's lift, both designed at 1015px wide.
-    function unit() { return root.clientWidth / 1015; }
-    function slotSize() { return cards[0].offsetHeight + 14 * unit(); }
 
     function copies(k) { return [cards[k]]; }
 
@@ -4772,6 +4775,8 @@ button.project__media-link {
     // distance in slots from the top spot: o > 0 still on its way up from below,
     // o < 0 already covered by the cards that slid over it.
     function place(pos, slot) {
+      if (pos === lastPos) return; // resting between moves: nothing to repaint
+      lastPos = curPos = pos;
       cards.forEach(function (c, i) {
         var o = ((i - pos) % count + count) % count;
         if (o > count - 2) o -= count; // range (-2, 2]: the deepest card wraps while hidden
@@ -4792,7 +4797,9 @@ button.project__media-link {
         veils[i].style.opacity = dark.toFixed(3);
       });
     }
-    place(0, slotSize());
+    fit();
+    if ('ResizeObserver' in window) new ResizeObserver(fit).observe(root);
+    else window.addEventListener('resize', fit);
 
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) { activate(0); return; }
 
@@ -4822,8 +4829,21 @@ button.project__media-link {
       }
       requestAnimationFrame(frame);
     }
-    // Short beat before the first card lights up.
-    setTimeout(function () { requestAnimationFrame(frame); }, 400);
+    // Start only once every layer is downloaded and decoded and the fonts are in,
+    // so the first moves don't stutter on image decoding or a font swap.
+    var imgs = Array.prototype.slice.call(root.querySelectorAll('img'));
+    var ready = imgs.map(function (img) {
+      var loaded = img.complete ? Promise.resolve() : new Promise(function (done) {
+        img.addEventListener('load', done, { once: true });
+        img.addEventListener('error', done, { once: true });
+      });
+      return loaded.then(function () { return img.decode ? img.decode().catch(function () {}) : null; });
+    });
+    if (document.fonts && document.fonts.ready) ready.push(document.fonts.ready);
+    Promise.all(ready).then(function () {
+      // Short beat before the first card lights up.
+      setTimeout(function () { requestAnimationFrame(frame); }, 300);
+    });
   });
 })();
 </script>
