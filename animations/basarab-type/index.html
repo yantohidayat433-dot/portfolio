@@ -6,8 +6,8 @@
 <!--
   Basarab post, 1080x1350. The client's two mockups (ref/mock-text.webp,
   ref/mock-site.webp) are the start and end frames: the three-line copy
-  breathes via letter-spacing (after her "what knits us together?"
-  reference), then its letters fly into "basarab.com" and back.
+  breathes via letter-spacing beats, then every line folds into its centre and
+  "basarab.com" bursts out of it with wide tracking and tightens; then back.
   Photos sit exactly where they are in the mockups (top y=0, bottom y=767).
   Glyphs are SVG <text> at measured baselines, one element per letter.
   ?t=SECONDS freezes a frame (render.js); otherwise it loops in real time.
@@ -38,18 +38,27 @@ const CX = 540;
 const COPY = { size: 32, track: 6.9, baselines: [649, 685, 721],
   lines: ['A flexible, flat sole, anatomical toe,', 'and soft upper let the foot move', 'naturally'] };
 const SITE = { size: 33.3, track: 6.4, baseline: 686, text: 'basarab.com' };
-const XH = 0.53;   // x-height, em: lines squash around their x-height centre
 
 // ---- timeline (s) ----------------------------------------------------------
-const T_BREATHE = 0.8, BREATHE = 3.6;   // letter-spacing waves
-const T_GATHER = 4.7, GATHER = 1.7;     // copy -> basarab.com
-const T_SCATTER = 8.2, SCATTER = 1.7;   // basarab.com -> copy
-const DURATION = 10.6;
+// beats: one line at a time snaps open and settles back, then all three together
+const BEATS = [
+  { at: 0.7, lines: [0], amp: [5] },
+  { at: 1.35, lines: [1], amp: [9] },
+  { at: 2.0, lines: [2], amp: [55] },
+  { at: 3.0, lines: [0, 1, 2], amp: [3.5, 5, 30] },
+];
+const OPEN = 0.32, HOLD = 0.12, CLOSE = 0.55;  // one beat
+const T_GATHER = 4.5, GATHER = 2.3;            // copy -> basarab.com
+const T_SCATTER = 8.9, SCATTER = 2.3;          // basarab.com -> copy (gather reversed)
+const DURATION = 11.6;
 window.DURATION = DURATION;
+const SPREAD = 3.4;   // how far basarab.com flies open before settling (x its width)
 
 const clamp = (x) => Math.max(0, Math.min(1, x));
 const ease = (x) => (x = clamp(x), x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2);
-const bell = (x) => (x <= 0 || x >= 1) ? 0 : Math.pow(Math.sin(Math.PI * x), 2);
+const easeOutExpo = (x) => (x = clamp(x), x === 1 ? 1 : 1 - Math.pow(2, -10 * x));
+const easeOutCubic = (x) => (x = clamp(x), 1 - Math.pow(1 - x, 3));
+const easeInCubic = (x) => (x = clamp(x), x * x * x);
 const lerp = (a, b, p) => a + (b - a) * p;
 
 // single-storey "a" is ss01, which canvas can't measure: use a hidden span
@@ -58,7 +67,7 @@ document.body.appendChild(probe);
 const svg = document.querySelector('svg.type');
 const NS = 'http://www.w3.org/2000/svg';
 
-let glyphs = [], lines = [], bars = [], siteG, siteW;
+let glyphs = [], site = [];
 const el = (tag, parent, attrs = {}) => {
   const e = document.createElementNS(NS, tag);
   for (const k in attrs) e.setAttribute(k, attrs[k]);
@@ -70,91 +79,63 @@ function build() {
   const metrics = (s) => {
     probe.textContent = s;
     const node = probe.firstChild, x0 = probe.getBoundingClientRect().left, r = document.createRange();
-    const pre = [...s].map((_, i) => { r.setStart(node, i); r.setEnd(node, i + 1); return (r.getBoundingClientRect().left - x0) / 100; });
-    return { pre, w: probe.getBoundingClientRect().width / 100 };
+    const box = [...s].map((_, i) => { r.setStart(node, i); r.setEnd(node, i + 1); const b = r.getBoundingClientRect(); return [(b.left - x0) / 100, b.width / 100]; });
+    return { box, w: probe.getBoundingClientRect().width / 100 };
   };
 
   glyphs = COPY.lines.map((line, li) => {
-    const { pre, w } = metrics(line);
-    lines[li] = el('g', svg);
+    const { box, w } = metrics(line);
     return [...line].map((ch, i) => {
-      const t = el('text', lines[li], { y: COPY.baselines[li], 'font-size': COPY.size }); t.textContent = ch;
-      return { el: t, n: line.length, pre: pre[i], w };
+      const t = el('text', svg, { y: COPY.baselines[li], 'font-size': COPY.size }); t.textContent = ch;
+      return { el: t, n: line.length, pre: box[i][0], adv: box[i][1], w };
     });
   });
-  bars = COPY.lines.map(() => el('rect', svg, { fill: '#08090D' }));
 
-  const { pre, w } = metrics(SITE.text);
-  siteW = w * SITE.size + (SITE.text.length - 1) * SITE.track;
-  siteG = el('g', svg);
-  [...SITE.text].forEach((ch, k) => {
-    el('text', siteG, { x: (CX - siteW / 2 + pre[k] * SITE.size + k * SITE.track).toFixed(2), y: SITE.baseline, 'font-size': SITE.size })
-      .textContent = ch;
+  const { box, w } = metrics(SITE.text);
+  const sw = w * SITE.size + (SITE.text.length - 1) * SITE.track;
+  site = [...SITE.text].map((ch, k) => {
+    const t = el('text', svg, { y: SITE.baseline, 'font-size': SITE.size, 'text-anchor': 'middle' }); t.textContent = ch;
+    return { el: t, cx: CX - sw / 2 + (box[k][0] + box[k][1] / 2) * SITE.size + k * SITE.track };
   });
 }
 
-// extra letter-spacing for gap i of line li at time t: a wave that runs
-// along the line, each line on its own phase so they breathe out of step
-const WAVE = [
-  { at: 0.0, dur: 2.2, amp: 6.0, dir: 1 },
-  { at: 0.45, dur: 2.3, amp: 9.5, dir: -1 },
-  { at: 0.9, dur: 2.4, amp: 62, dir: 1 },
-];
-function extra(li, i, n, t) {
-  const w = WAVE[li];
-  const pos = n > 1 ? i / (n - 2) : 0;                 // 0..1 along the line
-  const lag = (w.dir > 0 ? pos : 1 - pos) * 0.5;       // wave travels across in 0.5s
-  return w.amp * bell((t - T_BREATHE - w.at - lag) / w.dur);
+// extra tracking of line li at time t: snaps open fast, settles back softly
+function extra(li, t) {
+  let e = 0;
+  for (const b of BEATS) {
+    const j = b.lines.indexOf(li);
+    if (j < 0) continue;
+    const u = t - b.at;
+    if (u <= 0 || u >= OPEN + HOLD + CLOSE) continue;
+    const v = u < OPEN ? easeOutExpo(u / OPEN) : u < OPEN + HOLD ? 1 : 1 - ease((u - OPEN - HOLD) / CLOSE);
+    e += b.amp[j] * v;
+  }
+  return e;
 }
-
-function copyPositions(t) {
-  return glyphs.map((line, li) => {
-    const n = line.length;
-    const gaps = []; let total = 0;
-    for (let i = 0; i < n - 1; i++) { const g = COPY.track + extra(li, i, n, t); gaps.push(g); total += g; }
-    const w = line[0].w * COPY.size + total;
-    let acc = 0;
-    return line.map((g, i) => {
-      const px = CX - w / 2 + g.pre * COPY.size + acc;
-      if (i < n - 1) acc += gaps[i];
-      return px;
-    });
-  });
-}
-
-const squash = (g, cy, sy) => g.setAttribute('transform', `translate(0 ${cy}) scale(1 ${sy}) translate(0 ${-cy})`);
-const FLAT = 0.04, HAIR = 2.5;   // squashed scale, hairline thickness (px)
 
 window.setTime = (t) => {
   t = ((t % DURATION) + DURATION) % DURATION;
-  // transition progress: 0 = copy, 1 = basarab.com (scatter is gather reversed)
+  // transition progress: 0 = copy, 1 = basarab.com
   const p = clamp(t < T_SCATTER ? (t - T_GATHER) / GATHER : 1 - (t - T_SCATTER) / SCATTER);
-  const xs = copyPositions(t);
 
-  // 3) the merged hairline opens up into basarab.com
-  const c = ease((p - 0.68) / 0.32);
-  const siteCy = SITE.baseline - XH * SITE.size / 2;
-  squash(siteG, siteCy, lerp(FLAT, 1, c));
-  siteG.style.opacity = clamp(c / 0.35);
-
+  // 1) every line folds into its own centre
   glyphs.forEach((line, li) => {
-    const cy = COPY.baselines[li] - XH * COPY.size / 2;
-    const left = xs[li][0], right = xs[li][line.length - 1] + (line[0].w - line[line.length - 1].pre) * COPY.size;
-    line.forEach((g, i) => g.el.setAttribute('x', xs[li][i].toFixed(2)));
+    const tr = COPY.track + extra(li, t);
+    const w = line[0].w * COPY.size + (line.length - 1) * tr;
+    const k = easeInCubic((p - li * 0.03) / 0.3);
+    line.forEach((g, i) => {
+      const cx = CX - w / 2 + (g.pre + g.adv / 2) * COPY.size + i * tr;
+      g.el.setAttribute('x', (lerp(cx, CX, k) - g.adv / 2 * COPY.size).toFixed(2));
+      g.el.style.opacity = 1 - clamp((k - 0.55) / 0.4);
+    });
+  });
 
-    // 1) each line flattens into a hairline, staggered top to bottom
-    const a = ease((p - li * 0.04) / 0.3);
-    squash(lines[li], cy, lerp(1, FLAT, a));
-    lines[li].style.opacity = 1 - clamp((a - 0.8) / 0.2);
-    // 2) hairlines slide together and take basarab.com's width
-    const b = ease((p - 0.3 - (2 - li) * 0.03) / 0.36);
-    const y = lerp(cy, siteCy, b);
-    const x0 = lerp(left, CX - siteW / 2, b), x1 = lerp(right, CX + siteW / 2, b);
-    const h = lerp(XH * COPY.size, HAIR, a);
-    const bar = bars[li];
-    bar.setAttribute('x', x0.toFixed(2)); bar.setAttribute('width', (x1 - x0).toFixed(2));
-    bar.setAttribute('y', (y - h / 2).toFixed(2)); bar.setAttribute('height', h.toFixed(2));
-    bar.style.opacity = clamp((a - 0.75) / 0.2) * (1 - clamp((c - 0.05) / 0.25));
+  // 2) basarab.com bursts out of the centre with wide tracking, then tightens
+  const q = (p - 0.34) / 0.66;
+  const sp = q < 0.4 ? SPREAD * easeOutCubic(q / 0.4) : lerp(SPREAD, 1, ease((q - 0.4) / 0.6));
+  site.forEach((g) => {
+    g.el.setAttribute('x', lerp(CX, g.cx, q <= 0 ? 0 : sp).toFixed(2));
+    g.el.style.opacity = clamp(q / 0.12);
   });
 };
 
