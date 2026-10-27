@@ -48,17 +48,18 @@ const WAVE = [
   { at: 0.45, dur: 2.3, amp: 9.5, dir: -1 },
   { at: 0.9, dur: 2.4, amp: 62, dir: 1 },
 ];
-const T_GATHER = 4.7, GATHER = 2.3;        // copy -> basarab.com
-const T_SCATTER = 9.0, SCATTER = 2.3;      // basarab.com -> copy (gather reversed)
-const DURATION = 11.6;
+const T_GATHER = 4.7, GATHER = 2.6;        // copy -> basarab.com
+const HOLD = 1.5;                          // basarab.com at rest
+const T_SCATTER = T_GATHER + GATHER + HOLD, SCATTER = GATHER;   // basarab.com -> copy (gather reversed)
+const DURATION = T_SCATTER + SCATTER + 0.3;
 window.DURATION = DURATION;
-const SPREAD = 1.7;   // how far basarab.com opens up before settling (x its width)
+const SPREAD = 1.35;  // how far basarab.com opens up before settling (x its width)
 const FOLD = 0.45;    // how far the copy folds toward its centre while it fades
 
 const clamp = (x) => Math.max(0, Math.min(1, x));
 const ease = (x) => (x = clamp(x), x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2);
-const easeOutCubic = (x) => (x = clamp(x), 1 - Math.pow(1 - x, 3));
 const lerp = (a, b, p) => a + (b - a) * p;
+const sine = (x) => 0.5 - 0.5 * Math.cos(Math.PI * clamp(x));
 
 // single-storey "a" is ss01, which canvas can't measure: use a hidden span
 const probe = Object.assign(document.createElement('span'), { className: 'probe' });
@@ -66,7 +67,7 @@ document.body.appendChild(probe);
 const svg = document.querySelector('svg.type');
 const NS = 'http://www.w3.org/2000/svg';
 
-let glyphs = [], site = [];
+let glyphs = [], site = [], siteG, revealRect;
 const el = (tag, parent, attrs = {}) => {
   const e = document.createElementNS(NS, tag);
   for (const k in attrs) e.setAttribute(k, attrs[k]);
@@ -92,8 +93,15 @@ function build() {
 
   const { box, w } = metrics(SITE.text);
   const sw = w * SITE.size + (SITE.text.length - 1) * SITE.track;
+  // basarab.com sits under a soft-edged window that opens from the centre
+  const defs = el('defs', svg);
+  const grad = el('linearGradient', defs, { id: 'reveal-fade' });
+  [[0, 0], [0.3, 1], [0.7, 1], [1, 0]].forEach(([o, a]) => el('stop', grad, { offset: o, 'stop-color': '#fff', 'stop-opacity': a }));
+  const mask = el('mask', defs, { id: 'reveal', maskUnits: 'userSpaceOnUse', x: 0, y: 0, width: 1080, height: 1350 });
+  revealRect = el('rect', mask, { y: SITE.baseline - SITE.size, height: SITE.size * 1.6, fill: 'url(#reveal-fade)' });
+  siteG = el('g', svg, { mask: 'url(#reveal)' });
   site = [...SITE.text].map((ch, k) => {
-    const t = el('text', svg, { y: SITE.baseline, 'font-size': SITE.size, 'text-anchor': 'middle' }); t.textContent = ch;
+    const t = el('text', siteG, { y: SITE.baseline, 'font-size': SITE.size, 'text-anchor': 'middle' }); t.textContent = ch;
     return { el: t, cx: CX - sw / 2 + (box[k][0] + box[k][1] / 2) * SITE.size + k * SITE.track };
   });
 }
@@ -129,13 +137,17 @@ window.setTime = (t) => {
     });
   });
 
-  // 2) basarab.com bursts out of the centre with wide tracking, then tightens
-  const q = (p - 0.4) / 0.6;
-  const sp = q < 0.45 ? lerp(0.55, SPREAD, easeOutCubic(q / 0.45)) : lerp(SPREAD, 1, ease((q - 0.45) / 0.55));
-  site.forEach((g) => {
-    g.el.setAttribute('x', lerp(CX, g.cx, sp).toFixed(2));
-    g.el.style.opacity = ease(q / 0.35);
-  });
+  // 2) basarab.com opens out of the centre: a soft window widens while the
+  // tracking swells past its final width and settles; all stages sine-eased
+  const q = clamp((p - 0.3) / 0.7);
+  const sp = q < 0.6 ? lerp(0.8, SPREAD, sine(q / 0.6)) : lerp(SPREAD, 1, sine((q - 0.6) / 0.4));
+  site.forEach((g) => g.el.setAttribute('x', lerp(CX, g.cx, sp).toFixed(2)));
+  // window's opaque core (middle 40%) reaches past the outer letters once open
+  const half = (site[site.length - 1].cx - CX) * sp + SITE.size;
+  const mw = (2 * half / 0.4) * sine(q / 0.65);
+  revealRect.setAttribute('x', (CX - mw / 2).toFixed(2));
+  revealRect.setAttribute('width', Math.max(0, mw).toFixed(2));
+  siteG.style.opacity = sine(q / 0.25);
 };
 
 window.ready = (async () => {
