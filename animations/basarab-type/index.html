@@ -40,20 +40,20 @@ const COPY = { size: 32, track: 6.9, baselines: [649, 685, 721],
 const SITE = { size: 33.3, track: 6.4, baseline: 686, text: 'basarab.com' };
 
 // ---- timeline (s) ----------------------------------------------------------
-// letter-spacing motion measured from her reference (letter positions tracked
-// frame by frame): each line opens to one shared width and closes again with
-// sine easing, ~0.75s each way, holding open ~0.6s and shut ~0.65s; lines 1-2
-// move almost together, the last line ~0.75s behind. Long lines spread evenly;
-// the short last line piles its space up at one end, alternating ends per opening.
-const FULL = 1000;                         // shared width a line opens to (px)
-const RAMP = 0.75, HOLD_OPEN = 0.6, HOLD_SHUT = 0.65;
-const PERIOD = 2 * RAMP + HOLD_OPEN + HOLD_SHUT;
-const START = 0.5, OPENINGS = 2;
+// letter-spacing motion after her reference (letter positions tracked frame by
+// frame): every line breathes open and shut on a continuous sine, no holds, so
+// the motion keeps flowing; lines 1-2 move almost together, the last line ~0.75s
+// behind. Long lines spread evenly; the short last line piles its space up at
+// one end, alternating ends per opening. Lines open only part of the way to
+// the full 1000px measure.
+const FULL = 1000, STRETCH = 0.5;          // open width = natural + STRETCH * (FULL - natural)
+const PERIOD = 2.6;
+const START = 0.4, OPENINGS = 2;
 const PHASE = [0, 0.2, 0.75];
 const LOPSIDED = [false, false, true];
-const T_GATHER = 6.3, GATHER = 2.3;        // copy -> basarab.com
-const T_SCATTER = 10.6, SCATTER = 2.3;     // basarab.com -> copy (gather reversed)
-const DURATION = 13.2;
+const T_GATHER = 6.5, GATHER = 2.3;        // copy -> basarab.com
+const T_SCATTER = 10.8, SCATTER = 2.3;     // basarab.com -> copy (gather reversed)
+const DURATION = 13.4;
 window.DURATION = DURATION;
 const SPREAD = 1.7;   // how far basarab.com opens up before settling (x its width)
 const FOLD = 0.45;    // how far the copy folds toward its centre while it fades
@@ -101,15 +101,12 @@ function build() {
   });
 }
 
-const sine = (x) => 0.5 - 0.5 * Math.cos(Math.PI * clamp(x));
-
 // how open line li is at time t (0..1), and which opening it is in
 function openness(li, t) {
   const u = t - START - PHASE[li];
   if (u < 0 || u >= PERIOD * OPENINGS) return { o: 0, k: 0 };
-  const k = Math.floor(u / PERIOD), v = u - k * PERIOD;
-  const o = v < RAMP ? sine(v / RAMP) : v < RAMP + HOLD_OPEN ? 1 : 1 - sine((v - RAMP - HOLD_OPEN) / RAMP);
-  return { o, k };
+  const k = Math.floor(u / PERIOD);
+  return { o: 0.5 - 0.5 * Math.cos(2 * Math.PI * u / PERIOD), k };
 }
 
 // share of the extra space each gap takes
@@ -132,7 +129,7 @@ window.setTime = (t) => {
   // 1) every line drifts toward its centre and dissolves before letters can pile up
   glyphs.forEach((line, li) => {
     const n = line.length, gaps = [];
-    const room = FULL - line[0].w * COPY.size - (n - 1) * COPY.track;   // extra space when fully open
+    const room = STRETCH * (FULL - line[0].w * COPY.size - (n - 1) * COPY.track);   // extra space when open
     const { o, k: nth } = openness(li, t), share = weights(li, n, nth);
     for (let i = 0; i < n - 1; i++) gaps.push(COPY.track + room * share[i] * o);
     const w = line[0].w * COPY.size + gaps.reduce((a, b) => a + b, 0);
