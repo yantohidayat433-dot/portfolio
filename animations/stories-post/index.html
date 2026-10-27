@@ -19,9 +19,9 @@
     position: absolute; left: 270px; top: 187px; width: 540px; height: 976.5px;
     border-radius: 16px; overflow: hidden; background: #fff;
   }
-  .story__img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; visibility: hidden; }
-  .story__img.is-on { visibility: visible; }
+  .story__img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; }
 
+  .bars, .avatar, .meta, .dots, .close { z-index: 3; }
   .bars { position: absolute; left: 26.33px; top: 22.39px; width: 487.36px; height: 3.95px; display: flex; gap: 4px; }
   .bar { flex: 1; height: 100%; border-radius: 2px; background: rgba(51, 51, 51, .32); overflow: hidden; }
   .bar__fill { height: 100%; width: 100%; background: #333; transform-origin: 0 50%; transform: scaleX(0); }
@@ -53,8 +53,8 @@
 
     <div class="bars"></div>
     <div class="avatar">
-      <svg viewBox="0 0 23.87 12.51"><text x="11.935" y="12.2" text-anchor="middle" textLength="23.87" lengthAdjust="spacingAndGlyphs"
-        font-family="PP Right Grotesk" font-weight="700" font-size="16.6" fill="#fff">BSRB</text></svg>
+      <svg viewBox="0 0 23.87 12.51"><text x="12.2" y="12.03" text-anchor="middle" textLength="23.87" lengthAdjust="spacingAndGlyphs" letter-spacing="0.6"
+        font-family="PP Right Grotesk" font-weight="700" font-size="17.35" fill="#fff" stroke="#fff" stroke-width="0.3">BSRB</text></svg>
     </div>
     <div class="meta"><span class="meta__name">basarab</span><span class="meta__time">12ч.</span></div>
     <svg class="dots" viewBox="0 0 28.77 6.11" fill="#333">
@@ -67,6 +67,7 @@
 </div>
 <script>
   const PER = 3;           // seconds per story
+  const FADE = 0.6;        // cross-fade into the next story, at the start of its slot
   const imgs = [...document.querySelectorAll('.story__img')];
   const N = imgs.length;
   const bars = document.querySelector('.bars');
@@ -81,7 +82,15 @@
     t = ((t % DURATION) + DURATION) % DURATION;
     const cur = Math.min(N - 1, Math.floor(t / PER));
     const p = (t - cur * PER) / PER;
-    imgs.forEach((im, i) => im.classList.toggle('is-on', i === cur));
+    // incoming story fades in on top of the previous one (which stays opaque
+    // underneath, so no dip); story 1 fades in over story 5, keeping the loop seamless
+    const prev = (cur + N - 1) % N;
+    const f = Math.min(1, (t - cur * PER) / FADE);
+    const e = f * f * (3 - 2 * f);
+    imgs.forEach((im, i) => {
+      im.style.opacity = i === cur ? e : i === prev && f < 1 ? 1 : 0;
+      im.style.zIndex = i === cur ? 2 : 1;
+    });
     fills.forEach((f, i) => f.style.transform = `scaleX(${i < cur ? 1 : i === cur ? p : 0})`);
   };
 
