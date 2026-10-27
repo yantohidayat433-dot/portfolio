@@ -67,7 +67,6 @@
 </div>
 <script>
   const PER = 3;           // seconds per story
-  const FADE = 0.6;        // cross-fade into the next story, at the start of its slot
   const imgs = [...document.querySelectorAll('.story__img')];
   const N = imgs.length;
   const bars = document.querySelector('.bars');
@@ -82,15 +81,8 @@
     t = ((t % DURATION) + DURATION) % DURATION;
     const cur = Math.min(N - 1, Math.floor(t / PER));
     const p = (t - cur * PER) / PER;
-    // incoming story fades in on top of the previous one (which stays opaque
-    // underneath, so no dip); story 1 fades in over story 5, keeping the loop seamless
-    const prev = (cur + N - 1) % N;
-    const f = Math.min(1, (t - cur * PER) / FADE);
-    const e = f * f * (3 - 2 * f);
-    imgs.forEach((im, i) => {
-      im.style.opacity = i === cur ? e : i === prev && f < 1 ? 1 : 0;
-      im.style.zIndex = i === cur ? 2 : 1;
-    });
+    // hard cut, as Instagram auto-advances within one account
+    imgs.forEach((im, i) => im.style.opacity = i === cur ? 1 : 0);
     fills.forEach((f, i) => f.style.transform = `scaleX(${i < cur ? 1 : i === cur ? p : 0})`);
   };
 
