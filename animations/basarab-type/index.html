@@ -36,17 +36,15 @@
 const FONT = "700 100px 'PP Right Grotesk'";
 const CX = 540;
 const COPY = { size: 32, track: 6.9, baselines: [649, 685, 721],
-  lines: ['A flexible, flat sole, anatomical toe,', 'and soft upper let the foot move', 'naturally.'] };
+  lines: ['A flexible, flat sole, anatomical toe,', 'and soft upper let the foot move', 'naturally'] };
 const SITE = { size: 33.3, track: 6.4, baseline: 686, text: 'basarab.com' };
-// which copy letter becomes which site letter: [line, index in line]; the
-// copy has only one "b", so the second one comes from the "d" of "and"
-const PICK = [[0, 7], [0, 14], [1, 4], [0, 25], [1, 13], [2, 1], [1, 2], [2, 9], [0, 30], [1, 24], [0, 28]];
+const XH = 0.53;   // x-height, em: lines squash around their x-height centre
 
 // ---- timeline (s) ----------------------------------------------------------
 const T_BREATHE = 0.8, BREATHE = 3.6;   // letter-spacing waves
-const T_GATHER = 4.7, GATHER = 1.5;     // copy -> basarab.com
-const T_SCATTER = 8.2, SCATTER = 1.5;   // basarab.com -> copy
-const DURATION = 10.4;
+const T_GATHER = 4.7, GATHER = 1.7;     // copy -> basarab.com
+const T_SCATTER = 8.2, SCATTER = 1.7;   // basarab.com -> copy
+const DURATION = 10.6;
 window.DURATION = DURATION;
 
 const clamp = (x) => Math.max(0, Math.min(1, x));
@@ -60,7 +58,12 @@ document.body.appendChild(probe);
 const svg = document.querySelector('svg.type');
 const NS = 'http://www.w3.org/2000/svg';
 
-let glyphs = [], site = [];
+let glyphs = [], lines = [], bars = [], siteG, siteW;
+const el = (tag, parent, attrs = {}) => {
+  const e = document.createElementNS(NS, tag);
+  for (const k in attrs) e.setAttribute(k, attrs[k]);
+  parent.appendChild(e); return e;
+};
 
 function build() {
   // x of each letter (with kerning) and total advance, in em
@@ -70,27 +73,23 @@ function build() {
     const pre = [...s].map((_, i) => { r.setStart(node, i); r.setEnd(node, i + 1); return (r.getBoundingClientRect().left - x0) / 100; });
     return { pre, w: probe.getBoundingClientRect().width / 100 };
   };
-  const prefixes = (s) => metrics(s).pre;
-  const width = (s) => metrics(s).w;
 
   glyphs = COPY.lines.map((line, li) => {
-    const pre = prefixes(line), w = width(line);
+    const { pre, w } = metrics(line);
+    lines[li] = el('g', svg);
     return [...line].map((ch, i) => {
-      const el = document.createElementNS(NS, 'text'); el.textContent = ch; svg.appendChild(el);
-      return { ch, el, li, i, n: line.length, pre: pre[i], w };
+      const t = el('text', lines[li], { y: COPY.baselines[li], 'font-size': COPY.size }); t.textContent = ch;
+      return { el: t, n: line.length, pre: pre[i], w };
     });
   });
+  bars = COPY.lines.map(() => el('rect', svg, { fill: '#08090D' }));
 
-  const sp = prefixes(SITE.text), sw = width(SITE.text) * SITE.size + (SITE.text.length - 1) * SITE.track;
-  site = [...SITE.text].map((ch, k) => ({ ch, x: CX - sw / 2 + sp[k] * SITE.size + k * SITE.track }));
-
-  PICK.forEach(([li, i], k) => {
-    const g = glyphs[li][i];
-    g.target = k;
-    if (g.ch !== site[k].ch) {   // morphs on the way: cross-fade into the right letter
-      const el = document.createElementNS(NS, 'text'); el.textContent = site[k].ch; svg.appendChild(el);
-      g.morph = el;
-    }
+  const { pre, w } = metrics(SITE.text);
+  siteW = w * SITE.size + (SITE.text.length - 1) * SITE.track;
+  siteG = el('g', svg);
+  [...SITE.text].forEach((ch, k) => {
+    el('text', siteG, { x: (CX - siteW / 2 + pre[k] * SITE.size + k * SITE.track).toFixed(2), y: SITE.baseline, 'font-size': SITE.size })
+      .textContent = ch;
   });
 }
 
@@ -123,37 +122,40 @@ function copyPositions(t) {
   });
 }
 
+const squash = (g, cy, sy) => g.setAttribute('transform', `translate(0 ${cy}) scale(1 ${sy}) translate(0 ${-cy})`);
+const FLAT = 0.04, HAIR = 2.5;   // squashed scale, hairline thickness (px)
+
 window.setTime = (t) => {
   t = ((t % DURATION) + DURATION) % DURATION;
-  // gather progress: 0 = copy, 1 = basarab.com
-  const gp = t < T_SCATTER ? (t - T_GATHER) / GATHER : 1 - (t - T_SCATTER) / SCATTER;
+  // transition progress: 0 = copy, 1 = basarab.com (scatter is gather reversed)
+  const p = clamp(t < T_SCATTER ? (t - T_GATHER) / GATHER : 1 - (t - T_SCATTER) / SCATTER);
   const xs = copyPositions(t);
-  glyphs.forEach((line, li) => line.forEach((g, i) => {
-    const x0 = xs[li][i], y0 = COPY.baselines[li];
-    if (g.target === undefined) {
-      // letters that aren't needed fade out (staggered, drifting slightly down)
-      const s = (i / g.n) * 0.2 + li * 0.05;
-      const p = ease((gp - s) / 0.3);
-      g.el.setAttribute('x', x0.toFixed(2));
-      g.el.setAttribute('y', (y0 + 6 * p).toFixed(2));
-      g.el.setAttribute('font-size', COPY.size);
-      g.el.style.opacity = 1 - p;
-      return;
-    }
-    const k = g.target;
-    const s = 0.12 + k * 0.03;                      // leave once the rest has started to fade
-    const p = ease((gp - s) / (1 - 0.12 - 0.03 * 10));
-    const x = lerp(x0, site[k].x, p), y = lerp(y0, SITE.baseline, p);
-    const size = lerp(COPY.size, SITE.size, p);
-    for (const el of [g.el, g.morph]) {
-      if (!el) continue;
-      el.setAttribute('x', x.toFixed(2)); el.setAttribute('y', y.toFixed(2)); el.setAttribute('font-size', size.toFixed(3));
-    }
-    if (g.morph) {
-      const m = clamp((p - 0.3) / 0.4);
-      g.el.style.opacity = 1 - m; g.morph.style.opacity = m;
-    } else g.el.style.opacity = 1;
-  }));
+
+  // 3) the merged hairline opens up into basarab.com
+  const c = ease((p - 0.68) / 0.32);
+  const siteCy = SITE.baseline - XH * SITE.size / 2;
+  squash(siteG, siteCy, lerp(FLAT, 1, c));
+  siteG.style.opacity = clamp(c / 0.35);
+
+  glyphs.forEach((line, li) => {
+    const cy = COPY.baselines[li] - XH * COPY.size / 2;
+    const left = xs[li][0], right = xs[li][line.length - 1] + (line[0].w - line[line.length - 1].pre) * COPY.size;
+    line.forEach((g, i) => g.el.setAttribute('x', xs[li][i].toFixed(2)));
+
+    // 1) each line flattens into a hairline, staggered top to bottom
+    const a = ease((p - li * 0.04) / 0.3);
+    squash(lines[li], cy, lerp(1, FLAT, a));
+    lines[li].style.opacity = 1 - clamp((a - 0.8) / 0.2);
+    // 2) hairlines slide together and take basarab.com's width
+    const b = ease((p - 0.3 - (2 - li) * 0.03) / 0.36);
+    const y = lerp(cy, siteCy, b);
+    const x0 = lerp(left, CX - siteW / 2, b), x1 = lerp(right, CX + siteW / 2, b);
+    const h = lerp(XH * COPY.size, HAIR, a);
+    const bar = bars[li];
+    bar.setAttribute('x', x0.toFixed(2)); bar.setAttribute('width', (x1 - x0).toFixed(2));
+    bar.setAttribute('y', (y - h / 2).toFixed(2)); bar.setAttribute('height', h.toFixed(2));
+    bar.style.opacity = clamp((a - 0.75) / 0.2) * (1 - clamp((c - 0.05) / 0.25));
+  });
 };
 
 window.ready = (async () => {
