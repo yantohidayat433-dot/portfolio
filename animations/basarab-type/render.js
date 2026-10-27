@@ -1,5 +1,5 @@
 // Frame-by-frame render of index.html to MP4 (1080x1350, H.264).
-// Usage: node render.js [fps] [out.mp4]   (run from this folder, server on :8766)
+// Usage: node render.js [fps] [out.mp4|out.gif]   (run from this folder, server on :8766)
 //        node render.js still 4.5 out.png
 const { chromium } = require('playwright');
 const { spawn } = require('child_process');
@@ -24,8 +24,12 @@ const { spawn } = require('child_process');
   const fps = parseInt(process.argv[2] || '30', 10);
   const out = process.argv[3] || 'basarab-type.mp4';
   const dur = await page.evaluate(() => DURATION);
-  const ff = spawn('ffmpeg', ['-y', '-v', 'error', '-f', 'image2pipe', '-framerate', String(fps), '-i', '-',
-    '-c:v', 'libx264', '-preset', 'slow', '-crf', '16', '-pix_fmt', 'yuv420p', '-movflags', '+faststart', out],
+  // GIF straight from the lossless frames: static photo pixels stay identical
+  // frame to frame, so each GIF frame only stores the changed text area
+  const enc = out.endsWith('.gif')
+    ? ['-vf', 'split[a][b];[a]palettegen=max_colors=256[p];[b][p]paletteuse=dither=sierra2_4a:diff_mode=rectangle', '-loop', '0']
+    : ['-c:v', 'libx264', '-preset', 'slow', '-crf', '16', '-pix_fmt', 'yuv420p', '-movflags', '+faststart'];
+  const ff = spawn('ffmpeg', ['-y', '-v', 'error', '-f', 'image2pipe', '-framerate', String(fps), '-i', '-', ...enc, out],
     { stdio: ['pipe', 'inherit', 'inherit'] });
   const total = Math.round(dur * fps);
   for (let i = 0; i < total; i++) {
