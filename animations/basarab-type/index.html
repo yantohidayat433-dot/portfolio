@@ -6,8 +6,8 @@
 <!--
   Basarab post, 1080x1350. The client's two mockups (ref/mock-text.webp,
   ref/mock-site.webp) are the start and end frames: the three-line copy
-  breathes via letter-spacing beats, then every line folds into its centre and
-  "basarab.com" bursts out of it with wide tracking and tightens; then back.
+  breathes via letter-spacing waves, then the lines fold toward their centres as they fade
+  and "basarab.com" opens out of the middle with wide tracking and tightens; then back.
   Photos sit exactly where they are in the mockups (top y=0, bottom y=767).
   Glyphs are SVG <text> at measured baselines, one element per letter.
   ?t=SECONDS freezes a frame (render.js); otherwise it loops in real time.
@@ -40,25 +40,25 @@ const COPY = { size: 32, track: 6.9, baselines: [649, 685, 721],
 const SITE = { size: 33.3, track: 6.4, baseline: 686, text: 'basarab.com' };
 
 // ---- timeline (s) ----------------------------------------------------------
-// beats: one line at a time snaps open and settles back, then all three together
-const BEATS = [
-  { at: 0.7, lines: [0], amp: [5] },
-  { at: 1.35, lines: [1], amp: [9] },
-  { at: 2.0, lines: [2], amp: [55] },
-  { at: 3.0, lines: [0, 1, 2], amp: [3.5, 5, 30] },
+// letter-spacing waves (motion after her reference): a swell runs along each
+// line, all three lines at once, neighbours travelling in opposite directions;
+// two breaths, a big one then a smaller echo
+const WAVES = [
+  { at: 0.7, dur: 2.0, amp: [6, 9.5, 60] },
+  { at: 2.5, dur: 1.6, amp: [3.5, 5.5, 32] },
 ];
-const OPEN = 0.32, HOLD = 0.12, CLOSE = 0.55;  // one beat
-const T_GATHER = 4.5, GATHER = 2.3;            // copy -> basarab.com
-const T_SCATTER = 8.9, SCATTER = 2.3;          // basarab.com -> copy (gather reversed)
-const DURATION = 11.6;
+const DIR = [1, -1, 1];
+const TRAVEL = 0.45;   // s for a swell to cross a line
+const T_GATHER = 4.7, GATHER = 2.3;            // copy -> basarab.com
+const T_SCATTER = 9.1, SCATTER = 2.3;          // basarab.com -> copy (gather reversed)
+const DURATION = 11.8;
 window.DURATION = DURATION;
-const SPREAD = 3.4;   // how far basarab.com flies open before settling (x its width)
+const SPREAD = 1.7;   // how far basarab.com opens up before settling (x its width)
+const FOLD = 0.45;    // how far the copy folds toward its centre while it fades
 
 const clamp = (x) => Math.max(0, Math.min(1, x));
 const ease = (x) => (x = clamp(x), x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2);
-const easeOutExpo = (x) => (x = clamp(x), x === 1 ? 1 : 1 - Math.pow(2, -10 * x));
 const easeOutCubic = (x) => (x = clamp(x), 1 - Math.pow(1 - x, 3));
-const easeInCubic = (x) => (x = clamp(x), x * x * x);
 const lerp = (a, b, p) => a + (b - a) * p;
 
 // single-storey "a" is ss01, which canvas can't measure: use a hidden span
@@ -99,18 +99,12 @@ function build() {
   });
 }
 
-// extra tracking of line li at time t: snaps open fast, settles back softly
-function extra(li, t) {
-  let e = 0;
-  for (const b of BEATS) {
-    const j = b.lines.indexOf(li);
-    if (j < 0) continue;
-    const u = t - b.at;
-    if (u <= 0 || u >= OPEN + HOLD + CLOSE) continue;
-    const v = u < OPEN ? easeOutExpo(u / OPEN) : u < OPEN + HOLD ? 1 : 1 - ease((u - OPEN - HOLD) / CLOSE);
-    e += b.amp[j] * v;
-  }
-  return e;
+const bell = (x) => (x <= 0 || x >= 1) ? 0 : Math.pow(Math.sin(Math.PI * x), 2);
+// extra tracking after gap i of line li at time t
+function extra(li, i, n, t) {
+  const pos = n > 2 ? i / (n - 2) : 0;
+  const lag = (DIR[li] > 0 ? pos : 1 - pos) * TRAVEL;
+  return WAVES.reduce((e, w) => e + w.amp[li] * bell((t - w.at - lag) / w.dur), 0);
 }
 
 window.setTime = (t) => {
@@ -118,24 +112,29 @@ window.setTime = (t) => {
   // transition progress: 0 = copy, 1 = basarab.com
   const p = clamp(t < T_SCATTER ? (t - T_GATHER) / GATHER : 1 - (t - T_SCATTER) / SCATTER);
 
-  // 1) every line folds into its own centre
+  // 1) every line drifts toward its centre and dissolves before letters can pile up
   glyphs.forEach((line, li) => {
-    const tr = COPY.track + extra(li, t);
-    const w = line[0].w * COPY.size + (line.length - 1) * tr;
-    const k = easeInCubic((p - li * 0.03) / 0.3);
+    const n = line.length, gaps = [];
+    for (let i = 0; i < n - 1; i++) gaps.push(COPY.track + extra(li, i, n, t));
+    const w = line[0].w * COPY.size + gaps.reduce((a, b) => a + b, 0);
+    const k = ease((p - li * 0.04) / 0.42);
+    let acc = 0;
     line.forEach((g, i) => {
-      const cx = CX - w / 2 + (g.pre + g.adv / 2) * COPY.size + i * tr;
-      g.el.setAttribute('x', (lerp(cx, CX, k) - g.adv / 2 * COPY.size).toFixed(2));
-      g.el.style.opacity = 1 - clamp((k - 0.55) / 0.4);
+      const cx = CX - w / 2 + (g.pre + g.adv / 2) * COPY.size + acc;
+      if (i < n - 1) acc += gaps[i];
+      // outer letters fade a touch earlier, so the line thins from its ends
+      const d = Math.abs(cx - CX) / (w / 2);
+      g.el.setAttribute('x', (lerp(cx, CX, FOLD * k) - g.adv / 2 * COPY.size).toFixed(2));
+      g.el.style.opacity = 1 - clamp((k - 0.25 * (1 - d)) / 0.6);
     });
   });
 
   // 2) basarab.com bursts out of the centre with wide tracking, then tightens
-  const q = (p - 0.34) / 0.66;
-  const sp = q < 0.4 ? SPREAD * easeOutCubic(q / 0.4) : lerp(SPREAD, 1, ease((q - 0.4) / 0.6));
+  const q = (p - 0.4) / 0.6;
+  const sp = q < 0.45 ? lerp(0.55, SPREAD, easeOutCubic(q / 0.45)) : lerp(SPREAD, 1, ease((q - 0.45) / 0.55));
   site.forEach((g) => {
-    g.el.setAttribute('x', lerp(CX, g.cx, q <= 0 ? 0 : sp).toFixed(2));
-    g.el.style.opacity = clamp(q / 0.12);
+    g.el.setAttribute('x', lerp(CX, g.cx, sp).toFixed(2));
+    g.el.style.opacity = ease(q / 0.35);
   });
 };
 
