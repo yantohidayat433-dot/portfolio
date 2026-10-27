@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Stories post</title>
+<!--
+  Instagram-stories post, 1080x1350, for the client's channel.
+  Layout from Figma "tg 7" (node 442:4065): story 540x976.5 at (270,187),
+  header geometry taken 1:1 from the frame. Stories are her own 960x1736
+  renders (1.778x of the frame), text already baked in.
+  ?t=SECONDS freezes the frame at that time (used by render.js);
+  without it the page plays in real time on a loop.
+-->
+<style>
+  @font-face { font-family: 'PP Right Grotesk'; src: url('src/PPRightGrotesk-Bold.otf'); font-weight: 700; }
+  html, body { margin: 0; background: #08090D; }
+  .post { position: relative; width: 1080px; height: 1350px; background: #08090D; overflow: hidden; }
+  .story {
+    position: absolute; left: 270px; top: 187px; width: 540px; height: 976.5px;
+    border-radius: 16px; overflow: hidden; background: #fff;
+  }
+  .story__img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; visibility: hidden; }
+  .story__img.is-on { visibility: visible; }
+
+  .bars { position: absolute; left: 26.33px; top: 22.39px; width: 487.36px; height: 3.95px; display: flex; gap: 4px; }
+  .bar { flex: 1; height: 100%; border-radius: 2px; background: rgba(51, 51, 51, .32); overflow: hidden; }
+  .bar__fill { height: 100%; width: 100%; background: #333; transform-origin: 0 50%; transform: scaleX(0); }
+
+  .avatar {
+    position: absolute; left: 26.33px; top: 39.51px; width: 39.515px; height: 39.515px;
+    border-radius: 50%; background: #000; display: grid; place-items: center;
+  }
+  .avatar svg { width: 23.87px; height: 12.51px; overflow: visible; }
+  .meta {
+    position: absolute; left: 79.01px; top: 44.78px; display: flex; gap: 14.61px;
+    font-family: 'Inter', sans-serif; font-size: 20.27px; line-height: 29px;
+    letter-spacing: -0.55px; color: #333; white-space: nowrap;
+  }
+  .meta__name { font-weight: 500; }
+  .meta__time { font-weight: 400; }
+  .dots { position: absolute; left: 420.19px; top: 56.64px; width: 28.77px; height: 6.11px; }
+  .close { position: absolute; left: 475.49px; top: 44.78px; width: 28.99px; height: 26.34px; overflow: visible; }
+</style>
+</head>
+<body>
+<div class="post">
+  <div class="story">
+    <img class="story__img" src="src/1.webp" alt="" />
+    <img class="story__img" src="src/2.webp" alt="" />
+    <img class="story__img" src="src/3.webp" alt="" />
+    <img class="story__img" src="src/4.webp" alt="" />
+    <img class="story__img" src="src/5.webp" alt="" />
+
+    <div class="bars"></div>
+    <div class="avatar">
+      <svg viewBox="0 0 23.87 12.51"><text x="11.935" y="12.2" text-anchor="middle" textLength="23.87" lengthAdjust="spacingAndGlyphs"
+        font-family="PP Right Grotesk" font-weight="700" font-size="16.6" fill="#fff">BSRB</text></svg>
+    </div>
+    <div class="meta"><span class="meta__name">basarab</span><span class="meta__time">12ч.</span></div>
+    <svg class="dots" viewBox="0 0 28.77 6.11" fill="#333">
+      <circle cx="3.055" cy="3.055" r="3.055" /><circle cx="14.385" cy="3.055" r="3.055" /><circle cx="25.715" cy="3.055" r="3.055" />
+    </svg>
+    <svg class="close" viewBox="0 0 28.99 26.34" stroke="#333" stroke-width="2.6" stroke-linecap="butt">
+      <line x1="1.3" y1="0.6" x2="27.7" y2="25.74" /><line x1="27.7" y1="0.6" x2="1.3" y2="25.74" />
+    </svg>
+  </div>
+</div>
+<script>
+  const PER = 3;           // seconds per story
+  const imgs = [...document.querySelectorAll('.story__img')];
+  const N = imgs.length;
+  const bars = document.querySelector('.bars');
+  const fills = imgs.map(() => {
+    const b = document.createElement('div'); b.className = 'bar';
+    const f = document.createElement('div'); f.className = 'bar__fill';
+    b.appendChild(f); bars.appendChild(b); return f;
+  });
+  window.DURATION = PER * N;
+
+  window.setTime = (t) => {
+    t = ((t % DURATION) + DURATION) % DURATION;
+    const cur = Math.min(N - 1, Math.floor(t / PER));
+    const p = (t - cur * PER) / PER;
+    imgs.forEach((im, i) => im.classList.toggle('is-on', i === cur));
+    fills.forEach((f, i) => f.style.transform = `scaleX(${i < cur ? 1 : i === cur ? p : 0})`);
+  };
+
+  const fixed = new URLSearchParams(location.search).get('t');
+  if (fixed !== null) setTime(parseFloat(fixed));
+  else { const t0 = performance.now(); const loop = (now) => { setTime((now - t0) / 1000); requestAnimationFrame(loop); }; requestAnimationFrame(loop); }
+</script>
+</body>
+</html>
