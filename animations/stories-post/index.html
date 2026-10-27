@@ -12,7 +12,6 @@
   without it the page plays in real time on a loop.
 -->
 <style>
-  @font-face { font-family: 'PP Right Grotesk'; src: url('src/PPRightGrotesk-Bold.otf'); font-weight: 700; }
   html, body { margin: 0; background: #08090D; }
   .post { position: relative; width: 1080px; height: 1350px; background: #08090D; overflow: hidden; }
   .story {
@@ -26,11 +25,7 @@
   .bar { flex: 1; height: 100%; border-radius: 2px; background: rgba(51, 51, 51, .32); overflow: hidden; }
   .bar__fill { height: 100%; width: 100%; background: #333; transform-origin: 0 50%; transform: scaleX(0); }
 
-  .avatar {
-    position: absolute; left: 26.33px; top: 39.51px; width: 39.515px; height: 39.515px;
-    border-radius: 50%; background: #000; display: grid; place-items: center;
-  }
-  .avatar svg { width: 23.87px; height: 12.51px; overflow: visible; }
+  .avatar { position: absolute; left: 26.33px; top: 39.51px; width: 39.515px; height: 39.515px; }
   .meta {
     position: absolute; left: 79.01px; top: 44.78px; display: flex; gap: 14.61px;
     font-family: 'Inter', sans-serif; font-size: 20.27px; line-height: 29px;
@@ -52,10 +47,7 @@
     <img class="story__img" src="src/5.webp" alt="" />
 
     <div class="bars"></div>
-    <div class="avatar">
-      <svg viewBox="0 0 23.87 12.51"><text x="12.2" y="12.03" text-anchor="middle" textLength="23.87" lengthAdjust="spacingAndGlyphs" letter-spacing="0.6"
-        font-family="PP Right Grotesk" font-weight="700" font-size="17.35" fill="#fff" stroke="#fff" stroke-width="0.3">BSRB</text></svg>
-    </div>
+    <img class="avatar" src="src/logo.png" alt="" />
     <div class="meta"><span class="meta__name">basarab</span><span class="meta__time">12ч.</span></div>
     <svg class="dots" viewBox="0 0 28.77 6.11" fill="#333">
       <circle cx="3.055" cy="3.055" r="3.055" /><circle cx="14.385" cy="3.055" r="3.055" /><circle cx="25.715" cy="3.055" r="3.055" />
