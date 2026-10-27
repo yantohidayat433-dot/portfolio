@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Basarab type</title>
+<!--
+  Basarab post, 1080x1350. The client's two mockups (ref/mock-text.webp,
+  ref/mock-site.webp) are the start and end frames: the three-line copy
+  breathes via letter-spacing (after her "what knits us together?"
+  reference), then its letters fly into "basarab.com" and back.
+  Photos sit exactly where they are in the mockups (top y=0, bottom y=767).
+  Glyphs are SVG <text> at measured baselines, one element per letter.
+  ?t=SECONDS freezes a frame (render.js); otherwise it loops in real time.
+-->
+<style>
+  @font-face { font-family: 'PP Right Grotesk'; src: url('src/PPRightGrotesk-Bold.otf'); font-weight: 700; }
+  html, body { margin: 0; background: #fff; }
+  .post { position: relative; width: 1080px; height: 1350px; background: #fff; overflow: hidden; }
+  .post > img { position: absolute; left: 0; width: 1080px; display: block; }
+  .top { top: 0; }
+  .bottom { top: 767px; }
+  svg.type { position: absolute; inset: 0; width: 1080px; height: 1350px; overflow: visible; }
+  svg.type text, .probe { font-family: 'PP Right Grotesk'; font-weight: 700; font-feature-settings: 'ss01'; }
+  svg.type text { fill: #08090D; }
+  .probe { position: absolute; left: 0; top: 0; font-size: 100px; white-space: pre; visibility: hidden; }
+</style>
+</head>
+<body>
+<div class="post">
+  <img class="top" src="src/top.png" alt="" />
+  <img class="bottom" src="src/bottom.png" alt="" />
+  <svg class="type" viewBox="0 0 1080 1350"></svg>
+</div>
+<script>
+// ---- layout, measured against the mockups --------------------------------
+const FONT = "700 100px 'PP Right Grotesk'";
+const CX = 540;
+const COPY = { size: 32, track: 6.9, baselines: [649, 685, 721],
+  lines: ['A flexible, flat sole, anatomical toe,', 'and soft upper let the foot move', 'naturally.'] };
+const SITE = { size: 33.3, track: 6.4, baseline: 686, text: 'basarab.com' };
+// which copy letter becomes which site letter: [line, index in line]; the
+// copy has only one "b", so the second one comes from the "d" of "and"
+const PICK = [[0, 7], [0, 14], [1, 4], [0, 25], [1, 13], [2, 1], [1, 2], [2, 9], [0, 30], [1, 24], [0, 28]];
+
+// ---- timeline (s) ----------------------------------------------------------
+const T_BREATHE = 0.8, BREATHE = 3.6;   // letter-spacing waves
+const T_GATHER = 4.7, GATHER = 1.5;     // copy -> basarab.com
+const T_SCATTER = 8.2, SCATTER = 1.5;   // basarab.com -> copy
+const DURATION = 10.4;
+window.DURATION = DURATION;
+
+const clamp = (x) => Math.max(0, Math.min(1, x));
+const ease = (x) => (x = clamp(x), x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2);
+const bell = (x) => (x <= 0 || x >= 1) ? 0 : Math.pow(Math.sin(Math.PI * x), 2);
+const lerp = (a, b, p) => a + (b - a) * p;
+
+// single-storey "a" is ss01, which canvas can't measure: use a hidden span
+const probe = Object.assign(document.createElement('span'), { className: 'probe' });
+document.body.appendChild(probe);
+const svg = document.querySelector('svg.type');
+const NS = 'http://www.w3.org/2000/svg';
+
+let glyphs = [], site = [];
+
+function build() {
+  // x of each letter (with kerning) and total advance, in em
+  const metrics = (s) => {
+    probe.textContent = s;
+    const node = probe.firstChild, x0 = probe.getBoundingClientRect().left, r = document.createRange();
+    const pre = [...s].map((_, i) => { r.setStart(node, i); r.setEnd(node, i + 1); return (r.getBoundingClientRect().left - x0) / 100; });
+    return { pre, w: probe.getBoundingClientRect().width / 100 };
+  };
+  const prefixes = (s) => metrics(s).pre;
+  const width = (s) => metrics(s).w;
+
+  glyphs = COPY.lines.map((line, li) => {
+    const pre = prefixes(line), w = width(line);
+    return [...line].map((ch, i) => {
+      const el = document.createElementNS(NS, 'text'); el.textContent = ch; svg.appendChild(el);
+      return { ch, el, li, i, n: line.length, pre: pre[i], w };
+    });
+  });
+
+  const sp = prefixes(SITE.text), sw = width(SITE.text) * SITE.size + (SITE.text.length - 1) * SITE.track;
+  site = [...SITE.text].map((ch, k) => ({ ch, x: CX - sw / 2 + sp[k] * SITE.size + k * SITE.track }));
+
+  PICK.forEach(([li, i], k) => {
+    const g = glyphs[li][i];
+    g.target = k;
+    if (g.ch !== site[k].ch) {   // morphs on the way: cross-fade into the right letter
+      const el = document.createElementNS(NS, 'text'); el.textContent = site[k].ch; svg.appendChild(el);
+      g.morph = el;
+    }
+  });
+}
+
+// extra letter-spacing for gap i of line li at time t: a wave that runs
+// along the line, each line on its own phase so they breathe out of step
+const WAVE = [
+  { at: 0.0, dur: 2.2, amp: 6.0, dir: 1 },
+  { at: 0.45, dur: 2.3, amp: 9.5, dir: -1 },
+  { at: 0.9, dur: 2.4, amp: 62, dir: 1 },
+];
+function extra(li, i, n, t) {
+  const w = WAVE[li];
+  const pos = n > 1 ? i / (n - 2) : 0;                 // 0..1 along the line
+  const lag = (w.dir > 0 ? pos : 1 - pos) * 0.5;       // wave travels across in 0.5s
+  return w.amp * bell((t - T_BREATHE - w.at - lag) / w.dur);
+}
+
+function copyPositions(t) {
+  return glyphs.map((line, li) => {
+    const n = line.length;
+    const gaps = []; let total = 0;
+    for (let i = 0; i < n - 1; i++) { const g = COPY.track + extra(li, i, n, t); gaps.push(g); total += g; }
+    const w = line[0].w * COPY.size + total;
+    let acc = 0;
+    return line.map((g, i) => {
+      const px = CX - w / 2 + g.pre * COPY.size + acc;
+      if (i < n - 1) acc += gaps[i];
+      return px;
+    });
+  });
+}
+
+window.setTime = (t) => {
+  t = ((t % DURATION) + DURATION) % DURATION;
+  // gather progress: 0 = copy, 1 = basarab.com
+  const gp = t < T_SCATTER ? (t - T_GATHER) / GATHER : 1 - (t - T_SCATTER) / SCATTER;
+  const xs = copyPositions(t);
+  glyphs.forEach((line, li) => line.forEach((g, i) => {
+    const x0 = xs[li][i], y0 = COPY.baselines[li];
+    if (g.target === undefined) {
+      // letters that aren't needed fade out (staggered, drifting slightly down)
+      const s = (i / g.n) * 0.2 + li * 0.05;
+      const p = ease((gp - s) / 0.3);
+      g.el.setAttribute('x', x0.toFixed(2));
+      g.el.setAttribute('y', (y0 + 6 * p).toFixed(2));
+      g.el.setAttribute('font-size', COPY.size);
+      g.el.style.opacity = 1 - p;
+      return;
+    }
+    const k = g.target;
+    const s = 0.12 + k * 0.03;                      // leave once the rest has started to fade
+    const p = ease((gp - s) / (1 - 0.12 - 0.03 * 10));
+    const x = lerp(x0, site[k].x, p), y = lerp(y0, SITE.baseline, p);
+    const size = lerp(COPY.size, SITE.size, p);
+    for (const el of [g.el, g.morph]) {
+      if (!el) continue;
+      el.setAttribute('x', x.toFixed(2)); el.setAttribute('y', y.toFixed(2)); el.setAttribute('font-size', size.toFixed(3));
+    }
+    if (g.morph) {
+      const m = clamp((p - 0.3) / 0.4);
+      g.el.style.opacity = 1 - m; g.morph.style.opacity = m;
+    } else g.el.style.opacity = 1;
+  }));
+};
+
+window.ready = (async () => {
+  await document.fonts.load(FONT);
+  build();
+  const fixed = new URLSearchParams(location.search).get('t');
+  if (fixed !== null) setTime(parseFloat(fixed));
+  else { const t0 = performance.now(); const loop = (now) => { setTime((now - t0) / 1000); requestAnimationFrame(loop); }; requestAnimationFrame(loop); }
+})();
+</script>
+</body>
+</html>
