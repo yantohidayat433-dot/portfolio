@@ -7,14 +7,16 @@
   Instagram-stories post, 1080x1350, for the client's channel.
   Background #EAE9F0 (was #08090D in the Figma frame). Layout from Figma "tg 7" (node 442:4065): story 540x976.5 at (270,187),
   header geometry taken 1:1 from the frame. Stories are her own 960x1736
-  renders (1.778x of the frame). Their baked-in text was split off
-  (src/story-lines-v2: a text-free background + one RGBA sprite per line,
-  recomposite matches the original to within a few levels) so each line can
-  rise and fade in after the switch.
+  renders (1.778x of the frame); on 1, 3 and 5 their baked-in text was removed
+  (src/story-lines-v2/*-clean.webp, see split_text.py) and the copy is set live
+  in PP Right Grotesk Bold to her spec, so each line can rise and fade in.
+  Story 1 positions are the Figma frame's; 3 and 5 keep the text block's
+  centre from her renders.
   ?t=SECONDS freezes the frame at that time (used by render.js);
   without it the page plays in real time on a loop.
 -->
 <style>
+  @font-face { font-family: 'PP Right Grotesk'; src: url('src/PPRightGrotesk-Bold.otf'); font-weight: 700; }
   html, body { margin: 0; background: #EAE9F0; }
   .post { position: relative; width: 1080px; height: 1350px; background: #EAE9F0; overflow: hidden; }
   .story {
@@ -22,9 +24,17 @@
     border-radius: 16px; overflow: hidden; background: #fff;
   }
   .story__img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; }
-  /* text lines, in the 960px story space scaled to the 540px frame */
-  .story__text { position: absolute; left: 0; top: 0; width: 960px; height: 1736px; transform: scale(0.5625); transform-origin: 0 0; z-index: 2; }
-  .story__line { position: absolute; opacity: 0; will-change: transform, opacity, filter; }
+  /* story text, set live to the client's spec (story px = Figma px):
+     title 31/110, then 18px, body 24/110, both +12% tracking; story 3 86/80 */
+  .story__text { position: absolute; inset: 0; z-index: 2; }
+  .story__line {
+    position: absolute; left: 0; width: 100%; margin: 0; text-align: center; white-space: nowrap;
+    font-family: 'PP Right Grotesk'; font-weight: 700; opacity: 0; will-change: transform, opacity, filter;
+  }
+  .t-title { font-size: 31px; line-height: 1.1; letter-spacing: .12em; padding-left: .12em; box-sizing: border-box; color: #ACB59C; }
+  .t-body { font-size: 24px; line-height: 1.1; letter-spacing: .12em; padding-left: .12em; box-sizing: border-box; color: #08090D; }
+  .t-big { font-size: 86px; line-height: .8; color: #fff; }
+  .t-white { color: #fff; }
 
   .bars, .avatar, .meta, .dots, .close { z-index: 3; }
   .bars { position: absolute; left: 26.33px; top: 22.39px; width: 487.36px; height: 3.95px; display: flex; gap: 4px; }
@@ -51,11 +61,23 @@
     <img class="story__img" src="src/story-lines-v2/3-clean.webp" alt="" />
     <img class="story__img" src="src/4.webp" alt="" />
     <img class="story__img" src="src/story-lines-v2/5-clean.webp" alt="" />
-    <div class="story__text"><img class="story__line" src="src/story-lines-v2/1-line1.png" style="left:246px;top:1406px;width:464px;height:46px" alt="" /><img class="story__line" src="src/story-lines-v2/1-line2.png" style="left:169px;top:1498px;width:615px;height:40px" alt="" /><img class="story__line" src="src/story-lines-v2/1-line3.png" style="left:187px;top:1551px;width:585px;height:46px" alt="" /></div>
+
+    <div class="story__text">
+      <p class="story__line t-title" style="top:786.375px">Suede sneakers</p>
+      <p class="story__line t-body" style="top:838.475px">The ribbed construction</p>
+      <p class="story__line t-body" style="top:864.875px">and dual-insole system</p>
+    </div>
     <div class="story__text"></div>
-    <div class="story__text"><img class="story__line" src="src/story-lines-v2/3-line1.png" style="left:180px;top:1323px;width:606px;height:128px" alt="" /><img class="story__line" src="src/story-lines-v2/3-line2.png" style="left:128px;top:1463px;width:702px;height:127px" alt="" /></div>
+    <div class="story__text">
+      <p class="story__line t-big" style="top:750.2px">Summer</p>
+      <p class="story__line t-big" style="top:819px">collection</p>
+    </div>
     <div class="story__text"></div>
-    <div class="story__text"><img class="story__line" src="src/story-lines-v2/5-line1.png" style="left:192px;top:1446px;width:571px;height:48px" alt="" /><img class="story__line" src="src/story-lines-v2/5-line2.png" style="left:166px;top:1498px;width:621px;height:46px" alt="" /><img class="story__line" src="src/story-lines-v2/5-line3.png" style="left:350px;top:1551px;width:259px;height:39px" alt="" /></div>
+    <div class="story__text">
+      <p class="story__line t-body t-white" style="top:814.4px">Delicate color palette,</p>
+      <p class="story__line t-body t-white" style="top:840.8px">fluid lines, and a refined</p>
+      <p class="story__line t-body t-white" style="top:867.2px">silhouette</p>
+    </div>
 
     <div class="bars"></div>
     <img class="avatar" src="src/logo.png" alt="" />
