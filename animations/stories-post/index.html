@@ -7,7 +7,10 @@
   Instagram-stories post, 1080x1350, for the client's channel.
   Background #EAE9F0 (was #08090D in the Figma frame). Layout from Figma "tg 7" (node 442:4065): story 540x976.5 at (270,187),
   header geometry taken 1:1 from the frame. Stories are her own 960x1736
-  renders (1.778x of the frame), text already baked in.
+  renders (1.778x of the frame). Their baked-in text was split off
+  (src/story-lines-v2: a text-free background + one RGBA sprite per line,
+  recomposite matches the original to within a few levels) so each line can
+  rise and fade in after the switch.
   ?t=SECONDS freezes the frame at that time (used by render.js);
   without it the page plays in real time on a loop.
 -->
@@ -19,6 +22,9 @@
     border-radius: 16px; overflow: hidden; background: #fff;
   }
   .story__img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; }
+  /* text lines, in the 960px story space scaled to the 540px frame */
+  .story__text { position: absolute; left: 0; top: 0; width: 960px; height: 1736px; transform: scale(0.5625); transform-origin: 0 0; z-index: 2; }
+  .story__line { position: absolute; opacity: 0; will-change: transform, opacity, filter; }
 
   .bars, .avatar, .meta, .dots, .close { z-index: 3; }
   .bars { position: absolute; left: 26.33px; top: 22.39px; width: 487.36px; height: 3.95px; display: flex; gap: 4px; }
@@ -40,11 +46,16 @@
 <body>
 <div class="post">
   <div class="story">
-    <img class="story__img" src="src/1.webp" alt="" />
+    <img class="story__img" src="src/story-lines-v2/1-clean.webp" alt="" />
     <img class="story__img" src="src/2.webp" alt="" />
-    <img class="story__img" src="src/3.webp" alt="" />
+    <img class="story__img" src="src/story-lines-v2/3-clean.webp" alt="" />
     <img class="story__img" src="src/4.webp" alt="" />
-    <img class="story__img" src="src/5.webp" alt="" />
+    <img class="story__img" src="src/story-lines-v2/5-clean.webp" alt="" />
+    <div class="story__text"><img class="story__line" src="src/story-lines-v2/1-line1.png" style="left:246px;top:1406px;width:464px;height:46px" alt="" /><img class="story__line" src="src/story-lines-v2/1-line2.png" style="left:169px;top:1498px;width:615px;height:40px" alt="" /><img class="story__line" src="src/story-lines-v2/1-line3.png" style="left:187px;top:1551px;width:585px;height:46px" alt="" /></div>
+    <div class="story__text"></div>
+    <div class="story__text"><img class="story__line" src="src/story-lines-v2/3-line1.png" style="left:180px;top:1323px;width:606px;height:128px" alt="" /><img class="story__line" src="src/story-lines-v2/3-line2.png" style="left:128px;top:1463px;width:702px;height:127px" alt="" /></div>
+    <div class="story__text"></div>
+    <div class="story__text"><img class="story__line" src="src/story-lines-v2/5-line1.png" style="left:192px;top:1446px;width:571px;height:48px" alt="" /><img class="story__line" src="src/story-lines-v2/5-line2.png" style="left:166px;top:1498px;width:621px;height:46px" alt="" /><img class="story__line" src="src/story-lines-v2/5-line3.png" style="left:350px;top:1551px;width:259px;height:39px" alt="" /></div>
 
     <div class="bars"></div>
     <img class="avatar" src="src/logo.png" alt="" />
@@ -58,9 +69,13 @@
   </div>
 </div>
 <script>
-  const PER = 3;           // seconds per story
+  const PER = 2.4;         // seconds per story
+  // each line rises, sharpens and fades in after the switch, one after another
+  const TEXT_AT = 0.12, TEXT_STEP = 0.12, TEXT_DUR = 0.75, TEXT_RISE = 28, TEXT_BLUR = 6;
+  const easeOut = (x) => (x = Math.max(0, Math.min(1, x)), 1 - Math.pow(1 - x, 3));
   const imgs = [...document.querySelectorAll('.story__img')];
   const N = imgs.length;
+  const texts = [...document.querySelectorAll('.story__text')].map((d) => [...d.children]);
   const bars = document.querySelector('.bars');
   const fills = imgs.map(() => {
     const b = document.createElement('div'); b.className = 'bar';
@@ -75,6 +90,13 @@
     const p = (t - cur * PER) / PER;
     // hard cut, as Instagram auto-advances within one account
     imgs.forEach((im, i) => im.style.opacity = i === cur ? 1 : 0);
+    const u = t - cur * PER;
+    texts.forEach((lines, i) => lines.forEach((l, j) => {
+      const e = i === cur ? easeOut((u - TEXT_AT - j * TEXT_STEP) / TEXT_DUR) : 0;
+      l.style.opacity = e;
+      l.style.transform = `translateY(${(1 - e) * TEXT_RISE}px)`;
+      l.style.filter = e < 1 ? `blur(${(1 - e) * TEXT_BLUR}px)` : 'none';
+    }));
     fills.forEach((f, i) => f.style.transform = `scaleX(${i < cur ? 1 : i === cur ? p : 0})`);
   };
 
