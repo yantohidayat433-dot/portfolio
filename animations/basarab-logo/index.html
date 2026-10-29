@@ -4,14 +4,19 @@
 <meta charset="utf-8" />
 <title>Basarab logo</title>
 <!--
-  Basarab logo post, 1080x1350, after the client's "Marie Antoinette" reference
-  and her five keyframes (ref/frame-1..5.svg, colours and positions from them):
-  1-2  the wordmark at full size (logo units = px) pans across a dark frame,
-       letters dark with a hairline outline and white anchor points;
-  3    a light panel wipes in from the right, letters turn solid;
-  4    the camera pulls back to the small wordmark on light;
-  5    the A's fold away, B S R B close up into the monogram, cut to dark.
-  Then it cuts back to 1 (loop). ?t=SECONDS freezes a frame (render.js).
+  Basarab logo post, 1080x1350, after the client's "Marie Antoinette" reference,
+  her five keyframes (ref/frame-1..5.svg) and her brief:
+  1  the wordmark slides in on dark and lands on frame 1: fill #10121A,
+     1px outside outline #3D404D, 12px #8A8D99 squares on every path node
+     (as in ref/points.png);
+  2  a quick-start, long-settle camera move to the S, whose tail cuts ease
+     from flat (src/logotype-flat-s.svg) to the final slanted ones;
+  3  the same move on to the R while a light panel wipes in, letters solid;
+  4  pull back to the small full wordmark (frame 4);
+  5  the A's fold away and B S R B close up into the monogram, cut to dark
+     (frame 5); then it cuts back to 1.
+  Camera moves are measured from the reference: still, a ~0.1s surge, then a
+  long ease-out. ?t=SECONDS freezes a frame (render.js).
 -->
 <style>
   html, body { margin: 0; background: #08090D; }
@@ -21,33 +26,45 @@
 <body>
 <svg id="post" width="1080" height="1350" viewBox="0 0 1080 1350"></svg>
 <script>
-// ---- colours (from her frames) --------------------------------------------
+// ---- colours -----------------------------------------------------------------
 const DARK = '#08090D', LIGHT = '#EAE9F0';
-const DARK_FILL = '#10121A', DARK_LINE = '#3D404D';     // frame 1-2
+const DARK_FILL = '#10121A', DARK_LINE = '#3D404D', DOT_FILL = '#8A8D99';
 const LIGHT_FILL = '#111111', LIGHT_LINE = '#626262';   // frame 3
 const SMALL_FILL = '#08090D';                           // frame 4
 const MONO_FILL = '#EAE9F0';                            // frame 5
+const DOT = 12;                                         // node square, px
 
-// ---- camera keyframes (logo units -> screen: x*s + tx, y*s + ty) ------------
-const BIG = { s: 1, ty: 179 };                 // frames 1-3
-const X1 = 182, X2 = -1075;                    // frame 1, frame 2 pan positions
+// ---- camera (logo units -> screen: x*s + tx, y*s + ty) -------------------------
+const BIG_TY = 179;                          // frames 1-3, logo at 1:1
+const X1 = 182;                              // frame 1
+const ENTER = 820;                           // slides in from this far right
 const SMALL = { s: 415 / 3493, tx: 333, ty: 616 };   // frame 4
 
-// ---- timeline (s) ----------------------------------------------------------
-const ENTER = 700, T_IN = 0.5;         // slides in from this far right, lands on frame 1
-const PAN_V = 520;                     // px/s, steady pan after landing
-const T_WIPE = T_IN + (X1 - X2) / PAN_V;   // light panel enters when the pan reaches frame 2
-const WIPE = 0.3;
-const T_ZOOM = T_WIPE + WIPE + 0.5, ZOOM = 0.4;
-const T_FOLD = T_ZOOM + ZOOM + 1.3, FOLD = 0.6;
-const T_CUT = T_FOLD + FOLD * 0.75;    // background flips while B S R B settle
+// ---- timeline (s) --------------------------------------------------------------
+const T_IN = 0, IN = 0.9;
+const T_S = 1.5, MOVE = 0.95;                // move to the S
+const T_MORPH = T_S + MOVE + 0.1, MORPH = 0.75;
+const T_R = T_MORPH + MORPH + 0.35;          // move to the R, light panel wipes in
+const T_ZOOM = T_R + MOVE + 0.35, ZOOM = 0.5;
+const T_FOLD = T_ZOOM + ZOOM + 1.2, FOLD = 0.6;
+const T_CUT = T_FOLD + FOLD * 0.75;          // background flips as B S R B settle
 const DURATION = T_FOLD + FOLD + 1.5;
 window.DURATION = DURATION;
 
 const clamp = (x) => Math.max(0, Math.min(1, x));
 const lerp = (a, b, p) => a + (b - a) * p;
 const ease = (x) => (x = clamp(x), x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2);
-const easeOut = (x) => (x = clamp(x), 1 - Math.pow(1 - x, 3));
+const sine = (x) => 0.5 - 0.5 * Math.cos(Math.PI * clamp(x));
+// cubic-bezier(x1, y1, x2, y2) like CSS
+const bezier = (x1, y1, x2, y2) => (x) => {
+  x = clamp(x);
+  const B = (a, b, t) => 3 * a * (1 - t) ** 2 * t + 3 * b * (1 - t) * t * t + t ** 3;
+  let lo = 0, hi = 1, t = x;
+  for (let i = 0; i < 40; i++) { t = (lo + hi) / 2; if (B(x1, x2, t) < x) lo = t; else hi = t; }
+  return B(y1, y2, t);
+};
+const surge = bezier(0.55, 0, 0.12, 1);     // still -> quick surge -> long settle
+const settle = bezier(0.2, 0.7, 0.2, 1);    // the entry: lands softly
 const mix = (a, b, p) => {
   const h = (c) => [1, 3, 5].map((i) => parseInt(c.slice(i, i + 2), 16));
   const A = h(a), B = h(b);
@@ -62,19 +79,34 @@ const el = (tag, parent, attrs = {}) => {
 };
 const svg = document.getElementById('post');
 
-// anchor points of an absolute M/L/H/V/C/Z path (what Figma exports)
-function anchors(d) {
+// absolute M/L/H/V/C/Z path (what Figma exports) -> segments with explicit
+// coordinates, H/V written out as L, so two versions can be interpolated
+function segments(d) {
   const tok = d.match(/[MLHVCZ]|-?\d*\.?\d+(?:e-?\d+)?/gi);
-  const pts = []; let cmd = '', x = 0, y = 0, i = 0;
+  const segs = []; let cmd = '', x = 0, y = 0, i = 0;
   const num = () => parseFloat(tok[i++]);
   while (i < tok.length) {
-    if (/[A-Z]/i.test(tok[i])) cmd = tok[i++];
-    if (cmd === 'Z') continue;
-    if (cmd === 'M' || cmd === 'L') { x = num(); y = num(); }
-    else if (cmd === 'H') x = num();
-    else if (cmd === 'V') y = num();
-    else if (cmd === 'C') { num(); num(); num(); num(); x = num(); y = num(); }
-    pts.push([x, y]);
+    if (/[A-Z]/i.test(tok[i])) cmd = tok[i++].toUpperCase();
+    if (cmd === 'Z') { segs.push(['Z']); continue; }
+    if (cmd === 'M' || cmd === 'L') { x = num(); y = num(); segs.push([cmd, x, y]); }
+    else if (cmd === 'H') { x = num(); segs.push(['L', x, y]); }
+    else if (cmd === 'V') { y = num(); segs.push(['L', x, y]); }
+    else if (cmd === 'C') { const c = [num(), num(), num(), num()]; x = num(); y = num(); segs.push(['C', ...c, x, y]); }
+  }
+  return segs;
+}
+const toD = (segs) => segs.map((s) => s[0] + s.slice(1).map((v) => v.toFixed(3)).join(' ')).join('');
+const lerpSegs = (a, b, p) => a.map((s, i) => [s[0], ...s.slice(1).map((v, j) => lerp(v, b[i][j + 1], p))]);
+// path nodes: every segment end, minus the closing repeat of the start point
+function nodes(segs) {
+  const pts = [];
+  let start = null;
+  for (const s of segs) {
+    if (s[0] === 'Z') { start = null; continue; }
+    const p = [s[s.length - 2], s[s.length - 1]];
+    if (s[0] === 'M') start = p;
+    else if (start && Math.hypot(p[0] - start[0], p[1] - start[1]) < 0.5) continue;
+    pts.push(p);
   }
   return pts;
 }
@@ -83,8 +115,10 @@ let S = {};
 async function build() {
   const parse = async (url) => [...new DOMParser().parseFromString(await (await fetch(url)).text(), 'image/svg+xml')
     .querySelectorAll('path[d]')].map((p) => p.getAttribute('d'));
-  const letters = await parse('src/logotype.svg');            // B A S A R A B
-  const mono = (await parse('ref/frame-5.svg'));              // B S R B, final place
+  const letters = await parse('src/logotype.svg');            // B A S A R A B (final)
+  const flatS = segments((await parse('src/logotype-flat-s.svg'))[2]);
+  const finalS = segments(letters[2]);
+  const mono = await parse('ref/frame-5.svg');                 // B S R B, final place
 
   const bg = el('rect', svg, { width: 1080, height: 1350, fill: DARK });
   const panel = el('rect', svg, { y: 0, height: 1350, fill: LIGHT });
@@ -92,49 +126,45 @@ async function build() {
   const clipDark = el('rect', el('clipPath', defs, { id: 'dark' }), { x: 0, y: 0, height: 1350 });
   const clipLight = el('rect', el('clipPath', defs, { id: 'light' }), { y: 0, height: 1350 });
 
-  // dark look: outline (2px, centred, so 1px shows outside the fill) + points
+  // dark look: 2px centred outline painted under the fill = 1px outside
   const darkG = el('g', el('g', svg, { 'clip-path': 'url(#dark)' }));
   const darkPaths = letters.map((d) => el('path', darkG, { d, fill: DARK_FILL, stroke: DARK_LINE, 'paint-order': 'stroke' }));
-  const dotsG = el('g', svg, { 'clip-path': 'url(#dark)', fill: '#fff' });
-  const pts = letters.flatMap(anchors);
-  const DOT = 8;   // anchor point size, px on screen (as in the reference)
-  const dots = pts.map(() => el('rect', dotsG, { width: DOT, height: DOT, stroke: '#8A8C96', 'stroke-width': 1 }));
+  const dotsG = el('g', svg, { 'clip-path': 'url(#dark)', fill: DOT_FILL });
+  const segs = letters.map(segments);
+  const ptsOf = (li, sg) => nodes(sg).map((p) => ({ li, p }));
+  const dots = letters.flatMap((_, li) => ptsOf(li, segs[li]).map(() => el('rect', dotsG, { width: DOT, height: DOT })));
 
-  // light look, one group per letter so the A's can fold away
+  // light look, one path per letter so the A's can fold away
   const lightG = el('g', svg, { 'clip-path': 'url(#light)' });
   const lightPaths = letters.map((d) => el('path', lightG, { d, stroke: LIGHT_LINE, 'paint-order': 'stroke' }));
 
-  // per-letter bboxes, and the B S R B targets from frame 5
   const box = (d) => { const p = el('path', svg, { d }); const b = p.getBBox(); p.remove(); return b; };
   const lb = letters.map(box), mb = mono.map(box);
-  const KEEP = [0, 2, 4, 6];
   const target = {};
-  KEEP.forEach((li, k) => {
+  [0, 2, 4, 6].forEach((li, k) => {
     const s = mb[k].height / lb[li].height;
     target[li] = { s, tx: mb[k].x - lb[li].x * s, ty: mb[k].y - lb[li].y * s };
   });
-  S = { bg, panel, clipDark, clipLight, darkG, darkPaths, dots, pts, lightPaths, lb, target, KEEP };
+  const centre = (li) => lb[li].x + lb[li].width / 2;
+  S = { bg, panel, clipDark, clipLight, darkG, darkPaths, dots, segs, flatS, finalS, lightPaths, lb, target,
+        XS: 540 - centre(2), XR: 540 - centre(4) };
 }
 
-// camera at time t: { s, tx, ty }
+// horizontal camera position on the 1:1 logo
+function panX(t) {
+  if (t < T_S) return lerp(X1 + ENTER, X1, settle((t - T_IN) / IN));
+  if (t < T_R) return lerp(X1, S.XS, surge((t - T_S) / MOVE));
+  return lerp(S.XS, S.XR, surge((t - T_R) / MOVE));
+}
+
 function camera(t) {
-  let panX;
-  if (t < T_IN) {
-    // Hermite: fast start, arrives on frame 1 already moving at the pan speed
-    const u = t / T_IN, m0 = -3 * ENTER, m1 = -PAN_V * T_IN;
-    const h00 = 2*u**3 - 3*u**2 + 1, h10 = u**3 - 2*u**2 + u, h01 = -2*u**3 + 3*u**2, h11 = u**3 - u**2;
-    panX = h00 * (X1 + ENTER) + h10 * m0 + h01 * X1 + h11 * m1;
-  } else panX = X1 - PAN_V * (t - T_IN);
-  const big = { s: BIG.s, tx: panX, ty: BIG.ty };
-  if (t < T_ZOOM) return big;
-  // pull back: interpolate the world point under the frame centre and log-scale
+  if (t < T_ZOOM) return { s: 1, tx: panX(t), ty: BIG_TY };
+  // pull back: interpolate the world point under the frame centre, log-scale
   const p = ease((t - T_ZOOM) / ZOOM);
-  const from = { s: big.s, tx: X1 - PAN_V * (T_ZOOM - T_IN), ty: big.ty };
-  const c0 = [(540 - from.tx) / from.s, (675 - from.ty) / from.s];
+  const c0 = [540 - S.XR, 675 - BIG_TY];
   const c1 = [(540 - SMALL.tx) / SMALL.s, (675 - SMALL.ty) / SMALL.s];
-  const s = Math.exp(lerp(Math.log(from.s), Math.log(SMALL.s), p));
-  const cx = lerp(c0[0], c1[0], p), cy = lerp(c0[1], c1[1], p);
-  return { s, tx: 540 - cx * s, ty: 675 - cy * s };
+  const s = Math.exp(lerp(0, Math.log(SMALL.s), p));
+  return { s, tx: 540 - lerp(c0[0], c1[0], p) * s, ty: 675 - lerp(c0[1], c1[1], p) * s };
 }
 
 window.setTime = (t) => {
@@ -142,52 +172,55 @@ window.setTime = (t) => {
   const cam = camera(t);
   const m = `matrix(${cam.s} 0 0 ${cam.s} ${cam.tx} ${cam.ty})`;
 
-  // light panel: its left edge wipes from the right edge to the left
-  const edge = 1080 * (1 - ease((t - T_WIPE) / WIPE));
-  S.panel.setAttribute('x', edge); S.panel.setAttribute('width', 1080 - edge + 1);
-  S.clipDark.setAttribute('width', edge);
-  S.clipLight.setAttribute('x', edge); S.clipLight.setAttribute('width', 1080 - edge + 1);
+  // S tails: flat cuts until the camera has settled on the S, then they slant
+  const sSegs = lerpSegs(S.flatS, S.finalS, ease((t - T_MORPH) / MORPH));
+  const sD = toD(sSegs);
+  S.segs[2] = sSegs;
 
-  // dark letters (only while some of the frame is still dark)
+  // light panel wipes in from the right during the move to the R
+  const w = clamp((t - T_R - MOVE * 0.12) / (MOVE * 0.55));
+  const edge = 1080 * (1 - ease(w));
+  S.panel.setAttribute('x', edge); S.panel.setAttribute('width', 1080 - edge);
+  S.clipDark.setAttribute('width', edge);
+  S.clipLight.setAttribute('x', edge); S.clipLight.setAttribute('width', 1080 - edge);
+
   S.darkG.setAttribute('transform', m);
-  S.darkPaths.forEach((p) => p.setAttribute('stroke-width', 2 / cam.s));
+  S.darkPaths.forEach((p, li) => {
+    p.setAttribute('stroke-width', 2 / cam.s);
+    if (li === 2) p.setAttribute('d', sD);
+  });
+  let k = 0;
   const showDots = edge > 0;
-  S.dots.forEach((r, i) => {
+  S.segs.forEach((sg) => nodes(sg).forEach(([x, y]) => {
+    const r = S.dots[k++];
     r.style.display = showDots ? '' : 'none';
     if (!showDots) return;
-    r.setAttribute('x', (S.pts[i][0] * cam.s + cam.tx - 4).toFixed(2));
-    r.setAttribute('y', (S.pts[i][1] * cam.s + cam.ty - 4).toFixed(2));
-  });
+    r.setAttribute('x', (x * cam.s + cam.tx - DOT / 2).toFixed(2));
+    r.setAttribute('y', (y * cam.s + cam.ty - DOT / 2).toFixed(2));
+  }));
 
-  // light letters; after the pull-back they fold into the monogram
   const zp = clamp((t - T_ZOOM) / ZOOM);
   const f = ease((t - T_FOLD) / FOLD);
   const cut = t >= T_CUT;
-  S.bg.setAttribute('fill', DARK);
-  S.panel.style.display = cut ? 'none' : '';
+  S.panel.style.display = cut || edge >= 1080 ? 'none' : '';
+  const at = (li, T) => (S.lb[li].x + S.lb[li].width / 2) * lerp(cam.s, T.s, f) + lerp(cam.tx, T.tx, f);
   S.lightPaths.forEach((p, li) => {
-    let s = cam.s, tx = cam.tx, ty = cam.ty, sx = 1, op = 1;
-    if (t >= T_FOLD) {
-      const T = S.target[li];
-      if (T) { s = lerp(cam.s, T.s, f); tx = lerp(cam.tx, T.tx, f); ty = lerp(cam.ty, T.ty, f); }
-      else {
-        // an A folds shut around its own centre while the neighbours close in
-        const a = ease((t - T_FOLD) / (FOLD * 0.6));
-        sx = 1 - a; op = 1 - a;
-        const b = S.lb[li], prev = S.target[li - 1], next = S.target[li + 1];
-        // keep it centred between its neighbours as they move
-        const nb = (li2, T) => (S.lb[li2].x + S.lb[li2].width / 2) * lerp(cam.s, T.s, f) + lerp(cam.tx, T.tx, f);
-        const mid = (nb(li - 1, prev) + nb(li + 1, next)) / 2;
-        const c = b.x + b.width / 2;
-        tx = mid - c * s;
-        p.setAttribute('transform', `translate(${mid} 0) scale(${sx} 1) translate(${-mid} 0) matrix(${s} 0 0 ${s} ${tx} ${ty})`);
-        p.style.opacity = op;
-        p.setAttribute('fill', SMALL_FILL); p.setAttribute('stroke-width', 0);
-        return;
-      }
+    if (li === 2) p.setAttribute('d', sD);
+    const T = S.target[li];
+    if (t >= T_FOLD && !T) {
+      // an A folds shut around its centre, kept midway between its neighbours
+      const a = ease((t - T_FOLD) / (FOLD * 0.6));
+      const mid = (at(li - 1, S.target[li - 1]) + at(li + 1, S.target[li + 1])) / 2;
+      const tx = mid - (S.lb[li].x + S.lb[li].width / 2) * cam.s;
+      p.setAttribute('transform', `translate(${mid} 0) scale(${1 - a} 1) translate(${-mid} 0) matrix(${cam.s} 0 0 ${cam.s} ${tx} ${cam.ty})`);
+      p.style.opacity = 1 - a;
+      p.setAttribute('fill', SMALL_FILL); p.setAttribute('stroke-width', 0);
+      return;
     }
+    let s = cam.s, tx = cam.tx, ty = cam.ty;
+    if (t >= T_FOLD) { s = lerp(cam.s, T.s, f); tx = lerp(cam.tx, T.tx, f); ty = lerp(cam.ty, T.ty, f); }
     p.setAttribute('transform', `matrix(${s} 0 0 ${s} ${tx} ${ty})`);
-    p.style.opacity = op;
+    p.style.opacity = 1;
     p.setAttribute('fill', cut ? MONO_FILL : mix(LIGHT_FILL, SMALL_FILL, zp));
     p.setAttribute('stroke-width', cut || t >= T_FOLD ? 0 : 2 / s);
   });
