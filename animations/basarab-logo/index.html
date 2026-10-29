@@ -9,8 +9,9 @@
   1  the wordmark slides in on dark and lands on frame 1: fill #10121A,
      1px outside outline #3D404D, 12px #8A8D99 squares on every path node
      (as in ref/points.png);
-  2  a quick-start, long-settle camera move to the S, whose tail cuts ease
-     from flat (src/logotype-flat-s.svg) to the final slanted ones;
+  2  a quick-start, long-settle camera move to the S, a quick push-in on its
+     top tail while the tail cuts ease from flat (src/logotype-flat-s.svg) to
+     the final slanted ones, and back out;
   3  the same move on to the R while a light panel wipes in, letters solid;
   4  pull back to the small full wordmark (frame 4);
   5  the A's fold away and B S R B close up into the monogram, cut to dark
@@ -44,8 +45,11 @@ const SMALL = { s: 415 / 3493, tx: 333, ty: 616 };   // frame 4
 // short holds, ~0.85s and ~0.65s camera moves, a ~0.4s pull-back ----------------
 const T_IN = 0, IN = 0.55;
 const T_S = T_IN + IN + 0.3, MOVE_S = 0.85;        // move to the S
-const T_MORPH = T_S + MOVE_S * 0.8, MORPH = 0.5;   // tails start as the camera settles
-const T_R = T_MORPH + MORPH + 0.15, MOVE_R = 0.65; // move to the R, light panel wipes in
+const T_ZIN = T_S + MOVE_S * 0.85, ZIN = 0.4;     // quick push-in on the S's top tail
+const TAIL = { x: 1340, y: 290, s: 3.2 };          // tail point (logo units) and close-up scale
+const T_MORPH = T_ZIN + ZIN * 0.9, MORPH = 0.6;    // the cut slants while we're close
+const T_ZOUT = T_MORPH + MORPH + 0.15, ZOUT = 0.4; // back out to the S
+const T_R = T_ZOUT + ZOUT, MOVE_R = 0.65;          // move to the R, light panel wipes in
 const T_ZOOM = T_R + MOVE_R + 0.4, ZOOM = 0.4;
 const T_FOLD = T_ZOOM + ZOOM + 0.9, FOLD = 0.45;
 const T_CUT = T_FOLD + FOLD * 0.55;                // background flips mid-close, like the reference
@@ -155,17 +159,27 @@ async function build() {
 // horizontal camera position on the 1:1 logo
 function panX(t) {
   if (t < T_S) return lerp(X1 + ENTER, X1, settle((t - T_IN) / IN));
-  if (t < T_R) return lerp(X1, S.XS, surge((t - T_S) / MOVE_S));
+  if (t < T_R) return lerp(X1, S.XS, surge((t - T_S) / MOVE_S));   // (camera() takes over from T_ZIN)
   return lerp(S.XS, S.XR, surge((t - T_R) / MOVE_R));
 }
 
+// zoom from camera A to camera B as one straight scale about their fixed
+// point, so the picture grows/shrinks in place instead of drifting
+function zoomCam(A, B, p) {
+  const k = B.s / A.s, kp = Math.pow(k, p);
+  const fx = (B.tx - k * A.tx) / (1 - k), fy = (B.ty - k * A.ty) / (1 - k);
+  return { s: A.s * kp, tx: fx + (A.tx - fx) * kp, ty: fy + (A.ty - fy) * kp };
+}
+
 function camera(t) {
+  if (t >= T_ZIN && t < T_R) {
+    const A = { s: 1, tx: panX(T_ZIN), ty: BIG_TY };
+    const B = { s: TAIL.s, tx: 540 - TAIL.x * TAIL.s, ty: 675 - TAIL.y * TAIL.s };
+    const p = t < T_ZOUT ? pull((t - T_ZIN) / ZIN) : 1 - pull((t - T_ZOUT) / ZOUT);
+    return zoomCam(A, B, p);
+  }
   if (t < T_ZOOM) return { s: 1, tx: panX(t), ty: BIG_TY };
-  // pull back as one straight zoom about the transform's fixed point, so the
-  // logo shrinks in place instead of drifting
-  const k = SMALL.s, p = pull((t - T_ZOOM) / ZOOM), kp = Math.pow(k, p);
-  const fx = (SMALL.tx - k * S.XR) / (1 - k), fy = (SMALL.ty - k * BIG_TY) / (1 - k);
-  return { s: kp, tx: fx + (S.XR - fx) * kp, ty: fy + (BIG_TY - fy) * kp };
+  return zoomCam({ s: 1, tx: S.XR, ty: BIG_TY }, SMALL, pull((t - T_ZOOM) / ZOOM));
 }
 
 window.setTime = (t) => {
