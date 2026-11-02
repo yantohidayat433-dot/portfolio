@@ -1,7 +1,11 @@
 # Portfolio site — working notes for Claude
 
 Single-page portfolio for designer Vika Ivanova. Everything lives in one
-`index.html` (inline `<style>`/`<script>`, no build step, no framework).
+`index.html` (one `<style>` in `<head>`, plain-JS IIFEs at the end of
+`<body>`, no build step, no framework). See README.md for the layout of
+the file. Keep it that way: no narrative comments (this file is where
+the "why" lives), one short comment per CSS section / JS module, no
+hidden or retired markup — delete it instead of `display:none`-ing it.
 Images in `images/`, video in `videos/`. Deploys to GitHub Pages.
 
 This file exists so that routine case-study updates (new PDF, new text,
@@ -10,8 +14,8 @@ each time. Read it before touching a `.case` section.
 
 ## Git workflow
 
-- Work happens on a feature branch (currently
-  `claude/portfolio-details-mobile-or528z`), commit freely there.
+- Work happens on a feature branch (the session's designated
+  `claude/...` branch), commit freely there.
 - **Only fast-forward `main` and the GitHub Pages branch
   (`claude/portfolio-github-pages-u9oflw`) when the user explicitly says
   "Публикуй" (or an obvious variant).** Before publishing: `git fetch`,
@@ -46,9 +50,7 @@ attribute. This means:
 - Nav/next-project "prev/next" style links follow the same pattern.
 - There is no language-aware mechanism for `alt` attributes or anything
   outside `[data-en]` — those stay in whatever language they were written
-  in regardless of toggle state (e.g. `.project__title-mobile` buttons,
-  a retired/hidden mobile caption pattern, are always Russian — fine,
-  since they're not visible; don't "fix" them into a half-measure).
+  in regardless of toggle state. The toggle also sets `<html lang>`.
 
 ## Type tokens (Nov 2026, client-approved)
 
@@ -152,21 +154,9 @@ matches the literal first `<p>` in the DOM (one specific element), not
 bottom-pin and mobile spacing for one of the two breakpoints. Always use
 the explicit modifier classes for margin rules on this element.
 
-If adding this to a case for the first time, also add it to these two
-case-scoped rules (search `.case__intro .project__tags-mobile` and the
-adjacent `.case__intro { margin-bottom: 3rem }` in the mobile
-breakpoint) — they hide the tag-pill list (replaced by credits text) and
-give 48px instead of the usual 36px before the next image:
-
-```css
-#case-basarab .case__intro .project__tags-mobile,
-#case-foundation .case__intro .project__tags-mobile,
-#case-NEWCASE .case__intro .project__tags-mobile { display: none; }
-
-#case-basarab .case__intro,
-#case-foundation .case__intro,
-#case-NEWCASE .case__intro { margin-bottom: 3rem; }
-```
+On phones Foundation's intro gets 48px instead of the usual 36px before
+the next image (`#case-foundation .case__intro { margin-bottom: 3rem }`
+in the phone block); add a new case there if its PDF asks for the same.
 
 ### Text column widths — measure, don't assume
 
