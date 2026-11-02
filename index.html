@@ -2696,7 +2696,7 @@
     <article class="project project--hero">
       <a class="project__media-link" href="https://www.behance.net/gallery/235073919/Vocamate-AI-Brand-Identity-Website" target="_blank" rel="noopener noreferrer" data-cursor-label="смотреть" data-cursor-label-en="view" data-cursor-label-ru="смотреть" data-cursor-kind="see">
         <div class="project__media">
-          <video autoplay muted loop playsinline poster="images/grid-01.webp" data-poster-desktop="images/grid-01.webp" data-poster-mobile="images/grid-01-mobile.webp" data-src-desktop="videos/grid-video-01.mp4" data-src-mobile="videos/vocamate-mobile.mp4">
+          <video autoplay muted loop playsinline preload="auto" src="videos/grid-video-01.mp4" poster="images/grid-01.webp" data-poster-desktop="images/grid-01.webp" data-poster-mobile="images/grid-01-mobile.webp" data-src-desktop="videos/grid-video-01.mp4" data-src-mobile="videos/vocamate-mobile.mp4">
             <source src="videos/grid-video-01.mp4" type="video/mp4" />
           </video>
         </div>
@@ -3544,24 +3544,39 @@
     });
   })();
 
-  // Hero video: phone-specific poster frame.
+  // Hero video: phone/desktop file and poster, and a play() retry on the first
+  // tap/click for browsers that block autoplay (e.g. iOS Low Power Mode).
   (function () {
     var video = document.querySelector('video[data-poster-mobile]');
-    if (video) {
-      var breakpointQuery = window.matchMedia('(max-width: 700px)');
-      var updateVideo = function () {
-        var mobile = breakpointQuery.matches;
-        video.poster = mobile ? video.dataset.posterMobile : video.dataset.posterDesktop;
-        var wantedSrc = mobile ? video.dataset.srcMobile : video.dataset.srcDesktop;
-        if (wantedSrc) {
-          video.src = wantedSrc;
-          video.load();
-          video.play().catch(function () {});
-        }
-      };
-      updateVideo();
-      breakpointQuery.addEventListener('change', updateVideo);
-    }
+    if (!video) return;
+    var breakpointQuery = window.matchMedia('(max-width: 700px)');
+    var tryPlay = function () {
+      video.muted = true;
+      var attempt = video.play();
+      if (attempt && attempt.catch) attempt.catch(function () {});
+    };
+    var updateVideo = function () {
+      var mobile = breakpointQuery.matches;
+      video.poster = mobile ? video.dataset.posterMobile : video.dataset.posterDesktop;
+      var wantedSrc = mobile ? video.dataset.srcMobile : video.dataset.srcDesktop;
+      if (wantedSrc && video.getAttribute('src') !== wantedSrc) {
+        video.setAttribute('src', wantedSrc);
+        video.load();
+      }
+      tryPlay();
+    };
+    updateVideo();
+    if (breakpointQuery.addEventListener) breakpointQuery.addEventListener('change', updateVideo);
+    else breakpointQuery.addListener(updateVideo);
+    var kick = function () {
+      if (video.paused) tryPlay();
+      if (!video.paused) {
+        document.removeEventListener('touchstart', kick);
+        document.removeEventListener('click', kick);
+      }
+    };
+    document.addEventListener('touchstart', kick, { passive: true });
+    document.addEventListener('click', kick);
   })();
 
   // Phone top bar: follow the visual viewport (pinch-zoom / iOS toolbar shifts).
