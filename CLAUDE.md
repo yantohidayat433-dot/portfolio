@@ -65,8 +65,8 @@ add a stray wrap.
 
 Spacing system (desktop, Nov 2026): 8px between paragraphs everywhere
 (sidebar, project descriptions, case intro, case quotes), 12px between
-credits, 10px between pill buttons (contacts, articles). Phone keeps 8 /
-12 / 6.
+credits, 4px between pill buttons (contacts, articles), same on phone
+(.25rem).
 
 Hover palette (`PALETTE` in the swatch IIFE) is the client's 35-pair
 sheet from `buttons.pdf` (Nov 2026), extracted from the PDF vectors —
