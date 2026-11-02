@@ -531,13 +531,14 @@ ul {
   --font-heading: 'Suisse Intl Book', 'Geist', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 
   --color-ink: #000000;
-  --color-muted: rgba(0, 0, 0, 0.5);
+  --color-muted: #7F7F80;
   --color-divider: rgba(0, 0, 0, 0.15);
   --color-media-bg: #d6d6d9;
   --color-accent: #2b46ff;
 
-  --tracking-serif: -0.01em;
-  --tracking-sans: -0.02em;
+  /* Nov 2026: all interface text at 0 tracking (client) */
+  --tracking-serif: 0;
+  --tracking-sans: 0;
 
   --page-max-width: 1440px;
   --col-gap: 17px;
@@ -649,6 +650,16 @@ ul {
   max-width: 363px;
 }
 
+/* Sidebar copy is hand-broken with <br>; nowrap makes those breaks the
+   only ones (a <br> still breaks inside nowrap), so a line that lands a
+   subpixel past the column (zero tracking left ~0.7px of slack on a
+   375px phone) can't spill one word onto an extra line. */
+.intro__p-desktop,
+.knowledge__item,
+.case__intro-title-desc--desktop {
+  white-space: nowrap;
+}
+
 .intro__block p,
 .intro__text {
   margin: 0;
@@ -711,7 +722,7 @@ ul {
 
 .contact__links a {
   display: inline-block;
-  font-size: 16px;
+  font-size: 17px;
   line-height: 1.45;
   letter-spacing: var(--tracking-serif);
   width: fit-content;
@@ -785,7 +796,7 @@ ul {
 
 .knowledge__item {
   margin: 0;
-  font-size: 16px;
+  font-size: 17px;
   line-height: 1.45;
   letter-spacing: var(--tracking-serif);
 }
@@ -970,7 +981,7 @@ body.has-custom-cursor * {
 
 .hover-cta__label {
   font-family: 'Oceanic Text', Georgia, 'Times New Roman', serif;
-  font-size: 15px;
+  font-size: 17px;
   line-height: 1;
   color: #000000;
   white-space: nowrap;
@@ -1366,7 +1377,7 @@ button.project__media-link {
   font-size: 14px;
   line-height: 1.45;
   letter-spacing: var(--tracking-serif);
-  color: #898989;
+  color: var(--color-muted);
 }
 
 /* Pins the pair of credits paragraphs to the bottom of the left
@@ -1759,6 +1770,13 @@ button.project__media-link {
     margin-top: -7px;
   }
 
+  /* zero tracking widened the longest bio lines past the old 363px cap;
+     the column itself is 377px (divider width) */
+  .intro__block,
+  .intro__block p {
+    max-width: none;
+  }
+
   /* RU PDF: ~9px between bio paragraphs (was 12px). Keyed off the
      desktop pair only: the first visible paragraph also matches
      "p + p" (it follows the hidden -mobile ones) and must keep 12px. */
@@ -1906,7 +1924,7 @@ button.project__media-link {
     padding: 0;
     margin-top: 16px;
     font: inherit;
-    font-size: 16px;
+    font-size: 17px;
     line-height: 1.45;
     letter-spacing: var(--tracking-serif);
     width: fit-content;
@@ -1991,7 +2009,7 @@ button.project__media-link {
     background: none;
     font: inherit;
     font-family: var(--font-serif);
-    font-size: 16px;
+    font-size: 17px;
     line-height: 1.45;
     letter-spacing: var(--tracking-serif);
     cursor: pointer;
@@ -2002,29 +2020,11 @@ button.project__media-link {
        no radius) so it reads as part of the same family instead of
        standing out. */
     display: inline-block;
-    color: #FF8200;
+    /* Nov 2026: same pill as every other link -- gray on EAEAEB, random
+       palette swatch on hover (it's in the pickColor swatch list). */
+    color: #7F7F80;
     background-color: #EAEAEB;
-    transition: color 0.15s ease, opacity 0.2s ease;
-  }
-
-  /* Hover only previews the color the click would land on -- it's a
-     plain color swap, not the underline-grow this used to have. The
-     background never changes on hover; only .is-ru (an actual click)
-     makes either color stick. */
-  .lang-toggle:hover {
-    color: #BE41F3;
-  }
-
-  .lang-toggle.is-ru {
-    color: #BE41F3;
-  }
-
-  /* In the RU state the hover preview points back the other way --
-     toward the orange it would revert to on click -- so it needs to
-     win over the plain :hover rule above (extra class in the selector
-     gives it the higher specificity to do that). */
-  .lang-toggle.is-ru:hover {
-    color: #FF8200;
+    transition: color 0.15s ease, background-color 0.15s ease, opacity 0.2s ease;
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -2046,8 +2046,8 @@ button.project__media-link {
 
   .case__nav--desktop a {
     font-family: var(--font-serif);
-    font-size: 22px;
-    line-height: 1.25;
+    font-size: 24px;
+    line-height: 1.45;
     letter-spacing: var(--tracking-sans);
     color: var(--color-ink);
     /* Overrides .case__nav a's own 0.2s color transition -- the
@@ -2155,7 +2155,7 @@ button.project__media-link {
 
   /* Mobile now keeps the same 3 cases desktop does (Vocamate, Basarab,
      the Foundation) -- the placeholder/"coming soon" cards that used to
-     fill out the phone-only list (Olga Shlepet, App Insiders Club, 3I
+     fill out the phone-only list (App Insiders Club, 3I
      Tech, Banda Team) are dropped here rather than out of the DOM,
      reusing the class desktop already hides them with. */
   .project--desktop-hidden,
@@ -2438,10 +2438,8 @@ button.project__media-link {
     display: none;
   }
 
-  /* Same persistent-pill/press-preview treatment as the desktop toggle
-     (see the min-width:701px block) -- resting orange, EAEAEB backing,
-     purple on press/while toggled. There's no real hover on a touch
-     screen so :active stands in for :hover here. */
+  /* Same gray pill as the contact links (tap picks a palette swatch,
+     see pickColor); :active gives the same pressed colour as they do. */
   .lang-toggle {
     /* The desktop rule with the rest of this reset (appearance/border/
        padding/font) lives entirely inside the min-width:701px block, so
@@ -2462,29 +2460,13 @@ button.project__media-link {
     text-align: left;
     width: fit-content;
     display: inline-block;
-    color: #FF8200;
+    color: #7F7F80;
     background-color: #EAEAEB;
     -webkit-tap-highlight-color: transparent;
   }
 
   .lang-toggle:active {
-    color: #BE41F3;
-  }
-
-  /* Persistent purple once actually toggled to RU (desktop's .is-ru) --
-     :active above is only the transient tap preview, which isn't
-     enough on its own: without this the color snapped back to orange
-     the instant the tap released instead of staying switched. */
-  .lang-toggle.is-ru {
-    color: #BE41F3;
-  }
-
-  .lang-toggle.is-ru:active {
-    color: #FF8200;
-  }
-
-  .lang-toggle.is-ru:active {
-    color: #FF8200;
+    color: #FF4D00;
   }
 
   /* Project-card descriptions, the "See Project" sweep button, and the
@@ -2861,8 +2843,8 @@ button.project__media-link {
      seam at 1.25; nudging it down tightens the boxes until they touch
      with no visible gap). */
   .project__title {
-    font-size: 1.375rem;
-    line-height: 1.20;
+    font-size: 1.5rem;
+    line-height: 1.25;
     font-family: var(--font-serif);
   }
 
@@ -2950,8 +2932,8 @@ button.project__media-link {
        side-by-side columns. */
   .case__intro h2 {
     font-family: var(--font-serif);
-    font-size: 1.375rem;
-    line-height: 1.20;
+    font-size: 1.5rem;
+    line-height: 1.25;
     margin-bottom: 1.5rem;
     order: 1;
   }
@@ -3116,7 +3098,8 @@ button.project__media-link {
 
   .case__intro-title-desc {
     order: 3;
-    font-size: 16px;
+    font-size: 0.875rem;
+    line-height: 1.45;
   }
 
   .case__intro-title-desc--first {
@@ -3275,7 +3258,7 @@ button.project__media-link {
       </div>
 
       <div class="knowledge">
-        <p class="knowledge__title" data-en="I also share what I know" data-ru="А ещё я делюсь знаниями">А ещё я делюсь знаниями</p>
+        <p class="knowledge__title" data-en="I also share what I know:" data-ru="А ещё я делюсь знаниями:">А ещё я делюсь знаниями:</p>
         <div class="knowledge__links">
           <p class="knowledge__item"><a href="https://skillbox.ru/media/design/neyroseti-slop-ili-top-kak-ispolzuyut-ii-v-brend-dizayne/" class="knowledge__link" target="_blank" rel="noopener" data-en="Neural networks: slop or top?&lt;br&gt;How AI is used in brand design" data-ru="Нейросети — слоп или топ?&lt;br&gt;Как используют ИИ в бренд-дизайне">Нейросети — слоп или топ?<br>Как используют ИИ в бренд-дизайне</a></p>
           <p class="knowledge__item"><a href="https://skillbox.ru/media/design/ii-v-photoshop-kak-novye-funkcii-uproschayut-rabotu-dizaynera/" class="knowledge__link" target="_blank" rel="noopener" data-en="AI in Photoshop: how new features&lt;br&gt;make a designer's work easier" data-ru="ИИ в Photoshop: как новые функции&lt;br&gt;упрощают работу дизайнера">ИИ в Photoshop: как новые функции<br>упрощают работу дизайнера</a></p>
@@ -3369,28 +3352,6 @@ button.project__media-link {
           </div>
         </div>
         <hr class="project__divider" />
-      </article>
-
-      <article class="project project--half project--desktop-hidden">
-        <div class="project__media" data-cursor-label="скоро" data-cursor-kind="soon">
-          <img loading="lazy" src="images/grid-05.webp" alt="Ольга Шепет">
-        </div>
-        <div class="project__row">
-          <h2 class="project__title">
-            <span class="project__title-mobile">Ольга Шепет.</span>
-            <span class="project__title-desktop">Ольга Шепет. <span class="project__title-desc">Интерьерный художник и реставратор</span></span>
-          </h2>
-          <p class="project__subtitle-mobile">Интерьерный художник и реставратор</p>
-          <ul class="project__tags">
-            <li>Айдентика</li>
-            <li>Логотип</li>
-            <li>Дизайн сайта</li>
-          </ul>
-          <ul class="project__tags-mobile">
-            <li>Айдентика</li>
-            <li>Логотип</li>
-          </ul>
-        </div>
       </article>
 
     </div>
@@ -4092,7 +4053,7 @@ button.project__media-link {
       }
 
       if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-        var swatches = document.querySelectorAll('.contact__links a, .intro__link, .knowledge__link, .project__badge');
+        var swatches = document.querySelectorAll('.contact__links a, .intro__link, .knowledge__link, .lang-toggle, .project__badge');
 
         var pickColor = function (el) {
           var pick = pickFrom(el);

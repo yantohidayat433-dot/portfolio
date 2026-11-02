@@ -50,6 +50,19 @@ attribute. This means:
   a retired/hidden mobile caption pattern, are always Russian — fine,
   since they're not visible; don't "fix" them into a half-measure).
 
+## Type tokens (Nov 2026, client-approved)
+
+Interface text is one serif (Oceanic Text), tracking 0 everywhere
+(`--tracking-serif`/`--tracking-sans` are 0; animation artwork keeps its
+own 2% rule), one gray `#7F7F80` (`--color-muted`) for links, credits and
+"Смотреть". Desktop: body, links, buttons, cursor label 17/145; credits
+14/145; headings 24/145. Phone (fluid rem, 1rem = 16px at 375): body and
+links 1rem/1.45, credits .875rem/1.45, headings 1.5rem/1.25. The lang
+toggle is an ordinary gray pill in the pickColor swatch list (no
+orange/purple state colours any more). Hand-broken sidebar copy and
+desktop credits are `white-space: nowrap` so a subpixel-long line can't
+add a stray wrap.
+
 ## Sidebar (bio) and logo
 
 Order per the RU PDF (Nov 2026): three bio paragraphs (third ends in the
