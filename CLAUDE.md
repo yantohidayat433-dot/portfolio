@@ -57,8 +57,8 @@ PDF; phones reorder to Telegram/Instagram/Email via flex `order`), lang
 toggle. Inline pills (`.intro__link`, `.knowledge__link`) use
 `box-decoration-break: clone` plus `padding: .132em 0` so each line's plate
 fills the line box and two-line plates touch. Desktop vertical rhythm was
-pixel-matched to the PDF (ink rows within ~1px). Article and channel hrefs
-are `#` until the client sends URLs.
+pixel-matched to the PDF (ink rows within ~1px). Articles link to Skillbox Media; the Telegram-channel
+href is still `#` until the client sends it.
 
 Logo: rests bold pink (`#FFD2EC`, 2px same-colour stroke); hover (and the
 open about sheet on phones) turns `#A5C1BA` with a 3px stroke. 3.5px
