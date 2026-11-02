@@ -29,7 +29,7 @@ Every translatable text node carries a `data-en`/`data-ru` attribute pair
 (HTML-entity-encoded, `&lt;br&gt;` for line breaks) plus **literal
 rendered inner content that must itself be the RU version** — since
 Nov 2026 the site opens in Russian (`isRu = true` in the toggle IIFE,
-`#langToggle` starts with `.is-ru` and reads «Читать на английском»), and
+`#langToggle` reads «Читать на английском»), and
 a click swaps every `[data-en]` node's `innerHTML` from the matching
 attribute. This means:
 
