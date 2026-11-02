@@ -1339,6 +1339,9 @@ button.project__media-link {
      full column) start re-wrapping mid-line. The percentage fallback
      keeps both columns shrinking in proportion instead. */
   grid-template-columns: min(409px, 40.3%) 1fr;
+  /* Nov 2026: the body column keeps its designed width and the title
+     column gives way instead (down to 350px, the credits' longest line);
+     see the min-width:901px block below for the override. */
   column-gap: 0;
   max-width: var(--media-width);
   /* 24px own margin-top + the previous media block's 8px margin-bottom
@@ -1508,8 +1511,21 @@ button.project__media-link {
      after the margin) collapses much faster than the margin itself
      does, down to single-digit pixels at the narrow end of the
      desktop range. */
+  /* Nov 2026: body copy keeps its full column; the title column shrinks
+     from 409px down to 350px (the credits' longest line) instead, so the
+     hand-placed <br> breaks stay the only line ends. Below 1252px the
+     two columns can't both fit, so the intro stacks (see below). */
+  .case__intro {
+    grid-template-columns: min(409px, max(350px, calc(100% - 606px))) 1fr;
+  }
+
+  .case__intro-p--desktop,
+  .case__quote {
+    white-space: nowrap;
+  }
+
   #case-basarab .case__quote--right {
-    margin-left: min(409px, 40.3%);
+    margin-left: min(409px, max(350px, calc(100% - 606px)));
     /* The base .case__quote max-width (480px) is tuned for the
        generic 2-up-row-derived column; measured directly against the
        case PDF, Basarab's 409px text column actually runs ~506px
@@ -1520,7 +1536,7 @@ button.project__media-link {
   }
 
   #case-foundation .case__quote--right {
-    margin-left: min(409px, 40.3%);
+    margin-left: min(409px, max(350px, calc(100% - 606px)));
     /* Same 409px text column as Basarab's quote (both cases share the
        .case__intro-right column width), so it needs the same wider
        cap -- the client's own reference wrap for this quote's EN text
@@ -1529,6 +1545,19 @@ button.project__media-link {
        was wrong; this value is confirmed against her own screenshot
        of the intended line breaks, not re-derived from the PDF. */
     max-width: 510px;
+  }
+}
+
+@media (min-width: 901px) and (max-width: 1251px) {
+  .case__intro {
+    grid-template-columns: 1fr;
+    row-gap: 24px;
+  }
+
+  #case-basarab .case__quote--right,
+  #case-foundation .case__quote--right,
+  .case__quote--right {
+    margin-left: 0;
   }
 }
 
@@ -1760,8 +1789,8 @@ button.project__media-link {
   }
 
   .contact__links {
-    /* RU PDF (Nov 2026): 6px between plates, same as the article links */
-    gap: 6px;
+    /* 10px between pill buttons (spacing system, Nov 2026) */
+    gap: 10px;
   }
 
   /* RU PDF (Nov 2026): the bio starts 62px below the logo's ink, 8px
@@ -1777,11 +1806,24 @@ button.project__media-link {
     max-width: none;
   }
 
-  /* RU PDF: ~9px between bio paragraphs (was 12px). Keyed off the
-     desktop pair only: the first visible paragraph also matches
-     "p + p" (it follows the hidden -mobile ones) and must keep 12px. */
+  /* Spacing system (Nov 2026): 8px between paragraphs everywhere, 12px
+     between credits, 10px between pill buttons. Keyed off the desktop
+     pair only: the first visible paragraph also matches "p + p" (it
+     follows the hidden -mobile ones) and must keep 12px. */
   .intro__p-desktop + .intro__p-desktop {
-    margin-top: 9px;
+    margin-top: 8px;
+  }
+
+  .case__intro-right {
+    gap: 8px;
+  }
+
+  .case__quote p {
+    margin-bottom: 8px;
+  }
+
+  .knowledge__links {
+    gap: 10px;
   }
 
   /* RU PDF: the squiggle sits ~39px below the last bio line's x-height */
@@ -1893,6 +1935,50 @@ button.project__media-link {
     max-width: 606px;
   }
 
+  /* Laptop widths (Nov 2026): the description column keeps its full
+     designed 606px and the title column gives way instead (it only
+     holds a short badge), so the hand-placed <br> breaks stay the only
+     line ends. Below 1248px there's no room for both side by side, so
+     the title stacks above the copy; below 1028px even a stacked 606px
+     column doesn't fit, so the phone line-break variants (designed for
+     a ~360px column) take over. nowrap keeps a subpixel-long line from
+     spilling one word onto an extra line. Tablet widths (701-900) stack too. */
+  .project__row {
+    grid-template-columns: minmax(0, 1fr) 606px;
+  }
+
+  .project__desc p {
+    white-space: nowrap;
+  }
+}
+
+@media (min-width: 701px) and (max-width: 1247px) {
+  .project__row {
+    grid-template-columns: minmax(0, 606px);
+    row-gap: 16px;
+  }
+
+  .project__desc {
+    grid-column: 1;
+    grid-row: 2;
+  }
+}
+
+@media (min-width: 901px) and (max-width: 1027px) {
+  .project__desc p:not(.project__desc-p--mobile) {
+    display: none;
+  }
+
+  .project__desc-p--mobile {
+    display: block;
+  }
+
+  .project__desc-p--mobile + .project__desc-p--mobile {
+    margin-top: 8px;
+  }
+}
+
+@media (min-width: 701px) {
   /* Crossfade for the language toggle -- the JS fades a node's opacity
      to 0, swaps its text, then fades back in. .lang-toggle/.project__see
      get the same opacity transition folded into their own rules above
@@ -2726,8 +2812,11 @@ button.project__media-link {
     overflow: hidden;
     padding: 0.9375rem 1.25rem;
     border: none;
-    background: #FFD0ED;
-    color: #00849A;
+    /* Logo colours (Nov 2026): pink pill, deep-sage label; inverted while
+       open. The label is a darkened logo sage (#4F7268): the logo's own
+       #A5C1BA on pink is only 1.4:1 and unreadable at 16px. */
+    background: #FFD2EC;
+    color: #4F7268;
     font-family: var(--font-serif);
     font-size: 1rem;
     line-height: 1.45;
@@ -2745,8 +2834,8 @@ button.project__media-link {
 
   .mobile-about-toggle.is-open {
     width: var(--w-close, auto);
-    background: #00849A;
-    color: #FFD0ED;
+    background: #4F7268;
+    color: #FFD2EC;
   }
 
   /* Both labels stay in the DOM and share the same centered spot (the
@@ -4001,39 +4090,39 @@ button.project__media-link {
       // background with its own text color).
       var PALETTE = [
         { bg: '#A02F0A', text: '#FFD0ED' },
-        { bg: '#E07200', text: '#5C3B9A' },
+        { bg: '#EE8D31', text: '#FFD621' },
         { bg: '#FFD621', text: '#5C3B9A' },
         { bg: '#2B943D', text: '#FFD0ED' },
-        { bg: '#63B5F1', text: '#5C3B9A' },
-        { bg: '#E57999', text: '#CCFEC7' },
+        { bg: '#779AF5', text: '#CCFEC7' },
+        { bg: '#E57999', text: '#FCCAB4' },
         { bg: '#B79930', text: '#FFD621' },
         { bg: '#7F8E59', text: '#FFD621' },
         { bg: '#98E7FE', text: '#5C3B9A' },
         { bg: '#E25294', text: '#5C3B9A' },
-        { bg: '#DBC392', text: '#CCFEC7' },
+        { bg: '#CCAE6F', text: '#CCFEC7' },
         { bg: '#00F280', text: '#5C3B9A' },
-        { bg: '#00849A', text: '#FFD0ED' },
-        { bg: '#BE41F3', text: '#FFD0ED' },
+        { bg: '#1D8596', text: '#98E7FE' },
+        { bg: '#C468EB', text: '#FFD0ED' },
         { bg: '#F5002C', text: '#FFD0ED' },
-        { bg: '#FBC79A', text: '#2B943D' },
-        { bg: '#D0D0C2', text: '#BE41F3' },
+        { bg: '#FBC79A', text: '#004BA7' },
+        { bg: '#D0D0C2', text: '#0D4834' },
         { bg: '#CCFEC7', text: '#00849A' },
         { bg: '#8190F3', text: '#004BA7' },
-        { bg: '#D4E039', text: '#00849A' },
+        { bg: '#D4E039', text: '#004BA7' },
         { bg: '#FFD0ED', text: '#004BA7' },
-        { bg: '#A5C1BA', text: '#FFD0ED' },
+        { bg: '#A5C1BA', text: '#CDF4FF' },
         { bg: '#008DD4', text: '#FFD0ED' },
         { bg: '#B781A3', text: '#FFD0ED' },
-        { bg: '#45152F', text: '#00F280' },
-        { bg: '#AE004C', text: '#A5C1BA' },
-        { bg: '#3B4E1F', text: '#98E7FE' },
+        { bg: '#45152F', text: '#98E7FE' },
+        { bg: '#AE004C', text: '#FFD0ED' },
+        { bg: '#3B4E1F', text: '#B0E5D8' },
         { bg: '#00516D', text: '#D4E039' },
-        { bg: '#004BA7', text: '#FFD0ED' },
+        { bg: '#004BA7', text: '#EE8D31' },
         { bg: '#5C3B9A', text: '#CCFEC7' },
-        { bg: '#572325', text: '#CCFEC7' },
-        { bg: '#361C00', text: '#BE41F3' },
+        { bg: '#672156', text: '#CCFEC7' },
+        { bg: '#361C00', text: '#FFD0ED' },
         { bg: '#0D4834', text: '#FFD0ED' },
-        { bg: '#2C3145', text: '#FFD0ED' },
+        { bg: '#2C3145', text: '#FBC79A' },
         { bg: '#121E48', text: '#D4E039' }
       ];
 
@@ -4116,6 +4205,33 @@ button.project__media-link {
           root.style.setProperty('--sel-color', pick.text);
         });
       }
+    })();
+
+    (function () {
+      // Wide screens: past 1440px the page is centred and the empty side
+      // fields belong to <body>, which never scrolls (each column is its
+      // own scroll box). A wheel/trackpad gesture over those fields (or
+      // the gutter between the columns) is handed to whichever main
+      // column is showing -- the project list or the open case.
+      var wide = window.matchMedia('(min-width: 901px)');
+      document.addEventListener('wheel', function (e) {
+        if (!wide.matches || e.ctrlKey) return;
+        var t = e.target;
+        if (t !== document.body && t !== document.documentElement && !(t.classList && t.classList.contains('page'))) return;
+        var cols = document.querySelectorAll('.page > .projects, .page > .case');
+        var col = null;
+        for (var i = 0; i < cols.length; i++) {
+          var c = cols[i];
+          if (c.classList.contains('is-hidden') || c.classList.contains('is-exiting') || !c.getClientRects().length) continue;
+          if (getComputedStyle(c).display === 'none') continue;
+          col = c;
+          break;
+        }
+        if (!col) return;
+        var k = e.deltaMode === 1 ? 16 : e.deltaMode === 2 ? col.clientHeight : 1;
+        col.scrollTop += e.deltaY * k;
+        e.preventDefault();
+      }, { passive: false });
     })();
 
     (function () {

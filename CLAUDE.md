@@ -63,6 +63,33 @@ orange/purple state colours any more). Hand-broken sidebar copy and
 desktop credits are `white-space: nowrap` so a subpixel-long line can't
 add a stray wrap.
 
+Spacing system (desktop, Nov 2026): 8px between paragraphs everywhere
+(sidebar, project descriptions, case intro, case quotes), 12px between
+credits, 10px between pill buttons (contacts, articles). Phone keeps 8 /
+12 / 6.
+
+Hover palette (`PALETTE` in the swatch IIFE) is the client's 35-pair
+sheet from `buttons.pdf` (Nov 2026), extracted from the PDF vectors —
+re-extract the same way if she sends a new sheet. The mobile "Почитать
+обо мне" pill is pink `#FFD2EC` with deep-sage `#4F7268` text, inverted
+while open (logo sage `#A5C1BA` on pink is only 1.4:1).
+
+## Laptop / wide-screen layout
+
+- Project rows (main page): the 606px description column is fixed and
+  the title column gives way (`minmax(0,1fr) 606px`). 701–1247px: title
+  stacks above the copy; 901–1027px additionally swaps in the
+  `project__desc-p--mobile` line-break variants. Desc paragraphs are
+  `nowrap` on desktop so only the hand-placed `<br>`s break lines.
+- Case intro: title column `min(409px, max(350px, 100% - 606px))`, same
+  value for `.case__quote--right` margins; 901–1251px stacks the intro
+  and zeroes the quote offset. Case body/quote copy is `nowrap` ≥901px.
+- Verified with the wrap checker at 760, 905, 1000, 1024, 1100, 1200,
+  1251, 1253, 1280, 1366, 1440, 1920 (+ phones): no stray wraps.
+- Past 1440px the page is centred; a wheel gesture over the empty side
+  fields (they belong to <body>, which never scrolls) is forwarded to the
+  visible main column (`.projects` or the open `.case`), ≥901px only.
+
 ## Sidebar (bio) and logo
 
 Order per the RU PDF (Nov 2026): three bio paragraphs (third ends in the
