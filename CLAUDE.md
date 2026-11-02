@@ -248,30 +248,24 @@ otherwise win back). Use the image's real native dimensions as its
 
 ## Video inside a case
 
-No case had embedded video before Foundation's "light" clip. Pattern
-used (deliberately simple, avoids touching any shared JS):
+Case videos must not load while their case is hidden (they used to, and
+starved the home-page hero of bandwidth: 7.3MB on first load instead of
+2.3MB). Pattern: no `autoplay`, `preload="none"`, `data-lazy-play`; the
+lazy-play IIFE starts them when they come within 300px of the viewport and
+pauses them when they leave (hidden variants never intersect, so they never
+download):
 
 ```html
-<div class="case__media reveal" style="--mh:14.375rem">
-  <video autoplay muted loop playsinline poster="images/foo.webp" width="1920" height="1080">
-    <source src="videos/foo.mp4" type="video/mp4" />
-  </video>
-  <video autoplay muted loop playsinline poster="images/foo-m.webp" class="case__media-mobile" width="1920" height="1080">
-    <source src="videos/foo.mp4" type="video/mp4" />
-  </video>
-</div>
+<video muted loop playsinline preload="none" data-lazy-play poster="images/foo.webp" width="1920" height="1080">
+  <source src="videos/foo.mp4" type="video/mp4" />
+</video>
 ```
 
-Two `<video>` tags (both pointing at the same file is fine — only one is
-ever visible, the hidden one doesn't meaningfully cost bandwidth),
-mirroring the existing desktop/mobile `<img>` pair exactly so none of
-the existing CSS or JS needs to change. (There's a separate, more
-complex pattern already on the homepage hero — `data-src-desktop` /
-`data-src-mobile` + a `matchMedia` swap in a page-level `<script>` IIFE
-— built for genuinely different desktop/mobile video files. Only reach
-for that if a case ever needs two *different* video crops; note its JS
-currently does `querySelector` (singular), so a second use of that
-pattern needs it generalized to `querySelectorAll` first.)
+The home-page hero is the only `autoplay` video. It picks its file with a
+`<source media="(max-width: 700px)">` pair (phone file first), so each
+device downloads only its own; its IIFE swaps the poster, reloads on a
+breakpoint change and retries `play()` on the first tap/click (iOS Low
+Power Mode blocks autoplay).
 
 **Encoding**: re-encode whatever's supplied — client exports tend to be
 20MB+ raw H.264/AAC. Match the site's existing video weight (~0.5–2MB
