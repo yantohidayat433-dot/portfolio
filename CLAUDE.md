@@ -307,6 +307,9 @@ lights its tab and lifts its number/headline in.
   desktop, `--mh` on phones), gutters scale with width via `cqw`. Card
   size per the client's reference (Nov 2026): 860px of a 1015px frame
   (77.5/1015 side inset on `.goals-scroller__track`), vertically centred.
+  Frame background `#0E0E0E`, dimming veil `#0A0A0A` (neutral, per
+  client). Timing: HOLD 1360ms, MOVE 850ms, CSS light/rise transitions
+  0.7–0.85s (all ~15% faster than the original 1600/1000).
 - Photo-to-dark ramps are per card, inline on `.goal__shade`, sampled
   from the client's approved card renders. When she sends a new render,
   re-fit against it (photo position via NCC, ramps by column ratio)
