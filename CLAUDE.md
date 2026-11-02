@@ -409,6 +409,17 @@ underneath and only drops out after the fade (delayed `opacity` transition),
 so there's no dip to black. Basarab's tickers keep the shared hard-cut
 classes and 1.3s interval (the generic cycle() call excludes `--ig-fade`).
 
+## Image weight (Nov 2026 audit)
+
+All images are WebP and `loading="lazy"` except the first project cards on
+the home page; the Foundation goals cards and light-slide shape are lazy
+too (their animations start without them and pick them up). Phone crops
+are at most 1077px wide (3x of a ~359px card), desktop slots 2x (~2030px).
+Heavy files were re-encoded at WebP q78–84 only where PSNR stayed ≥40dB
+against the previous file; a few noisy textures (Basarab fur, m18/m22)
+are still ~400KB and look worse if pushed further. First home-page load is
+~2.1MB, most of it the hero video.
+
 ## Verification checklist (every text or crop change)
 
 1. Serve the repo locally (`http-server` if video is involved, plain
