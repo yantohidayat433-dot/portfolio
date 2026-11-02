@@ -23,22 +23,46 @@ each time. Read it before touching a `.case` section.
 
 Every translatable text node carries a `data-en`/`data-ru` attribute pair
 (HTML-entity-encoded, `&lt;br&gt;` for line breaks) plus **literal
-rendered inner content that must itself be the EN version** — the site
-defaults to English on load, and a `#langToggle` click swaps every
-`[data-en]` node's `innerHTML` from the matching attribute. This means:
+rendered inner content that must itself be the RU version** — since
+Nov 2026 the site opens in Russian (`isRu = true` in the toggle IIFE,
+`#langToggle` starts with `.is-ru` and reads «Читать на английском»), and
+a click swaps every `[data-en]` node's `innerHTML` from the matching
+attribute. This means:
 
 - When you add or edit a translatable element, the text you put as its
-  actual (non-attribute) content **is** the English copy — it is not a
-  placeholder that JS fills in on load. Forgetting this leaves Russian
-  showing by default even after you "fixed" `data-en` (a real bug from
-  this session: the Foundation badge title had correct `data-en` but the
-  literal span text was still Russian).
+  actual (non-attribute) content **is** the Russian copy — it is not a
+  placeholder that JS fills in on load. Forgetting this leaves English
+  showing by default even after you "fixed" `data-ru`.
+- Cursor labels carry all three: `data-cursor-label` (= RU, the default),
+  `data-cursor-label-en`, `data-cursor-label-ru`. The mobile pill's
+  `.lang-fade` spans likewise hold the RU text literally.
+- A link inside a swapped paragraph must not live inside the swapped
+  node's innerHTML (the swap would recreate it and drop its hover-colour
+  listeners): split the paragraph into a `[data-en]` text span plus a
+  `[data-en]` `<a>` (see the third bio paragraph, `.intro__p-part` +
+  `.intro__link`).
 - Nav/next-project "prev/next" style links follow the same pattern.
 - There is no language-aware mechanism for `alt` attributes or anything
   outside `[data-en]` — those stay in whatever language they were written
   in regardless of toggle state (e.g. `.project__title-mobile` buttons,
   a retired/hidden mobile caption pattern, are always Russian — fine,
   since they're not visible; don't "fix" them into a half-measure).
+
+## Sidebar (bio) and logo
+
+Order per the RU PDF (Nov 2026): three bio paragraphs (third ends in the
+Telegram-channel pill link), squiggle, `.knowledge` (heading + two article
+pills), divider, contacts (Telegram «Написать мне» / Email / Instagram /
+PDF; phones reorder to Telegram/Instagram/Email via flex `order`), lang
+toggle. Inline pills (`.intro__link`, `.knowledge__link`) use
+`box-decoration-break: clone` plus `padding: .132em 0` so each line's plate
+fills the line box and two-line plates touch. Desktop vertical rhythm was
+pixel-matched to the PDF (ink rows within ~1px). Article and channel hrefs
+are `#` until the client sends URLs.
+
+Logo: rests bold pink (`#FFD2EC`, 2px same-colour stroke); hover (and the
+open about sheet on phones) turns `#A5C1BA` with a 3px stroke. 3.5px
+started closing the counters of a/o at 190px wide.
 
 ## Case page anatomy (`.case`, id `case-<name>`)
 

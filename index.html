@@ -604,20 +604,25 @@ ul {
 /* Same path geometry at rest and on hover, so the logo never changes
    size — only fill color and a growing 1px outline animate, which
    reads as the wordmark smoothly turning bolder and shifting color. */
+/* Nov 2026: the bold pink look (formerly the hover state) is now the
+   resting logo; hover turns it sage green (#A5C1BA, the swatch-palette
+   green) and bolder still. Stroke always matches the fill, so the
+   growing outline reads as extra weight, not as an outline. */
 .logo__svg path {
-  fill: #00849A;
+  fill: #FFD2EC;
   stroke: #FFD2EC;
-  stroke-width: 0;
+  stroke-width: 2;
   stroke-linejoin: round;
   stroke-linecap: round;
   paint-order: stroke fill;
   vector-effect: non-scaling-stroke;
-  transition: fill 0.35s ease, stroke-width 0.35s ease;
+  transition: fill 0.35s ease, stroke 0.35s ease, stroke-width 0.35s ease;
 }
 
 .logo:hover .logo__svg path {
-  fill: #FFD2EC;
-  stroke-width: 2;
+  fill: #A5C1BA;
+  stroke: #A5C1BA;
+  stroke-width: 3;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -712,7 +717,7 @@ ul {
   width: fit-content;
   color: #7F7F80;
   background-color: #EAEAEB;
-  transition: color 0.15s ease, background-color 0.15s ease;
+  transition: color 0.15s ease, background-color 0.15s ease, opacity 0.2s ease;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -727,6 +732,62 @@ ul {
      .intro flex gap alone would allow, matching the tighter spacing
      in the reference layout */
   margin: -7px 0;
+}
+
+/* Inline pill links inside running text (the Telegram channel in the
+   third bio paragraph) and the two article links under the squiggle:
+   same EAEAEB plate / gray text as the contact links, but inline, so a
+   two-line link gets one plate per line (box-decoration-break) instead
+   of one rectangle as wide as its longest line. */
+.intro__link,
+.knowledge__link {
+  color: #7F7F80;
+  background-color: #EAEAEB;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+  /* An inline box's background only covers the font's content area
+     (~1.19em here), not the 1.45 line box -- this vertical padding
+     (layout-neutral on inline boxes) grows each plate to the full line
+     height, so the two lines of an article plate touch like in the PDF. */
+  padding: 0.132em 0;
+  transition: color 0.15s ease, background-color 0.15s ease, opacity 0.2s ease;
+}
+
+.intro__p-part {
+  transition: opacity 0.2s ease;
+}
+
+.knowledge {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  /* RU PDF: heading cap height to the first article plate is 31px. */
+  gap: 13px;
+  width: 100%;
+  /* squiggle-to-heading lands 3px further down than the flex gap alone */
+  margin-top: 3px;
+}
+
+.knowledge__title {
+  margin: 0;
+  font-size: 17px;
+  line-height: 1.45;
+  letter-spacing: var(--tracking-serif);
+  color: var(--color-ink);
+  transition: opacity 0.2s ease;
+}
+
+.knowledge__links {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.knowledge__item {
+  margin: 0;
+  font-size: 16px;
+  line-height: 1.45;
+  letter-spacing: var(--tracking-serif);
 }
 
 .tagline {
@@ -1688,7 +1749,31 @@ button.project__media-link {
   }
 
   .contact__links {
-    gap: 3px;
+    /* RU PDF (Nov 2026): 6px between plates, same as the article links */
+    gap: 6px;
+  }
+
+  /* RU PDF (Nov 2026): the bio starts 62px below the logo's ink, 8px
+     lower than the old -15px pull-up gave. */
+  .intro {
+    margin-top: -7px;
+  }
+
+  /* RU PDF: ~9px between bio paragraphs (was 12px). Keyed off the
+     desktop pair only: the first visible paragraph also matches
+     "p + p" (it follows the hidden -mobile ones) and must keep 12px. */
+  .intro__p-desktop + .intro__p-desktop {
+    margin-top: 9px;
+  }
+
+  /* RU PDF: the squiggle sits ~39px below the last bio line's x-height */
+  .squiggle {
+    margin-top: -4px;
+  }
+
+  /* last article plate to the divider: 24px flex gap + 7px = 31px */
+  .knowledge {
+    margin-bottom: 7px;
   }
 
   .project--desktop-hidden,
@@ -1900,9 +1985,9 @@ button.project__media-link {
     border: none;
     padding: 0;
     /* .contact is a flex column with its own 12px gap between visible
-       children -- 24px margin here on top of that lands the button
-       exactly 36px below the links block. */
-    margin-top: 24px;
+       children -- 20px margin here on top of that lands the button
+       exactly 32px below the links block (RU PDF, Nov 2026). */
+    margin-top: 20px;
     background: none;
     font: inherit;
     font-family: var(--font-serif);
@@ -2021,8 +2106,9 @@ button.project__media-link {
      back to their resting look here; real tap feedback comes from
      :active instead (logo below, contact links further down). */
   .logo:hover .logo__svg path {
-    fill: #00849A;
-    stroke-width: 0;
+    fill: #FFD2EC;
+    stroke: #FFD2EC;
+    stroke-width: 2;
   }
 
   .contact__links a:hover {
@@ -2184,8 +2270,9 @@ button.project__media-link {
      blue resting state. */
   body.about-open .mobile-topbar__logo .logo__svg path,
   body.about-open #mobile-about-sheet > .logo .logo__svg path {
-    fill: #FFD2EC;
-    stroke-width: 2;
+    fill: #A5C1BA;
+    stroke: #A5C1BA;
+    stroke-width: 3;
   }
 
   /* The sheet reuses .sidebar wholesale for its content (bio + contacts) --
@@ -2432,19 +2519,43 @@ button.project__media-link {
     gap: 0.375rem;
   }
 
-  /* Phone PDF order is Telegram/Instagram/Email -- flipped visually via
-     flex order (desktop's own Email/Instagram/Telegram DOM order, and
-     its rendered order, stay untouched). */
+  /* Phone PDF order is Telegram/Instagram/Email -- reordered visually
+     via flex order (desktop's DOM order is Telegram/Email/Instagram/PDF). */
   .contact__links a:nth-child(1) {
-    order: 3;
+    order: 1;
   }
 
   .contact__links a:nth-child(2) {
-    order: 2;
+    order: 3;
   }
 
   .contact__links a:nth-child(3) {
-    order: 1;
+    order: 2;
+  }
+
+  .knowledge {
+    gap: 0.75rem;
+    margin-top: 0;
+  }
+
+  .knowledge__links {
+    gap: 0.375rem;
+  }
+
+  .knowledge__item {
+    font-size: 1rem;
+  }
+
+  .intro__link,
+  .knowledge__link {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .intro__link:active,
+  .intro__link.is-pressed,
+  .knowledge__link:active,
+  .knowledge__link.is-pressed {
+    color: #FF4D00;
   }
 
   .contact__links a {
@@ -3125,8 +3236,8 @@ button.project__media-link {
   </div>
 
   <button type="button" class="mobile-about-toggle" data-about-toggle>
-    <span class="mobile-about-toggle__open"><span class="lang-fade" data-lang-en="Read about me" data-lang-ru="Почитать обо мне">Read about me</span></span>
-    <span class="mobile-about-toggle__close"><span class="lang-fade" data-lang-en="Okay, back to the work" data-lang-ru="Окей, вернемся к работам">Okay, back to the work</span></span>
+    <span class="mobile-about-toggle__open"><span class="lang-fade" data-lang-en="Read about me" data-lang-ru="Почитать обо мне">Почитать обо мне</span></span>
+    <span class="mobile-about-toggle__close"><span class="lang-fade" data-lang-en="Okay, back to the work" data-lang-ru="Окей, вернемся к работам">Окей, вернемся к работам</span></span>
   </button>
 
   <aside class="sidebar" id="mobile-about-sheet">
@@ -3151,8 +3262,9 @@ button.project__media-link {
       <div class="intro__block">
         <p class="intro__p-mobile">Я дизайнер и арт-директор, больше <br>8 лет работаю с визуальной айдентикой <br>бренда  — от концепции до реализации <br>в каждой точке контакта. 👩🏻</p>
         <p class="intro__p-mobile">Сотрудничала с ведущими дизайн- <br>студиями в России, вела проекты <br>для крупных бизнесов из разных сфер, <br>от технологий до ритейла.</p>
-        <p class="intro__p-desktop" data-en="I'm an independent designer working across&lt;br&gt;visual identity systems and art direction, from&lt;br&gt;concept through execution at every touchpoint.&lt;br&gt;I look for what makes a brand distinct, then&lt;br&gt;build a flexible system around it." data-ru="Я независимый дизайнер, больше&lt;br&gt;8 лет работаю с визуальной айдентикой&lt;br&gt;бренда. Разрабатываю концепцию и довожу&lt;br&gt;её до реализации в каждой точке контакта.&lt;br&gt;Ищу смыслы, форму, строю гибкую систему.">I'm an independent designer working across<br>visual identity systems and art direction, from<br>concept through execution at every touchpoint.<br>I look for what makes a brand distinct, then<br>build a flexible system around it.</p>
-        <p class="intro__p-desktop" data-en="I lead projects on my own or step in when&lt;br&gt;a team needs support. Move fast, stay reliable,&lt;br&gt;and never disappear." data-ru="Веду проект самостоятельно или усиливаю&lt;br&gt;вашу команду на нужном этапе. Быстро&lt;br&gt;подключаюсь, работаю предсказуемо,&lt;br&gt;не пропадаю.">I lead projects on my own or step in when<br>a team needs support. Move fast, stay reliable,<br>and never disappear.</p>
+        <p class="intro__p-desktop" data-en="I'm an independent designer working across&lt;br&gt;visual identity systems and art direction, from&lt;br&gt;concept through execution at every touchpoint.&lt;br&gt;I look for what makes a brand distinct, then&lt;br&gt;build a flexible system around it." data-ru="Я независимый дизайнер, больше&lt;br&gt;8 лет работаю с визуальной айдентикой&lt;br&gt;бренда. Разрабатываю концепцию и довожу&lt;br&gt;её до реализации в каждой точке контакта.&lt;br&gt;Ищу смыслы, форму, строю гибкую систему.">Я независимый дизайнер, больше<br>8 лет работаю с визуальной айдентикой<br>бренда. Разрабатываю концепцию и довожу<br>её до реализации в каждой точке контакта.<br>Ищу смыслы, форму, строю гибкую систему.</p>
+        <p class="intro__p-desktop" data-en="I lead projects on my own or step in when&lt;br&gt;a team needs support. Move fast, stay reliable,&lt;br&gt;and never disappear." data-ru="Веду проект самостоятельно или усиливаю&lt;br&gt;вашу команду на нужном этапе. Быстро&lt;br&gt;подключаюсь, работаю предсказуемо,&lt;br&gt;не пропадаю.">Веду проект самостоятельно или усиливаю<br>вашу команду на нужном этапе. Быстро<br>подключаюсь, работаю предсказуемо,<br>не пропадаю.</p>
+        <p class="intro__p-desktop intro__p-desktop--split"><span class="intro__p-part" data-en="Feel free to reach out, I'd love to meet you.&lt;br&gt;You can read more about me and my approach&lt;br&gt;on my " data-ru="Пишите, рада буду познакомиться. Больше&lt;br&gt;обо мне и моем подходе можно почитать&lt;br&gt;в моем ">Пишите, рада буду познакомиться. Больше<br>обо мне и моем подходе можно почитать<br>в моем </span><a href="#" class="intro__link" target="_blank" rel="noopener" data-en="Telegram channel" data-ru="телеграм канале">телеграм канале</a></p>
       </div>
 
       <div class="squiggle" aria-hidden="true">
@@ -3161,20 +3273,25 @@ button.project__media-link {
         </svg>
       </div>
 
-      <p class="intro__text intro__text-mobile">Я не навязываю брендам свой стиль, <br>я ищу их собственный визуальный язык <br>и характер внутри гибкой и понятной <br>системы</p>
-      <p class="intro__text intro__text-desktop" data-en="I only design what can actually be built,&lt;br&gt;then stay through implementation to make&lt;br&gt;sure the idea doesn't get lost along the way." data-ru="Предлагаю только то, что реально можно&lt;br&gt;сделать. Помогаю внедрить и слежу, чтобы&lt;br&gt;задумка не потерялась по дороге.">I only design what can actually be built,<br>then stay through implementation to make<br>sure the idea doesn't get lost along the way.</p>
+      <div class="knowledge">
+        <p class="knowledge__title" data-en="I also share what I know" data-ru="А еще я делюсь знаниями">А еще я делюсь знаниями</p>
+        <div class="knowledge__links">
+          <p class="knowledge__item"><a href="#" class="knowledge__link" target="_blank" rel="noopener" data-en="Neural networks: slop or top?&lt;br&gt;How AI is used in brand design" data-ru="Нейросети — слоп или топ?&lt;br&gt;Как используют ИИ в бренд-дизайне">Нейросети — слоп или топ?<br>Как используют ИИ в бренд-дизайне</a></p>
+          <p class="knowledge__item"><a href="#" class="knowledge__link" target="_blank" rel="noopener" data-en="AI in Photoshop: how new features&lt;br&gt;make a designer's work easier" data-ru="ИИ в Photoshop: как новые функции&lt;br&gt;упрощают работу дизайнера">ИИ в Photoshop: как новые функции<br>упрощают работу дизайнера</a></p>
+        </div>
+      </div>
 
       <hr class="divider" />
 
       <div class="contact">
         <p class="contact__title contact__title-mobile">Давайте знакомиться 💅</p>
         <div class="contact__links">
-          <a href="mailto:hello@vikaivanova.com">Email</a>
-          <a href="#" target="_blank" rel="noopener">Instagram</a>
-          <a href="#" target="_blank" rel="noopener">Telegram</a>
-          <a href="#" class="contact__pdf-link">Download PDF</a>
+          <a href="#" target="_blank" rel="noopener" data-en="Telegram" data-ru="Написать мне">Написать мне</a>
+          <a href="mailto:hello@vikaivanova.com" data-en="Email" data-ru="Почта">Почта</a>
+          <a href="#" target="_blank" rel="noopener" data-en="Instagram" data-ru="Инстаграм">Инстаграм</a>
+          <a href="#" class="contact__pdf-link" data-en="Download PDF" data-ru="Скачать PDF">Скачать PDF</a>
         </div>
-        <button type="button" class="lang-toggle" id="langToggle" data-en="Read in Russian" data-ru="Читать на английском">Read in Russian</button>
+        <button type="button" class="lang-toggle is-ru" id="langToggle" data-en="Read in Russian" data-ru="Читать на английском">Читать на английском</button>
       </div>
 
     </div>
@@ -3183,7 +3300,7 @@ button.project__media-link {
   <main class="projects">
 
     <article class="project project--hero">
-      <a class="project__media-link" href="https://www.behance.net/gallery/235073919/Vocamate-AI-Brand-Identity-Website" target="_blank" rel="noopener noreferrer" data-cursor-label="view" data-cursor-label-ru="смотреть" data-cursor-kind="see">
+      <a class="project__media-link" href="https://www.behance.net/gallery/235073919/Vocamate-AI-Brand-Identity-Website" target="_blank" rel="noopener noreferrer" data-cursor-label="смотреть" data-cursor-label-en="view" data-cursor-label-ru="смотреть" data-cursor-kind="see">
         <div class="project__media">
           <video autoplay muted loop playsinline poster="images/grid-01.webp" data-poster-desktop="images/grid-01.webp" data-poster-mobile="images/grid-01-mobile.webp" data-src-desktop="videos/grid-video-01.mp4" data-src-mobile="videos/vocamate-mobile.mp4">
             <source src="videos/grid-video-01.mp4" type="video/mp4" />
@@ -3207,11 +3324,11 @@ button.project__media-link {
           <li>Дизайн мерча</li>
         </ul>
         <div class="project__desc">
- <p data-en="Vocamate is a platform for building AI bots and automating&lt;br&gt;complex business processes." data-ru="Vocamate AI — платформа для создания ИИ-ботов&lt;br&gt;и комплексной автоматизации бизнес-процессов.">Vocamate is a platform for building AI bots and automating<br>complex business processes.</p>
- <p data-en="Led the entire visual side of the project. Developed the logo and&lt;br&gt;identity, contributed to the voice assistant's design, and brought&lt;br&gt;in specialists to create a range of touchpoints from icons to merch." data-ru="Вела всю визуальную часть проекта. Разработала логотип&lt;br&gt;и айдентику, привлекала специалистов при создании разных&lt;br&gt;носителей от иконок до мерча. Участвовала в разработке дизайна&lt;br&gt;для голосового помощника.">Led the entire visual side of the project. Developed the logo and<br>identity, contributed to the voice assistant's design, and brought<br>in specialists to create a range of touchpoints from icons to merch.</p>
- <p class="project__desc-p--mobile" data-en="Vocamate is a platform for building AI bots&lt;br&gt;and automating complex business processes." data-ru="Vocamate AI — платформа для создания&lt;br&gt;ИИ-ботов и комплексной автоматизации&lt;br&gt;бизнес-процессов.">Vocamate is a platform for building AI bots<br>and automating complex business processes.</p>
- <p class="project__desc-p--mobile" data-en="Led the entire visual side of the project.&lt;br&gt;Developed the logo and identity, contributed&lt;br&gt;to the voice assistant's design, and brought&lt;br&gt;in specialists to create a range of touchpoints&lt;br&gt;from icons to merch." data-ru="Вела всю визуальную часть проекта.&lt;br&gt;Разработала логотип и айдентику, привле-&lt;br&gt;кала специалистов при создании разных&lt;br&gt;носителей от иконок до мерча. Участвовала&lt;br&gt;в разработке дизайна для голосового&lt;br&gt;помощника.">Led the entire visual side of the project.<br>Developed the logo and identity, contributed<br>to the voice assistant's design, and brought<br>in specialists to create a range of touchpoints<br>from icons to merch.</p>
-          <a class="project__see" href="https://www.behance.net/gallery/235073919/Vocamate-AI-Brand-Identity-Website" target="_blank" rel="noopener noreferrer" data-en="See Project &lt;span class=&quot;project__see-arrow&quot;&gt;→&lt;/span&gt;" data-ru="Смотреть &lt;span class=&quot;project__see-arrow&quot;&gt;→&lt;/span&gt;">See Project <span class="project__see-arrow">→</span></a>
+ <p data-en="Vocamate is a platform for building AI bots and automating&lt;br&gt;complex business processes." data-ru="Vocamate AI — платформа для создания ИИ-ботов&lt;br&gt;и комплексной автоматизации бизнес-процессов.">Vocamate AI — платформа для создания ИИ-ботов<br>и комплексной автоматизации бизнес-процессов.</p>
+ <p data-en="Led the entire visual side of the project. Developed the logo and&lt;br&gt;identity, contributed to the voice assistant's design, and brought&lt;br&gt;in specialists to create a range of touchpoints from icons to merch." data-ru="Вела всю визуальную часть проекта. Разработала логотип&lt;br&gt;и айдентику, привлекала специалистов при создании разных&lt;br&gt;носителей от иконок до мерча. Участвовала в разработке дизайна&lt;br&gt;для голосового помощника.">Вела всю визуальную часть проекта. Разработала логотип<br>и айдентику, привлекала специалистов при создании разных<br>носителей от иконок до мерча. Участвовала в разработке дизайна<br>для голосового помощника.</p>
+ <p class="project__desc-p--mobile" data-en="Vocamate is a platform for building AI bots&lt;br&gt;and automating complex business processes." data-ru="Vocamate AI — платформа для создания&lt;br&gt;ИИ-ботов и комплексной автоматизации&lt;br&gt;бизнес-процессов.">Vocamate AI — платформа для создания<br>ИИ-ботов и комплексной автоматизации<br>бизнес-процессов.</p>
+ <p class="project__desc-p--mobile" data-en="Led the entire visual side of the project.&lt;br&gt;Developed the logo and identity, contributed&lt;br&gt;to the voice assistant's design, and brought&lt;br&gt;in specialists to create a range of touchpoints&lt;br&gt;from icons to merch." data-ru="Вела всю визуальную часть проекта.&lt;br&gt;Разработала логотип и айдентику, привле-&lt;br&gt;кала специалистов при создании разных&lt;br&gt;носителей от иконок до мерча. Участвовала&lt;br&gt;в разработке дизайна для голосового&lt;br&gt;помощника.">Вела всю визуальную часть проекта.<br>Разработала логотип и айдентику, привле-<br>кала специалистов при создании разных<br>носителей от иконок до мерча. Участвовала<br>в разработке дизайна для голосового<br>помощника.</p>
+          <a class="project__see" href="https://www.behance.net/gallery/235073919/Vocamate-AI-Brand-Identity-Website" target="_blank" rel="noopener noreferrer" data-en="See Project &lt;span class=&quot;project__see-arrow&quot;&gt;→&lt;/span&gt;" data-ru="Смотреть &lt;span class=&quot;project__see-arrow&quot;&gt;→&lt;/span&gt;">Смотреть <span class="project__see-arrow">→</span></a>
         </div>
       </div>
       <hr class="project__divider" />
@@ -3220,7 +3337,7 @@ button.project__media-link {
     <div class="project-pair">
 
       <article class="project project--half">
-        <button class="project__media-link" type="button" data-case-open="case-basarab" data-cursor-label="view" data-cursor-label-ru="смотреть" data-cursor-kind="see">
+        <button class="project__media-link" type="button" data-case-open="case-basarab" data-cursor-label="смотреть" data-cursor-label-en="view" data-cursor-label-ru="смотреть" data-cursor-kind="see">
           <div class="project__media">
             <img src="images/grid-02.webp" alt="Basarab">
             <img class="project__media-mobile" src="images/grid-02-mobile.webp" alt="Basarab">
@@ -3243,11 +3360,11 @@ button.project__media-link {
             <li>Дизайн упаковки</li>
           </ul>
           <div class="project__desc">
- <p data-en="Basarab is a family-run footwear brand with its own&lt;br&gt;production, making well-made shoes for everyday life." data-ru="Basarab — семейный бренд обуви, который делает&lt;br&gt;классную, качественную обувь для повседневной жизни.">Basarab is a family-run footwear brand with its own<br>production, making well-made shoes for everyday life.</p>
- <p data-en="Designed the visual identity and logo. Guided the team&lt;br&gt;in designing the touchpoints and preparing the technical&lt;br&gt;materials for the new identity." data-ru="Разработала визуальную айдентику и логотип. Руководила&lt;br&gt;командой при разработке носителей и подготовке макетов&lt;br&gt;для производства в рамках новой айдентики.">Designed the visual identity and logo. Guided the team<br>in designing the touchpoints and preparing the technical<br>materials for the new identity.</p>
- <p class="project__desc-p--mobile" data-en="Basarab is a family-run footwear brand with&lt;br&gt;its own production, making well-made shoes&lt;br&gt;for everyday life." data-ru="Basarab — семейный бренд обуви,&lt;br&gt;который делает классную, качественную&lt;br&gt;обувь для повседневной жизни.">Basarab is a family-run footwear brand with<br>its own production, making well-made shoes<br>for everyday life.</p>
- <p class="project__desc-p--mobile" data-en="Designed the visual identity and logo.&lt;br&gt;Guided the team in designing the touchpoints&lt;br&gt;and preparing the technical materials for the&lt;br&gt;new identity." data-ru="Разработала визуальную айдентику&lt;br&gt;и логотип. Руководила командой&lt;br&gt;при разработке носителей и подготовке&lt;br&gt;макетов для производства в рамках новой&lt;br&gt;айдентики.">Designed the visual identity and logo.<br>Guided the team in designing the touchpoints<br>and preparing the technical materials for the<br>new identity.</p>
-            <button type="button" class="project__see" data-case-open="case-basarab" data-en="See Project &lt;span class=&quot;project__see-arrow&quot;&gt;→&lt;/span&gt;" data-ru="Смотреть &lt;span class=&quot;project__see-arrow&quot;&gt;→&lt;/span&gt;">See Project <span class="project__see-arrow">→</span></button>
+ <p data-en="Basarab is a family-run footwear brand with its own&lt;br&gt;production, making well-made shoes for everyday life." data-ru="Basarab — семейный бренд обуви, который делает&lt;br&gt;классную, качественную обувь для повседневной жизни.">Basarab — семейный бренд обуви, который делает<br>классную, качественную обувь для повседневной жизни.</p>
+ <p data-en="Designed the visual identity and logo. Guided the team&lt;br&gt;in designing the touchpoints and preparing the technical&lt;br&gt;materials for the new identity." data-ru="Разработала визуальную айдентику и логотип. Руководила&lt;br&gt;командой при разработке носителей и подготовке макетов&lt;br&gt;для производства в рамках новой айдентики.">Разработала визуальную айдентику и логотип. Руководила<br>командой при разработке носителей и подготовке макетов<br>для производства в рамках новой айдентики.</p>
+ <p class="project__desc-p--mobile" data-en="Basarab is a family-run footwear brand with&lt;br&gt;its own production, making well-made shoes&lt;br&gt;for everyday life." data-ru="Basarab — семейный бренд обуви,&lt;br&gt;который делает классную, качественную&lt;br&gt;обувь для повседневной жизни.">Basarab — семейный бренд обуви,<br>который делает классную, качественную<br>обувь для повседневной жизни.</p>
+ <p class="project__desc-p--mobile" data-en="Designed the visual identity and logo.&lt;br&gt;Guided the team in designing the touchpoints&lt;br&gt;and preparing the technical materials for the&lt;br&gt;new identity." data-ru="Разработала визуальную айдентику&lt;br&gt;и логотип. Руководила командой&lt;br&gt;при разработке носителей и подготовке&lt;br&gt;макетов для производства в рамках новой&lt;br&gt;айдентики.">Разработала визуальную айдентику<br>и логотип. Руководила командой<br>при разработке носителей и подготовке<br>макетов для производства в рамках новой<br>айдентики.</p>
+            <button type="button" class="project__see" data-case-open="case-basarab" data-en="See Project &lt;span class=&quot;project__see-arrow&quot;&gt;→&lt;/span&gt;" data-ru="Смотреть &lt;span class=&quot;project__see-arrow&quot;&gt;→&lt;/span&gt;">Смотреть <span class="project__see-arrow">→</span></button>
           </div>
         </div>
         <hr class="project__divider" />
@@ -3280,7 +3397,7 @@ button.project__media-link {
     <div class="project-pair">
 
       <article class="project project--half">
-        <button class="project__media-link" type="button" data-case-open="case-foundation" data-cursor-label="view" data-cursor-label-ru="смотреть" data-cursor-kind="see">
+        <button class="project__media-link" type="button" data-case-open="case-foundation" data-cursor-label="смотреть" data-cursor-label-en="view" data-cursor-label-ru="смотреть" data-cursor-kind="see">
           <div class="project__media">
             <img src="images/grid-03.webp" alt="Фонд «Вызов»">
             <img class="project__media-mobile" src="images/grid-03-mobile.webp" alt="Фонд «Вызов»">
@@ -3289,7 +3406,7 @@ button.project__media-link {
         <div class="project__row">
           <h2 class="project__title">
             <span class="project__title-mobile"><button class="project__title-link" type="button" data-case-open="case-foundation">Фонд «Вызов».</button></span>
-            <span role="button" tabindex="0" class="project__title-desktop project__badge" data-case-open="case-foundation" data-en="&lt;span class=&quot;project__badge-title&quot;&gt;Foundation «Vyzov»&lt;/span&gt;" data-ru="&lt;span class=&quot;project__badge-title&quot;&gt;Фонд «Вызов»&lt;/span&gt;"><span class="project__badge-title">Foundation «Vyzov»</span></span>
+            <span role="button" tabindex="0" class="project__title-desktop project__badge" data-case-open="case-foundation" data-en="&lt;span class=&quot;project__badge-title&quot;&gt;Foundation «Vyzov»&lt;/span&gt;" data-ru="&lt;span class=&quot;project__badge-title&quot;&gt;Фонд «Вызов»&lt;/span&gt;"><span class="project__badge-title">Фонд «Вызов»</span></span>
           </h2>
           <p class="project__subtitle-mobile">Фонд развития научно-культурных<br>связей</p>
           <ul class="project__tags">
@@ -3303,11 +3420,11 @@ button.project__media-link {
             <li>AI генерации</li>
           </ul>
           <div class="project__desc">
- <p data-en="The Foundation's mission is to bring recognition to scientists&lt;br&gt;whose achievements change lives for the better." data-ru="Миссия фонда — открыть миру имена ученых, чьи дости-&lt;br&gt;жения меняют жизнь к лучшему.">The Foundation's mission is to bring recognition to scientists<br>whose achievements change lives for the better.</p>
- <p data-en="Built the shared identity for the foundation and its award.&lt;br&gt;Designed a separate logo for the exhibition. Directed&lt;br&gt;specialists in developing different elements of the identity." data-ru="Создала единую айдентику для фонда и премии, а также&lt;br&gt;отдельный логотип для выставки. Руководила специалистами&lt;br&gt;в разработке различных элементов фирменного стиля.">Built the shared identity for the foundation and its award.<br>Designed a separate logo for the exhibition. Directed<br>specialists in developing different elements of the identity.</p>
- <p class="project__desc-p--mobile" data-en="The Foundation's mission is to bring&lt;br&gt;recognition to scientists whose achievements&lt;br&gt;change lives for the better." data-ru="Миссия фонда — открыть миру имена&lt;br&gt;ученых, чьи достижения меняют жизнь&lt;br&gt;к лучшему.">The Foundation's mission is to bring<br>recognition to scientists whose achievements<br>change lives for the better.</p>
- <p class="project__desc-p--mobile" data-en="Built the shared identity for the foundation&lt;br&gt;and its award. Designed a separate logo for the&lt;br&gt;exhibition. Directed specialists in developing&lt;br&gt;different elements of the identity." data-ru="Создала единую айдентику для фонда&lt;br&gt;и премии, а также отдельный логотип&lt;br&gt;для выставки. Руководила специалистами&lt;br&gt;в разработке различных элементов&lt;br&gt;фирменного стиля.">Built the shared identity for the foundation<br>and its award. Designed a separate logo for the<br>exhibition. Directed specialists in developing<br>different elements of the identity.</p>
-            <button type="button" class="project__see" data-case-open="case-foundation" data-en="See Project &lt;span class=&quot;project__see-arrow&quot;&gt;→&lt;/span&gt;" data-ru="Смотреть &lt;span class=&quot;project__see-arrow&quot;&gt;→&lt;/span&gt;">See Project <span class="project__see-arrow">→</span></button>
+ <p data-en="The Foundation's mission is to bring recognition to scientists&lt;br&gt;whose achievements change lives for the better." data-ru="Миссия фонда — открыть миру имена ученых, чьи дости-&lt;br&gt;жения меняют жизнь к лучшему.">Миссия фонда — открыть миру имена ученых, чьи дости-<br>жения меняют жизнь к лучшему.</p>
+ <p data-en="Built the shared identity for the foundation and its award.&lt;br&gt;Designed a separate logo for the exhibition. Directed&lt;br&gt;specialists in developing different elements of the identity." data-ru="Создала единую айдентику для фонда и премии, а также&lt;br&gt;отдельный логотип для выставки. Руководила специалистами&lt;br&gt;в разработке различных элементов фирменного стиля.">Создала единую айдентику для фонда и премии, а также<br>отдельный логотип для выставки. Руководила специалистами<br>в разработке различных элементов фирменного стиля.</p>
+ <p class="project__desc-p--mobile" data-en="The Foundation's mission is to bring&lt;br&gt;recognition to scientists whose achievements&lt;br&gt;change lives for the better." data-ru="Миссия фонда — открыть миру имена&lt;br&gt;ученых, чьи достижения меняют жизнь&lt;br&gt;к лучшему.">Миссия фонда — открыть миру имена<br>ученых, чьи достижения меняют жизнь<br>к лучшему.</p>
+ <p class="project__desc-p--mobile" data-en="Built the shared identity for the foundation&lt;br&gt;and its award. Designed a separate logo for the&lt;br&gt;exhibition. Directed specialists in developing&lt;br&gt;different elements of the identity." data-ru="Создала единую айдентику для фонда&lt;br&gt;и премии, а также отдельный логотип&lt;br&gt;для выставки. Руководила специалистами&lt;br&gt;в разработке различных элементов&lt;br&gt;фирменного стиля.">Создала единую айдентику для фонда<br>и премии, а также отдельный логотип<br>для выставки. Руководила специалистами<br>в разработке различных элементов<br>фирменного стиля.</p>
+            <button type="button" class="project__see" data-case-open="case-foundation" data-en="See Project &lt;span class=&quot;project__see-arrow&quot;&gt;→&lt;/span&gt;" data-ru="Смотреть &lt;span class=&quot;project__see-arrow&quot;&gt;→&lt;/span&gt;">Смотреть <span class="project__see-arrow">→</span></button>
           </div>
         </div>
         <hr class="project__divider" />
@@ -3318,7 +3435,7 @@ button.project__media-link {
     <div class="project-pair">
 
       <article class="project project--half">
-        <div class="project__media" data-cursor-label="soon" data-cursor-label-ru="скоро" data-cursor-kind="soon">
+        <div class="project__media" data-cursor-label="скоро" data-cursor-label-en="soon" data-cursor-label-ru="скоро" data-cursor-kind="soon">
           <img loading="lazy" src="images/grid-08.webp" alt="Rovno Home">
           <img class="project__media-mobile" loading="lazy" src="images/grid-08-mobile.webp" alt="Rovno Home">
         </div>
@@ -3327,18 +3444,18 @@ button.project__media-link {
             <span class="project__title-desktop project__badge" data-en="&lt;span class=&quot;project__badge-title&quot;&gt;Rovno Home&lt;/span&gt;" data-ru="&lt;span class=&quot;project__badge-title&quot;&gt;Rovno Home&lt;/span&gt;"><span class="project__badge-title">Rovno Home</span></span>
           </h2>
           <div class="project__desc">
- <p data-en="Rovno Home crafts custom textiles for apartments,&lt;br&gt;private homes, restaurants, and hotels." data-ru="Rovno Home создаёт текстиль на заказ для квартир,&lt;br&gt;частных домов, ресторанов и гостиниц.">Rovno Home crafts custom textiles for apartments,<br>private homes, restaurants, and hotels.</p>
- <p data-en="Shaped the visual identity from the logo down to the&lt;br&gt;packaging, keeping the same language consistent across&lt;br&gt;every application." data-ru="Отвечала за визуальную айдентику и логотип, а также&lt;br&gt;за дизайн и адаптацию айдентики на разные носители.">Shaped the visual identity from the logo down to the<br>packaging, keeping the same language consistent across<br>every application.</p>
- <p class="project__desc-p--mobile" data-en="Rovno Home crafts custom textiles&lt;br&gt;for apartments, private homes, restaurants,&lt;br&gt;and hotels." data-ru="Rovno Home создаёт текстиль на заказ&lt;br&gt;для квартир, частных домов, ресторанов&lt;br&gt;и гостиниц.">Rovno Home crafts custom textiles<br>for apartments, private homes, restaurants,<br>and hotels.</p>
- <p class="project__desc-p--mobile" data-en="Shaped the visual identity from the logo down&lt;br&gt;to the packaging, keeping the same language&lt;br&gt;consistent across every application." data-ru="Отвечала за визуальную айдентику&lt;br&gt;и логотип, а также за дизайн и адаптацию&lt;br&gt;айдентики на разные носители.">Shaped the visual identity from the logo down<br>to the packaging, keeping the same language<br>consistent across every application.</p>
-            <span class="project__see project__see--soon" data-en="A case study is coming soon." data-ru="Скоро будет кейс">A case study is coming soon.</span>
+ <p data-en="Rovno Home crafts custom textiles for apartments,&lt;br&gt;private homes, restaurants, and hotels." data-ru="Rovno Home создаёт текстиль на заказ для квартир,&lt;br&gt;частных домов, ресторанов и гостиниц.">Rovno Home создаёт текстиль на заказ для квартир,<br>частных домов, ресторанов и гостиниц.</p>
+ <p data-en="Shaped the visual identity from the logo down to the&lt;br&gt;packaging, keeping the same language consistent across&lt;br&gt;every application." data-ru="Отвечала за визуальную айдентику и логотип, а также&lt;br&gt;за дизайн и адаптацию айдентики на разные носители.">Отвечала за визуальную айдентику и логотип, а также<br>за дизайн и адаптацию айдентики на разные носители.</p>
+ <p class="project__desc-p--mobile" data-en="Rovno Home crafts custom textiles&lt;br&gt;for apartments, private homes, restaurants,&lt;br&gt;and hotels." data-ru="Rovno Home создаёт текстиль на заказ&lt;br&gt;для квартир, частных домов, ресторанов&lt;br&gt;и гостиниц.">Rovno Home создаёт текстиль на заказ<br>для квартир, частных домов, ресторанов<br>и гостиниц.</p>
+ <p class="project__desc-p--mobile" data-en="Shaped the visual identity from the logo down&lt;br&gt;to the packaging, keeping the same language&lt;br&gt;consistent across every application." data-ru="Отвечала за визуальную айдентику&lt;br&gt;и логотип, а также за дизайн и адаптацию&lt;br&gt;айдентики на разные носители.">Отвечала за визуальную айдентику<br>и логотип, а также за дизайн и адаптацию<br>айдентики на разные носители.</p>
+            <span class="project__see project__see--soon" data-en="A case study is coming soon." data-ru="Скоро будет кейс">Скоро будет кейс</span>
           </div>
         </div>
         <hr class="project__divider" />
       </article>
 
       <article class="project project--half">
-        <div class="project__media" data-cursor-label="soon" data-cursor-label-ru="скоро" data-cursor-kind="soon">
+        <div class="project__media" data-cursor-label="скоро" data-cursor-label-en="soon" data-cursor-label-ru="скоро" data-cursor-kind="soon">
           <img loading="lazy" src="images/grid-09.webp" alt="Nadoswap">
           <img class="project__media-mobile" loading="lazy" src="images/grid-09-mobile.webp" alt="Nadoswap">
         </div>
@@ -3347,11 +3464,11 @@ button.project__media-link {
             <span class="project__title-desktop project__badge" data-en="&lt;span class=&quot;project__badge-title&quot;&gt;Nadoswap&lt;/span&gt;" data-ru="&lt;span class=&quot;project__badge-title&quot;&gt;Nadoswap&lt;/span&gt;"><span class="project__badge-title">Nadoswap</span></span>
           </h2>
           <div class="project__desc">
- <p data-en="Nadoswap is an independent crypto exchange&lt;br&gt;monitoring service that helps pick the best route." data-ru="Независимый сервис мониторинга криптообменников,&lt;br&gt;который помогает выбрать лучший маршрут обмена.">Nadoswap is an independent crypto exchange<br>monitoring service that helps pick the best route.</p>
- <p data-en="Built the visual system from the logo through&lt;br&gt;presentations, templates, and generative 3D content." data-ru="Выстроила визуальную систему от логотипа до презентаций,&lt;br&gt;шаблонов и генеративного 3D-контента.">Built the visual system from the logo through<br>presentations, templates, and generative 3D content.</p>
- <p class="project__desc-p--mobile" data-en="Nadoswap is an independent crypto exchange&lt;br&gt;monitoring service that helps pick the best&lt;br&gt;route." data-ru="Независимый сервис мониторинга&lt;br&gt;криптообменников, который помогает&lt;br&gt;выбрать лучший маршрут обмена.">Nadoswap is an independent crypto exchange<br>monitoring service that helps pick the best<br>route.</p>
- <p class="project__desc-p--mobile" data-en="Built the visual system from the logo through&lt;br&gt;presentations, templates, and generative 3D&lt;br&gt;content." data-ru="Выстроила визуальную систему от логотипа&lt;br&gt;до презентаций, шаблонов и генеративного&lt;br&gt;3D-контента.">Built the visual system from the logo through<br>presentations, templates, and generative 3D<br>content.</p>
-            <span class="project__see project__see--soon" data-en="A case study is coming soon." data-ru="Скоро будет кейс">A case study is coming soon.</span>
+ <p data-en="Nadoswap is an independent crypto exchange&lt;br&gt;monitoring service that helps pick the best route." data-ru="Независимый сервис мониторинга криптообменников,&lt;br&gt;который помогает выбрать лучший маршрут обмена.">Независимый сервис мониторинга криптообменников,<br>который помогает выбрать лучший маршрут обмена.</p>
+ <p data-en="Built the visual system from the logo through&lt;br&gt;presentations, templates, and generative 3D content." data-ru="Выстроила визуальную систему от логотипа до презентаций,&lt;br&gt;шаблонов и генеративного 3D-контента.">Выстроила визуальную систему от логотипа до презентаций,<br>шаблонов и генеративного 3D-контента.</p>
+ <p class="project__desc-p--mobile" data-en="Nadoswap is an independent crypto exchange&lt;br&gt;monitoring service that helps pick the best&lt;br&gt;route." data-ru="Независимый сервис мониторинга&lt;br&gt;криптообменников, который помогает&lt;br&gt;выбрать лучший маршрут обмена.">Независимый сервис мониторинга<br>криптообменников, который помогает<br>выбрать лучший маршрут обмена.</p>
+ <p class="project__desc-p--mobile" data-en="Built the visual system from the logo through&lt;br&gt;presentations, templates, and generative 3D&lt;br&gt;content." data-ru="Выстроила визуальную систему от логотипа&lt;br&gt;до презентаций, шаблонов и генеративного&lt;br&gt;3D-контента.">Выстроила визуальную систему от логотипа<br>до презентаций, шаблонов и генеративного<br>3D-контента.</p>
+            <span class="project__see project__see--soon" data-en="A case study is coming soon." data-ru="Скоро будет кейс">Скоро будет кейс</span>
           </div>
         </div>
         <hr class="project__divider" />
@@ -3362,7 +3479,7 @@ button.project__media-link {
     <div class="project-pair">
 
       <article class="project project--half">
-        <div class="project__media" data-cursor-label="soon" data-cursor-label-ru="скоро" data-cursor-kind="soon">
+        <div class="project__media" data-cursor-label="скоро" data-cursor-label-en="soon" data-cursor-label-ru="скоро" data-cursor-kind="soon">
           <img loading="lazy" src="images/grid-10.webp" alt="App Insiders Club">
           <img class="project__media-mobile" loading="lazy" src="images/grid-10-mobile.webp" alt="App Insiders Club">
         </div>
@@ -3371,11 +3488,11 @@ button.project__media-link {
             <span class="project__title-desktop project__badge" data-en="&lt;span class=&quot;project__badge-title&quot;&gt;App Insiders Club&lt;/span&gt;" data-ru="&lt;span class=&quot;project__badge-title&quot;&gt;App Insiders Club&lt;/span&gt;"><span class="project__badge-title">App Insiders Club</span></span>
           </h2>
           <div class="project__desc">
- <p data-en="App Insiders Club is a Yandex media platform&lt;br&gt;about mobile app development." data-ru="App Insiders Club — медиаплатформа Яндекса&lt;br&gt;о разработке мобильных приложений.">App Insiders Club is a Yandex media platform<br>about mobile app development.</p>
- <p data-en="Collaborated with the Mish team on the visual identity&lt;br&gt;and guidelines. Created the website, including templates&lt;br&gt;for different page types." data-ru="Вместе с командой студии Mish работала над визуальной&lt;br&gt;айдентикой и гайдлайнами. Разработала дизайн главной&lt;br&gt;и дополнительных страниц сайта, а также адаптировала&lt;br&gt;его для разных форматов.">Collaborated with the Mish team on the visual identity<br>and guidelines. Created the website, including templates<br>for different page types.</p>
- <p class="project__desc-p--mobile" data-en="App Insiders Club is a Yandex media&lt;br&gt;platform about mobile app development." data-ru="App Insiders Club — медиаплатформа&lt;br&gt;Яндекса о разработке мобильных&lt;br&gt;приложений.">App Insiders Club is a Yandex media<br>platform about mobile app development.</p>
- <p class="project__desc-p--mobile" data-en="Collaborated with the Mish team on the visual&lt;br&gt;identity and guidelines. Created the website,&lt;br&gt;including templates for different page types." data-ru="Вместе с командой студии Mish работала&lt;br&gt;над визуальной айдентикой и гайдлайнами.&lt;br&gt;Разработала дизайн главной&lt;br&gt;и дополнительных страниц сайта, а также&lt;br&gt;адаптировала его для разных форматов.">Collaborated with the Mish team on the visual<br>identity and guidelines. Created the website,<br>including templates for different page types.</p>
-            <span class="project__see project__see--soon" data-en="A case study is coming soon." data-ru="Скоро будет кейс">A case study is coming soon.</span>
+ <p data-en="App Insiders Club is a Yandex media platform&lt;br&gt;about mobile app development." data-ru="App Insiders Club — медиаплатформа Яндекса&lt;br&gt;о разработке мобильных приложений.">App Insiders Club — медиаплатформа Яндекса<br>о разработке мобильных приложений.</p>
+ <p data-en="Collaborated with the Mish team on the visual identity&lt;br&gt;and guidelines. Created the website, including templates&lt;br&gt;for different page types." data-ru="Вместе с командой студии Mish работала над визуальной&lt;br&gt;айдентикой и гайдлайнами. Разработала дизайн главной&lt;br&gt;и дополнительных страниц сайта, а также адаптировала&lt;br&gt;его для разных форматов.">Вместе с командой студии Mish работала над визуальной<br>айдентикой и гайдлайнами. Разработала дизайн главной<br>и дополнительных страниц сайта, а также адаптировала<br>его для разных форматов.</p>
+ <p class="project__desc-p--mobile" data-en="App Insiders Club is a Yandex media&lt;br&gt;platform about mobile app development." data-ru="App Insiders Club — медиаплатформа&lt;br&gt;Яндекса о разработке мобильных&lt;br&gt;приложений.">App Insiders Club — медиаплатформа<br>Яндекса о разработке мобильных<br>приложений.</p>
+ <p class="project__desc-p--mobile" data-en="Collaborated with the Mish team on the visual&lt;br&gt;identity and guidelines. Created the website,&lt;br&gt;including templates for different page types." data-ru="Вместе с командой студии Mish работала&lt;br&gt;над визуальной айдентикой и гайдлайнами.&lt;br&gt;Разработала дизайн главной&lt;br&gt;и дополнительных страниц сайта, а также&lt;br&gt;адаптировала его для разных форматов.">Вместе с командой студии Mish работала<br>над визуальной айдентикой и гайдлайнами.<br>Разработала дизайн главной<br>и дополнительных страниц сайта, а также<br>адаптировала его для разных форматов.</p>
+            <span class="project__see project__see--soon" data-en="A case study is coming soon." data-ru="Скоро будет кейс">Скоро будет кейс</span>
           </div>
         </div>
         <hr class="project__divider" />
@@ -3386,7 +3503,7 @@ button.project__media-link {
     <div class="project-pair">
 
       <article class="project project--half">
-        <div class="project__media" data-cursor-label="soon" data-cursor-label-ru="скоро" data-cursor-kind="soon">
+        <div class="project__media" data-cursor-label="скоро" data-cursor-label-en="soon" data-cursor-label-ru="скоро" data-cursor-kind="soon">
           <img loading="lazy" src="images/grid-11.webp" alt="3I Tech">
           <img class="project__media-mobile" loading="lazy" src="images/grid-11-mobile.webp" alt="3I Tech">
         </div>
@@ -3395,11 +3512,11 @@ button.project__media-link {
             <span class="project__title-desktop project__badge" data-en="&lt;span class=&quot;project__badge-title&quot;&gt;3I Tech&lt;/span&gt;" data-ru="&lt;span class=&quot;project__badge-title&quot;&gt;3I Tech&lt;/span&gt;"><span class="project__badge-title">3I Tech</span></span>
           </h2>
           <div class="project__desc">
- <p data-en="3I Tech is a Russian AI vendor building speech&lt;br&gt;technology, voice biometrics, and LLM assistants." data-ru="3I Tech — российский вендор ИИ-решений,&lt;br&gt;разрабатывающий речевые технологии, голосовую&lt;br&gt;биометрию и LLM-ассистентов.">3I Tech is a Russian AI vendor building speech<br>technology, voice biometrics, and LLM assistants.</p>
- <p data-en="Designed the visual identity, adapted it across sub-brands,&lt;br&gt;and built a tool for generating brand graphics" data-ru="Сформировала визуальную айдентику, адаптировала&lt;br&gt;её под суб-бренды и разработала инструмент для генерации&lt;br&gt;брендовой графики.">Designed the visual identity, adapted it across sub-brands,<br>and built a tool for generating brand graphics</p>
- <p class="project__desc-p--mobile" data-en="3I Tech is a Russian AI vendor building&lt;br&gt;speech technology, voice biometrics,&lt;br&gt;and LLM assistants." data-ru="3I Tech — российский вендор ИИ-решений,&lt;br&gt;разрабатывающий речевые технологии,&lt;br&gt;голосовую биометрию и LLM-ассистентов.">3I Tech is a Russian AI vendor building<br>speech technology, voice biometrics,<br>and LLM assistants.</p>
- <p class="project__desc-p--mobile" data-en="Designed the visual identity, adapted it across&lt;br&gt;sub-brands, and built a tool for generating&lt;br&gt;brand graphics" data-ru="Сформировала визуальную айдентику,&lt;br&gt;адаптировала её под суб-бренды&lt;br&gt;и разработала инструмент для генерации&lt;br&gt;брендовой графики.">Designed the visual identity, adapted it across<br>sub-brands, and built a tool for generating<br>brand graphics</p>
-            <span class="project__see project__see--soon" data-en="A case study is coming soon." data-ru="Скоро будет кейс">A case study is coming soon.</span>
+ <p data-en="3I Tech is a Russian AI vendor building speech&lt;br&gt;technology, voice biometrics, and LLM assistants." data-ru="3I Tech — российский вендор ИИ-решений,&lt;br&gt;разрабатывающий речевые технологии, голосовую&lt;br&gt;биометрию и LLM-ассистентов.">3I Tech — российский вендор ИИ-решений,<br>разрабатывающий речевые технологии, голосовую<br>биометрию и LLM-ассистентов.</p>
+ <p data-en="Designed the visual identity, adapted it across sub-brands,&lt;br&gt;and built a tool for generating brand graphics" data-ru="Сформировала визуальную айдентику, адаптировала&lt;br&gt;её под суб-бренды и разработала инструмент для генерации&lt;br&gt;брендовой графики.">Сформировала визуальную айдентику, адаптировала<br>её под суб-бренды и разработала инструмент для генерации<br>брендовой графики.</p>
+ <p class="project__desc-p--mobile" data-en="3I Tech is a Russian AI vendor building&lt;br&gt;speech technology, voice biometrics,&lt;br&gt;and LLM assistants." data-ru="3I Tech — российский вендор ИИ-решений,&lt;br&gt;разрабатывающий речевые технологии,&lt;br&gt;голосовую биометрию и LLM-ассистентов.">3I Tech — российский вендор ИИ-решений,<br>разрабатывающий речевые технологии,<br>голосовую биометрию и LLM-ассистентов.</p>
+ <p class="project__desc-p--mobile" data-en="Designed the visual identity, adapted it across&lt;br&gt;sub-brands, and built a tool for generating&lt;br&gt;brand graphics" data-ru="Сформировала визуальную айдентику,&lt;br&gt;адаптировала её под суб-бренды&lt;br&gt;и разработала инструмент для генерации&lt;br&gt;брендовой графики.">Сформировала визуальную айдентику,<br>адаптировала её под суб-бренды<br>и разработала инструмент для генерации<br>брендовой графики.</p>
+            <span class="project__see project__see--soon" data-en="A case study is coming soon." data-ru="Скоро будет кейс">Скоро будет кейс</span>
           </div>
         </div>
         <hr class="project__divider" />
@@ -3442,31 +3559,31 @@ button.project__media-link {
           <li>Логотип</li>
           <li>Дизайн упаковки</li>
         </ul>
-        <p class="case__intro-title-desc case__intro-title-desc--desktop case__intro-title-desc--first" data-en="Worked in partnership with the Origin&lt;br&gt;Design team and directly with the brand" data-ru="Работала в партнерстве с командой &lt;br&gt;Origin Design и напрямую с брендом">Worked in partnership with the Origin<br>Design team and directly with the brand</p>
-        <p class="case__intro-title-desc case__intro-title-desc--mobile case__intro-title-desc--first" data-en="Worked in partnership with the Origin&lt;br&gt;Design team and directly with the brand" data-ru="Работала в партнерстве с командой &lt;br&gt;Origin Design и напрямую с брендом">Worked in partnership with the Origin<br>Design team and directly with the brand</p>
-        <p class="case__intro-title-desc case__intro-title-desc--desktop case__intro-title-desc--second" data-en="Developed the visual identity and logotype.&lt;br&gt;Led my team in designing the touchpoints and&lt;br&gt;preparing production-ready files for the new identity" data-ru="Разработала визуальную айдентику и логотип.&lt;br&gt;Руководила командой при разработке носителей&lt;br&gt;и подготовке макетов для производства в рамках&lt;br&gt;новой айдентики.">Developed the visual identity and logotype.<br>Led my team in designing the touchpoints and<br>preparing production-ready files for the new identity</p>
-        <p class="case__intro-title-desc case__intro-title-desc--mobile case__intro-title-desc--second" data-en="Developed the visual identity and logotype.&lt;br&gt;Led my team in designing the touchpoints and&lt;br&gt;preparing production-ready files for the new&lt;br&gt;identity" data-ru="Разработала визуальную айдентику&lt;br&gt;и логотип. Руководила командой при&lt;br&gt;разработке носителей и подготовке макетов&lt;br&gt;для производства в рамках новой айдентики.">Developed the visual identity and logotype.<br>Led my team in designing the touchpoints and<br>preparing production-ready files for the new<br>identity</p>
+        <p class="case__intro-title-desc case__intro-title-desc--desktop case__intro-title-desc--first" data-en="Worked in partnership with the Origin&lt;br&gt;Design team and directly with the brand" data-ru="Работала в партнерстве с командой &lt;br&gt;Origin Design и напрямую с брендом">Работала в партнерстве с командой <br>Origin Design и напрямую с брендом</p>
+        <p class="case__intro-title-desc case__intro-title-desc--mobile case__intro-title-desc--first" data-en="Worked in partnership with the Origin&lt;br&gt;Design team and directly with the brand" data-ru="Работала в партнерстве с командой &lt;br&gt;Origin Design и напрямую с брендом">Работала в партнерстве с командой <br>Origin Design и напрямую с брендом</p>
+        <p class="case__intro-title-desc case__intro-title-desc--desktop case__intro-title-desc--second" data-en="Developed the visual identity and logotype.&lt;br&gt;Led my team in designing the touchpoints and&lt;br&gt;preparing production-ready files for the new identity" data-ru="Разработала визуальную айдентику и логотип.&lt;br&gt;Руководила командой при разработке носителей&lt;br&gt;и подготовке макетов для производства в рамках&lt;br&gt;новой айдентики.">Разработала визуальную айдентику и логотип.<br>Руководила командой при разработке носителей<br>и подготовке макетов для производства в рамках<br>новой айдентики.</p>
+        <p class="case__intro-title-desc case__intro-title-desc--mobile case__intro-title-desc--second" data-en="Developed the visual identity and logotype.&lt;br&gt;Led my team in designing the touchpoints and&lt;br&gt;preparing production-ready files for the new&lt;br&gt;identity" data-ru="Разработала визуальную айдентику&lt;br&gt;и логотип. Руководила командой при&lt;br&gt;разработке носителей и подготовке макетов&lt;br&gt;для производства в рамках новой айдентики.">Разработала визуальную айдентику<br>и логотип. Руководила командой при<br>разработке носителей и подготовке макетов<br>для производства в рамках новой айдентики.</p>
       </div>
       <div class="case__intro-right">
-        <p class="case__intro-p--desktop" data-en="Basarab is a family-run footwear brand with its own&lt;br&gt;production, making reliable, beautiful shoes for everyday life." data-ru="Basarab — семейный бренд обуви с собственным &lt;br&gt;производством, который создает надёжную и красивую &lt;br&gt;обувь для повседневной жизни.">Basarab is a family-run footwear brand with its own<br>production, making reliable, beautiful shoes for everyday life.</p>
-        <p class="case__intro-p--mobile" data-en="Basarab is a family-run footwear brand with&lt;br&gt;its own production, making reliable, beautiful&lt;br&gt;shoes for everyday life." data-ru="Basarab — семейный бренд обуви&lt;br&gt;с собственным производством, который&lt;br&gt;создает надёжную и красивую обувь&lt;br&gt;для повседневной жизни.">Basarab is a family-run footwear brand with<br>its own production, making reliable, beautiful<br>shoes for everyday life.</p>
-        <p class="case__intro-p--desktop" data-en="Rapid growth and a new, younger audience prompted&lt;br&gt;the brand's team to refresh the identity, moving away&lt;br&gt;from a conservative image toward a contemporary aesthetic.&lt;br&gt;At the same time, it was important to preserve the restraint&lt;br&gt;inherent to the brand so as not to alienate the audience&lt;br&gt;it already had." data-ru="Бурный рост и новая, более молодая аудитория &lt;br&gt;подтолкнули команду бренда обновить айдентику, чтобы &lt;br&gt;уйти от консервативного образа к современной эстетике. &lt;br&gt;При этом важно было сохранить присущую бренду &lt;br&gt;сдержанность, чтобы не оттолкнуть ту аудиторию, &lt;br&gt;которая у него уже была.">Rapid growth and a new, younger audience prompted<br>the brand's team to refresh the identity, moving away<br>from a conservative image toward a contemporary aesthetic.<br>At the same time, it was important to preserve the restraint<br>inherent to the brand so as not to alienate the audience<br>it already had.</p>
-        <p class="case__intro-p--mobile" data-en="Rapid growth and a new, younger audience&lt;br&gt;prompted the brand's team to refresh the&lt;br&gt;identity, moving away from a conservative&lt;br&gt;image toward a contemporary aesthetic.&lt;br&gt;At the same time, it was important to preserve&lt;br&gt;the restraint inherent to the brand so as not&lt;br&gt;to alienate the audience it already had." data-ru="Бурный рост и новая, более молодая&lt;br&gt;аудитория подтолкнули команду бренда&lt;br&gt;обновить айдентику, чтобы уйти&lt;br&gt;от консервативного образа к современной&lt;br&gt;эстетике. При этом важно было сохранить&lt;br&gt;присущую бренду сдержанность, чтобы не&lt;br&gt;оттолкнуть ту аудиторию, которая у него&lt;br&gt;уже была.">Rapid growth and a new, younger audience<br>prompted the brand's team to refresh the<br>identity, moving away from a conservative<br>image toward a contemporary aesthetic.<br>At the same time, it was important to preserve<br>the restraint inherent to the brand so as not<br>to alienate the audience it already had.</p>
+        <p class="case__intro-p--desktop" data-en="Basarab is a family-run footwear brand with its own&lt;br&gt;production, making reliable, beautiful shoes for everyday life." data-ru="Basarab — семейный бренд обуви с собственным &lt;br&gt;производством, который создает надёжную и красивую &lt;br&gt;обувь для повседневной жизни.">Basarab — семейный бренд обуви с собственным <br>производством, который создает надёжную и красивую <br>обувь для повседневной жизни.</p>
+        <p class="case__intro-p--mobile" data-en="Basarab is a family-run footwear brand with&lt;br&gt;its own production, making reliable, beautiful&lt;br&gt;shoes for everyday life." data-ru="Basarab — семейный бренд обуви&lt;br&gt;с собственным производством, который&lt;br&gt;создает надёжную и красивую обувь&lt;br&gt;для повседневной жизни.">Basarab — семейный бренд обуви<br>с собственным производством, который<br>создает надёжную и красивую обувь<br>для повседневной жизни.</p>
+        <p class="case__intro-p--desktop" data-en="Rapid growth and a new, younger audience prompted&lt;br&gt;the brand's team to refresh the identity, moving away&lt;br&gt;from a conservative image toward a contemporary aesthetic.&lt;br&gt;At the same time, it was important to preserve the restraint&lt;br&gt;inherent to the brand so as not to alienate the audience&lt;br&gt;it already had." data-ru="Бурный рост и новая, более молодая аудитория &lt;br&gt;подтолкнули команду бренда обновить айдентику, чтобы &lt;br&gt;уйти от консервативного образа к современной эстетике. &lt;br&gt;При этом важно было сохранить присущую бренду &lt;br&gt;сдержанность, чтобы не оттолкнуть ту аудиторию, &lt;br&gt;которая у него уже была.">Бурный рост и новая, более молодая аудитория <br>подтолкнули команду бренда обновить айдентику, чтобы <br>уйти от консервативного образа к современной эстетике. <br>При этом важно было сохранить присущую бренду <br>сдержанность, чтобы не оттолкнуть ту аудиторию, <br>которая у него уже была.</p>
+        <p class="case__intro-p--mobile" data-en="Rapid growth and a new, younger audience&lt;br&gt;prompted the brand's team to refresh the&lt;br&gt;identity, moving away from a conservative&lt;br&gt;image toward a contemporary aesthetic.&lt;br&gt;At the same time, it was important to preserve&lt;br&gt;the restraint inherent to the brand so as not&lt;br&gt;to alienate the audience it already had." data-ru="Бурный рост и новая, более молодая&lt;br&gt;аудитория подтолкнули команду бренда&lt;br&gt;обновить айдентику, чтобы уйти&lt;br&gt;от консервативного образа к современной&lt;br&gt;эстетике. При этом важно было сохранить&lt;br&gt;присущую бренду сдержанность, чтобы не&lt;br&gt;оттолкнуть ту аудиторию, которая у него&lt;br&gt;уже была.">Бурный рост и новая, более молодая<br>аудитория подтолкнули команду бренда<br>обновить айдентику, чтобы уйти<br>от консервативного образа к современной<br>эстетике. При этом важно было сохранить<br>присущую бренду сдержанность, чтобы не<br>оттолкнуть ту аудиторию, которая у него<br>уже была.</p>
       </div>
     </div>
 
     <div class="case__media reveal" style="--mh:13.708rem"><img loading="lazy" src="images/basarab-02.webp?v=2" alt="" width="2032" height="1238" /><img loading="lazy" class="case__media-mobile" src="images/basarab-m02.webp?v=2" alt="" width="1077" height="658" /></div>
 
-    <p class="case__quote case__quote-p--desktop reveal" data-en="The logotype is built on a bold, expressive grotesque,&lt;br&gt;where monumental letterforms meet soft curves. In that&lt;br&gt;contrast, both classic restraint and a bold character come&lt;br&gt;through." data-ru="В основе логотипа яркий, выразительный гротеск, &lt;br&gt;в котором монументальность формы сочетается &lt;br&gt;с мягкими изгибами. В этом контрасте читаются &lt;br&gt;и классическая сдержанность, и яркий характер.">The logotype is built on a bold, expressive grotesque,<br>where monumental letterforms meet soft curves. In that<br>contrast, both classic restraint and a bold character come<br>through.</p>
-    <p class="case__quote case__quote-p--mobile reveal" data-en="The logotype is built on a bold, expressive&lt;br&gt;grotesque, where monumental letterforms&lt;br&gt;meet soft curves. In that contrast, both&lt;br&gt;classic restraint and a bold character come&lt;br&gt;through." data-ru="В основе логотипа яркий, выразительный&lt;br&gt;гротеск, в котором монументальность&lt;br&gt;формы сочетается с мягкими изгибами.&lt;br&gt;В этом контрасте читаются и классическая&lt;br&gt;сдержанность, и яркий характер.">The logotype is built on a bold, expressive<br>grotesque, where monumental letterforms<br>meet soft curves. In that contrast, both<br>classic restraint and a bold character come<br>through.</p>
+    <p class="case__quote case__quote-p--desktop reveal" data-en="The logotype is built on a bold, expressive grotesque,&lt;br&gt;where monumental letterforms meet soft curves. In that&lt;br&gt;contrast, both classic restraint and a bold character come&lt;br&gt;through." data-ru="В основе логотипа яркий, выразительный гротеск, &lt;br&gt;в котором монументальность формы сочетается &lt;br&gt;с мягкими изгибами. В этом контрасте читаются &lt;br&gt;и классическая сдержанность, и яркий характер.">В основе логотипа яркий, выразительный гротеск, <br>в котором монументальность формы сочетается <br>с мягкими изгибами. В этом контрасте читаются <br>и классическая сдержанность, и яркий характер.</p>
+    <p class="case__quote case__quote-p--mobile reveal" data-en="The logotype is built on a bold, expressive&lt;br&gt;grotesque, where monumental letterforms&lt;br&gt;meet soft curves. In that contrast, both&lt;br&gt;classic restraint and a bold character come&lt;br&gt;through." data-ru="В основе логотипа яркий, выразительный&lt;br&gt;гротеск, в котором монументальность&lt;br&gt;формы сочетается с мягкими изгибами.&lt;br&gt;В этом контрасте читаются и классическая&lt;br&gt;сдержанность, и яркий характер.">В основе логотипа яркий, выразительный<br>гротеск, в котором монументальность<br>формы сочетается с мягкими изгибами.<br>В этом контрасте читаются и классическая<br>сдержанность, и яркий характер.</p>
 
     <div class="case__row reveal">
       <div class="case__media" style="--mh:27.5rem"><img loading="lazy" src="images/basarab-03.webp?v=2" alt="" width="1008" height="1200" /><img loading="lazy" class="case__media-mobile" src="images/basarab-m03.webp?v=2" alt="" width="1077" height="1320" /></div>
       <div class="case__media" style="--mh:27.5rem"><img loading="lazy" src="images/basarab-04.webp?v=2" alt="" width="1006" height="1200" /><img loading="lazy" class="case__media-mobile" src="images/basarab-m04.webp?v=2" alt="" width="1077" height="1320" /></div>
     </div>
 
-    <p class="case__quote case__quote--right case__quote-p--desktop reveal" data-en="We also developed a brand mark whose geometry stands&lt;br&gt;apart from the logotype, so it works as a standalone&lt;br&gt;element, like a small, distinctive detail." data-ru="Также мы разработали фирменный знак, который &lt;br&gt;по своей геометрии отличается от шрифтовой части, &lt;br&gt;благодаря чему выступает в качестве самостоятельного &lt;br&gt;элемента, как маленькая, уникальная деталь.">We also developed a brand mark whose geometry stands<br>apart from the logotype, so it works as a standalone<br>element, like a small, distinctive detail.</p>
-    <p class="case__quote case__quote--right case__quote-p--mobile reveal" data-en="We also developed a brand mark whose&lt;br&gt;geometry stands apart from the logotype,&lt;br&gt;so it works as a standalone element, like&lt;br&gt;a small, distinctive detail." data-ru="Также мы разработали фирменный знак,&lt;br&gt;который по своей геометрии отличается&lt;br&gt;от шрифтовой части, благодаря чему&lt;br&gt;выступает в качестве самостоятельного&lt;br&gt;элемента, как маленькая, уникальная&lt;br&gt;деталь.">We also developed a brand mark whose<br>geometry stands apart from the logotype,<br>so it works as a standalone element, like<br>a small, distinctive detail.</p>
+    <p class="case__quote case__quote--right case__quote-p--desktop reveal" data-en="We also developed a brand mark whose geometry stands&lt;br&gt;apart from the logotype, so it works as a standalone&lt;br&gt;element, like a small, distinctive detail." data-ru="Также мы разработали фирменный знак, который &lt;br&gt;по своей геометрии отличается от шрифтовой части, &lt;br&gt;благодаря чему выступает в качестве самостоятельного &lt;br&gt;элемента, как маленькая, уникальная деталь.">Также мы разработали фирменный знак, который <br>по своей геометрии отличается от шрифтовой части, <br>благодаря чему выступает в качестве самостоятельного <br>элемента, как маленькая, уникальная деталь.</p>
+    <p class="case__quote case__quote--right case__quote-p--mobile reveal" data-en="We also developed a brand mark whose&lt;br&gt;geometry stands apart from the logotype,&lt;br&gt;so it works as a standalone element, like&lt;br&gt;a small, distinctive detail." data-ru="Также мы разработали фирменный знак,&lt;br&gt;который по своей геометрии отличается&lt;br&gt;от шрифтовой части, благодаря чему&lt;br&gt;выступает в качестве самостоятельного&lt;br&gt;элемента, как маленькая, уникальная&lt;br&gt;деталь.">Также мы разработали фирменный знак,<br>который по своей геометрии отличается<br>от шрифтовой части, благодаря чему<br>выступает в качестве самостоятельного<br>элемента, как маленькая, уникальная<br>деталь.</p>
 
     <div class="case__row reveal">
       <div class="case__media" style="--mh:21.25rem"><img loading="lazy" src="images/basarab-05.webp?v=2" alt="" width="668" height="850" /><img loading="lazy" class="case__media-mobile" src="images/basarab-m05.webp?v=2" alt="" width="1077" height="1020" /></div>
@@ -3491,8 +3608,8 @@ button.project__media-link {
     </div>
 
     <div class="case__quote reveal">
-      <p class="case__quote-p--desktop" data-en="To keep the focus on the product, we avoided flashy graphic&lt;br&gt;elements. Monumental typography takes center stage in the&lt;br&gt;identity. We preserved the brand's confident, fairly classic&lt;br&gt;image, while using layout to give it a distinct character." data-ru="Чтобы сохранить фокус на продукте, мы отказались &lt;br&gt;от броских графических элементов. Центральное место &lt;br&gt;в айдентике занимает монументальная типографика. &lt;br&gt;Мы сохранили уверенный и довольно классический &lt;br&gt;образ бренда, при этом с помощью верстки придали &lt;br&gt;ему уникальный характер.">To keep the focus on the product, we avoided flashy graphic<br>elements. Monumental typography takes center stage in the<br>identity. We preserved the brand's confident, fairly classic<br>image, while using layout to give it a distinct character.</p>
-      <p class="case__quote-p--mobile" data-en="To keep the focus on the product, we&lt;br&gt;avoided flashy graphic elements. Monumental&lt;br&gt;typography takes center stage in the identity.&lt;br&gt;We preserved the brand's confident, fairly&lt;br&gt;classic image, while using layout to give&lt;br&gt;it a distinct character." data-ru="Чтобы сохранить фокус на продукте,&lt;br&gt;мы отказались от броских графических&lt;br&gt;элементов. Центральное место в айдентике&lt;br&gt;занимает монументальная типографика.&lt;br&gt;Мы сохранили уверенный и довольно&lt;br&gt;классический образ бренда, при этом&lt;br&gt;с помощью верстки придали ему&lt;br&gt;уникальный характер.">To keep the focus on the product, we<br>avoided flashy graphic elements. Monumental<br>typography takes center stage in the identity.<br>We preserved the brand's confident, fairly<br>classic image, while using layout to give<br>it a distinct character.</p>
+      <p class="case__quote-p--desktop" data-en="To keep the focus on the product, we avoided flashy graphic&lt;br&gt;elements. Monumental typography takes center stage in the&lt;br&gt;identity. We preserved the brand's confident, fairly classic&lt;br&gt;image, while using layout to give it a distinct character." data-ru="Чтобы сохранить фокус на продукте, мы отказались &lt;br&gt;от броских графических элементов. Центральное место &lt;br&gt;в айдентике занимает монументальная типографика. &lt;br&gt;Мы сохранили уверенный и довольно классический &lt;br&gt;образ бренда, при этом с помощью верстки придали &lt;br&gt;ему уникальный характер.">Чтобы сохранить фокус на продукте, мы отказались <br>от броских графических элементов. Центральное место <br>в айдентике занимает монументальная типографика. <br>Мы сохранили уверенный и довольно классический <br>образ бренда, при этом с помощью верстки придали <br>ему уникальный характер.</p>
+      <p class="case__quote-p--mobile" data-en="To keep the focus on the product, we&lt;br&gt;avoided flashy graphic elements. Monumental&lt;br&gt;typography takes center stage in the identity.&lt;br&gt;We preserved the brand's confident, fairly&lt;br&gt;classic image, while using layout to give&lt;br&gt;it a distinct character." data-ru="Чтобы сохранить фокус на продукте,&lt;br&gt;мы отказались от броских графических&lt;br&gt;элементов. Центральное место в айдентике&lt;br&gt;занимает монументальная типографика.&lt;br&gt;Мы сохранили уверенный и довольно&lt;br&gt;классический образ бренда, при этом&lt;br&gt;с помощью верстки придали ему&lt;br&gt;уникальный характер.">Чтобы сохранить фокус на продукте,<br>мы отказались от броских графических<br>элементов. Центральное место в айдентике<br>занимает монументальная типографика.<br>Мы сохранили уверенный и довольно<br>классический образ бренда, при этом<br>с помощью верстки придали ему<br>уникальный характер.</p>
     </div>
 
     <div class="case__media reveal" style="--mh:14.375rem"><img loading="lazy" src="images/basarab-10.webp?v=2" alt="New collection SS 25–26" width="2030" height="1240" /><img loading="lazy" class="case__media-mobile" src="images/basarab-m10.webp?v=2" alt="New collection SS 25–26" width="1077" height="690" /></div>
@@ -3515,8 +3632,8 @@ button.project__media-link {
       </div>
     </div>
 
-    <p class="case__quote case__quote--right case__quote-p--desktop reveal" data-en="Over time, the business outgrew the footwear brand&lt;br&gt;format and began producing clothing. We designed all&lt;br&gt;the touchpoints and prepared production-ready files for&lt;br&gt;tags, labels, boxes, ribbons, and many other items the&lt;br&gt;business needed at that stage." data-ru="Со временем бизнес перерос формат обувного бренда и начал&lt;br&gt;выпускать одежду. Мы разработали дизайн всех носителей&lt;br&gt;и подготовили макеты для производства — бирки, ярлыки,&lt;br&gt;коробки, ленты и много других носителей, которые&lt;br&gt;необходимы были бизнесу на этом этапе.">Over time, the business outgrew the footwear brand<br>format and began producing clothing. We designed all<br>the touchpoints and prepared production-ready files for<br>tags, labels, boxes, ribbons, and many other items the<br>business needed at that stage.</p>
-    <p class="case__quote case__quote--right case__quote-p--mobile reveal" data-en="Over time, the business outgrew the footwear&lt;br&gt;brand format and began producing clothing.&lt;br&gt;We designed all the touchpoints and prepared&lt;br&gt;production-ready files for tags, labels, boxes,&lt;br&gt;ribbons, and many other items the business&lt;br&gt;needed at that stage." data-ru="Со временем бизнес перерос формат&lt;br&gt;обувного бренда и начал выпускать одежду.&lt;br&gt;Мы разработали дизайн всех носителей&lt;br&gt;и подготовили макеты для производства —&lt;br&gt;бирки, ярлыки, коробки, ленты и много&lt;br&gt;других носителей, которые необходимы&lt;br&gt;были бизнесу на этом этапе.">Over time, the business outgrew the footwear<br>brand format and began producing clothing.<br>We designed all the touchpoints and prepared<br>production-ready files for tags, labels, boxes,<br>ribbons, and many other items the business<br>needed at that stage.</p>
+    <p class="case__quote case__quote--right case__quote-p--desktop reveal" data-en="Over time, the business outgrew the footwear brand&lt;br&gt;format and began producing clothing. We designed all&lt;br&gt;the touchpoints and prepared production-ready files for&lt;br&gt;tags, labels, boxes, ribbons, and many other items the&lt;br&gt;business needed at that stage." data-ru="Со временем бизнес перерос формат обувного бренда и начал&lt;br&gt;выпускать одежду. Мы разработали дизайн всех носителей&lt;br&gt;и подготовили макеты для производства — бирки, ярлыки,&lt;br&gt;коробки, ленты и много других носителей, которые&lt;br&gt;необходимы были бизнесу на этом этапе.">Со временем бизнес перерос формат обувного бренда и начал<br>выпускать одежду. Мы разработали дизайн всех носителей<br>и подготовили макеты для производства — бирки, ярлыки,<br>коробки, ленты и много других носителей, которые<br>необходимы были бизнесу на этом этапе.</p>
+    <p class="case__quote case__quote--right case__quote-p--mobile reveal" data-en="Over time, the business outgrew the footwear&lt;br&gt;brand format and began producing clothing.&lt;br&gt;We designed all the touchpoints and prepared&lt;br&gt;production-ready files for tags, labels, boxes,&lt;br&gt;ribbons, and many other items the business&lt;br&gt;needed at that stage." data-ru="Со временем бизнес перерос формат&lt;br&gt;обувного бренда и начал выпускать одежду.&lt;br&gt;Мы разработали дизайн всех носителей&lt;br&gt;и подготовили макеты для производства —&lt;br&gt;бирки, ярлыки, коробки, ленты и много&lt;br&gt;других носителей, которые необходимы&lt;br&gt;были бизнесу на этом этапе.">Со временем бизнес перерос формат<br>обувного бренда и начал выпускать одежду.<br>Мы разработали дизайн всех носителей<br>и подготовили макеты для производства —<br>бирки, ярлыки, коробки, ленты и много<br>других носителей, которые необходимы<br>были бизнесу на этом этапе.</p>
 
     <div class="case__media reveal" style="--mh:27.5rem"><img loading="lazy" src="images/basarab-14.webp?v=2" alt="" width="2032" height="1212" /><img loading="lazy" class="case__media-mobile" src="images/basarab-m15.webp?v=2" alt="" width="1077" height="1320" /></div>
 
@@ -3553,16 +3670,16 @@ button.project__media-link {
 
     <div class="case__next reveal">
       <hr class="project__divider" />
-      <button class="project__media-link" type="button" data-case-open="case-foundation" data-cursor-label="view" data-cursor-label-ru="смотреть" data-cursor-kind="see">
+      <button class="project__media-link" type="button" data-case-open="case-foundation" data-cursor-label="смотреть" data-cursor-label-en="view" data-cursor-label-ru="смотреть" data-cursor-kind="see">
         <div class="case__next-media">
           <img loading="lazy" src="images/grid-03-mobile.webp" alt="Фонд «Вызов»">
         </div>
       </button>
       <div class="project__row">
         <h2 class="project__title">
-          <span role="button" tabindex="0" class="project__title-desktop project__badge" data-case-open="case-foundation" data-en="&lt;span class=&quot;project__badge-title&quot;&gt;Foundation «Vyzov»&lt;/span&gt;" data-ru="&lt;span class=&quot;project__badge-title&quot;&gt;Фонд «Вызов»&lt;/span&gt;"><span class="project__badge-title">Foundation «Vyzov»</span></span>
+          <span role="button" tabindex="0" class="project__title-desktop project__badge" data-case-open="case-foundation" data-en="&lt;span class=&quot;project__badge-title&quot;&gt;Foundation «Vyzov»&lt;/span&gt;" data-ru="&lt;span class=&quot;project__badge-title&quot;&gt;Фонд «Вызов»&lt;/span&gt;"><span class="project__badge-title">Фонд «Вызов»</span></span>
         </h2>
-        <button type="button" class="project__see" data-case-open="case-foundation" data-en="See Project &lt;span class=&quot;project__see-arrow&quot;&gt;→&lt;/span&gt;" data-ru="Смотреть &lt;span class=&quot;project__see-arrow&quot;&gt;→&lt;/span&gt;">See Project <span class="project__see-arrow">→</span></button>
+        <button type="button" class="project__see" data-case-open="case-foundation" data-en="See Project &lt;span class=&quot;project__see-arrow&quot;&gt;→&lt;/span&gt;" data-ru="Смотреть &lt;span class=&quot;project__see-arrow&quot;&gt;→&lt;/span&gt;">Смотреть <span class="project__see-arrow">→</span></button>
       </div>
     </div>
 
@@ -3572,8 +3689,8 @@ button.project__media-link {
     </nav>
 
     <nav class="case__nav case__nav--desktop">
-      <a href="#" class="project__badge" data-case-nav="prev" data-en="&lt;span class=&quot;project__badge-title&quot;&gt;prev project&lt;/span&gt;" data-ru="&lt;span class=&quot;project__badge-title&quot;&gt;предыдущий проект&lt;/span&gt;"><span class="project__badge-title">prev project</span></a>
-      <a href="#" class="project__badge" data-case-nav="next" data-en="&lt;span class=&quot;project__badge-title&quot;&gt;next project&lt;/span&gt;" data-ru="&lt;span class=&quot;project__badge-title&quot;&gt;следующий проект&lt;/span&gt;"><span class="project__badge-title">next project</span></a>
+      <a href="#" class="project__badge" data-case-nav="prev" data-en="&lt;span class=&quot;project__badge-title&quot;&gt;prev project&lt;/span&gt;" data-ru="&lt;span class=&quot;project__badge-title&quot;&gt;предыдущий проект&lt;/span&gt;"><span class="project__badge-title">предыдущий проект</span></a>
+      <a href="#" class="project__badge" data-case-nav="next" data-en="&lt;span class=&quot;project__badge-title&quot;&gt;next project&lt;/span&gt;" data-ru="&lt;span class=&quot;project__badge-title&quot;&gt;следующий проект&lt;/span&gt;"><span class="project__badge-title">следующий проект</span></a>
     </nav>
   </section>
 
@@ -3583,22 +3700,22 @@ button.project__media-link {
 
     <div class="case__intro reveal">
       <div class="case__intro-left">
-        <h2 data-en="&lt;span class=&quot;project__badge-title&quot;&gt;Foundation «Vyzov»&lt;/span&gt;" data-ru="&lt;span class=&quot;project__badge-title&quot;&gt;Фонд «Вызов»&lt;/span&gt;"><span class="project__badge-title">Foundation «Vyzov»</span></h2>
+        <h2 data-en="&lt;span class=&quot;project__badge-title&quot;&gt;Foundation «Vyzov»&lt;/span&gt;" data-ru="&lt;span class=&quot;project__badge-title&quot;&gt;Фонд «Вызов»&lt;/span&gt;"><span class="project__badge-title">Фонд «Вызов»</span></h2>
         <ul class="project__tags-mobile">
           <li>Айдентика</li>
           <li>Логотип для выставки</li>
           <li>AI генерации</li>
         </ul>
-        <p class="case__intro-title-desc case__intro-title-desc--desktop case__intro-title-desc--first" data-en="Worked in partnership with the Origin&lt;br&gt;Design team and directly with the client" data-ru="Работала в партнерстве с командой&lt;br&gt;Origin Design и напрямую с заказчиком">Worked in partnership with the Origin<br>Design team and directly with the client</p>
-        <p class="case__intro-title-desc case__intro-title-desc--mobile case__intro-title-desc--first" data-en="Worked in partnership with the Origin&lt;br&gt;Design team and directly with the client" data-ru="Работала в партнерстве с командой&lt;br&gt;Origin Design и напрямую с заказчиком">Worked in partnership with the Origin<br>Design team and directly with the client</p>
-        <p class="case__intro-title-desc case__intro-title-desc--desktop case__intro-title-desc--second" data-en="Developed a unified identity for the foundation&lt;br&gt;and its award. Led specialists across the key&lt;br&gt;elements of the identity system." data-ru="Разработала единую айдентику для фонда&lt;br&gt;и премии. Руководила специалистами в разработке&lt;br&gt;различных элементов фирменного стиля.">Developed a unified identity for the foundation<br>and its award. Led specialists across the key<br>elements of the identity system.</p>
-        <p class="case__intro-title-desc case__intro-title-desc--mobile case__intro-title-desc--second" data-en="Developed a unified identity for the foundation&lt;br&gt;and its award. Led specialists across the key&lt;br&gt;elements of the identity system." data-ru="Разработала единую айдентику для фонда&lt;br&gt;и премии. Руководила специалистами&lt;br&gt;в разработке различных элементов&lt;br&gt;фирменного стиля.">Developed a unified identity for the foundation<br>and its award. Led specialists across the key<br>elements of the identity system.</p>
+        <p class="case__intro-title-desc case__intro-title-desc--desktop case__intro-title-desc--first" data-en="Worked in partnership with the Origin&lt;br&gt;Design team and directly with the client" data-ru="Работала в партнерстве с командой&lt;br&gt;Origin Design и напрямую с заказчиком">Работала в партнерстве с командой<br>Origin Design и напрямую с заказчиком</p>
+        <p class="case__intro-title-desc case__intro-title-desc--mobile case__intro-title-desc--first" data-en="Worked in partnership with the Origin&lt;br&gt;Design team and directly with the client" data-ru="Работала в партнерстве с командой&lt;br&gt;Origin Design и напрямую с заказчиком">Работала в партнерстве с командой<br>Origin Design и напрямую с заказчиком</p>
+        <p class="case__intro-title-desc case__intro-title-desc--desktop case__intro-title-desc--second" data-en="Developed a unified identity for the foundation&lt;br&gt;and its award. Led specialists across the key&lt;br&gt;elements of the identity system." data-ru="Разработала единую айдентику для фонда&lt;br&gt;и премии. Руководила специалистами в разработке&lt;br&gt;различных элементов фирменного стиля.">Разработала единую айдентику для фонда<br>и премии. Руководила специалистами в разработке<br>различных элементов фирменного стиля.</p>
+        <p class="case__intro-title-desc case__intro-title-desc--mobile case__intro-title-desc--second" data-en="Developed a unified identity for the foundation&lt;br&gt;and its award. Led specialists across the key&lt;br&gt;elements of the identity system." data-ru="Разработала единую айдентику для фонда&lt;br&gt;и премии. Руководила специалистами&lt;br&gt;в разработке различных элементов&lt;br&gt;фирменного стиля.">Разработала единую айдентику для фонда<br>и премии. Руководила специалистами<br>в разработке различных элементов<br>фирменного стиля.</p>
       </div>
       <div class="case__intro-right">
-        <p class="case__intro-p--desktop" data-en="The foundation's mission is to reveal the names of scientists&lt;br&gt;whose achievements change lives for the better. To shape the&lt;br&gt;perception of knowledge, science, and technology as society's&lt;br&gt;most important values." data-ru="Миссия фонда — открыть миру имена учёных,&lt;br&gt;чьи достижения меняют жизнь к лучшему. Сформировать&lt;br&gt;восприятие знаний, науки и технологий как важнейших&lt;br&gt;ценностей общества.">The foundation's mission is to reveal the names of scientists<br>whose achievements change lives for the better. To shape the<br>perception of knowledge, science, and technology as society's<br>most important values.</p>
-        <p class="case__intro-p--mobile" data-en="The foundation's mission is to reveal the names&lt;br&gt;of scientists whose achievements change lives&lt;br&gt;for the better. To shape the perception&lt;br&gt;of knowledge, science, and technology&lt;br&gt;as society's most important values." data-ru="Миссия фонда — открыть миру имена&lt;br&gt;учёных, чьи достижения меняют жизнь&lt;br&gt;к лучшему. Сформировать восприятие&lt;br&gt;знаний, науки и технологий как важнейших&lt;br&gt;ценностей общества.">The foundation's mission is to reveal the names<br>of scientists whose achievements change lives<br>for the better. To shape the perception<br>of knowledge, science, and technology<br>as society's most important values.</p>
-        <p class="case__intro-p--desktop" data-en="The foundation needed a unified visual identity that would&lt;br&gt;bring together the foundation itself, its award, and its&lt;br&gt;exhibition projects under one visual language." data-ru="Фонду требовался единый фирменный стиль,&lt;br&gt;объединяющий сам фонд, присуждаемую им премию&lt;br&gt;и выставочные проекты в рамках общего визуального&lt;br&gt;языка.">The foundation needed a unified visual identity that would<br>bring together the foundation itself, its award, and its<br>exhibition projects under one visual language.</p>
-        <p class="case__intro-p--mobile" data-en="The foundation needed a unified visual identity&lt;br&gt;that would bring together the foundation itself,&lt;br&gt;its award, and its exhibition projects under one&lt;br&gt;visual language." data-ru="Фонду требовался единый фирменный&lt;br&gt;стиль, объединяющий сам фонд,&lt;br&gt;присуждаемую им премию и выставочные&lt;br&gt;проекты в рамках общего визуального&lt;br&gt;языка.">The foundation needed a unified visual identity<br>that would bring together the foundation itself,<br>its award, and its exhibition projects under one<br>visual language.</p>
+        <p class="case__intro-p--desktop" data-en="The foundation's mission is to reveal the names of scientists&lt;br&gt;whose achievements change lives for the better. To shape the&lt;br&gt;perception of knowledge, science, and technology as society's&lt;br&gt;most important values." data-ru="Миссия фонда — открыть миру имена учёных,&lt;br&gt;чьи достижения меняют жизнь к лучшему. Сформировать&lt;br&gt;восприятие знаний, науки и технологий как важнейших&lt;br&gt;ценностей общества.">Миссия фонда — открыть миру имена учёных,<br>чьи достижения меняют жизнь к лучшему. Сформировать<br>восприятие знаний, науки и технологий как важнейших<br>ценностей общества.</p>
+        <p class="case__intro-p--mobile" data-en="The foundation's mission is to reveal the names&lt;br&gt;of scientists whose achievements change lives&lt;br&gt;for the better. To shape the perception&lt;br&gt;of knowledge, science, and technology&lt;br&gt;as society's most important values." data-ru="Миссия фонда — открыть миру имена&lt;br&gt;учёных, чьи достижения меняют жизнь&lt;br&gt;к лучшему. Сформировать восприятие&lt;br&gt;знаний, науки и технологий как важнейших&lt;br&gt;ценностей общества.">Миссия фонда — открыть миру имена<br>учёных, чьи достижения меняют жизнь<br>к лучшему. Сформировать восприятие<br>знаний, науки и технологий как важнейших<br>ценностей общества.</p>
+        <p class="case__intro-p--desktop" data-en="The foundation needed a unified visual identity that would&lt;br&gt;bring together the foundation itself, its award, and its&lt;br&gt;exhibition projects under one visual language." data-ru="Фонду требовался единый фирменный стиль,&lt;br&gt;объединяющий сам фонд, присуждаемую им премию&lt;br&gt;и выставочные проекты в рамках общего визуального&lt;br&gt;языка.">Фонду требовался единый фирменный стиль,<br>объединяющий сам фонд, присуждаемую им премию<br>и выставочные проекты в рамках общего визуального<br>языка.</p>
+        <p class="case__intro-p--mobile" data-en="The foundation needed a unified visual identity&lt;br&gt;that would bring together the foundation itself,&lt;br&gt;its award, and its exhibition projects under one&lt;br&gt;visual language." data-ru="Фонду требовался единый фирменный&lt;br&gt;стиль, объединяющий сам фонд,&lt;br&gt;присуждаемую им премию и выставочные&lt;br&gt;проекты в рамках общего визуального&lt;br&gt;языка.">Фонду требовался единый фирменный<br>стиль, объединяющий сам фонд,<br>присуждаемую им премию и выставочные<br>проекты в рамках общего визуального<br>языка.</p>
       </div>
     </div>
 
@@ -3607,8 +3724,8 @@ button.project__media-link {
       <video autoplay muted loop playsinline poster="images/foundation-m2.webp" class="case__media-mobile" width="1920" height="1080"><source src="videos/foundation-light.mp4" type="video/mp4" /></video>
     </div>
 
-    <p class="case__quote case__quote-p--desktop reveal" data-en="Light became the central metaphor of the foundation's&lt;br&gt;visual identity, illuminating people, events, and discoveries&lt;br&gt;that usually stay out of sight. This idea runs through all the&lt;br&gt;graphics: a warm accent color emerges from a deep, dark&lt;br&gt;background, pulling its subjects, their stories, and their&lt;br&gt;achievements out of the dark." data-ru="Главной метафорой визуальной айдентики фонда&lt;br&gt;стал свет — он освещает людей, события и открытия,&lt;br&gt;которые обычно остаются в тени. Эта идея проходит&lt;br&gt;через всю графику: тёплый акцентный цвет проступает&lt;br&gt;из глубокого тёмного фона, выхватывая героев,&lt;br&gt;их истории и достижения из темноты.">Light became the central metaphor of the foundation's<br>visual identity, illuminating people, events, and discoveries<br>that usually stay out of sight. This idea runs through all the<br>graphics: a warm accent color emerges from a deep, dark<br>background, pulling its subjects, their stories, and their<br>achievements out of the dark.</p>
-    <p class="case__quote case__quote-p--mobile reveal" data-en="Light became the central metaphor of the&lt;br&gt;foundation's visual identity, illuminating&lt;br&gt;people, events, and discoveries that usually&lt;br&gt;stay out of sight. This idea runs through all&lt;br&gt;the graphics: a warm accent color emerges&lt;br&gt;from a deep, dark background, pulling its&lt;br&gt;subjects, their stories, and their achievements&lt;br&gt;out of the dark." data-ru="Главной метафорой визуальной айдентики&lt;br&gt;фонда стал свет — он освещает людей,&lt;br&gt;события и открытия, которые обычно&lt;br&gt;остаются в тени. Эта идея проходит через&lt;br&gt;всю графику: тёплый акцентный цвет&lt;br&gt;проступает из глубокого тёмного фона,&lt;br&gt;выхватывая героев, их истории&lt;br&gt;и достижения из темноты.">Light became the central metaphor of the<br>foundation's visual identity, illuminating<br>people, events, and discoveries that usually<br>stay out of sight. This idea runs through all<br>the graphics: a warm accent color emerges<br>from a deep, dark background, pulling its<br>subjects, their stories, and their achievements<br>out of the dark.</p>
+    <p class="case__quote case__quote-p--desktop reveal" data-en="Light became the central metaphor of the foundation's&lt;br&gt;visual identity, illuminating people, events, and discoveries&lt;br&gt;that usually stay out of sight. This idea runs through all the&lt;br&gt;graphics: a warm accent color emerges from a deep, dark&lt;br&gt;background, pulling its subjects, their stories, and their&lt;br&gt;achievements out of the dark." data-ru="Главной метафорой визуальной айдентики фонда&lt;br&gt;стал свет — он освещает людей, события и открытия,&lt;br&gt;которые обычно остаются в тени. Эта идея проходит&lt;br&gt;через всю графику: тёплый акцентный цвет проступает&lt;br&gt;из глубокого тёмного фона, выхватывая героев,&lt;br&gt;их истории и достижения из темноты.">Главной метафорой визуальной айдентики фонда<br>стал свет — он освещает людей, события и открытия,<br>которые обычно остаются в тени. Эта идея проходит<br>через всю графику: тёплый акцентный цвет проступает<br>из глубокого тёмного фона, выхватывая героев,<br>их истории и достижения из темноты.</p>
+    <p class="case__quote case__quote-p--mobile reveal" data-en="Light became the central metaphor of the&lt;br&gt;foundation's visual identity, illuminating&lt;br&gt;people, events, and discoveries that usually&lt;br&gt;stay out of sight. This idea runs through all&lt;br&gt;the graphics: a warm accent color emerges&lt;br&gt;from a deep, dark background, pulling its&lt;br&gt;subjects, their stories, and their achievements&lt;br&gt;out of the dark." data-ru="Главной метафорой визуальной айдентики&lt;br&gt;фонда стал свет — он освещает людей,&lt;br&gt;события и открытия, которые обычно&lt;br&gt;остаются в тени. Эта идея проходит через&lt;br&gt;всю графику: тёплый акцентный цвет&lt;br&gt;проступает из глубокого тёмного фона,&lt;br&gt;выхватывая героев, их истории&lt;br&gt;и достижения из темноты.">Главной метафорой визуальной айдентики<br>фонда стал свет — он освещает людей,<br>события и открытия, которые обычно<br>остаются в тени. Эта идея проходит через<br>всю графику: тёплый акцентный цвет<br>проступает из глубокого тёмного фона,<br>выхватывая героев, их истории<br>и достижения из темноты.</p>
 
     <div class="case__media case__media--light reveal" style="--mh:22.5rem">
       <div class="light-slide" data-light role="img" aria-label="We light the way toward humanity's greatest discoveries">
@@ -3726,8 +3843,8 @@ button.project__media-link {
       <div class="case__media" style="--mh:27.5rem"><img loading="lazy" src="images/foundation-05-planet.webp" alt="Brand mood detail — Earth at night with a glowing rim" /><img loading="lazy" class="case__media-mobile" src="images/foundation-m5-planet.webp" alt="Brand mood detail — Earth at night with a glowing rim" width="1077" height="1320" /></div>
     </div>
 
-    <p class="case__quote case__quote--right case__quote-p--desktop reveal" data-en="To express the connection between science and culture, we chose&lt;br&gt;contrasting typography: a strict grotesque carries the precision&lt;br&gt;and rationality of science, while softer, more expressive accents&lt;br&gt;speak to the foundation's cultural, human side. Together, they&lt;br&gt;form a single yet multifaceted visual voice." data-ru="Чтобы показать связь науки и культуры, мы выбрали&lt;br&gt;контрастную типографику: строгий гротеск отвечает&lt;br&gt;за точность и рациональность науки, а более пластичные,&lt;br&gt;выразительные акценты за культурную, гуманитарную&lt;br&gt;сторону фонда. Вместе они формируют единый,&lt;br&gt;но многогранный визуальный голос">To express the connection between science and culture, we chose<br>contrasting typography: a strict grotesque carries the precision<br>and rationality of science, while softer, more expressive accents<br>speak to the foundation's cultural, human side. Together, they<br>form a single yet multifaceted visual voice.</p>
-    <p class="case__quote case__quote--right case__quote-p--mobile reveal" data-en="To express the connection between science&lt;br&gt;and culture, we chose contrasting typography:&lt;br&gt;a strict grotesque carries the precision and&lt;br&gt;rationality of science, while softer, more&lt;br&gt;expressive accents speak to the foundation's&lt;br&gt;cultural, human side. Together, they form&lt;br&gt;a single yet multifaceted visual voice." data-ru="Чтобы показать связь науки и культуры,&lt;br&gt;мы выбрали контрастную типографику:&lt;br&gt;строгий гротеск отвечает за точность&lt;br&gt;и рациональность науки, а более&lt;br&gt;пластичные, выразительные акценты —&lt;br&gt;за культурную, гуманитарную&lt;br&gt;сторону фонда. Вместе они формируют&lt;br&gt;единый, но многогранный визуальный голос">To express the connection between science<br>and culture, we chose contrasting typography:<br>a strict grotesque carries the precision and<br>rationality of science, while softer, more<br>expressive accents speak to the foundation's<br>cultural, human side. Together, they form<br>a single yet multifaceted visual voice.</p>
+    <p class="case__quote case__quote--right case__quote-p--desktop reveal" data-en="To express the connection between science and culture, we chose&lt;br&gt;contrasting typography: a strict grotesque carries the precision&lt;br&gt;and rationality of science, while softer, more expressive accents&lt;br&gt;speak to the foundation's cultural, human side. Together, they&lt;br&gt;form a single yet multifaceted visual voice." data-ru="Чтобы показать связь науки и культуры, мы выбрали&lt;br&gt;контрастную типографику: строгий гротеск отвечает&lt;br&gt;за точность и рациональность науки, а более пластичные,&lt;br&gt;выразительные акценты за культурную, гуманитарную&lt;br&gt;сторону фонда. Вместе они формируют единый,&lt;br&gt;но многогранный визуальный голос">Чтобы показать связь науки и культуры, мы выбрали<br>контрастную типографику: строгий гротеск отвечает<br>за точность и рациональность науки, а более пластичные,<br>выразительные акценты за культурную, гуманитарную<br>сторону фонда. Вместе они формируют единый,<br>но многогранный визуальный голос</p>
+    <p class="case__quote case__quote--right case__quote-p--mobile reveal" data-en="To express the connection between science&lt;br&gt;and culture, we chose contrasting typography:&lt;br&gt;a strict grotesque carries the precision and&lt;br&gt;rationality of science, while softer, more&lt;br&gt;expressive accents speak to the foundation's&lt;br&gt;cultural, human side. Together, they form&lt;br&gt;a single yet multifaceted visual voice." data-ru="Чтобы показать связь науки и культуры,&lt;br&gt;мы выбрали контрастную типографику:&lt;br&gt;строгий гротеск отвечает за точность&lt;br&gt;и рациональность науки, а более&lt;br&gt;пластичные, выразительные акценты —&lt;br&gt;за культурную, гуманитарную&lt;br&gt;сторону фонда. Вместе они формируют&lt;br&gt;единый, но многогранный визуальный голос">Чтобы показать связь науки и культуры,<br>мы выбрали контрастную типографику:<br>строгий гротеск отвечает за точность<br>и рациональность науки, а более<br>пластичные, выразительные акценты —<br>за культурную, гуманитарную<br>сторону фонда. Вместе они формируют<br>единый, но многогранный визуальный голос</p>
 
     <div class="case__media reveal" style="--mh:14.375rem"><img loading="lazy" src="images/foundation-06.webp" alt="Billboard — We are proud of science" /><img loading="lazy" class="case__media-mobile" src="images/foundation-m6.webp" alt="Billboard — We are proud of science" width="1077" height="690" /></div>
 
@@ -3836,7 +3953,7 @@ button.project__media-link {
 
     <div class="case__next reveal">
       <hr class="project__divider" />
-      <button class="project__media-link" type="button" data-case-open="case-basarab" data-cursor-label="view" data-cursor-label-ru="смотреть" data-cursor-kind="see">
+      <button class="project__media-link" type="button" data-case-open="case-basarab" data-cursor-label="смотреть" data-cursor-label-en="view" data-cursor-label-ru="смотреть" data-cursor-kind="see">
         <div class="case__next-media">
           <img loading="lazy" src="images/grid-02-mobile.webp" alt="Basarab">
         </div>
@@ -3845,7 +3962,7 @@ button.project__media-link {
         <h2 class="project__title">
           <span role="button" tabindex="0" class="project__title-desktop project__badge" data-case-open="case-basarab" data-en="&lt;span class=&quot;project__badge-title&quot;&gt;Basarab&lt;/span&gt;" data-ru="&lt;span class=&quot;project__badge-title&quot;&gt;Basarab&lt;/span&gt;"><span class="project__badge-title">Basarab</span></span>
         </h2>
-        <button type="button" class="project__see" data-case-open="case-basarab" data-en="See Project &lt;span class=&quot;project__see-arrow&quot;&gt;→&lt;/span&gt;" data-ru="Смотреть &lt;span class=&quot;project__see-arrow&quot;&gt;→&lt;/span&gt;">See Project <span class="project__see-arrow">→</span></button>
+        <button type="button" class="project__see" data-case-open="case-basarab" data-en="See Project &lt;span class=&quot;project__see-arrow&quot;&gt;→&lt;/span&gt;" data-ru="Смотреть &lt;span class=&quot;project__see-arrow&quot;&gt;→&lt;/span&gt;">Смотреть <span class="project__see-arrow">→</span></button>
       </div>
     </div>
 
@@ -3855,8 +3972,8 @@ button.project__media-link {
     </nav>
 
     <nav class="case__nav case__nav--desktop">
-      <a href="#" class="project__badge" data-case-nav="prev" data-en="&lt;span class=&quot;project__badge-title&quot;&gt;prev project&lt;/span&gt;" data-ru="&lt;span class=&quot;project__badge-title&quot;&gt;предыдущий проект&lt;/span&gt;"><span class="project__badge-title">prev project</span></a>
-      <a href="#" class="project__badge" data-case-nav="next" data-en="&lt;span class=&quot;project__badge-title&quot;&gt;next project&lt;/span&gt;" data-ru="&lt;span class=&quot;project__badge-title&quot;&gt;следующий проект&lt;/span&gt;"><span class="project__badge-title">next project</span></a>
+      <a href="#" class="project__badge" data-case-nav="prev" data-en="&lt;span class=&quot;project__badge-title&quot;&gt;prev project&lt;/span&gt;" data-ru="&lt;span class=&quot;project__badge-title&quot;&gt;предыдущий проект&lt;/span&gt;"><span class="project__badge-title">предыдущий проект</span></a>
+      <a href="#" class="project__badge" data-case-nav="next" data-en="&lt;span class=&quot;project__badge-title&quot;&gt;next project&lt;/span&gt;" data-ru="&lt;span class=&quot;project__badge-title&quot;&gt;следующий проект&lt;/span&gt;"><span class="project__badge-title">следующий проект</span></a>
     </nav>
 
   </section>
@@ -3891,7 +4008,7 @@ button.project__media-link {
       // goes through or gets cancelled.
       if (!window.matchMedia('(max-width: 700px)').matches) return;
 
-      document.querySelectorAll('.contact__links a, .project__see').forEach(function (link) {
+      document.querySelectorAll('.contact__links a, .intro__link, .knowledge__link, .project__see').forEach(function (link) {
         link.addEventListener('touchstart', function () {
           link.classList.add('is-pressed');
         }, { passive: true });
@@ -3974,7 +4091,7 @@ button.project__media-link {
       }
 
       if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-        var swatches = document.querySelectorAll('.contact__links a, .project__badge');
+        var swatches = document.querySelectorAll('.contact__links a, .intro__link, .knowledge__link, .project__badge');
 
         var pickColor = function (el) {
           var pick = pickFrom(el);
@@ -4053,9 +4170,6 @@ button.project__media-link {
       // read fresh from the attribute on every hover -- so it gets its
       // own tiny swap, keyed off the same isRu flag.
       var cursorLabelNodes = document.querySelectorAll('[data-cursor-label-ru]');
-      cursorLabelNodes.forEach(function (node) {
-        node.setAttribute('data-cursor-label-en', node.getAttribute('data-cursor-label'));
-      });
       // The mobile "Read about me" pill's open/close labels have their
       // own opacity-driven crossfade (see .mobile-about-toggle.is-open --
       // each is absolutely positioned and faded against the other).
@@ -4067,7 +4181,8 @@ button.project__media-link {
       // keeps the two crossfades on different elements entirely, so
       // they can both run without touching each other's opacity.
       var langLabelNodes = document.querySelectorAll('[data-lang-en]');
-      var isRu = false;
+      // The site opens in Russian (Nov 2026); the toggle offers English.
+      var isRu = true;
       var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
       toggle.addEventListener('click', function () {
