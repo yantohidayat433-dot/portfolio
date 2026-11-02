@@ -41,6 +41,8 @@ attribute. This means:
   listeners): split the paragraph into a `[data-en]` text span plus a
   `[data-en]` `<a>` (see the third bio paragraph, `.intro__p-part` +
   `.intro__link`).
+- Russian copy always uses «ё» (её, ещё, моём, учёных, вёрстки…), even
+  if a client PDF spells it with «е».
 - Nav/next-project "prev/next" style links follow the same pattern.
 - There is no language-aware mechanism for `alt` attributes or anything
   outside `[data-en]` — those stay in whatever language they were written
