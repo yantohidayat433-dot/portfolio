@@ -310,7 +310,9 @@ lights its tab and lifts its number/headline in.
   plain-scroll variant, kept for reference.
 - Each card is laid out in Figma's own 1376x680 px space and scaled to
   the frame by JS (`--s`); the frame is the case slot itself (620px
-  desktop, `--mh` on phones), gutters scale with width via `cqw`.
+  desktop, `--mh` on phones), gutters scale with width via `cqw`. Card
+  size per the client's reference (Nov 2026): 860px of a 1015px frame
+  (77.5/1015 side inset on `.goals-scroller__track`), vertically centred.
 - Photo-to-dark ramps are per card, inline on `.goal__shade`, sampled
   from the client's approved card renders. When she sends a new render,
   re-fit against it (photo position via NCC, ramps by column ratio)
