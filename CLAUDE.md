@@ -170,12 +170,9 @@ produces either visible overflow or needlessly-short line breaks:
   additionally gets `margin-left: calc(var(--media-width)/2)` by
   default, which aligns it with the right half of a true 2-up image row.
 - **Basarab's quote blocks don't use that 2-up alignment** — they align
-  to the same 409px column as `.case__intro-right`, confirmed by pixel-
-  measuring the PDF. Its `.case__quote--right` override also needed a
-  **wider** cap (510px, not 480), because that case's PDF column
-  measured ~506px wide — the shared 480px cap was clipping it short and
-  forcing narrower-than-designed breaks. Don't assume 480px is always
-  right for a `--right` quote; measure the specific case's PDF.
+  to the same 409px column as `.case__intro-right`, and since the Figma
+  rebuild its intro and quote copy is capped at 512px (the Figma text
+  boxes), not 480. Don't assume 480px is always right; measure the case.
 - Any such override must be wrapped in `@media (min-width: 901px)` —
   an unguarded `#case-X .case__quote--right { margin-left: … }` beats
   the phone breakpoint's own `margin-left: 0` reset on specificity (an
@@ -205,8 +202,9 @@ Two different systems are in play, and a case can mix them:
 `.case__media img/video { width:100%; height:auto }` — no forced crop,
 image shows at its own aspect ratio scaled to container width.
 
-**Desktop, "fixed 620px" cases** (Basarab, and now Foundation too, via
-`#case-basarab .case__media:not(…slideshow):not(…ig-ticker):not(…final-sale), #case-foundation …`):
+**Desktop, "fixed 620px" cases** (Foundation via
+`#case-foundation .case__media:not(…slideshow):not(…ig-ticker)…`; Basarab
+has its own simpler block, see below):
 every non-special `.case__media` is forced to exactly 620px tall, with
 `img, video { height:100%; object-fit:cover }` inside it, cropping to
 fill. **This rule is `img`-only unless you explicitly add `video` too**
@@ -245,6 +243,36 @@ needs `!important`, because the generic 620px-system's own
 `object-fit: cover` rule outranks a flat class on specificity and would
 otherwise win back). Use the image's real native dimensions as its
 `width`/`height` attributes so the browser knows its true aspect.
+
+## Basarab (Figma rebuild, Nov 2026)
+
+Source of truth is Figma, not a PDF: file `shbJVIXDZhWJpeWo9QrzrS`
+(«вика иван | сайт»), page «кейс basarab», frame `1:687` (desktop RU,
+1440). It lives in the client's Pro team «совместная работа»; the Starter
+teams hit the Figma MCP call limit after ~10 calls. Asset URLs come from
+`www.figma.com/api/mcp/asset/…` (allowed in the environment). Export each
+slot frame with `download_assets` at scale 2 (PNG), never the raw fills —
+the frame export is her exact crop. Files `basarab-01…27.webp` follow the
+frame order top to bottom; phone-only centre crops `basarab-m01/m13/m17/m22`
+(cover, box, bag, care guide) exist where the object would be tiny on a
+phone. No mobile frame was supplied: phone layout is ours (2-up rows stack,
+`.case__row--trio` stays a row, everything else full width at its aspect).
+The off-canvas frames around `1:687` (14.1–14.3, stories, banner vertical,
+tg basarab) are raw material for animations still to come.
+
+Layout: media are butt-joined (no gaps anywhere); full-width slots 620px,
+rows and `.case__media--600` 600px, `.case__row--short` 427px; 32px from
+media to text, 48px from text to media (intro and quotes, ≥701px), 48px
+to the nav rule and 24px below it. Figma's 1px x-offsets (416/418) and the
+624px-tall slot were her slips: the site aligns to the column and the slot
+is 620. Credits stay `--color-muted`, not Figma's `#898989`.
+
+Desktop RU breaks are copied from Figma (longest line 511px of 512), so
+at 701–1299px, where the column is narrower, the desktop variants drop
+their `<br>`s and wrap naturally; every RU short word (в, к, с, и, не,
+при, ту…) and EN article/preposition is glued to the next word with a
+U+00A0, and every `<br>` is preceded by a space so hiding it can't fuse
+words. EN breaks are greedy-wrapped with the same no-hanging rule.
 
 ## Video inside a case
 
@@ -406,8 +434,8 @@ instead of hard-cutting: `case__media--ig-fade` on desktop and
 `case__media-mobile--cycle-fade` on mobile, 2.8s per set, 1.1s fade. The
 incoming set fades in on top (z-index 2) while the outgoing one stays opaque
 underneath and only drops out after the fade (delayed `opacity` transition),
-so there's no dip to black. Basarab's tickers keep the shared hard-cut
-classes and 1.3s interval (the generic cycle() call excludes `--ig-fade`).
+so there's no dip to black. The shared hard-cut ticker classes (1.3s) are
+currently unused; the generic cycle() call excludes `--ig-fade`.
 
 ## Image weight (Nov 2026 audit)
 
@@ -416,8 +444,11 @@ the home page; the Foundation goals cards and light-slide shape are lazy
 too (their animations start without them and pick them up). Phone crops
 are at most 1077px wide (3x of a ~359px card), desktop slots 2x (~2030px).
 Heavy files were re-encoded at WebP q78–84 only where PSNR stayed ≥40dB
-against the previous file; a few noisy textures (Basarab fur, m18/m22)
-are still ~400KB and look worse if pushed further. First home-page load is
+against the previous file. Basarab (Nov 2026 rebuild) is 31 files / 2.7MB:
+each file got the lowest WebP quality that keeps PSNR ≥40dB against the
+Figma PNG, capped at q82; grainy textures (cover, 12, 16, 19, 20) sit
+below 40dB even at q82 because the metric counts grain, look identical at
+4x zoom, and visibly lose grain at q70, so they stay at q82. First home-page load is
 ~2.1MB, most of it the hero video.
 
 ## Verification checklist (every text or crop change)
