@@ -460,8 +460,10 @@ All images are WebP and `loading="lazy"` except the first project cards on
 the home page; the Foundation goals cards and light-slide shape are lazy
 too (their animations start without them and pick them up). Phone crops
 are at most 1077px wide (3x of a ~359px card), desktop slots 2x (~2030px).
-Heavy files were re-encoded at WebP q78–84 only where PSNR stayed ≥40dB
-against the previous file. **PSNR is the wrong gate for textured
+The Nov 2 audit re-encoded heavy files at WebP q78–84 by PSNR ≥40dB; outside
+Basarab that touched foundation-10, foundation-m15, grid-10, grid-10-mobile and
+grid-11-mobile, and foundation-10 visibly lost its card grain (85% of fine
+detail), so all five were restored from `83a7d53^` (`?v=2`). **PSNR is the wrong gate for textured
 surfaces**: Basarab's first rebuild picked q40–60 by PSNR ≥40dB and the
 client saw paper, card, suede and ribbon textures turn to plastic (and a
 blocky halo round the logo). Basarab now (31 files, 6.9MB, `?v=4`) uses the
