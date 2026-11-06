@@ -5,7 +5,7 @@
 <title>Stories post</title>
 <!--
   Instagram-stories post, 1080x1350, for the client's channel.
-  Background #EAE9F0 (was #08090D in the Figma frame). Layout from Figma "tg 7" (node 442:4065): story 540x976.5 at (270,187),
+  Background #060606; four stories in the order of her Figma (node 53:203). Layout from Figma "tg 7" (node 442:4065): story 540x976.5 at (270,187),
   header geometry taken 1:1 from the frame. Stories are her own 960x1736
   renders (1.778x of the frame); on 1, 3 and 5 their baked-in text was removed
   (src/story-lines-v2/*-clean.webp, see split_text.py) and the copy is set live
@@ -17,24 +17,33 @@
 -->
 <style>
   @font-face { font-family: 'PP Right Grotesk'; src: url('src/PPRightGrotesk-Bold.otf'); font-weight: 700; }
-  html, body { margin: 0; background: #EAE9F0; }
-  .post { position: relative; width: 1080px; height: 1350px; background: #EAE9F0; overflow: hidden; }
+  html, body { margin: 0; background: #060606; }
+  .post { position: relative; width: 1080px; height: 1350px; background: #060606; overflow: hidden; }
   .story {
     position: absolute; left: 270px; top: 187px; width: 540px; height: 976.5px;
     border-radius: 16px; overflow: hidden; background: #fff;
   }
   .story__img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; }
-  /* story text, set live to the client's spec (story px = Figma px):
-     title 31/110, then 18px, body 24/110, both +12% tracking; story 3 86/80 */
+  /* story text, set live from her Figma (file shbJVIXDZhWJpeWo9QrzrS, node 53:203).
+     Her stories are 480px wide there, ours 540px, so every size is x1.125:
+     1: title 26/110 +24%, body 26/110 +8%; 3: 86.4/80 +1%; 4: 24/110 +12% */
   .story__text { position: absolute; inset: 0; z-index: 2; }
   .story__line {
     position: absolute; left: 0; width: 100%; margin: 0; text-align: center; white-space: nowrap;
     font-family: 'PP Right Grotesk'; font-weight: 700; opacity: 0; will-change: transform, opacity, filter;
   }
-  .t-title { font-size: 31px; line-height: 1.1; letter-spacing: .12em; padding-left: .12em; box-sizing: border-box; color: #ACB59C; }
-  .t-body { font-size: 24px; line-height: 1.1; letter-spacing: .12em; padding-left: .12em; box-sizing: border-box; color: #08090D; }
-  .t-big { font-size: 86px; line-height: .8; color: #fff; }
-  .t-white { color: #fff; }
+  .story__line { box-sizing: border-box; }
+  .t-title { font-size: 29.25px; line-height: 1.1; letter-spacing: .24em; padding-left: .24em; color: #ACB59C; }
+  .t-body { font-size: 29.25px; line-height: 1.1; letter-spacing: .08em; padding-left: .08em; color: #17171A; }
+  .t-big { font-size: 97.2px; line-height: .8; letter-spacing: .01em; padding-left: .01em; color: #fff; }
+  .t-small { font-size: 27px; line-height: 1.1; letter-spacing: .12em; padding-left: .12em; color: #fff; }
+
+  /* stories with a dark top get the white UI, as in her Figma */
+  .story.ui-light .bar { background: rgba(255, 255, 255, .4); }
+  .story.ui-light .bar__fill { background: #fff; }
+  .story.ui-light .meta { color: #fff; }
+  .story.ui-light .dots { fill: #fff; }
+  .story.ui-light .close { stroke: #fff; }
 
   .bars, .avatar, .meta, .dots, .close { z-index: 3; }
   .bars { position: absolute; left: 26.33px; top: 22.39px; width: 487.36px; height: 3.95px; display: flex; gap: 4px; }
@@ -59,24 +68,22 @@
     <img class="story__img" src="src/story-lines-v2/1-clean.webp" alt="" />
     <img class="story__img" src="src/2.webp" alt="" />
     <img class="story__img" src="src/story-lines-v2/3-clean.webp" alt="" />
-    <img class="story__img" src="src/4.webp" alt="" />
     <img class="story__img" src="src/story-lines-v2/5-clean.webp" alt="" />
 
     <div class="story__text">
-      <p class="story__line t-title" style="top:786.375px">Suede sneakers</p>
-      <p class="story__line t-body" style="top:838.475px">The ribbed construction</p>
-      <p class="story__line t-body" style="top:864.875px">and dual-insole system</p>
+      <p class="story__line t-title" style="top:793.125px">Suede sneakers</p>
+      <p class="story__line t-body" style="top:839.25px">The ribbed construction</p>
+      <p class="story__line t-body" style="top:871.425px">and dual-insole system</p>
     </div>
     <div class="story__text"></div>
-    <div class="story__text">
-      <p class="story__line t-big" style="top:750.2px">Summer</p>
-      <p class="story__line t-big" style="top:819px">collection</p>
+    <div class="story__text" data-ui="light">
+      <p class="story__line t-big" style="top:742.5px">Summer</p>
+      <p class="story__line t-big" style="top:820.26px">collection</p>
     </div>
-    <div class="story__text"></div>
-    <div class="story__text">
-      <p class="story__line t-body t-white" style="top:814.4px">Delicate color palette,</p>
-      <p class="story__line t-body t-white" style="top:840.8px">fluid lines, and a refined</p>
-      <p class="story__line t-body t-white" style="top:867.2px">silhouette</p>
+    <div class="story__text" data-ui="light">
+      <p class="story__line t-small" style="top:810px">Delicate color palette,</p>
+      <p class="story__line t-small" style="top:839.7px">fluid lines, and a refined</p>
+      <p class="story__line t-small" style="top:869.4px">silhouette</p>
     </div>
 
     <div class="bars"></div>
@@ -97,7 +104,10 @@
   const easeOut = (x) => (x = Math.max(0, Math.min(1, x)), 1 - Math.pow(1 - x, 3));
   const imgs = [...document.querySelectorAll('.story__img')];
   const N = imgs.length;
-  const texts = [...document.querySelectorAll('.story__text')].map((d) => [...d.children]);
+  const textBlocks = [...document.querySelectorAll('.story__text')];
+  const texts = textBlocks.map((d) => [...d.children]);
+  const lightUi = textBlocks.map((d) => d.dataset.ui === 'light');
+  const story = document.querySelector('.story');
   const bars = document.querySelector('.bars');
   const fills = imgs.map(() => {
     const b = document.createElement('div'); b.className = 'bar';
@@ -112,6 +122,7 @@
     const p = (t - cur * PER) / PER;
     // hard cut, as Instagram auto-advances within one account
     imgs.forEach((im, i) => im.style.opacity = i === cur ? 1 : 0);
+    story.classList.toggle('ui-light', lightUi[cur]);
     const u = t - cur * PER;
     texts.forEach((lines, i) => lines.forEach((l, j) => {
       const e = i === cur ? easeOut((u - TEXT_AT - j * TEXT_STEP) / TEXT_DUR) : 0;
