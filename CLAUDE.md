@@ -260,6 +260,15 @@ phone. No mobile frame was supplied: phone layout is ours (2-up rows stack,
 The off-canvas frames around `1:687` (14.1–14.3, stories, banner vertical,
 tg basarab) are raw material for animations still to come.
 
+Slot 15 (right of the mint-sweater portrait) is `.case__media--story`: the
+client's 15s stories clip (`videos/basarab-stories.mp4`, three stories in a
+phone card on black) over a lazy poster `<img>` (`basarab-15.webp` = frame 0,
+so the poster sits in the image preload queue and the hand-off is seamless).
+Her 1080x1350 export has the card at 540x977, centred; it was scaled to
+960x1200 and padded with its own `#07080D` to 1016x1200 so the card lands at
+exactly Figma's 240x434 in the 508x600 slot. CRF 20, no audio, faststart,
+`data-lazy-play`, no `poster` attribute.
+
 Layout: media are butt-joined (no gaps anywhere); full-width slots 620px,
 rows and `.case__media--600` 600px, `.case__row--short` 427px; 32px from
 media to text, 48px from text to media (intro and quotes, ≥701px), 48px
