@@ -434,10 +434,27 @@ instead of hard-cutting: `case__media--ig-fade` on desktop and
 `case__media-mobile--cycle-fade` on mobile, 2.8s per set, 1.1s fade. The
 incoming set fades in on top (z-index 2) while the outgoing one stays opaque
 underneath and only drops out after the fade (delayed `opacity` transition),
-so there's no dip to black. The shared hard-cut ticker classes (1.3s) are
-currently unused; the generic cycle() call excludes `--ig-fade`.
+so there's no dip to black. The old hard-cut tickers, slideshow and their
+phone cyclers were removed with the old Basarab; only these two cycle() calls
+remain.
 
-## Image weight (Nov 2026 audit)
+## Image weight and loading (Nov 2026 audit)
+
+Home cards are `<picture>` (phone `<source media>` + desktop `<img>`), so each
+device fetches one file; the citylight video has no `poster` attribute (its
+box's CSS background is the same frame) because a poster downloads even while
+the case is hidden. Case images: the "Case images" IIFE flips the first three
+shown images of a case to `eager` on hover/touch/focus/click of its link (cover
+first, alone), then once the case is visible queues all its shown images top to
+bottom, two at a time; skipped on Save-Data/2G. "Shown" = the phone crop on
+≤700px when the slot has one, else the desktop img. Measured at 9 Mbit/s with
+fast scrolling: no image is blank on screen, and the cover is ready when the
+open transition ends (~0.9s). Basarab full-width slots without a phone crop
+(12, 16, 18, 19, 25, 26, 27) carry `srcset` with a `-1077` file (phones and 1x
+screens). UI font is `fonts/oceanic-text.woff2` (40KB, preloaded; the file's
+name table says "TRIAL Oceanic Text"). `_headers` was dropped: GitHub Pages
+ignores it. Sandboxes in `animations/` load the subset WOFF2s from `fonts/`
+(the full PP Fragment OTFs are gone from the repo).
 
 All images are WebP and `loading="lazy"` except the first project cards on
 the home page; the Foundation goals cards and light-slide shape are lazy
