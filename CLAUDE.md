@@ -266,8 +266,11 @@ frame 0, so the poster sits in the image preload queue and the hand-off is
 seamless). Source is the client's own 15s clip (1080x1350, five stories, hard
 cuts at exactly frames 90/180/270/360 at 30fps). The 4th story (hands in hair,
 frames 270–359) is cut out because slot 14 is now that photo, so the clip is
-12s; its 5-segment progress bar therefore jumps from 3/5 to 5/5 (client asked
-for the cut only). Card is 540x977 centred in her frame; scaled to 960x1200 and
+12s. Its 5-segment progress bar was redrawn as 4 segments in every frame
+before encoding: old bar (rows 209–212 of her 1080x1350 frame, x 296–784, 4px
+gaps, 2px round caps) painted out by interpolating rows 206/215, new 119px
+segments drawn in #333333 (track = same colour at 33% alpha), done segments
+solid, current one half-filled with a square end, as in her clip. Card is 540x977 centred in her frame; scaled to 960x1200 and
 padded to 1016x1200 so it lands at Figma's 240x434 in the 508x600 slot. Her
 black is `#07080D`; a shadows-only curves pass plus a 0x070707 pad decode to
 exactly the static slot's #060606. One encode from her original: CRF 20, no
