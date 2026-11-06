@@ -260,19 +260,19 @@ phone. No mobile frame was supplied: phone layout is ours (2-up rows stack,
 The off-canvas frames around `1:687` (14.1–14.3, stories, banner vertical,
 tg basarab) are raw material for animations still to come.
 
-Slot 15 (right of slot 14, the mint-sweater portrait) is `.case__media--story`:
+Slot 15 (right of slot 14, the hands-in-hair portrait) is `.case__media--story`:
 `videos/basarab-stories.mp4` over a lazy poster `<img>` (`basarab-15.webp` =
 frame 0, so the poster sits in the image preload queue and the hand-off is
-seamless). It is built from the four story frames in Figma section `53:203`
-(«Stories»), left to right: suede sneakers, mint-sweater girl, Summer
-collection, Delicate color palette — the client's own earlier clip also had a
-hands-in-hair story, dropped because slot 14 is now that photo. Each frame is
-exported at 2x, downscaled to 480x868 (Figma's 240x434 card at 2x), corners
-cut with a 15px antialiased radius (the export has opaque #F5F5F5 corners) and
-centred on a 1016x1200 canvas of (7,7,7), which H.264 decodes to the static
-slot's #060606. 3s per story, hard cuts, static progress bars as drawn,
-12s loop; `-tune stillimage -crf 18`, no audio, faststart, `data-lazy-play`,
-no `poster` attribute.
+seamless). Source is the client's own 15s clip (1080x1350, five stories, hard
+cuts at exactly frames 90/180/270/360 at 30fps). The 4th story (hands in hair,
+frames 270–359) is cut out because slot 14 is now that photo, so the clip is
+12s; its 5-segment progress bar therefore jumps from 3/5 to 5/5 (client asked
+for the cut only). Card is 540x977 centred in her frame; scaled to 960x1200 and
+padded to 1016x1200 so it lands at Figma's 240x434 in the 508x600 slot. Her
+black is `#07080D`; a shadows-only curves pass plus a 0x070707 pad decode to
+exactly the static slot's #060606. One encode from her original: CRF 20, no
+audio, faststart, `data-lazy-play`, no `poster` attribute. (A version built
+from the Figma «Stories» frames 53:203 was rejected: she wants her clip.)
 
 Layout: media are butt-joined (no gaps anywhere); full-width slots 620px,
 rows and `.case__media--600` 600px, `.case__row--short` 427px; 32px from
