@@ -444,11 +444,17 @@ the home page; the Foundation goals cards and light-slide shape are lazy
 too (their animations start without them and pick them up). Phone crops
 are at most 1077px wide (3x of a ~359px card), desktop slots 2x (~2030px).
 Heavy files were re-encoded at WebP q78–84 only where PSNR stayed ≥40dB
-against the previous file. Basarab (Nov 2026 rebuild) is 31 files / 2.7MB:
-each file got the lowest WebP quality that keeps PSNR ≥40dB against the
-Figma PNG, capped at q82; grainy textures (cover, 12, 16, 19, 20) sit
-below 40dB even at q82 because the metric counts grain, look identical at
-4x zoom, and visibly lose grain at q70, so they stay at q82. First home-page load is
+against the previous file. **PSNR is the wrong gate for textured
+surfaces**: Basarab's first rebuild picked q40–60 by PSNR ≥40dB and the
+client saw paper, card, suede and ribbon textures turn to plastic (and a
+blocky halo round the logo). Basarab now (31 files, 6.9MB, `?v=4`) uses the
+lowest q in 90–98 that keeps ≥99% of the fine detail (std of luma minus a
+1.5px Gaussian blur, encoded vs Figma PNG), lossless only if smaller; light
+paper/card (box 13/m13, tag 21) needs q96–98. Always eyeball 3–4x crops of
+the flattest textured areas before shipping. The logo slot is live
+(`.case__media--logo`: `#e7e8de` + `images/basarab-logo.svg` at 37.08%
+width, Figma's 188/507), not a raster.
+First home-page load is
 ~2.1MB, most of it the hero video.
 
 ## Verification checklist (every text or crop change)
