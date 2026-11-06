@@ -260,16 +260,19 @@ phone. No mobile frame was supplied: phone layout is ours (2-up rows stack,
 The off-canvas frames around `1:687` (14.1–14.3, stories, banner vertical,
 tg basarab) are raw material for animations still to come.
 
-Slot 15 (right of the mint-sweater portrait) is `.case__media--story`: the
-client's 15s stories clip (`videos/basarab-stories.mp4`, three stories in a
-phone card on black) over a lazy poster `<img>` (`basarab-15.webp` = frame 0,
-so the poster sits in the image preload queue and the hand-off is seamless).
-Her 1080x1350 export has the card at 540x977, centred; it was scaled to
-960x1200 and padded to 1016x1200 so the card lands at exactly Figma's
-240x434 in the 508x600 slot. Her clip's black is `#07080D`; a curves pass
-(shadows only, identity above ~15%) pulls it to the static slot's `#060606`,
-and the pad is 0x070707 because H.264 decodes both to exactly 6,6,6. CRF 20, no audio, faststart,
-`data-lazy-play`, no `poster` attribute.
+Slot 15 (right of slot 14, the mint-sweater portrait) is `.case__media--story`:
+`videos/basarab-stories.mp4` over a lazy poster `<img>` (`basarab-15.webp` =
+frame 0, so the poster sits in the image preload queue and the hand-off is
+seamless). It is built from the four story frames in Figma section `53:203`
+(«Stories»), left to right: suede sneakers, mint-sweater girl, Summer
+collection, Delicate color palette — the client's own earlier clip also had a
+hands-in-hair story, dropped because slot 14 is now that photo. Each frame is
+exported at 2x, downscaled to 480x868 (Figma's 240x434 card at 2x), corners
+cut with a 15px antialiased radius (the export has opaque #F5F5F5 corners) and
+centred on a 1016x1200 canvas of (7,7,7), which H.264 decodes to the static
+slot's #060606. 3s per story, hard cuts, static progress bars as drawn,
+12s loop; `-tune stillimage -crf 18`, no audio, faststart, `data-lazy-play`,
+no `poster` attribute.
 
 Layout: media are butt-joined (no gaps anywhere); full-width slots 620px,
 rows and `.case__media--600` 600px, `.case__row--short` 427px; 32px from
