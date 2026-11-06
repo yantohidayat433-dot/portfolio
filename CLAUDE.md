@@ -265,8 +265,10 @@ client's 15s stories clip (`videos/basarab-stories.mp4`, three stories in a
 phone card on black) over a lazy poster `<img>` (`basarab-15.webp` = frame 0,
 so the poster sits in the image preload queue and the hand-off is seamless).
 Her 1080x1350 export has the card at 540x977, centred; it was scaled to
-960x1200 and padded with its own `#07080D` to 1016x1200 so the card lands at
-exactly Figma's 240x434 in the 508x600 slot. CRF 20, no audio, faststart,
+960x1200 and padded to 1016x1200 so the card lands at exactly Figma's
+240x434 in the 508x600 slot. Her clip's black is `#07080D`; a curves pass
+(shadows only, identity above ~15%) pulls it to the static slot's `#060606`,
+and the pad is 0x070707 because H.264 decodes both to exactly 6,6,6. CRF 20, no audio, faststart,
 `data-lazy-play`, no `poster` attribute.
 
 Layout: media are butt-joined (no gaps anywhere); full-width slots 620px,
