@@ -441,6 +441,7 @@
     }
 
     .project__media {
+      display: block;
       position: relative;
       width: 100%;
       max-width: var(--media-width);
@@ -2675,7 +2676,7 @@
   <main class="projects">
 
     <article class="project project--hero">
-      <a class="project__media-link" href="https://www.behance.net/gallery/235073919/Vocamate-AI-Brand-Identity-Website" target="_blank" rel="noopener noreferrer" data-cursor-label="смотреть" data-cursor-label-en="view" data-cursor-label-ru="смотреть" data-cursor-kind="see">
+      <a class="project__media-link" href="https://www.behance.net/gallery/235073919/Vocamate-AI-Brand-Identity-Website" target="_blank" rel="noopener noreferrer" aria-label="Vocamate на Behance" data-cursor-label="смотреть" data-cursor-label-en="view" data-cursor-label-ru="смотреть" data-cursor-kind="see">
         <div class="project__media">
           <video autoplay muted loop playsinline preload="auto" poster="images/grid-01.webp" data-poster-desktop="images/grid-01.webp" data-poster-mobile="images/grid-01-mobile.webp"><source src="videos/vocamate-mobile.mp4" media="(max-width: 700px)" type="video/mp4" /><source src="videos/grid-video-01.mp4" type="video/mp4" />
             <source src="videos/grid-video-01.mp4" type="video/mp4" />
@@ -2699,12 +2700,12 @@
 
     <article class="project project--half">
       <button class="project__media-link" type="button" data-case-open="case-basarab" data-cursor-label="смотреть" data-cursor-label-en="view" data-cursor-label-ru="смотреть" data-cursor-kind="see">
-        <div class="project__media">
+        <span class="project__media">
           <picture>
             <source media="(max-width: 700px)" srcset="images/grid-02-mobile.webp">
             <img src="images/grid-02.webp" alt="Basarab">
           </picture>
-        </div>
+        </span>
       </button>
       <div class="project__row">
         <h2 class="project__title">
@@ -2723,12 +2724,12 @@
 
     <article class="project project--half">
       <button class="project__media-link" type="button" data-case-open="case-foundation" data-cursor-label="смотреть" data-cursor-label-en="view" data-cursor-label-ru="смотреть" data-cursor-kind="see">
-        <div class="project__media">
+        <span class="project__media">
           <picture>
             <source media="(max-width: 700px)" srcset="images/grid-03-mobile.webp">
             <img src="images/grid-03.webp" alt="Фонд «Вызов»">
           </picture>
-        </div>
+        </span>
       </button>
       <div class="project__row">
         <h2 class="project__title">
@@ -2929,9 +2930,9 @@
     <div class="case__next reveal">
       <hr class="project__divider" />
       <button class="project__media-link" type="button" data-case-open="case-foundation" data-cursor-label="смотреть" data-cursor-label-en="view" data-cursor-label-ru="смотреть" data-cursor-kind="see">
-        <div class="case__next-media">
+        <span class="case__next-media">
           <img loading="lazy" src="images/grid-03-mobile.webp" alt="Фонд «Вызов»">
-        </div>
+        </span>
       </button>
       <div class="project__row">
         <h2 class="project__title">
@@ -2941,7 +2942,7 @@
       </div>
     </div>
 
-    <nav class="case__nav case__nav--desktop">
+    <nav class="case__nav case__nav--desktop" aria-label="Basarab: соседние проекты">
       <a href="#case-foundation" class="project__badge" data-case-nav="prev" data-en="&lt;span class=&quot;project__badge-title&quot;&gt;prev project&lt;/span&gt;" data-ru="&lt;span class=&quot;project__badge-title&quot;&gt;предыдущий проект&lt;/span&gt;"><span class="project__badge-title">предыдущий проект</span></a>
       <a href="#case-foundation" class="project__badge" data-case-nav="next" data-en="&lt;span class=&quot;project__badge-title&quot;&gt;next project&lt;/span&gt;" data-ru="&lt;span class=&quot;project__badge-title&quot;&gt;следующий проект&lt;/span&gt;"><span class="project__badge-title">следующий проект</span></a>
     </nav>
@@ -3196,9 +3197,9 @@
     <div class="case__next reveal">
       <hr class="project__divider" />
       <button class="project__media-link" type="button" data-case-open="case-basarab" data-cursor-label="смотреть" data-cursor-label-en="view" data-cursor-label-ru="смотреть" data-cursor-kind="see">
-        <div class="case__next-media">
+        <span class="case__next-media">
           <img loading="lazy" src="images/grid-02-mobile.webp" alt="Basarab">
-        </div>
+        </span>
       </button>
       <div class="project__row">
         <h2 class="project__title">
@@ -3208,7 +3209,7 @@
       </div>
     </div>
 
-    <nav class="case__nav case__nav--desktop">
+    <nav class="case__nav case__nav--desktop" aria-label="Фонд «Вызов»: соседние проекты">
       <a href="#case-basarab" class="project__badge" data-case-nav="prev" data-en="&lt;span class=&quot;project__badge-title&quot;&gt;prev project&lt;/span&gt;" data-ru="&lt;span class=&quot;project__badge-title&quot;&gt;предыдущий проект&lt;/span&gt;"><span class="project__badge-title">предыдущий проект</span></a>
       <a href="#case-basarab" class="project__badge" data-case-nav="next" data-en="&lt;span class=&quot;project__badge-title&quot;&gt;next project&lt;/span&gt;" data-ru="&lt;span class=&quot;project__badge-title&quot;&gt;следующий проект&lt;/span&gt;"><span class="project__badge-title">следующий проект</span></a>
     </nav>
@@ -3952,7 +3953,7 @@
       return list;
     }
     function load(img, done) {
-      if (img.loading !== 'lazy' || (img.complete && img.naturalWidth)) {
+      if (img.loading !== 'lazy' || img.complete) {
         if (done) done();
         return;
       }
