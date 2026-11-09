@@ -283,7 +283,10 @@ its height on phones where the case's slot height is auto.
 
 Slot 18 (Instagram posts) is `.case__media--ig`: Figma section `72:252` «insta»,
 frames 14.1–14.3 (`basarab-18/-18b/-18c` + `-1077`, navy field), hard cut every
-0.7s like her reference clip (6 sets, 21 frames at 30fps each), via `cycle()`.
+1.5s via `cycle()` (her reference clip cut every 0.7s; she found that too
+flickery). In Figma's frame 14.1 the first post's white header box starts 1px lower than in
+14.2/14.3 (content aligned), so its top edge flickered on every cut; `basarab-18`
+has rows 230–245 of that card copied from 14.2 (headers/bars now match to <0.3/255).
 The slot gets `aspect-ratio` for phones, like the slides slot.
 
 Slot 26 (three stories, 1015x600) is a `.case__media--story` clip,
