@@ -1,0 +1,78 @@
+{
+ "1a": {
+  "lines": [],
+  "ui_light": true
+ },
+ "1b": {
+  "lines": [],
+  "ui_light": false
+ },
+ "1c": {
+  "lines": [
+   {
+    "file": "sprites/1c-big-0.png",
+    "x": 10,
+    "y": 100
+   },
+   {
+    "file": "sprites/1c-big-1.png",
+    "x": 10,
+    "y": 199
+   },
+   {
+    "file": "sprites/1c-big-2.png",
+    "x": 10,
+    "y": 292
+   },
+   {
+    "file": "sprites/1c-small-0.png",
+    "x": 110,
+    "y": 750
+   },
+   {
+    "file": "sprites/1c-small-1.png",
+    "x": 110,
+    "y": 786
+   }
+  ],
+  "ui_light": true
+ },
+ "2a": {
+  "lines": [],
+  "ui_light": false
+ },
+ "2b": {
+  "lines": [
+   {
+    "file": "sprites/2b-big-0.png",
+    "x": 10,
+    "y": 100
+   },
+   {
+    "file": "sprites/2b-big-1.png",
+    "x": 10,
+    "y": 199
+   },
+   {
+    "file": "sprites/2b-big-2.png",
+    "x": 10,
+    "y": 292
+   },
+   {
+    "file": "sprites/2b-small-0.png",
+    "x": 110,
+    "y": 710
+   },
+   {
+    "file": "sprites/2b-small-1.png",
+    "x": 110,
+    "y": 746
+   }
+  ],
+  "ui_light": false
+ },
+ "2c": {
+  "lines": [],
+  "ui_light": true
+ }
+}

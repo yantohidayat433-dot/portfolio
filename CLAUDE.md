@@ -286,6 +286,19 @@ frames 14.1–14.3 (`basarab-18/-18b/-18c` + `-1077`, navy field), hard cut ever
 0.7s like her reference clip (6 sets, 21 frames at 30fps each), via `cycle()`.
 The slot gets `aspect-ratio` for phones, like the slides slot.
 
+Slot 26 (three stories, 1015x600) is a `.case__media--story` clip,
+`videos/basarab-stories-trio.mp4` (2030x1200, 5s loop): Figma section `68:106`
+«Stories», slides `68:44` then `4:686`, one hard cut and loop; each story's bar
+fills over its 2.5s slide and its text lines rise/sharpen/fade in with the
+stories-post timings (rise/blur scaled to the 240px story). Built in
+`animations/stories-trio/`: `build.py` splits her 2x story exports into a clean
+background (progress line blended out, text replaced by her raw fills recomposed
+at the Figma geometry) and one flat-colour sprite per text line (alpha from the
+export-vs-clean difference; her text fonts, PP Right Grotesk Medium and Noi
+Grotesk, aren't in the repo), `render.py` animates them in numpy. Settled frames
+match her exports to ~1.5/255. The clip opens 1s into slide 1 and the poster
+`<img>` (`basarab-26`) is that frame.
+
 Layout: media are butt-joined (no gaps anywhere); full-width slots 620px,
 rows and `.case__media--600` 600px, `.case__row--short` 427px; 32px from
 media to text, 48px from text to media (intro and quotes, ≥701px), 48px
