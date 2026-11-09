@@ -277,6 +277,13 @@ exactly the static slot's #060606. One encode from her original: CRF 20, no
 audio, faststart, `data-lazy-play`, no `poster` attribute. (A version built
 from the Figma «Stories» frames 53:203 was rejected: she wants her clip.)
 
+Slot 10 (left of the "Reliable shoes" text slide) is `.case__media--slides`:
+four photos stacked (`basarab-10`, then `-10b/-10c/-10d` from Figma section
+`53:254` «video 2», 507x600 frames exported at 2x), cross-fading every 2s
+(0.9s fade; incoming on top, outgoing drops only after the fade, so no dip).
+Driven by the shared `cycle()` IIFE; the slot gets `aspect-ratio` so it keeps
+its height on phones where the case's slot height is auto.
+
 Layout: media are butt-joined (no gaps anywhere); full-width slots 620px,
 rows and `.case__media--600` 600px, `.case__row--short` 427px; 32px from
 media to text, 48px from text to media (intro and quotes, ≥701px), 48px
