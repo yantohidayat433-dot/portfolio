@@ -947,6 +947,24 @@
       transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
+    #case-basarab .case__media--ig {
+      position: relative;
+      aspect-ratio: 2030 / 1240;
+    }
+
+    #case-basarab .case__media--ig img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0;
+    }
+
+    #case-basarab .case__media--ig img.is-active {
+      opacity: 1;
+    }
+
     #case-basarab .case__media--story {
       position: relative;
     }
@@ -2936,7 +2954,7 @@
 
     <div class="case__media reveal" style="--mh:22.438rem"><img loading="lazy" src="images/basarab-17.webp?v=4" alt="" width="2030" height="1240" /><img loading="lazy" class="case__media-mobile" src="images/basarab-m17.webp?v=4" alt="" width="1077" height="1077" /></div>
 
-    <div class="case__media reveal"><img loading="lazy" src="images/basarab-18.webp?v=4" srcset="images/basarab-18-1077.webp?v=4 1077w, images/basarab-18.webp?v=4 2030w" sizes="(max-width: 700px) 100vw, 1015px" alt="" width="2030" height="1240" /></div>
+    <div class="case__media case__media--ig reveal"><img loading="lazy" class="is-active" src="images/basarab-18.webp?v=5" srcset="images/basarab-18-1077.webp?v=5 1077w, images/basarab-18.webp?v=5 2030w" sizes="(max-width: 700px) 100vw, 1015px" alt="" width="2030" height="1240" /><img loading="lazy" src="images/basarab-18b.webp?v=5" srcset="images/basarab-18b-1077.webp?v=5 1077w, images/basarab-18b.webp?v=5 2030w" sizes="(max-width: 700px) 100vw, 1015px" alt="" width="2030" height="1240" /><img loading="lazy" src="images/basarab-18c.webp?v=5" srcset="images/basarab-18c-1077.webp?v=5 1077w, images/basarab-18c.webp?v=5 2030w" sizes="(max-width: 700px) 100vw, 1015px" alt="" width="2030" height="1240" /></div>
 
     <p class="case__quote case__quote--right case__quote-p--desktop reveal" data-en="Over time, the business outgrew the footwear brand format &lt;br&gt;and began producing clothing. We designed all the touchpoints &lt;br&gt;and prepared production-ready files for tags, labels, boxes, &lt;br&gt;ribbons, and many other items the business needed at that stage." data-ru="Со временем бизнес перерос формат обувного бренда и начал &lt;br&gt;выпускать одежду. Мы разработали дизайн всех носителей &lt;br&gt;и подготовили макеты для производства — бирки, ярлыки, &lt;br&gt;коробки, ленты и много других носителей, которые &lt;br&gt;необходимы были бизнесу на этом этапе.">Со временем бизнес перерос формат обувного бренда и начал <br>выпускать одежду. Мы разработали дизайн всех носителей <br>и подготовили макеты для производства — бирки, ярлыки, <br>коробки, ленты и много других носителей, которые <br>необходимы были бизнесу на этом этапе.</p>
     <p class="case__quote case__quote--right case__quote-p--mobile reveal" data-en="Over time, the business outgrew the footwear &lt;br&gt;brand format and began producing clothing. &lt;br&gt;We designed all the touchpoints and prepared &lt;br&gt;production-ready files for tags, labels, boxes, &lt;br&gt;ribbons, and many other items the business &lt;br&gt;needed at that stage." data-ru="Со временем бизнес перерос формат &lt;br&gt;обувного бренда и начал выпускать одежду. &lt;br&gt;Мы разработали дизайн всех носителей &lt;br&gt;и подготовили макеты для производства — &lt;br&gt;бирки, ярлыки, коробки, ленты и много &lt;br&gt;других носителей, которые необходимы &lt;br&gt;были бизнесу на этом этапе.">Со временем бизнес перерос формат <br>обувного бренда и начал выпускать одежду. <br>Мы разработали дизайн всех носителей <br>и подготовили макеты для производства — <br>бирки, ярлыки, коробки, ленты и много <br>других носителей, которые необходимы <br>были бизнесу на этом этапе.</p>
@@ -4033,7 +4051,7 @@
     });
   })();
 
-  // Image cyclers: cross-fading sets (Foundation Instagram posts, Basarab photo series).
+  // Image cyclers: cross-fading sets (Foundation Instagram posts, Basarab photo series) and Basarab's hard-cut Instagram posts.
   (function () {
     var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (reduceMotion) return;
@@ -4055,6 +4073,7 @@
     cycle('.case__media--ig-fade', 2800);
     cycle('.case__media-mobile--cycle-fade', 2800);
     cycle('.case__media--slides', 2000);
+    cycle('.case__media--ig', 700);
   })();
 
   // Desktop custom cursor label («смотреть» / «скоро») over project images.

@@ -281,6 +281,11 @@ four photos stacked (`basarab-10`, then `-10b/-10c/-10d` from Figma section
 Driven by the shared `cycle()` IIFE; the slot gets `aspect-ratio` so it keeps
 its height on phones where the case's slot height is auto.
 
+Slot 18 (Instagram posts) is `.case__media--ig`: Figma section `72:252` «insta»,
+frames 14.1–14.3 (`basarab-18/-18b/-18c` + `-1077`, navy field), hard cut every
+0.7s like her reference clip (6 sets, 21 frames at 30fps each), via `cycle()`.
+The slot gets `aspect-ratio` for phones, like the slides slot.
+
 Layout: media are butt-joined (no gaps anywhere); full-width slots 620px,
 rows and `.case__media--600` 600px, `.case__row--short` 427px; 32px from
 media to text, 48px from text to media (intro and quotes, ≥701px), 48px
