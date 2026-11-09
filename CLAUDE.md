@@ -284,7 +284,11 @@ its height on phones where the case's slot height is auto.
 Slot 18 (Instagram posts) is a `.case__media--story` clip, `videos/basarab-insta.mp4`
 (2030x1240, 4.5s loop): Figma section `72:252` «insta», frames 14.1–14.3, hard cut
 every 1.5s (her reference cut every 0.7s; she found that too flickery), and after
-each cut every post's text lines rise/sharpen/fade in like the stories. Built in
+each cut every post's text lines fade in (opacity only, no blur, 8px rise, 0.8s
+each, 0.08s apart, ease-in-out: client found the stories' blur-in too sharp here).
+Field `#0A0B0D` (client), not Figma's `#141620`: build.py repaints it and re-derives
+the cards' corner antialiasing; render.py writes it as (11,13,15) so the BT.709-tagged
+H.264 decodes to (10,11,14), the closest it can hold. Built in
 `animations/insta-posts/` the same way as stories-trio: `build.py` replaces the
 text with her raw fills recomposed at the Figma geometry (the New Collection
 pattern is her SVG, rendered at 2x) and cuts one flat-colour sprite per line from

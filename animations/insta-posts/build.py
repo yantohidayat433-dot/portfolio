@@ -42,6 +42,23 @@ POSTS = {
          [('#141620', (1350, 340, 1820, 440), 43, 2)]),
     ],
 }
+# The field around the posts is #0A0B0D on the site (client), Figma's is #141620.
+# Cards are white at their rounded corners, so the corner antialiasing is
+# re-derived as a white-over-field coverage.
+OLD, NEW = np.array(hexc('#141620'), np.float32) / 255, np.array(hexc('#0a0b0d'), np.float32) / 255
+CARDS_X, CARD_Y0, CARD_Y1, R = (194, 766, 1338), 238, 1004, 28
+def recolor_field(img):
+    out = np.empty_like(img); out[:] = NEW
+    for x0 in CARDS_X:
+        x1 = x0 + 500
+        card = img[CARD_Y0:CARD_Y1, x0:x1].copy()
+        for ys in (slice(0, R), slice(-R, None)):
+            for xs in (slice(0, R), slice(-R, None)):
+                c = card[ys, xs]
+                a = np.clip(((c - OLD) / (1 - OLD)).mean(2, keepdims=True), 0, 1)
+                card[ys, xs] = NEW * (1 - a) + a
+        out[CARD_Y0:CARD_Y1, x0:x1] = card
+    return out
 if __name__ == '__main__':
     import sys
     meta = {}
@@ -78,6 +95,7 @@ if __name__ == '__main__':
                     fn = f'sprites/{f}-{x0}-{y0}-{i}.png'
                     Image.fromarray(spr, 'RGBA').save(fn)
                     lines.append({'file': fn, 'x': x0, 'y': int(y0 + ya)})
+        out = recolor_field(out)
         Image.fromarray((np.clip(out, 0, 1) * 255 + .5).astype(np.uint8)).save(f'sprites/{f}-bg.png')
         meta[f] = lines
     json.dump(meta, open('sprites/meta.json', 'w'), indent=1)
