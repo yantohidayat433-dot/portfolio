@@ -1,25 +1,26 @@
 # Renders the 3-stories slide clip from build.py's sprites: two slides (Figma
 # section 68:106, frames 68:44 and 4:686), hard cut between them, looping. Each
 # story's progress bar has one segment per slide and fills the current one; its
-# text lines rise, sharpen and fade in one after another, with the timings of
-# animations/stories-post.
+# text lines fade in one after another with a slight rise, no blur (same timing
+# as the Instagram posts clip).
 # Usage: python3 render.py out.mp4 [seconds per slide] [start offset]
 # The site file opens 1s into slide 1 (text settled) so its poster still matches.
 import json, subprocess, sys, numpy as np
 from PIL import Image
-from scipy.ndimage import gaussian_filter, shift as subshift
+from scipy.ndimage import shift as subshift
 OUT = sys.argv[1]; PER = float(sys.argv[2]) if len(sys.argv) > 2 else 2.5
 START = float(sys.argv[3]) if len(sys.argv) > 3 else 0
 FPS, W, H = 30, 2030, 1200
 X = [230, 774, 1318]; Y = 166          # Figma 115/387/659, 83 (x2)
 SLIDES = [['1a', '1b', '1c'], ['2a', '2b', '2c']]
-TEXT_AT, TEXT_STEP, TEXT_DUR = 0.075, 0.075, 0.47
-RISE, BLUR = 28 * 480 / 540, 6 * 480 / 540   # stories-post values, scaled to this story width
+TEXT_AT, TEXT_STEP, TEXT_DUR = 0.05, 0.08, 0.8   # same gentle fade as the Instagram posts clip
+RISE = 8 * 480 / 500                              # its 8px rise, scaled to this story width; no blur
 BAR_X, BAR_W, BAR_Y0, BAR_Y1 = 23.4, 433.2, 21.65, 25.16
 meta = json.load(open('sprites/meta.json'))
 bg = {k: np.asarray(Image.open(f'sprites/{k}-bg.png'), np.float32) / 255 for k in meta}
 spr = {k: [(np.asarray(Image.open(l['file']), np.float32) / 255, l['x'], l['y']) for l in v['lines']] for k, v in meta.items()}
-ease = lambda x: 1 - (1 - min(1, max(0, x))) ** 3
+def ease(x):  # ease-in-out (cubic)
+    x = min(1, max(0, x)); return 4 * x ** 3 if x < .5 else 1 - (-2 * x + 2) ** 3 / 2
 GAP = 4  # between the two segments (2x px; stories-post's 4px at its 540px story)
 def bar_cov(seg, p):
     """Coverage of the filled part and of the whole track; one segment per slide."""
@@ -46,9 +47,7 @@ def story(k, seg, u, p):
         if e <= 0: continue
         al = sp[..., 3]
         pad = 16; al = np.pad(al, pad)
-        if e < 1:
-            al = subshift(al, ((1 - e) * RISE, 0), order=1, mode='constant')
-            al = gaussian_filter(al, (1 - e) * BLUR) if (1 - e) * BLUR > 0.05 else al
+        if e < 1: al = subshift(al, ((1 - e) * RISE, 0), order=1, mode='constant')
         al = al * e
         y0, x0 = y - pad, x - pad
         hh, ww = al.shape
@@ -62,7 +61,7 @@ ff = subprocess.Popen(['ffmpeg', '-y', '-loglevel', 'error', '-f', 'rawvideo', '
     # ffmpeg converts with BT.601 by default, which shifted warm tones vs the poster.
     '-vf', 'scale=out_color_matrix=bt709:out_range=tv', '-colorspace', 'bt709', '-color_primaries', 'bt709', '-color_trc', 'bt709', '-color_range', 'tv',
     '-an', '-c:v', 'libx264', '-crf', '20', '-preset', 'slow', '-pix_fmt', 'yuv420p', '-movflags', '+faststart', OUT], stdin=subprocess.PIPE)
-base = np.zeros((H, W, 3), np.float32) + 6 / 255
+base = np.zeros((H, W, 3), np.float32) + 7 / 255  # Figma's #060606, lifted so the H.264 decodes to 6
 for n in range(N):
     t = (n / FPS + START) % (PER * len(SLIDES)); si = int(t // PER); u = t - si * PER
     frame = base.copy()

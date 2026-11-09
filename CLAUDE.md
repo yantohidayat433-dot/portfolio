@@ -266,10 +266,12 @@ frame 0). The live clip (chosen by the client, Nov 9) is the four-story render
 from `animations/stories-post/` (built in another session: Figma «Stories»
 frames in their order, live story text, #060606 field, 508x600 slot at 2x).
 Per the client's reference recording (Nov 9): 1.5s per story, hard cut, the
-progress bar fills linearly; each text line rises, sharpens and fades in
-after the cut (the 2.4s version's timings x0.625, settled by ~0.7s).
-Site file = render scaled to 960x1200, curves 6→7 and pad 0x070707 so it
-decodes to exactly #060606.
+progress bar fills linearly; each text line then fades in with an 8.6px rise
+and no blur, 0.8s each, 0.08s apart, ease-in-out (client, Nov 2026: the same
+gentle fade as the Instagram posts; the earlier blur-in rise read as sharp).
+Site file comes straight from `render-site.js` (one pass from the page
+screenshots: 960x1200 padded to 1016x1200, field 6→7, BT.709-tagged) so it
+decodes to exactly #060606; the poster is its decoded frame 0.
 An earlier cut of her own 15s clip (hands-in-hair story removed, progress bar
 redrawn as 4 segments) was replaced by it. Clip: no audio, faststart,
 `data-lazy-play`, no `poster` attribute.
@@ -300,8 +302,9 @@ frame 1; the poster `<img>` (`basarab-18`) is that frame.
 Slot 26 (three stories, 1015x600) is a `.case__media--story` clip,
 `videos/basarab-stories-trio.mp4` (2030x1200, 5s loop): Figma section `68:106`
 «Stories», slides `68:44` then `4:686`, one hard cut and loop; each story's bar
-has two segments (one per slide, 4px gap at 2x) and fills the current one over its 2.5s slide and its text lines rise/sharpen/fade in with the
-stories-post timings (rise/blur scaled to the 240px story). Built in
+has two segments (one per slide, 4px gap at 2x) and fills the current one over its 2.5s slide, and its text lines fade in like the Instagram posts
+(opacity, 7.7px rise, no blur, 0.8s each, 0.08s apart). Field written as 7 so it
+decodes to #060606. Built in
 `animations/stories-trio/`: `build.py` splits her 2x story exports into a clean
 background (progress line blended out, text replaced by her raw fills recomposed
 at the Figma geometry) and one flat-colour sprite per text line (alpha from the

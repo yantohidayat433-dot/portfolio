@@ -30,7 +30,7 @@
   .story__text { position: absolute; inset: 0; z-index: 2; }
   .story__line {
     position: absolute; left: 0; width: 100%; margin: 0; text-align: center; white-space: nowrap;
-    font-family: 'PP Right Grotesk'; font-weight: 700; opacity: 0; will-change: transform, opacity, filter;
+    font-family: 'PP Right Grotesk'; font-weight: 700; opacity: 0; will-change: transform, opacity;
   }
   .story__line { box-sizing: border-box; }
   .t-title { font-size: 29.25px; line-height: 1.1; letter-spacing: .24em; padding-left: .24em; color: #ACB59C; }
@@ -99,10 +99,10 @@
 </div>
 <script>
   const PER = 1.5;         // seconds per story (client's reference: hard cut every ~1.5s)
-  // each line rises, sharpens and fades in after the switch, one after another
-  // (timings x0.625 of the 2.4s version so the text settles by 0.7s)
-  const TEXT_AT = 0.075, TEXT_STEP = 0.075, TEXT_DUR = 0.47, TEXT_RISE = 28, TEXT_BLUR = 6;
-  const easeOut = (x) => (x = Math.max(0, Math.min(1, x)), 1 - Math.pow(1 - x, 3));
+  // each line fades in after the switch, one after another, with a slight rise and
+  // no blur (client, Nov 2026: same gentle fade as the Instagram posts clip)
+  const TEXT_AT = 0.05, TEXT_STEP = 0.08, TEXT_DUR = 0.8, TEXT_RISE = 8.6;
+  const easeInOut = (x) => (x = Math.max(0, Math.min(1, x)), x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2);
   const imgs = [...document.querySelectorAll('.story__img')];
   const N = imgs.length;
   const textBlocks = [...document.querySelectorAll('.story__text')];
@@ -126,10 +126,9 @@
     story.classList.toggle('ui-light', lightUi[cur]);
     const u = t - cur * PER;
     texts.forEach((lines, i) => lines.forEach((l, j) => {
-      const e = i === cur ? easeOut((u - TEXT_AT - j * TEXT_STEP) / TEXT_DUR) : 0;
+      const e = i === cur ? easeInOut((u - TEXT_AT - j * TEXT_STEP) / TEXT_DUR) : 0;
       l.style.opacity = e;
       l.style.transform = `translateY(${(1 - e) * TEXT_RISE}px)`;
-      l.style.filter = e < 1 ? `blur(${(1 - e) * TEXT_BLUR}px)` : 'none';
     }));
     fills.forEach((f, i) => f.style.transform = `scaleX(${i < cur ? 1 : i === cur ? p : 0})`);
   };
