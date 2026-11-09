@@ -8,7 +8,7 @@ import json, subprocess, sys, numpy as np
 from PIL import Image
 from scipy.ndimage import shift as subshift
 OUT = sys.argv[1]
-PER = float(sys.argv[2]) if len(sys.argv) > 2 else 1.5
+PER = float(sys.argv[2]) if len(sys.argv) > 2 else 2.0
 START = float(sys.argv[3]) if len(sys.argv) > 3 else 0
 FPS, W, H = 30, 2030, 1240
 TEXT_AT, TEXT_STEP, TEXT_DUR = 0.05, 0.08, 0.8

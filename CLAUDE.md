@@ -282,8 +282,8 @@ Driven by the shared `cycle()` IIFE; the slot gets `aspect-ratio` so it keeps
 its height on phones where the case's slot height is auto.
 
 Slot 18 (Instagram posts) is a `.case__media--story` clip, `videos/basarab-insta.mp4`
-(2030x1240, 4.5s loop): Figma section `72:252` «insta», frames 14.1–14.3, hard cut
-every 1.5s (her reference cut every 0.7s; she found that too flickery), and after
+(2030x1240, 6s loop): Figma section `72:252` «insta», frames 14.1–14.3, hard cut
+every 2s (her reference cut every 0.7s; she found that and then 1.5s too fast), and after
 each cut every post's text lines fade in (opacity only, no blur, 8px rise, 0.8s
 each, 0.08s apart, ease-in-out: client found the stories' blur-in too sharp here).
 Field `#0A0B0D` (client), not Figma's `#141620`: build.py repaints it and re-derives
@@ -526,20 +526,13 @@ width, Figma's 188/507), not a raster.
 First home-page load is
 ~2.1MB, most of it the hero video.
 
-## Basarab textures clip
+## Basarab slot 12 (striped lavender)
 
-The former `basarab-12` slot (striped lavender) is now `videos/basarab-textures.mp4`
-(1522x924, 9s loop): three of the client's texture photos, each slides in whole from
-the left pushing the previous one out, rests 0.4s, then its vertical bands slide
-(ease-in-out, 0.08s stagger: right-to-left, left-to-right, centre-out) into exactly
-her striped Figma frame (node 53:235), rest 0.5s, next. Bands = windows ~602px wide
-(at 2x) each showing the photo shifted by multiples of ~180px with wrap-around,
-measured column-by-column against her frames (`animations/basarab-textures/bands.json`;
-`render.py` renders it from the 2x Figma exports `src/k1..k3.png`, not committed).
-The clip opens on picture 1 already striped, and the `<img>` under it
-(`images/basarab-textures.webp`, her striped frame) is that same frame, so the
-start doesn't jump. A CSS grain overlay (to match her grainy still) was tried
-and removed at the client's request ("too much"). Same story-slot pattern as the stories video (`data-lazy-play`).
+Static again (client, Nov 2026): `basarab-12` is the 2x export of Figma frame
+`1:730`. An animated textures clip (photos sliding in and splitting into her
+striped layouts, Figma section `53:235`) lived here for a while; it's in git
+history (`animations/basarab-textures/`, `videos/basarab-textures.mp4`) if she
+asks for it again.
 
 ## Verification checklist (every text or crop change)
 
