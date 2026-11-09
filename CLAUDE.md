@@ -257,10 +257,11 @@ frame order top to bottom; phone-only crops `basarab-m01/m13/m17/m22`
 (cover, box, bag, care guide) exist where the object would be tiny on a
 phone. Phone layout is mostly ours (2-up rows stack, everything else full
 width at its aspect), except where her mobile Figma frames say otherwise
-(Nov 2026): the first trio (sneakers, `basarab-02/03/04`) stacks as three
-359x340 cards (`basarab-m02/m03/m04`, frames `79:713/721/723` at 3x,
+(Nov 2026): the short trio (sneakers, `basarab-07/08/09`) stacks as three
+359x340 cards (`basarab-m07/m08/m09`, frames `79:713/721/723` at 3x,
 `--mh:21.25rem`), the box is a 359x340 card (`basarab-m13`, frame `79:390`);
-the short trio (`.case__row--trio.case__row--short`) stays a row.
+the first trio (the woman, `basarab-02/03/04`) stays a row, with 400px
+`-400` files in its srcset for the 124px phone cells.
 The off-canvas frames around `1:687` (14.1–14.3, stories, banner vertical,
 tg basarab) are raw material for animations still to come.
 
@@ -517,8 +518,11 @@ bottom, two at a time; skipped on Save-Data/2G. "Shown" = the phone crop on
 ≤700px when the slot has one, else the desktop img. Measured at 9 Mbit/s with
 fast scrolling: no image is blank on screen, and the cover is ready when the
 open transition ends (~0.9s). Basarab full-width slots without a phone crop
-(12, 16, 18, 19, 25, 26, 27) carry `srcset` with a `-1077` file (phones and 1x
-screens). UI font is `fonts/oceanic-text.woff2` (40KB, preloaded; the file's
+(12, 16, 18, 19, 25, 26, 27) carry `srcset` with a `-1077` file and
+`sizes="(max-width: 700px) 359px, 1015px"` (with `100vw` a DPR-3 phone asked
+for 1170px and got the 2030 desktop file). The background fill runs on desktop
+only: on phones it queued the whole case (~6.7MB) as soon as it opened, ahead
+of the clips, which then lagged; phones rely on native lazy loading. UI font is `fonts/oceanic-text.woff2` (40KB, preloaded; the file's
 name table says "TRIAL Oceanic Text"). `_headers` was dropped: GitHub Pages
 ignores it. Sandboxes in `animations/` load the subset WOFF2s from `fonts/`
 (the full PP Fragment OTFs are gone from the repo).
