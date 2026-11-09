@@ -959,19 +959,6 @@
       object-fit: cover;
     }
 
-    /* Film grain over the textures clip, as on the client's stills. A separate
-       layer rather than baked in: compression would smear it and bloat the file. */
-    #case-basarab .case__media--grain::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      z-index: 3;
-      pointer-events: none;
-      background: url(images/basarab-grain.png) 0 0 / 128px 128px repeat;
-      mix-blend-mode: overlay;
-      opacity: var(--grain, .36);
-    }
-
     #case-basarab .case__media.case__media--logo img {
       width: 37.08%;
       height: auto;
@@ -2936,7 +2923,7 @@
       <p class="case__quote-p--mobile" data-en="To keep the focus on the product, we avoided &lt;br&gt;flashy graphic elements. Monumental &lt;br&gt;typography takes center stage in the identity. &lt;br&gt;We preserved the brand's confident, fairly &lt;br&gt;classic image, while using layout to give it &lt;br&gt;a distinct character." data-ru="Чтобы сохранить фокус на продукте, &lt;br&gt;мы отказались от броских графических &lt;br&gt;элементов. Центральное место в айдентике &lt;br&gt;занимает монументальная типографика. &lt;br&gt;Мы сохранили уверенный и довольно &lt;br&gt;классический образ бренда, при этом &lt;br&gt;с помощью вёрстки придали ему &lt;br&gt;уникальный характер.">Чтобы сохранить фокус на продукте, <br>мы отказались от броских графических <br>элементов. Центральное место в айдентике <br>занимает монументальная типографика. <br>Мы сохранили уверенный и довольно <br>классический образ бренда, при этом <br>с помощью вёрстки придали ему <br>уникальный характер.</p>
     </div>
 
-    <div class="case__media case__media--story case__media--grain reveal"><img loading="lazy" src="images/basarab-textures.webp" srcset="images/basarab-textures-1077.webp 1077w, images/basarab-textures.webp 2030w" sizes="(max-width: 700px) 100vw, 1015px" alt="" width="2030" height="1232" /><video muted loop playsinline preload="none" data-lazy-play width="1522" height="924"><source src="videos/basarab-textures.mp4" type="video/mp4" /></video></div>
+    <div class="case__media case__media--story reveal"><img loading="lazy" src="images/basarab-textures.webp" srcset="images/basarab-textures-1077.webp 1077w, images/basarab-textures.webp 2030w" sizes="(max-width: 700px) 100vw, 1015px" alt="" width="2030" height="1232" /><video muted loop playsinline preload="none" data-lazy-play width="1522" height="924"><source src="videos/basarab-textures.mp4" type="video/mp4" /></video></div>
 
     <div class="case__media reveal" style="--mh:22.438rem"><img loading="lazy" src="images/basarab-13.webp?v=4" alt="" width="2030" height="1240" /><img loading="lazy" class="case__media-mobile" src="images/basarab-m13.webp?v=4" alt="" width="1077" height="1077" /></div>
 
