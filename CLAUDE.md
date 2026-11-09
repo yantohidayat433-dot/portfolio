@@ -497,6 +497,23 @@ width, Figma's 188/507), not a raster.
 First home-page load is
 ~2.1MB, most of it the hero video.
 
+## Basarab textures clip (`.case__media--grain`)
+
+The former `basarab-12` slot (striped lavender) is now `videos/basarab-textures.mp4`
+(1522x924, 9s loop): three of the client's texture photos, each slides in whole from
+the left pushing the previous one out, rests 0.4s, then its vertical bands slide
+(ease-in-out, 0.08s stagger: right-to-left, left-to-right, centre-out) into exactly
+her striped Figma frame (node 53:235), rest 0.5s, next. Bands = windows ~602px wide
+(at 2x) each showing the photo shifted by multiples of ~180px with wrap-around,
+measured column-by-column against her frames (`animations/basarab-textures/bands.json`;
+`render.py` renders it from the 2x Figma exports `src/k1..k3.png`, not committed).
+The clip opens on picture 1 already striped, and the `<img>` under it
+(`images/basarab-textures.webp`, her striped frame) is that same frame, so the
+start doesn't jump. Grain is a CSS overlay (`images/basarab-grain.png`, 256px tile at
+128px, `mix-blend-mode: overlay`, opacity .36), calibrated to her grainy still
+(high-pass luma std ~7 at 2030px wide); baking it into the video would be smeared by
+compression. Same story-slot pattern as the stories video (`data-lazy-play`).
+
 ## Verification checklist (every text or crop change)
 
 1. Serve the repo locally (`http-server` if video is involved, plain
