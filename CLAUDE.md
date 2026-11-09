@@ -266,7 +266,8 @@ frame 0). The live clip (chosen by the client, Nov 9) is the four-story render
 from `animations/stories-post/` (built in another session: Figma «Stories»
 frames in their order, live story text, #060606 field, 508x600 slot at 2x).
 Per the client's reference recording (Nov 9): 1.5s per story, hard cut, the
-progress bar fills linearly, text static (the old rise/blur-in was dropped).
+progress bar fills linearly; each text line rises, sharpens and fades in
+after the cut (the 2.4s version's timings x0.625, settled by ~0.7s).
 Site file = render scaled to 960x1200, curves 6→7 and pad 0x070707 so it
 decodes to exactly #060606.
 An earlier cut of her own 15s clip (hands-in-hair story removed, progress bar
