@@ -262,20 +262,12 @@ tg basarab) are raw material for animations still to come.
 
 Slot 15 (right of slot 14, the hands-in-hair portrait) is `.case__media--story`:
 `videos/basarab-stories.mp4` over a lazy poster `<img>` (`basarab-15.webp` =
-frame 0, so the poster sits in the image preload queue and the hand-off is
-seamless). Source is the client's own 15s clip (1080x1350, five stories, hard
-cuts at exactly frames 90/180/270/360 at 30fps). The 4th story (hands in hair,
-frames 270–359) is cut out because slot 14 is now that photo, so the clip is
-12s. Its 5-segment progress bar was redrawn as 4 segments in every frame
-before encoding: old bar (rows 209–212 of her 1080x1350 frame, x 296–784, 4px
-gaps, 2px round caps) painted out by interpolating rows 206/215, new 119px
-segments drawn in #333333 (track = same colour at 33% alpha), done segments
-solid, current one half-filled with a square end, as in her clip. Card is 540x977 centred in her frame; scaled to 960x1200 and
-padded to 1016x1200 so it lands at Figma's 240x434 in the 508x600 slot. Her
-black is `#07080D`; a shadows-only curves pass plus a 0x070707 pad decode to
-exactly the static slot's #060606. One encode from her original: CRF 20, no
-audio, faststart, `data-lazy-play`, no `poster` attribute. (A version built
-from the Figma «Stories» frames 53:203 was rejected: she wants her clip.)
+frame 0). The live clip (chosen by the client, Nov 9) is the four-story render
+from `animations/stories-post/` (built in another session: Figma «Stories»
+frames in their order, live story text, #060606 field, 508x600 slot at 2x).
+An earlier cut of her own 15s clip (hands-in-hair story removed, progress bar
+redrawn as 4 segments) was replaced by it. Clip: no audio, faststart,
+`data-lazy-play`, no `poster` attribute.
 
 Slot 10 (left of the "Reliable shoes" text slide) is `.case__media--slides`:
 four photos stacked (`basarab-10`, then `-10b/-10c/-10d` from Figma section
