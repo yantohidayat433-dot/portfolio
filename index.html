@@ -925,6 +925,28 @@
       background: #e7e8de;
     }
 
+    #case-basarab .case__media--slides {
+      position: relative;
+      aspect-ratio: 1014 / 1200;
+    }
+
+    #case-basarab .case__media--slides img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0;
+      z-index: 1;
+      transition: opacity 0s linear 0.9s;
+    }
+
+    #case-basarab .case__media--slides img.is-active {
+      opacity: 1;
+      z-index: 2;
+      transition: opacity 0.9s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
     #case-basarab .case__media--story {
       position: relative;
     }
@@ -2892,7 +2914,7 @@
     </div>
 
     <div class="case__row reveal">
-      <div class="case__media"><img loading="lazy" src="images/basarab-10.webp?v=4" alt="" width="1014" height="1200" /></div>
+      <div class="case__media case__media--slides"><img loading="lazy" class="is-active" src="images/basarab-10.webp?v=4" alt="" width="1014" height="1200" /><img loading="lazy" src="images/basarab-10b.webp" alt="" width="1014" height="1200" /><img loading="lazy" src="images/basarab-10c.webp" alt="" width="1014" height="1200" /><img loading="lazy" src="images/basarab-10d.webp" alt="" width="1014" height="1200" /></div>
       <div class="case__media"><img loading="lazy" src="images/basarab-11.webp?v=4" alt="Reliable shoes for the everyday. For the young and the old. From dawn to dusk." width="1016" height="1200" /></div>
     </div>
 
@@ -4011,7 +4033,7 @@
     });
   })();
 
-  // Image cyclers: Foundation's Instagram sets cross-fade (desktop and phone variants).
+  // Image cyclers: cross-fading sets (Foundation Instagram posts, Basarab photo series).
   (function () {
     var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (reduceMotion) return;
@@ -4032,6 +4054,7 @@
     }
     cycle('.case__media--ig-fade', 2800);
     cycle('.case__media-mobile--cycle-fade', 2800);
+    cycle('.case__media--slides', 2000);
   })();
 
   // Desktop custom cursor label («смотреть» / «скоро») over project images.
