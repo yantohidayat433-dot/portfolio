@@ -1,7 +1,8 @@
 # Renders the 3-stories slide clip from build.py's sprites: two slides (Figma
-# section 68:106, frames 68:44 and 4:686), hard cut between them, looping; each
-# story's progress bar fills over the slide and its text lines rise, sharpen and
-# fade in one after another, with the timings of animations/stories-post.
+# section 68:106, frames 68:44 and 4:686), hard cut between them, looping. Each
+# story's progress bar has one segment per slide and fills the current one; its
+# text lines rise, sharpen and fade in one after another, with the timings of
+# animations/stories-post.
 # Usage: python3 render.py out.mp4 [seconds per slide] [start offset]
 # The site file opens 1s into slide 1 (text settled) so its poster still matches.
 import json, subprocess, sys, numpy as np
@@ -19,20 +20,25 @@ meta = json.load(open('sprites/meta.json'))
 bg = {k: np.asarray(Image.open(f'sprites/{k}-bg.png'), np.float32) / 255 for k in meta}
 spr = {k: [(np.asarray(Image.open(l['file']), np.float32) / 255, l['x'], l['y']) for l in v['lines']] for k, v in meta.items()}
 ease = lambda x: 1 - (1 - min(1, max(0, x))) ** 3
-def bar_cov(p):
+GAP = 4  # between the two segments (2x px; stories-post's 4px at its 540px story)
+def bar_cov(seg, p):
+    """Coverage of the filled part and of the whole track; one segment per slide."""
     h, w = bg['1a'].shape[:2]
-    c = np.zeros((h, w), np.float32)
     rows = np.arange(h)
     rc = np.clip(np.minimum(rows + 1, BAR_Y1) - np.maximum(rows, BAR_Y0), 0, 1)
     cols = np.arange(w)
-    end = BAR_X + BAR_W * p
-    cc = np.clip(np.minimum(cols + 1, end) - np.maximum(cols, BAR_X), 0, 1)
-    full = np.clip(np.minimum(cols + 1, BAR_X + BAR_W) - np.maximum(cols, BAR_X), 0, 1)
-    return rc[:, None] * cc[None, :], rc[:, None] * full[None, :]
-def story(k, u, p):
+    span = lambda a, b: np.clip(np.minimum(cols + 1, b) - np.maximum(cols, a), 0, 1)
+    sw = (BAR_W - GAP * (len(SLIDES) - 1)) / len(SLIDES)
+    fill = np.zeros(w, np.float32); track = np.zeros(w, np.float32)
+    for i in range(len(SLIDES)):
+        a = BAR_X + i * (sw + GAP)
+        track += span(a, a + sw)
+        fill += span(a, a + sw * (1 if i < seg else p if i == seg else 0))
+    return rc[:, None] * fill[None, :], rc[:, None] * track[None, :]
+def story(k, seg, u, p):
     s = bg[k].copy(); rgb = s[..., :3]
     col = np.ones(3) if meta[k]['ui_light'] else np.full(3, 0x33 / 255)
-    fill, track = bar_cov(p)
+    fill, track = bar_cov(seg, p)
     a = track * 0.3; rgb[:] = rgb * (1 - a[..., None]) + col * a[..., None]
     rgb[:] = rgb * (1 - fill[..., None]) + col * fill[..., None]
     for j, (sp, x, y) in enumerate(spr[k]):
@@ -58,7 +64,7 @@ for n in range(N):
     t = (n / FPS + START) % (PER * len(SLIDES)); si = int(t // PER); u = t - si * PER
     frame = base.copy()
     for k, x in zip(SLIDES[si], X):
-        s = story(k, u, u / PER)
+        s = story(k, si, u, u / PER)
         h, w = s.shape[:2]; A = s[..., 3:4]
         frame[Y:Y + h, x:x + w] = frame[Y:Y + h, x:x + w] * (1 - A) + s[..., :3] * A
     ff.stdin.write((np.clip(frame, 0, 1) * 255 + 0.5).astype(np.uint8).tobytes())

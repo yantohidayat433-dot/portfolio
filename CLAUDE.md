@@ -289,7 +289,7 @@ The slot gets `aspect-ratio` for phones, like the slides slot.
 Slot 26 (three stories, 1015x600) is a `.case__media--story` clip,
 `videos/basarab-stories-trio.mp4` (2030x1200, 5s loop): Figma section `68:106`
 «Stories», slides `68:44` then `4:686`, one hard cut and loop; each story's bar
-fills over its 2.5s slide and its text lines rise/sharpen/fade in with the
+has two segments (one per slide, 4px gap at 2x) and fills the current one over its 2.5s slide and its text lines rise/sharpen/fade in with the
 stories-post timings (rise/blur scaled to the 240px story). Built in
 `animations/stories-trio/`: `build.py` splits her 2x story exports into a clean
 background (progress line blended out, text replaced by her raw fills recomposed
