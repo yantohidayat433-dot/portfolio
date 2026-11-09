@@ -265,6 +265,10 @@ Slot 15 (right of slot 14, the hands-in-hair portrait) is `.case__media--story`:
 frame 0). The live clip (chosen by the client, Nov 9) is the four-story render
 from `animations/stories-post/` (built in another session: Figma «Stories»
 frames in their order, live story text, #060606 field, 508x600 slot at 2x).
+Per the client's reference recording (Nov 9): 1.5s per story, hard cut, the
+progress bar fills linearly, text static (the old rise/blur-in was dropped).
+Site file = render scaled to 960x1200, curves 6→7 and pad 0x070707 so it
+decodes to exactly #060606.
 An earlier cut of her own 15s clip (hands-in-hair story removed, progress bar
 redrawn as 4 segments) was replaced by it. Clip: no audio, faststart,
 `data-lazy-play`, no `poster` attribute.
@@ -272,7 +276,7 @@ redrawn as 4 segments) was replaced by it. Clip: no audio, faststart,
 Slot 10 (left of the "Reliable shoes" text slide) is `.case__media--slides`:
 four photos stacked (`basarab-10`, then `-10b/-10c/-10d` from Figma section
 `53:254` «video 2», 507x600 frames exported at 2x), cross-fading every 2s
-(0.9s fade; incoming on top, outgoing drops only after the fade, so no dip).
+(0.6s fade; incoming on top, outgoing drops only after the fade, so no dip).
 Driven by the shared `cycle()` IIFE; the slot gets `aspect-ratio` so it keeps
 its height on phones where the case's slot height is auto.
 
