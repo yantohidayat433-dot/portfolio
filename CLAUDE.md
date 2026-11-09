@@ -308,7 +308,9 @@ at the Figma geometry) and one flat-colour sprite per text line (alpha from the
 export-vs-clean difference; her text fonts, PP Right Grotesk Medium and Noi
 Grotesk, aren't in the repo), `render.py` animates them in numpy. Settled frames
 match her exports to ~1.5/255. The clip opens 1s into slide 1 and the poster
-`<img>` (`basarab-26`) is that frame.
+`<img>` (`basarab-26`) is that frame as decoded. Encoded BT.709 with tags: the
+first, untagged encode (ffmpeg's BT.601 maths, read as BT.709 by browsers)
+shifted warm tones ~5/255 vs the poster, a visible colour jump when it started.
 
 Layout: media are butt-joined (no gaps anywhere); full-width slots 620px,
 rows and `.case__media--600` 600px, `.case__row--short` 427px; 32px from

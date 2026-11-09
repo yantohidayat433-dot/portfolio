@@ -58,7 +58,10 @@ def story(k, seg, u, p):
     return s
 N = int(round(PER * len(SLIDES) * FPS))
 ff = subprocess.Popen(['ffmpeg', '-y', '-loglevel', 'error', '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-s', f'{W}x{H}', '-r', str(FPS), '-i', '-',
-    '-an', '-c:v', 'libx264', '-crf', '22', '-preset', 'slow', '-pix_fmt', 'yuv420p', '-movflags', '+faststart', OUT], stdin=subprocess.PIPE)
+    # BT.709 conversion + tags: untagged HD H.264 is read as BT.709 by browsers but
+    # ffmpeg converts with BT.601 by default, which shifted warm tones vs the poster.
+    '-vf', 'scale=out_color_matrix=bt709:out_range=tv', '-colorspace', 'bt709', '-color_primaries', 'bt709', '-color_trc', 'bt709', '-color_range', 'tv',
+    '-an', '-c:v', 'libx264', '-crf', '20', '-preset', 'slow', '-pix_fmt', 'yuv420p', '-movflags', '+faststart', OUT], stdin=subprocess.PIPE)
 base = np.zeros((H, W, 3), np.float32) + 6 / 255
 for n in range(N):
     t = (n / FPS + START) % (PER * len(SLIDES)); si = int(t // PER); u = t - si * PER
