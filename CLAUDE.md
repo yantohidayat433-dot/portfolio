@@ -253,10 +253,14 @@ teams hit the Figma MCP call limit after ~10 calls. Asset URLs come from
 `www.figma.com/api/mcp/asset/…` (allowed in the environment). Export each
 slot frame with `download_assets` at scale 2 (PNG), never the raw fills —
 the frame export is her exact crop. Files `basarab-01…27.webp` follow the
-frame order top to bottom; phone-only centre crops `basarab-m01/m13/m17/m22`
+frame order top to bottom; phone-only crops `basarab-m01/m13/m17/m22`
 (cover, box, bag, care guide) exist where the object would be tiny on a
-phone. No mobile frame was supplied: phone layout is ours (2-up rows stack,
-`.case__row--trio` stays a row, everything else full width at its aspect).
+phone. Phone layout is mostly ours (2-up rows stack, everything else full
+width at its aspect), except where her mobile Figma frames say otherwise
+(Nov 2026): the first trio (sneakers, `basarab-02/03/04`) stacks as three
+359x340 cards (`basarab-m02/m03/m04`, frames `79:713/721/723` at 3x,
+`--mh:21.25rem`), the box is a 359x340 card (`basarab-m13`, frame `79:390`);
+the short trio (`.case__row--trio.case__row--short`) stays a row.
 The off-canvas frames around `1:687` (14.1–14.3, stories, banner vertical,
 tg basarab) are raw material for animations still to come.
 
@@ -330,6 +334,12 @@ U+00A0, and every `<br>` is preceded by a space so hiding it can't fuse
 words. EN breaks are greedy-wrapped with the same no-hanging rule.
 
 ## Video inside a case
+
+Basarab's three clips have phone files (`*-m.mp4`, ~760px wide, 140–170KB vs
+0.4–1MB) picked by a `<source media="(max-width: 700px)">` listed first; the
+lazy-play IIFE starts loading 1000px ahead (was 300px, clips lagged on phones).
+Headless Chromium can't decode H.264, so it falls through to the desktop
+source too in tests; real phones stop at the first.
 
 Case videos must not load while their case is hidden (they used to, and
 starved the home-page hero of bandwidth: 7.3MB on first load instead of
@@ -496,7 +506,9 @@ remain.
 ## Image weight and loading (Nov 2026 audit)
 
 Home cards are `<picture>` (phone `<source media>` + desktop `<img>`), so each
-device fetches one file; the citylight video has no `poster` attribute (its
+device fetches one file (Basarab's: desktop is Figma `72:314` at 2x, phone is the
+middle photo of that triptych, the woman with the chair, 720x823 like the other
+phone covers); the citylight video has no `poster` attribute (its
 box's CSS background is the same frame) because a poster downloads even while
 the case is hidden. Case images: the "Case images" IIFE flips the first three
 shown images of a case to `eager` on hover/touch/focus/click of its link (cover
