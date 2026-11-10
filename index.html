@@ -171,7 +171,6 @@
       --color-muted: #7f7f80;
       --color-divider: rgba(0, 0, 0, 0.15);
       --color-media-bg: #d6d6d9;
-      --color-accent: #2b46ff;
       --tracking-serif: 0;
       --tracking-sans: 0;
       --page-max-width: 1440px;
@@ -842,14 +841,15 @@
       }
     }
 
-    #case-foundation .case__row {
-      gap: 8px;
-      margin-bottom: 8px;
+    #case-foundation .case__row,
+    #case-foundation .case__col {
+      gap: 0;
+      margin-bottom: 0;
     }
 
     #case-foundation .case__media:not(.case__media--ig-ticker) {
       height: 620px;
-      margin-bottom: 8px;
+      margin-bottom: 0;
     }
 
     #case-foundation
@@ -875,7 +875,7 @@
       .case__row
       .case__col
       .case__media:not(.case__media--ig-ticker) {
-      height: 332px;
+      height: 333.5px;
       margin-bottom: 0;
     }
 
@@ -892,7 +892,7 @@
     }
 
     #case-foundation .case__media--ig-ticker {
-      margin-bottom: 8px;
+      margin-bottom: 0;
     }
 
     /* Basarab: butt-joined media, 620 full width, 600 rows, 427 short row */

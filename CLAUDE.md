@@ -174,6 +174,10 @@ matches the literal first `<p>` in the DOM (one specific element), not
 bottom-pin and mobile spacing for one of the two breakpoints. Always use
 the explicit modifier classes for margin rules on this element.
 
+Media inside a case are butt-joined (no gaps, desktop and phone) in both
+Basarab and Foundation since Nov 10; Foundation's stacked pair beside the
+t-shirt is 2 × 333.5px so it matches the 667px cell.
+
 On phones Foundation's intro gets 48px instead of the usual 36px before
 the next image (`#case-foundation .case__intro { margin-bottom: 3rem }`
 in the phone block); add a new case there if its PDF asks for the same.
