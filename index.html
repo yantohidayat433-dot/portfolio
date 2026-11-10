@@ -1206,13 +1206,11 @@
         cursor: pointer;
         color: #7f7f80;
         -webkit-text-stroke: 0.2px currentColor;
-        background-image:
-          linear-gradient(90deg, #004ba7 50%, #7f7f80 50%),
-          linear-gradient(#eaeaeb, #eaeaeb);
-        background-size: 200% 100%, 100% 100%;
-        background-position: 100% 0, 0 0;
-        -webkit-background-clip: text, padding-box;
-        background-clip: text, padding-box;
+        background-image: linear-gradient(90deg, #004ba7 50%, #7f7f80 50%);
+        background-size: 200% 100%;
+        background-position: 100% 0;
+        -webkit-background-clip: text;
+        background-clip: text;
         -webkit-text-fill-color: transparent;
         transition:
           background-position 0.4s ease,
@@ -1220,7 +1218,7 @@
       }
 
       .project__see:hover {
-        background-position: 0% 0, 0 0;
+        background-position: 0% 0;
       }
 
       .project__see-arrow {
@@ -1245,7 +1243,7 @@
       }
 
       .project__see--soon:hover {
-        background-position: 100% 0, 0 0;
+        background-position: 100% 0;
       }
 
       .project__divider {
@@ -1619,13 +1617,11 @@
         cursor: pointer;
         color: #7f7f80;
         -webkit-text-stroke: 0.2px currentColor;
-        background-image:
-          linear-gradient(90deg, #004ba7 50%, #7f7f80 50%),
-          linear-gradient(#eaeaeb, #eaeaeb);
-        background-size: 200% 100%, 100% 100%;
-        background-position: 100% 0, 0 0;
-        -webkit-background-clip: text, padding-box;
-        background-clip: text, padding-box;
+        background-image: linear-gradient(90deg, #004ba7 50%, #7f7f80 50%);
+        background-size: 200% 100%;
+        background-position: 100% 0;
+        -webkit-background-clip: text;
+        background-clip: text;
         -webkit-text-fill-color: transparent;
         transition:
           background-position 0.4s ease,
@@ -1635,12 +1631,7 @@
 
       .project__see:active,
       .project__see.is-pressed {
-        background-position: 0% 0, 0 0;
-      }
-
-      .project__see--soon {
-        background-image: none;
-        -webkit-text-fill-color: currentColor;
+        background-position: 0% 0;
       }
 
       .project__see-arrow {

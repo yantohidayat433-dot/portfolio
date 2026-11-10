@@ -190,12 +190,12 @@ Foundation's stacked pair beside the t-shirt is 2 × 333.5px so it matches the
 667px cell. Verified Nov 10: both cases measure identically at 1440, 1100,
 800 and 375.
 
-All buttons look the same at rest (client, Nov 10): gray `#7F7F80` on the
-`#EAEAEB` plate. «Смотреть →» keeps its blue left-to-right wipe on hover via
-two background layers (wipe clipped to text, plate to the padding box), so
-its hover rules set two `background-position` values. Project titles on the
-home page and the case nav pills (24px black) and the pink phone «Почитать обо мне» are not buttons
-in this sense; «Скоро будет кейс» is a status, no plate.
+Pill buttons look the same at rest (client, Nov 10): gray `#7F7F80` on the
+`#EAEAEB` plate. Not pills, on purpose: project titles on the home page and
+the case nav pills (24px black on the plate), the pink phone «Почитать обо
+мне», and «Смотреть →» (gray text, no plate, blue left-to-right wipe on
+hover: a plate under it was tried on Nov 10 and the client asked for it
+back as it was). «Скоро будет кейс» is a status, no plate.
 
 ### Text column widths — measure, don't assume
 
