@@ -174,18 +174,27 @@ matches the literal first `<p>` in the DOM (one specific element), not
 bottom-pin and mobile spacing for one of the two breakpoints. Always use
 the explicit modifier classes for margin rules on this element.
 
-The case nav (desktop «предыдущий / следующий проект») is sitewide: rule
-48px below the last media, pills 24px below the rule, pills at the standard
-button size 17/145 (client, Nov 10). Every new case inherits it; don't add a
-per-case override.
+**Case spacing is one system, never per case** (client, Nov 10: "if I
+change a distance in one case it must change in the others"). Defined once
+on the generic classes, with no `#case-…` overrides: media butt-joined
+(`.case__media`/`.case__row`/`.case__col` have no gaps or margins, desktop
+and phone); text 32px below media and 48px above the next (`.case__intro`,
+`.case__quote`, ≥701px; phone 1.5rem/3rem); intro and quote copy capped at
+512px; `.case__quote--right` aligned to the intro's body column
+(`min(409px, max(350px, 100% - 606px))`, zeroed ≤1251px); case nav rule 48px
+below the last media, its pills 24px below the rule at the standard button
+look (17/145, gray on the plate). `#case-…` rules may only set slot heights,
+animations and per-case text behaviour (Basarab's 701–1299px natural wrap).
+Foundation's stacked pair beside the t-shirt is 2 × 333.5px so it matches the
+667px cell. Verified Nov 10: both cases measure identically at 1440, 1100,
+800 and 375.
 
-Media inside a case are butt-joined (no gaps, desktop and phone) in both
-Basarab and Foundation since Nov 10; Foundation's stacked pair beside the
-t-shirt is 2 × 333.5px so it matches the 667px cell.
-
-On phones Foundation's intro gets 48px instead of the usual 36px before
-the next image (`#case-foundation .case__intro { margin-bottom: 3rem }`
-in the phone block); add a new case there if its PDF asks for the same.
+All buttons look the same at rest (client, Nov 10): gray `#7F7F80` on the
+`#EAEAEB` plate. «Смотреть →» keeps its blue left-to-right wipe on hover via
+two background layers (wipe clipped to text, plate to the padding box), so
+its hover rules set two `background-position` values. Project titles on the
+home page (24px black) and the pink phone «Почитать обо мне» are not buttons
+in this sense; «Скоро будет кейс» is a status, no plate.
 
 ### Text column widths — measure, don't assume
 
@@ -195,14 +204,11 @@ produces either visible overflow or needlessly-short line breaks:
 - `.case__intro` is a `409px 1fr` grid (confirmed against the Basarab
   PDF: the body-copy column starts 409px from the media column's left
   edge). This is generic/sitewide, not case-scoped.
-- `.case__quote` has a shared `max-width: 480px` cap. `.case__quote--right`
-  additionally gets `margin-left: calc(var(--media-width)/2)` by
-  default, which aligns it with the right half of a true 2-up image row.
-- **Basarab's quote blocks don't use that 2-up alignment** — they align
-  to the same 409px column as `.case__intro-right`, and since the Figma
-  rebuild its intro and quote copy is capped at 512px (the Figma text
-  boxes), not 480. Don't assume 480px is always right; measure the case.
-- Any such override must be wrapped in `@media (min-width: 901px)` —
+- `.case__intro-right p` and `.case__quote` share a 512px cap (Basarab's
+  Figma text boxes), and `.case__quote--right` aligns to the same 409px
+  column as `.case__intro-right`, for every case (Nov 10).
+- If a case ever genuinely needs a different column, any such override
+  must be wrapped in `@media (min-width: 901px)` —
   an unguarded `#case-X .case__quote--right { margin-left: … }` beats
   the phone breakpoint's own `margin-left: 0` reset on specificity (an
   ID selector) despite coming first in source order, collapsing the
