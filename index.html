@@ -3113,7 +3113,7 @@
       <div class="case__media" style="--mh:27.5rem"><img loading="lazy" src="images/foundation-11.webp" alt="Lectures in August — poster" /><img loading="lazy" class="case__media-mobile" src="images/foundation-m11.webp" alt="Lectures in August — poster" width="1077" height="1320" /></div>
       <div class="case__media case__media--citylight" style="--mh:27.5rem">
         <div class="citylight" data-citylight role="img" aria-label="How to communicate to the general public — citylight">
-          <video class="citylight__street" muted loop playsinline preload="none" data-lazy-play width="1008" height="1344"><source src="videos/foundation-citylight-street.mp4" type="video/mp4" /></video>
+          <video class="citylight__street" muted loop playsinline preload="none" data-lazy-play width="1008" height="1344"><source media="(max-width: 700px)" src="videos/foundation-citylight-street-m.mp4" type="video/mp4" /><source src="videos/foundation-citylight-street.mp4" type="video/mp4" /></video>
           <div class="citylight__screen">
             <div class="citylight__strip">
               <img loading="lazy" src="images/foundation-citylight-poster-1.webp" alt="" />
@@ -3482,8 +3482,9 @@
     tryPlay();
     if (breakpointQuery.addEventListener) breakpointQuery.addEventListener('change', onChange);
     else breakpointQuery.addListener(onChange);
+    var onScreen = true;
     var kick = function () {
-      if (video.paused) tryPlay();
+      if (video.paused && onScreen) tryPlay();
       if (!video.paused) {
         document.removeEventListener('touchstart', kick);
         document.removeEventListener('click', kick);
@@ -3491,10 +3492,20 @@
     };
     document.addEventListener('touchstart', kick, { passive: true });
     document.addEventListener('click', kick);
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) {
+          onScreen = e.isIntersecting;
+          if (onScreen) tryPlay();
+          else video.pause();
+        });
+      }).observe(video);
+    }
   })();
 
-  // Case videos (data-lazy-play) download and play only while on screen, so
-  // the hidden case pages don't compete with the home page for bandwidth.
+  // Case videos (data-lazy-play): nothing loads while a case is hidden. On phones an
+  // opened case starts its clips right after the cover (ahead of the lazy images);
+  // clips play only near the viewport and retry on the next tap if autoplay was refused.
   (function () {
     var videos = document.querySelectorAll('video[data-lazy-play]');
     if (!('IntersectionObserver' in window)) {
@@ -3504,17 +3515,36 @@
       });
       return;
     }
+    var near = new Set();
+    var play = function (v) {
+      v.muted = true;
+      var attempt = v.play();
+      if (attempt && attempt.catch) attempt.catch(function () {});
+      return attempt;
+    };
+    var warm = function (v) {
+      if (v.dataset.warm) return;
+      v.dataset.warm = '1';
+      v.preload = 'auto';
+      if (near.has(v)) return play(v);
+      var attempt = play(v);
+      var settle = function () {
+        if (!near.has(v)) v.pause();
+      };
+      if (attempt && attempt.then) attempt.then(settle, function () {});
+      else settle();
+    };
     var io = new IntersectionObserver(
       function (entries) {
         entries.forEach(function (e) {
           var v = e.target;
           if (e.isIntersecting) {
+            near.add(v);
             v.preload = 'auto';
-            v.muted = true;
-            var attempt = v.play();
-            if (attempt && attempt.catch) attempt.catch(function () {});
-          } else if (!v.paused) {
-            v.pause();
+            play(v);
+          } else {
+            near.delete(v);
+            if (!v.paused) v.pause();
           }
         });
       },
@@ -3523,6 +3553,39 @@
     videos.forEach(function (v) {
       io.observe(v);
     });
+    var caseIo = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (!e.isIntersecting) return;
+        var clips = e.target.querySelectorAll('video[data-lazy-play]');
+        if (!clips.length) return;
+        var started = false;
+        var start = function () {
+          if (started) return;
+          started = true;
+          clips.forEach(warm);
+        };
+        var cover = e.target.querySelector('.case__media img');
+        if (cover && !cover.complete) {
+          cover.addEventListener('load', start, { once: true });
+          cover.addEventListener('error', start, { once: true });
+          setTimeout(start, 1500);
+        } else {
+          start();
+        }
+      });
+    });
+    if (window.matchMedia('(max-width: 700px)').matches) {
+      document.querySelectorAll('.case').forEach(function (c) {
+        caseIo.observe(c);
+      });
+    }
+    var kick = function () {
+      near.forEach(function (v) {
+        if (v.paused) play(v);
+      });
+    };
+    document.addEventListener('touchend', kick, { passive: true });
+    document.addEventListener('click', kick);
   })();
 
   // Phone top bar: follow the visual viewport (pinch-zoom / iOS toolbar shifts).

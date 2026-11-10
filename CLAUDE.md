@@ -378,6 +378,19 @@ lazy-play IIFE starts loading 1000px ahead (was 300px, clips lagged on phones).
 Headless Chromium can't decode H.264, so it falls through to the desktop
 source too in tests; real phones stop at the first.
 
+**Phone playback lag (Nov 10).** Measured at 4 Mbit/s on an iPhone profile: the
+clips started loading only ~1000px ahead and queued behind the case's lazy images,
+finishing ~3s after reaching the screen. Now, on ≤700px, the lazy-play IIFE starts
+every clip of an opened case as soon as the cover has loaded (or after 1.5s):
+`play()` then `pause()` unless the clip is near the viewport, which is the one
+trigger iOS reliably loads on. All three Basarab clips are then in before the first
+one is on screen. Desktop keeps plain near-viewport loading (heavier files, and the
+background image queue). A paused near-viewport clip retries `play()` on the next
+`touchend`/`click` (iOS Low Power Mode refuses autoplay). The home hero pauses while
+`.projects` is hidden (IntersectionObserver) and resumes on return. Citylight has a
+phone file `foundation-citylight-street-m.mp4` (720x960, crf 30, 620KB vs 1.5MB,
+visually identical at phone size).
+
 Case videos must not load while their case is hidden (they used to, and
 starved the home-page hero of bandwidth: 7.3MB on first load instead of
 2.3MB). Pattern: no `autoplay`, `preload="none"`, `data-lazy-play`; the
