@@ -5,6 +5,7 @@ Static single-page site, no build step and no dependencies. Deployed with GitHub
 ## Structure
 
 ```
+UI-KIT.md      design system: grid, type, colours, buttons, spacing, slot sizes
 index.html     the whole site: markup, one <style> in <head>, scripts at the end of <body>
 images/        WebP stills (desktop crops + "-m" phone crops), SVG marks
 videos/        muted loops (H.264, faststart)

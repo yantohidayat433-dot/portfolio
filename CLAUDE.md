@@ -8,6 +8,20 @@ the "why" lives), one short comment per CSS section / JS module, no
 hidden or retired markup — delete it instead of `display:none`-ing it.
 Images in `images/`, video in `videos/`. Deploys to GitHub Pages.
 
+**`UI-KIT.md` is the design-system reference** (grid, type, colours, buttons,
+spacing, slot sizes, motion, new-case checklist; Basarab is the template for
+new cases). Read it before building or restyling anything, and update it in
+the same commit when a token changes.
+
+**No hanging short words, ever** (client rule, Nov 2026): every RU
+preposition/conjunction/particle (в, к, с, и, а, о, у, на, не, по, за, из,
+от, до, для, при, без, под, что, как, но, же, ли, ту…) and every EN
+article/short preposition is glued to the next word with U+00A0, in every
+variant (desktop, mobile, `data-en`, `data-ru`), whether the line ends at a
+hand-placed `<br>` or wraps naturally. Check new copy for it before
+committing. (As of Nov 10 the RU copy is clean; ten EN `data-en` lines in
+the older cases still end in a/the/of/and/with before a `<br>`.)
+
 This file exists so that routine case-study updates (new PDF, new text,
 new crop) don't require re-deriving the same conventions from scratch
 each time. Read it before touching a `.case` section.
@@ -96,13 +110,19 @@ while open (logo sage `#A5C1BA` on pink is only 1.4:1).
 
 Order per the RU PDF (Nov 2026): three bio paragraphs (third ends in the
 Telegram-channel pill link), squiggle, `.knowledge` (heading + two article
-pills), divider, contacts (Telegram «Написать мне» / Email / Instagram /
-PDF; phones reorder to Telegram/Instagram/Email via flex `order`), lang
-toggle. Inline pills (`.intro__link`, `.knowledge__link`) use
+pills), divider, contacts, lang toggle. Contacts since Nov 10: «Написать
+мне» (`https://t.me/Ivanvika`) and «Почта» (`mailto:vknkta@yandex.ru`) only.
+Instagram and «Скачать PDF» were removed until the client sends links; their
+markup is in `UI-KIT.md` §4 and their CSS (`.contact__pdf-link`, the phone
+nth-child `order` rules that put Instagram second) was kept so pasting them
+back is enough. The lang toggle is hidden with the `hidden` attribute
+(`.lang-toggle[hidden]` forces `display:none`, the toggle IIFE still binds):
+the one sanctioned exception to "no hidden markup", at the client's request,
+so it can come back by deleting the attribute. Inline pills (`.intro__link`, `.knowledge__link`) use
 `box-decoration-break: clone` plus `padding: .132em 0` so each line's plate
 fills the line box and two-line plates touch. Desktop vertical rhythm was
 pixel-matched to the PDF (ink rows within ~1px). Articles link to Skillbox Media; the Telegram-channel
-href is still `#` until the client sends it.
+pill links to `https://t.me/+7yJ8wf4p_BtjMjg6`.
 
 Logo: rests bold pink (`#FFD2EC`, 2px same-colour stroke); hover (and the
 open about sheet on phones) turns `#A5C1BA` with a 3px stroke. 3.5px
