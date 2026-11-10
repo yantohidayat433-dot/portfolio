@@ -174,6 +174,11 @@ matches the literal first `<p>` in the DOM (one specific element), not
 bottom-pin and mobile spacing for one of the two breakpoints. Always use
 the explicit modifier classes for margin rules on this element.
 
+The case nav (desktop «предыдущий / следующий проект») is sitewide: rule
+48px below the last media, pills 24px below the rule, pills at the standard
+button size 17/145 (client, Nov 10). Every new case inherits it; don't add a
+per-case override.
+
 Media inside a case are butt-joined (no gaps, desktop and phone) in both
 Basarab and Foundation since Nov 10; Foundation's stacked pair beside the
 t-shirt is 2 × 333.5px so it matches the 667px cell.
