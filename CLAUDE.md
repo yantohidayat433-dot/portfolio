@@ -182,8 +182,9 @@ and phone); text 32px below media and 48px above the next (`.case__intro`,
 `.case__quote`, ≥701px; phone 1.5rem/3rem); intro and quote copy capped at
 512px; `.case__quote--right` aligned to the intro's body column
 (`min(409px, max(350px, 100% - 606px))`, zeroed ≤1251px); case nav rule 48px
-below the last media, its pills 24px below the rule at the standard button
-look (17/145, gray on the plate). `#case-…` rules may only set slot heights,
+below the last media, its pills 24px below the rule, styled like the home
+project titles (24/145, black on the plate; client tried 17px gray on Nov 10
+and found it too small). `#case-…` rules may only set slot heights,
 animations and per-case text behaviour (Basarab's 701–1299px natural wrap).
 Foundation's stacked pair beside the t-shirt is 2 × 333.5px so it matches the
 667px cell. Verified Nov 10: both cases measure identically at 1440, 1100,
@@ -193,7 +194,7 @@ All buttons look the same at rest (client, Nov 10): gray `#7F7F80` on the
 `#EAEAEB` plate. «Смотреть →» keeps its blue left-to-right wipe on hover via
 two background layers (wipe clipped to text, plate to the padding box), so
 its hover rules set two `background-position` values. Project titles on the
-home page (24px black) and the pink phone «Почитать обо мне» are not buttons
+home page and the case nav pills (24px black) and the pink phone «Почитать обо мне» are not buttons
 in this sense; «Скоро будет кейс» is a status, no plate.
 
 ### Text column widths — measure, don't assume
