@@ -3185,12 +3185,12 @@
 <div class="hover-cta" id="hoverCta" aria-hidden="true"><span class="hover-cta__label"></span></div>
 
 <script>
-  // Page zoom: 1440-1920px windows scale the whole 1440 layout to fit; wider ones centre it.
+  // Page zoom: 1440-1680px windows scale the whole 1440 layout to fit; wider ones centre it.
   (function () {
     var root = document.documentElement;
     function fit() {
       var w = root.clientWidth;
-      var z = w > 1440 ? Math.min(w, 1920) / 1440 : 1;
+      var z = w > 1440 ? Math.min(w, 1680) / 1440 : 1;
       root.style.setProperty('--page-zoom', z.toFixed(4));
     }
     fit();
@@ -3316,7 +3316,7 @@
     }
   })();
 
-  // Past 1920px the page is centred; wheel over the empty side fields scrolls the main column.
+  // Past 1680px the page is centred; wheel over the empty side fields scrolls the main column.
   (function () {
     var wide = window.matchMedia('(min-width: 901px)');
     document.addEventListener(

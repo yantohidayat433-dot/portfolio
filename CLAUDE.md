@@ -102,14 +102,15 @@ while open (logo sage `#A5C1BA` on pink is only 1.4:1).
   and zeroes the quote offset. Case body/quote copy is `nowrap` ≥901px.
 - Verified with the wrap checker at 760, 905, 1000, 1024, 1100, 1200,
   1251, 1253, 1280, 1366, 1440, 1920 (+ phones): no stray wraps.
-- 1441–1920px windows (Nov 18: a 14" MacBook's Chrome is 1512 wide and
+- 1441–1680px windows (Nov 18: a 14" MacBook's Chrome is 1512 wide and
   showed white side fields) scale the whole 1440 layout with CSS `zoom`
   on `.page`: `--page-zoom` = width/1440, set by the first IIFE after the
   gate, `height: calc(100vh / zoom)`. `.hover-cta` lives outside `.page`
   (fixed, positioned from clientX), so it multiplies its own sizes by the
   same var instead of being zoomed. JS that reads `getBoundingClientRect`
   inside `.page` must divide by the zoom (see goals `fit()`); offset/client
-  sizes are already unzoomed. Past 1920px the page is centred; a wheel
+  sizes are already unzoomed. Past 1680px the page is centred (client, Nov 18: full scaling to 1920 made
+  body text ~23px; 1680 caps it near 20px); a wheel
   gesture over the empty side fields (they belong to <body>, which never
   scrolls) is forwarded to the visible main column, ≥901px only.
 
