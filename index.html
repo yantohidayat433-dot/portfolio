@@ -183,8 +183,9 @@
     /* ---------- Layout: two independently scrolling columns ---------- */
 
     .page {
+      zoom: var(--page-zoom, 1);
       max-width: var(--page-max-width);
-      height: 100vh;
+      height: calc(100vh / var(--page-zoom, 1));
       margin: 0 auto;
       display: flex;
       align-items: stretch;
@@ -498,8 +499,8 @@
       position: fixed;
       top: 0;
       left: 0;
-      height: 30px;
-      padding: 0 14px;
+      height: calc(30px * var(--page-zoom, 1));
+      padding: 0 calc(14px * var(--page-zoom, 1));
       box-sizing: border-box;
       background: #ffd0ed;
       display: flex;
@@ -518,7 +519,7 @@
     .hover-cta.is-see,
     .hover-cta.is-soon {
       width: auto;
-      height: 26px;
+      height: calc(26px * var(--page-zoom, 1));
       padding: 0;
     }
 
@@ -529,7 +530,7 @@
 
     .hover-cta__label {
       font-family: "Oceanic Text", Georgia, "Times New Roman", serif;
-      font-size: 17px;
+      font-size: calc(17px * var(--page-zoom, 1));
       line-height: 1;
       color: #000000;
       white-space: nowrap;
@@ -3184,6 +3185,19 @@
 <div class="hover-cta" id="hoverCta" aria-hidden="true"><span class="hover-cta__label"></span></div>
 
 <script>
+  // Page zoom: 1440-1920px windows scale the whole 1440 layout to fit; wider ones centre it.
+  (function () {
+    var root = document.documentElement;
+    function fit() {
+      var w = root.clientWidth;
+      var z = w > 1440 ? Math.min(w, 1920) / 1440 : 1;
+      root.style.setProperty('--page-zoom', z.toFixed(4));
+    }
+    fit();
+    window.addEventListener('resize', fit);
+  })();
+</script>
+<script>
   // Telegram's in-app browser needs its own viewport/scroll fixes (.is-telegram-webview).
   (function () {
     if (/Telegram/i.test(navigator.userAgent) || window.TelegramWebviewProxy) {
@@ -3302,7 +3316,7 @@
     }
   })();
 
-  // Past 1440px the page is centred; wheel over the empty side fields scrolls the main column.
+  // Past 1920px the page is centred; wheel over the empty side fields scrolls the main column.
   (function () {
     var wide = window.matchMedia('(min-width: 901px)');
     document.addEventListener(
@@ -4215,7 +4229,8 @@
         return slotPx;
       }
       function fit() {
-        var s = cards[0].getBoundingClientRect().width / 1376;
+        var z = root.getBoundingClientRect().width / root.offsetWidth || 1;
+        var s = cards[0].getBoundingClientRect().width / z / 1376;
         cards.forEach(function (c) {
           c.style.setProperty('--s', s);
         });
