@@ -106,10 +106,12 @@ sidebar has 3px side padding (so the logo's stroke isn't clipped by its
 `overflow-x: hidden`), which makes the bio text start 24px from the media and
 the divider end 24px from the window edge (client, Nov 19). One size 16/1.3
 (130%: Plex's hhea box is exactly 1.3em, so inline pills with `padding: 0`
-tile line to line), 16px between paragraphs. Project: media full column
+tile line to line). Paragraphs (bio, project descriptions) have no gap and a
+16px first-line indent from the second paragraph on (client, Nov 19:
+«красная строка 16px»); the other sidebar blocks stay 16px apart. Project: media full column
 width at 3:2, 15px, then a caption row: CSS-counter number in a 49px column +
 uppercase title (plate kept), description indented 49px and 16px below it,
-15px to the next project, no dividers, no «Смотреть» (client removed it on
+48px to the next project, no dividers, no «Смотреть» (client removed it on
 desktop home; phone keeps it). Hover cursor «смотреть»/«скоро» on ≥901px:
 16px black text on the pink `#FFD0ED` plate, plate 20.8px tall (one line). 901–999px swaps in the
 `project__desc-p--mobile` breaks. Phone and tablet are untouched (verified
