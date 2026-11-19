@@ -458,7 +458,8 @@
       display: block;
     }
 
-    .project__carousel {
+    .project__carousel,
+    .project__count {
       display: none;
     }
 
@@ -1467,9 +1468,9 @@
       }
     }
 
-    /* ---------- Home carousel (≥901px): a case's images on the home card, click to flip ---------- */
+    /* ---------- Home carousels (≥901px and phones): a case's images on the home card, click or swipe to flip ---------- */
 
-    @media (min-width: 901px) {
+    @media (min-width: 901px), (max-width: 700px) {
       .project:has(> .project__carousel) > .project__media-link {
         display: none;
       }
@@ -2295,6 +2296,74 @@
       }
     }
 
+    /* ---------- Phone home (≤700px): actualsource system, 15px gutters, 16:10 covers ---------- */
+
+    @media (max-width: 700px) {
+      .page {
+        padding-left: 0.9375rem;
+        padding-right: 0.9375rem;
+      }
+
+      .mobile-topbar {
+        left: 0;
+        right: 0;
+        padding: 0 0.9375rem;
+      }
+
+      .projects {
+        counter-reset: project;
+      }
+
+      .projects > * + * {
+        margin-top: 1.5rem;
+      }
+
+      .project__media,
+      .project--half .project__media {
+        height: auto;
+        aspect-ratio: 16 / 10;
+      }
+
+      .project__row,
+      .project--half .project__row {
+        margin-top: 0.9375rem;
+        padding: 0;
+        counter-increment: project;
+      }
+
+      .project__title {
+        display: flex;
+        align-items: baseline;
+        font-size: 1rem;
+        line-height: 1.45;
+        text-transform: uppercase;
+      }
+
+      .project__title::before {
+        content: counter(project);
+        flex: 0 0 3.0625rem;
+      }
+
+      .project__count {
+        display: block;
+        margin-left: auto;
+      }
+
+      .projects .project__see,
+      .project:last-child .project__divider {
+        display: none;
+      }
+
+      .project__divider {
+        margin-top: 2rem;
+        border-top-color: var(--color-divider);
+      }
+
+      .project__carousel {
+        touch-action: pan-y;
+      }
+    }
+
     /* ---------- Foundation case animations (sandboxes in animations/) ---------- */
 
     .case__media--typo {
@@ -3022,7 +3091,7 @@
     <article class="project project--hero">
       <a class="project__media-link" href="https://www.behance.net/gallery/235073919/Vocamate-AI-Brand-Identity-Website" target="_blank" rel="noopener noreferrer" aria-label="Vocamate на Behance" data-cursor-label="смотреть" data-cursor-label-en="view" data-cursor-label-ru="смотреть" data-cursor-kind="see">
         <div class="project__media">
-          <video autoplay muted loop playsinline preload="auto" poster="images/grid-01.webp" data-poster-desktop="images/grid-01.webp" data-poster-mobile="images/grid-01-mobile.webp"><source src="videos/vocamate-mobile.mp4" media="(max-width: 700px)" type="video/mp4" /><source src="videos/grid-video-01.mp4" type="video/mp4" />
+          <video autoplay muted loop playsinline preload="auto" poster="images/grid-01.webp" data-poster-desktop="images/grid-01.webp" data-poster-mobile="images/grid-01.webp"><source src="videos/grid-video-01-m.mp4" media="(max-width: 700px)" type="video/mp4" /><source src="videos/grid-video-01.mp4" type="video/mp4" />
             <source src="videos/grid-video-01.mp4" type="video/mp4" />
           </video>
         </div>
@@ -3035,7 +3104,7 @@
  <p data-en="Vocamate is a platform for building AI bots and automating&lt;br&gt;complex business processes." data-ru="Vocamate AI — платформа для создания ИИ-ботов&lt;br&gt;и комплексной автоматизации бизнес-процессов.">Vocamate AI — платформа для создания ИИ-ботов<br>и комплексной автоматизации бизнес-процессов.</p>
  <p data-en="Led the entire visual side of the project. Developed the logo and&lt;br&gt;identity, contributed to the voice assistant's design, and brought&lt;br&gt;in specialists to create a range of touchpoints from icons to merch." data-ru="Вела всю визуальную часть проекта. Разработала логотип&lt;br&gt;и айдентику, привлекала специалистов при создании разных&lt;br&gt;носителей от иконок до мерча. Участвовала в разработке дизайна&lt;br&gt;для голосового помощника.">Вела всю визуальную часть проекта. Разработала логотип<br>и айдентику, привлекала специалистов при создании разных<br>носителей от иконок до мерча. Участвовала в разработке дизайна<br>для голосового помощника.</p>
  <p class="project__desc-p--mobile" data-en="Vocamate is a platform for building AI bots&lt;br&gt;and automating complex business processes." data-ru="Vocamate AI — платформа для создания&lt;br&gt;ИИ-ботов и комплексной автоматизации&lt;br&gt;бизнес-процессов.">Vocamate AI — платформа для создания<br>ИИ-ботов и комплексной автоматизации<br>бизнес-процессов.</p>
- <p class="project__desc-p--mobile" data-en="Led the entire visual side of the project.&lt;br&gt;Developed the logo and identity, contributed&lt;br&gt;to the voice assistant's design, and brought&lt;br&gt;in specialists to create a range of touchpoints&lt;br&gt;from icons to merch." data-ru="Вела всю визуальную часть проекта.&lt;br&gt;Разработала логотип и айдентику, привле-&lt;br&gt;кала специалистов при создании разных&lt;br&gt;носителей от иконок до мерча. Участвовала&lt;br&gt;в разработке дизайна для голосового&lt;br&gt;помощника.">Вела всю визуальную часть проекта.<br>Разработала логотип и айдентику, привле-<br>кала специалистов при создании разных<br>носителей от иконок до мерча. Участвовала<br>в разработке дизайна для голосового<br>помощника.</p>
+ <p class="project__desc-p--mobile" data-en="Led the entire visual side of the project.&lt;br&gt;Developed the logo and identity, contributed&lt;br&gt;to the voice assistant's design, and brought&lt;br&gt;in specialists to create a range of touchpoints&lt;br&gt;from icons to merch." data-ru="Вела всю визуальную часть проекта. &lt;br&gt;Разработала логотип и айдентику, &lt;br&gt;привлекала специалистов при создании &lt;br&gt;разных носителей от иконок до мерча. &lt;br&gt;Участвовала в разработке дизайна &lt;br&gt;для голосового помощника.">Вела всю визуальную часть проекта. <br>Разработала логотип и айдентику, <br>привлекала специалистов при создании <br>разных носителей от иконок до мерча. <br>Участвовала в разработке дизайна <br>для голосового помощника.</p>
           <a class="project__see" href="https://www.behance.net/gallery/235073919/Vocamate-AI-Brand-Identity-Website" target="_blank" rel="noopener noreferrer" data-en="See Project &lt;span class=&quot;project__see-arrow&quot;&gt;→&lt;/span&gt;" data-ru="Смотреть &lt;span class=&quot;project__see-arrow&quot;&gt;→&lt;/span&gt;">Смотреть <span class="project__see-arrow">→</span></a>
         </div>
       </div>
@@ -3046,31 +3115,31 @@
       <button class="project__media-link" type="button" data-case-open="case-basarab" data-cursor-label="смотреть" data-cursor-label-en="view" data-cursor-label-ru="смотреть" data-cursor-kind="see">
         <span class="project__media">
           <picture>
-            <source media="(max-width: 700px)" srcset="images/grid-02-mobile.webp?v=2">
-            <img src="images/grid-02.webp?v=2" alt="Basarab">
+            <source media="(max-width: 700px)" srcset="images/grid-02-1077.webp">
+            <img src="images/grid-02.webp?v=2" alt="Basarab" loading="lazy">
           </picture>
         </span>
       </button>
       <div class="project__carousel" role="button" tabindex="0" aria-label="Basarab: изображения, стрелки листают" data-cursor-label="1/18" data-cursor-label-en="1/18" data-cursor-label-ru="1/18" data-cursor-kind="see">
         <div class="carousel__track">
-          <div class="carousel__slide"><div class="carousel__cell"><img src="images/grid-02.webp?v=2" alt="Basarab" loading="lazy" decoding="async"></div></div>
+          <div class="carousel__slide"><div class="carousel__cell"><img src="images/grid-02.webp?v=2" srcset="images/grid-02-1077.webp 1077w, images/grid-02.webp?v=2 2030w" sizes="(max-width: 700px) 100vw, 944px" alt="Basarab" loading="lazy" decoding="async"></div></div>
           <div class="carousel__slide"><div class="carousel__cell"><img src="images/basarab-01.webp?v=5" alt="Basarab" loading="lazy" decoding="async"></div></div>
           <div class="carousel__slide"><div class="carousel__cell carousel__cell--logo"><img src="images/basarab-logo.svg" alt="Basarab" loading="lazy"></div><div class="carousel__cell"><img src="images/basarab-06.webp?v=4" alt="Basarab" loading="lazy" decoding="async"></div></div>
           <div class="carousel__slide carousel__slide--contain"><div class="carousel__cell"><img src="images/basarab-07.webp?v=4" alt="Basarab" loading="lazy" decoding="async"></div><div class="carousel__cell"><img src="images/basarab-08.webp?v=4" alt="Basarab" loading="lazy" decoding="async"></div><div class="carousel__cell"><img src="images/basarab-09.webp?v=4" alt="Basarab" loading="lazy" decoding="async"></div></div>
           <div class="carousel__slide"><div class="carousel__cell carousel__cell--fade"><img class="is-active" src="images/basarab-10.webp?v=4" alt="Basarab" loading="lazy" decoding="async"><img src="images/basarab-10b.webp" alt="Basarab" loading="lazy" decoding="async"><img src="images/basarab-10c.webp" alt="Basarab" loading="lazy" decoding="async"><img src="images/basarab-10d.webp" alt="Basarab" loading="lazy" decoding="async"></div><div class="carousel__cell"><img src="images/basarab-11.webp?v=4" alt="Basarab" loading="lazy" decoding="async"></div></div>
-          <div class="carousel__slide"><div class="carousel__cell"><img src="images/basarab-12.webp?v=5" alt="Basarab" loading="lazy" decoding="async"></div></div>
+          <div class="carousel__slide"><div class="carousel__cell"><img src="images/basarab-12.webp?v=5" srcset="images/basarab-12-1077.webp 1077w, images/basarab-12.webp?v=5 2030w" sizes="(max-width: 700px) 100vw, 944px" alt="Basarab" loading="lazy" decoding="async"></div></div>
           <div class="carousel__slide"><div class="carousel__cell"><img src="images/basarab-13.webp?v=4" alt="Basarab" loading="lazy" decoding="async"></div></div>
           <div class="carousel__slide"><div class="carousel__cell"><img src="images/basarab-14.webp?v=5" alt="Basarab" loading="lazy" decoding="async"></div><div class="carousel__cell carousel__cell--video"><img src="images/basarab-15.webp?v=13" alt="Basarab" loading="lazy" decoding="async"><video muted loop playsinline preload="none"><source src="videos/basarab-stories.mp4?v=9" type="video/mp4" /></video></div></div>
-          <div class="carousel__slide"><div class="carousel__cell"><img src="images/basarab-16.webp?v=5" alt="Basarab" loading="lazy" decoding="async"></div></div>
+          <div class="carousel__slide"><div class="carousel__cell"><img src="images/basarab-16.webp?v=5" srcset="images/basarab-16-1077.webp 1077w, images/basarab-16.webp?v=5 2030w" sizes="(max-width: 700px) 100vw, 944px" alt="Basarab" loading="lazy" decoding="async"></div></div>
           <div class="carousel__slide"><div class="carousel__cell"><img src="images/basarab-17.webp?v=4" alt="Basarab" loading="lazy" decoding="async"></div></div>
-          <div class="carousel__slide"><div class="carousel__cell carousel__cell--video"><img src="images/basarab-18.webp?v=8" alt="Basarab" loading="lazy" decoding="async"><video muted loop playsinline preload="none"><source src="videos/basarab-insta.mp4?v=3" type="video/mp4" /></video></div></div>
-          <div class="carousel__slide"><div class="carousel__cell"><img src="images/basarab-19.webp?v=4" alt="Basarab" loading="lazy" decoding="async"></div></div>
+          <div class="carousel__slide"><div class="carousel__cell carousel__cell--video"><img src="images/basarab-18.webp?v=8" srcset="images/basarab-18-1077.webp 1077w, images/basarab-18.webp?v=8 2030w" sizes="(max-width: 700px) 100vw, 944px" alt="Basarab" loading="lazy" decoding="async"><video muted loop playsinline preload="none"><source src="videos/basarab-insta.mp4?v=3" type="video/mp4" /></video></div></div>
+          <div class="carousel__slide"><div class="carousel__cell"><img src="images/basarab-19.webp?v=4" srcset="images/basarab-19-1077.webp 1077w, images/basarab-19.webp?v=4 2030w" sizes="(max-width: 700px) 100vw, 944px" alt="Basarab" loading="lazy" decoding="async"></div></div>
           <div class="carousel__slide"><div class="carousel__cell"><img src="images/basarab-20.webp?v=4" alt="Basarab" loading="lazy" decoding="async"></div><div class="carousel__cell"><img src="images/basarab-21.webp?v=4" alt="Basarab" loading="lazy" decoding="async"></div></div>
           <div class="carousel__slide"><div class="carousel__cell"><img src="images/basarab-22.webp?v=5" alt="Basarab" loading="lazy" decoding="async"></div></div>
           <div class="carousel__slide"><div class="carousel__cell"><img src="images/basarab-23.webp?v=4" alt="Basarab" loading="lazy" decoding="async"></div><div class="carousel__cell"><img src="images/basarab-24.webp?v=4" alt="Basarab" loading="lazy" decoding="async"></div></div>
-          <div class="carousel__slide"><div class="carousel__cell"><img src="images/basarab-25.webp?v=4" alt="Basarab" loading="lazy" decoding="async"></div></div>
-          <div class="carousel__slide"><div class="carousel__cell carousel__cell--video"><img src="images/basarab-26.webp?v=8" alt="Basarab" loading="lazy" decoding="async"><video muted loop playsinline preload="none"><source src="videos/basarab-stories-trio.mp4?v=4" type="video/mp4" /></video></div></div>
-          <div class="carousel__slide"><div class="carousel__cell"><img src="images/basarab-27.webp?v=4" alt="Basarab" loading="lazy" decoding="async"></div></div>
+          <div class="carousel__slide"><div class="carousel__cell"><img src="images/basarab-25.webp?v=4" srcset="images/basarab-25-1077.webp 1077w, images/basarab-25.webp?v=4 2030w" sizes="(max-width: 700px) 100vw, 944px" alt="Basarab" loading="lazy" decoding="async"></div></div>
+          <div class="carousel__slide"><div class="carousel__cell carousel__cell--video"><img src="images/basarab-26.webp?v=8" srcset="images/basarab-26-1077.webp 1077w, images/basarab-26.webp?v=8 2030w" sizes="(max-width: 700px) 100vw, 944px" alt="Basarab" loading="lazy" decoding="async"><video muted loop playsinline preload="none"><source src="videos/basarab-stories-trio.mp4?v=4" type="video/mp4" /></video></div></div>
+          <div class="carousel__slide"><div class="carousel__cell"><img src="images/basarab-27.webp?v=4" srcset="images/basarab-27-1077.webp 1077w, images/basarab-27.webp?v=4 2030w" sizes="(max-width: 700px) 100vw, 944px" alt="Basarab" loading="lazy" decoding="async"></div></div>
         </div>
       </div>
       <div class="project__row">
@@ -3092,8 +3161,8 @@
       <button class="project__media-link" type="button" data-case-open="case-foundation" data-cursor-label="смотреть" data-cursor-label-en="view" data-cursor-label-ru="смотреть" data-cursor-kind="see">
         <span class="project__media">
           <picture>
-            <source media="(max-width: 700px)" srcset="images/grid-03-mobile.webp">
-            <img src="images/grid-03.webp" alt="Фонд «Вызов»">
+            <source media="(max-width: 700px)" srcset="images/grid-03.webp">
+            <img src="images/grid-03.webp" alt="Фонд «Вызов»" loading="lazy">
           </picture>
         </span>
       </button>
@@ -3296,7 +3365,7 @@
     <article class="project project--half">
       <div class="project__media" data-cursor-label="скоро" data-cursor-label-en="soon" data-cursor-label-ru="скоро" data-cursor-kind="soon">
         <picture>
-          <source media="(max-width: 700px)" srcset="images/grid-08-mobile.webp">
+          <source media="(max-width: 700px)" srcset="images/grid-08-1077.webp">
           <img loading="lazy" src="images/grid-08.webp" alt="Rovno Home">
         </picture>
       </div>
@@ -3318,7 +3387,7 @@
     <article class="project project--half">
       <div class="project__media" data-cursor-label="скоро" data-cursor-label-en="soon" data-cursor-label-ru="скоро" data-cursor-kind="soon">
         <picture>
-          <source media="(max-width: 700px)" srcset="images/grid-09-mobile.webp">
+          <source media="(max-width: 700px)" srcset="images/grid-09.webp">
           <img loading="lazy" src="images/grid-09.webp" alt="Nadoswap">
         </picture>
       </div>
@@ -3330,7 +3399,7 @@
  <p data-en="Nadoswap is an independent crypto exchange&lt;br&gt;monitoring service that helps pick the best route." data-ru="Независимый сервис мониторинга криптообменников,&lt;br&gt;который помогает выбрать лучший маршрут обмена.">Независимый сервис мониторинга криптообменников,<br>который помогает выбрать лучший маршрут обмена.</p>
  <p data-en="Built the visual system from the logo through&lt;br&gt;presentations, templates, and generative 3D content." data-ru="Выстроила визуальную систему от логотипа до презентаций,&lt;br&gt;шаблонов и генеративного 3D-контента.">Выстроила визуальную систему от логотипа до презентаций,<br>шаблонов и генеративного 3D-контента.</p>
  <p class="project__desc-p--mobile" data-en="Nadoswap is an independent crypto exchange&lt;br&gt;monitoring service that helps pick the best&lt;br&gt;route." data-ru="Независимый сервис мониторинга&lt;br&gt;криптообменников, который помогает&lt;br&gt;выбрать лучший маршрут обмена.">Независимый сервис мониторинга<br>криптообменников, который помогает<br>выбрать лучший маршрут обмена.</p>
- <p class="project__desc-p--mobile" data-en="Built the visual system from the logo through&lt;br&gt;presentations, templates, and generative 3D&lt;br&gt;content." data-ru="Выстроила визуальную систему от логотипа&lt;br&gt;до презентаций, шаблонов и генеративного&lt;br&gt;3D-контента.">Выстроила визуальную систему от логотипа<br>до презентаций, шаблонов и генеративного<br>3D-контента.</p>
+ <p class="project__desc-p--mobile" data-en="Built the visual system from the logo through&lt;br&gt;presentations, templates, and generative 3D&lt;br&gt;content." data-ru="Выстроила визуальную систему &lt;br&gt;от логотипа до презентаций, шаблонов &lt;br&gt;и генеративного 3D-контента.">Выстроила визуальную систему <br>от логотипа до презентаций, шаблонов <br>и генеративного 3D-контента.</p>
           <span class="project__see project__see--soon" data-en="A case study is coming soon." data-ru="Скоро будет кейс">Скоро будет кейс</span>
         </div>
       </div>
@@ -3340,7 +3409,7 @@
     <article class="project project--half">
       <div class="project__media" data-cursor-label="скоро" data-cursor-label-en="soon" data-cursor-label-ru="скоро" data-cursor-kind="soon">
         <picture>
-          <source media="(max-width: 700px)" srcset="images/grid-10-mobile.webp?v=2">
+          <source media="(max-width: 700px)" srcset="images/grid-10-1077.webp">
           <img loading="lazy" src="images/grid-10.webp?v=2" alt="App Insiders Club">
         </picture>
       </div>
@@ -3352,7 +3421,7 @@
  <p data-en="App Insiders Club is a Yandex media platform&lt;br&gt;about mobile app development." data-ru="App Insiders Club — медиаплатформа Яндекса&lt;br&gt;о разработке мобильных приложений.">App Insiders Club — медиаплатформа Яндекса<br>о разработке мобильных приложений.</p>
  <p data-en="Collaborated with the Mish team on the visual identity&lt;br&gt;and guidelines. Created the website, including templates&lt;br&gt;for different page types." data-ru="Вместе с командой студии Mish работала над визуальной&lt;br&gt;айдентикой и гайдлайнами. Разработала дизайн главной&lt;br&gt;и дополнительных страниц сайта, а также адаптировала&lt;br&gt;его для разных форматов.">Вместе с командой студии Mish работала над визуальной<br>айдентикой и гайдлайнами. Разработала дизайн главной<br>и дополнительных страниц сайта, а также адаптировала<br>его для разных форматов.</p>
  <p class="project__desc-p--mobile" data-en="App Insiders Club is a Yandex media&lt;br&gt;platform about mobile app development." data-ru="App Insiders Club — медиаплатформа&lt;br&gt;Яндекса о разработке мобильных&lt;br&gt;приложений.">App Insiders Club — медиаплатформа<br>Яндекса о разработке мобильных<br>приложений.</p>
- <p class="project__desc-p--mobile" data-en="Collaborated with the Mish team on the visual&lt;br&gt;identity and guidelines. Created the website,&lt;br&gt;including templates for different page types." data-ru="Вместе с командой студии Mish работала&lt;br&gt;над визуальной айдентикой и гайдлайнами.&lt;br&gt;Разработала дизайн главной&lt;br&gt;и дополнительных страниц сайта, а также&lt;br&gt;адаптировала его для разных форматов.">Вместе с командой студии Mish работала<br>над визуальной айдентикой и гайдлайнами.<br>Разработала дизайн главной<br>и дополнительных страниц сайта, а также<br>адаптировала его для разных форматов.</p>
+ <p class="project__desc-p--mobile" data-en="Collaborated with the Mish team on the visual&lt;br&gt;identity and guidelines. Created the website,&lt;br&gt;including templates for different page types." data-ru="Вместе с командой студии Mish работала &lt;br&gt;над визуальной айдентикой &lt;br&gt;и гайдлайнами. Разработала дизайн &lt;br&gt;главной и дополнительных страниц сайта, &lt;br&gt;а также адаптировала его для разных &lt;br&gt;форматов.">Вместе с командой студии Mish работала <br>над визуальной айдентикой <br>и гайдлайнами. Разработала дизайн <br>главной и дополнительных страниц сайта, <br>а также адаптировала его для разных <br>форматов.</p>
           <span class="project__see project__see--soon" data-en="A case study is coming soon." data-ru="Скоро будет кейс">Скоро будет кейс</span>
         </div>
       </div>
@@ -3362,7 +3431,7 @@
     <article class="project project--half">
       <div class="project__media" data-cursor-label="скоро" data-cursor-label-en="soon" data-cursor-label-ru="скоро" data-cursor-kind="soon">
         <picture>
-          <source media="(max-width: 700px)" srcset="images/grid-11-mobile.webp?v=2">
+          <source media="(max-width: 700px)" srcset="images/grid-11-1077.webp">
           <img loading="lazy" src="images/grid-11.webp" alt="3I Tech">
         </picture>
       </div>
@@ -4648,7 +4717,7 @@
     cycle('.carousel__cell--fade-slow', 2800);
   })();
 
-  // Home carousels: click the left/right half (or ←/→, Enter) to flip a case's images on its home card; the cursor label shows n/x.
+  // Home carousels: click/tap the left or right half, swipe, or ←/→ to flip a case's images on its home card; n/x on the cursor and in the title row (phones).
   (function () {
     var label = document.querySelector('#hoverCta .hover-cta__label');
     document.querySelectorAll('.project__carousel').forEach(function (box) {
@@ -4661,6 +4730,12 @@
       track.appendChild(clone);
       var index = 0;
       var busy = false;
+      var title = box.parentElement.querySelector('.project__title');
+      var counter = document.createElement('span');
+      counter.className = 'project__count';
+      counter.setAttribute('aria-hidden', 'true');
+      counter.textContent = '1/' + count;
+      if (title) title.appendChild(counter);
       function eager(slide) {
         if (!slide) return;
         slide.querySelectorAll('img[loading="lazy"]').forEach(function (img) {
@@ -4691,6 +4766,7 @@
         box.setAttribute('data-cursor-label', text);
         box.setAttribute('data-cursor-label-en', text);
         box.setAttribute('data-cursor-label-ru', text);
+        counter.textContent = text;
         if (label && box.matches(':hover')) label.textContent = text;
       }
       function go(step) {
@@ -4712,7 +4788,38 @@
           settle();
         }, 620);
       }
+      var touchX = null;
+      var touchY = null;
+      var swiped = false;
+      box.addEventListener(
+        'touchstart',
+        function (event) {
+          touchX = event.touches[0].clientX;
+          touchY = event.touches[0].clientY;
+          swiped = false;
+          eager(slides[(index + 1) % count]);
+        },
+        { passive: true }
+      );
+      box.addEventListener(
+        'touchend',
+        function (event) {
+          if (touchX === null) return;
+          var dx = event.changedTouches[0].clientX - touchX;
+          var dy = event.changedTouches[0].clientY - touchY;
+          touchX = null;
+          if (Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy)) {
+            swiped = true;
+            go(dx < 0 ? 1 : -1);
+          }
+        },
+        { passive: true }
+      );
       box.addEventListener('click', function (event) {
+        if (swiped) {
+          swiped = false;
+          return;
+        }
         var rect = box.getBoundingClientRect();
         go(event.clientX < rect.left + rect.width / 2 ? -1 : 1);
       });

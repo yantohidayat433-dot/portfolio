@@ -124,7 +124,23 @@ pixel-identical at 375 and 800). Bio paragraphs 2 and 3 wrap naturally at ≥901
 U+00A0), which reproduces the client's Nov 19 screenshot breaks at ≥1290px;
 narrower sidebars just wrap. Phone/tablet keep the `<br>`s.
 
-**Home carousels (≥901px, Nov 19, after actualsource.work).** Basarab's and
+**Phone home (≤700px, Nov 19, after actualsource.work).** 15px (.9375rem)
+gutters, topbar logo on the same line; covers full width at 16:10 like desktop,
+from landscape files (`grid-NN-1077.webp` phone sources, cut from the 2030
+desktop files at q90; the old portrait `grid-NN-mobile` covers were dropped,
+only 02/03 remain for the cases' «next case» cards); the hero plays
+`videos/grid-video-01-m.mp4` (1024 wide, crf 27, 364KB) over the `grid-01`
+poster. Caption: counter number in a 3.0625rem column + uppercase title,
+1rem/1.45 text, desc 1rem below, 8px paragraphs, no «Смотреть», light divider
+2rem below the text and 1.5rem above the next cover. Carousels run on phones
+too (swipe, or tap a half; `touch-action: pan-y`), and their «n/x» sits at the
+right end of the title row (`.project__count`, added by the carousel IIFE).
+Three phone desc paragraphs (Vocamate's second, 3I Tech's, App Insiders')
+were re-wrapped greedily at the iPhone 13 column (359px) with short words
+glued: their old breaks overflowed and left «Участвовала» alone. The «Почитать
+обо мне» pill is unchanged. Tablet (701–900) is untouched.
+
+**Home carousels (≥901px and phones, Nov 19, after actualsource.work).** Basarab's and
 Foundation's home cards are `.project__carousel`s (sibling of their
 `.project__media-link`, which still serves <901px; the carousel has its own
 16:10 box and does NOT carry `.project__media`, whose hover zoom and img rules
