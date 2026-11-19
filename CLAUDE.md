@@ -73,11 +73,13 @@ attribute. This means:
 
 ## Type tokens (Nov 2026, client-approved)
 
-Interface text is one serif (Oceanic Text), tracking 0 everywhere
+Interface text is one serif (IBM Plex Serif Regular since Nov 19, was
+Oceanic Text; `fonts/ibm-plex-serif.woff2`, Latin+Cyrillic subset, OFL), tracking 0 everywhere
 (`--tracking-serif`/`--tracking-sans` are 0; animation artwork keeps its
 own 2% rule), one gray `#7F7F80` (`--color-muted`) for links, credits and
-"Смотреть". Desktop: body, links, buttons, cursor label 17/145; credits
-14/145; headings 24/145. Phone (fluid rem, 1rem = 16px at 375): body and
+"Смотреть". Desktop cases and tablet: body, links, buttons 17/145; credits
+14/145; headings 24/145. Desktop home (≥901px): everything 16/1.2, cursor
+label 16 (see the home layout section). Phone (fluid rem, 1rem = 16px at 375): body and
 links 1rem/1.45, credits .875rem/1.45, headings 1.5rem/1.25. The lang
 toggle is an ordinary gray pill in the pickColor swatch list (no
 orange/purple state colours any more). Hand-broken sidebar copy and
@@ -95,6 +97,22 @@ re-extract the same way if she sends a new sheet. The mobile "Почитать
 обо мне" pill is pink `#FFD2EC` with deep-sage `#4F7268` text, inverted
 while open (logo sage `#A5C1BA` on pink is only 1.4:1).
 
+## Desktop home layout (≥901px, Nov 19 2026)
+
+Rebuilt after the client's reference, actualsource.work: projects column
+left, bio sidebar right (`order: 2`, `max(360px, (100% + 30px)/3 - 30px)`,
+450px at 1440), 15px page padding, 30px between columns, one size 16/1.2,
+16px between paragraphs. Project: media full column width at 3:2, 15px,
+then a caption row: CSS-counter number in a 49px column + uppercase title
+(plate kept), description indented 49px directly under it, «Смотреть» 16px
+below, 15px to the next project, no dividers. 901–999px swaps in the
+`project__desc-p--mobile` breaks. Phone and tablet are untouched (verified
+pixel-identical at 375 and 800). Cases sit in the same grid, so their column
+is 930 at 1440 (was 1015): the intro/quote stack and Basarab's natural wrap
+now run to 1365px. Known: with Plex the Foundation intro still overflows
+5–40px at 901–960px (it did with the font swap alone); fix when cases are
+restyled. The 1247/1027 project-row rules below now apply to 701–900 only.
+
 ## Laptop / wide-screen layout
 
 - Project rows (main page): the 606px description column is fixed and
@@ -104,7 +122,7 @@ while open (logo sage `#A5C1BA` on pink is only 1.4:1).
   `nowrap` on desktop so only the hand-placed `<br>`s break lines.
 - Case intro: title column `min(409px, max(350px, 100% - 606px))`, same
   value for `.case__quote--right` margins; 901–1251px stacks the intro
-  and zeroes the quote offset. Case body/quote copy is `nowrap` ≥901px.
+  and zeroes the quote offset (since Nov 19: 901–1365px). Case body/quote copy is `nowrap` ≥901px.
 - Verified with the wrap checker at 760, 905, 1000, 1024, 1100, 1200,
   1251, 1253, 1280, 1366, 1440, 1920 (+ phones): no stray wraps.
 - 1441–1680px windows (Nov 18: a 14" MacBook's Chrome is 1512 wide and

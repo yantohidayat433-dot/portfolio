@@ -9,7 +9,7 @@ UI-KIT.md      design system: grid, type, colours, buttons, spacing, slot sizes
 index.html     the whole site: markup, one <style> in <head>, scripts at the end of <body>
 images/        WebP stills (desktop crops + "-m" phone crops), SVG marks
 videos/        muted loops (H.264, faststart)
-fonts/         WOFF2: Oceanic Text (UI), PP Fragment subsets (Foundation case artwork)
+fonts/         WOFF2: IBM Plex Serif (UI), PP Fragment subsets (Foundation case artwork)
 animations/    standalone prototypes of the Foundation case animations (use fonts/)
 robots.txt     the site is not meant to be indexed
 ```
@@ -18,7 +18,7 @@ robots.txt     the site is not meant to be indexed
 
 - **CSS**: fonts → password gate → base → layout (two independently scrolling
   columns) → sidebar → project list → case pages → tablet (≤900px) → desktop
-  (≥701px) → phone (≤700px) → Foundation case animations.
+  (≥701px) → desktop home (≥901px, projects left, bio right) → phone (≤700px) → Foundation case animations.
 - **Markup**: password gate, phone top bar, sidebar (bio, articles, contacts,
   language toggle), project list, then one `<section class="case">` per case
   study.
@@ -41,8 +41,9 @@ robots.txt     the site is not meant to be indexed
   (`.case__media-mobile`, height `--mh` in rem) or a `srcset` with a 1077px file
   for phones; home cards use `<picture>` so each device fetches one file. When a
   case opens, its images are fetched top to bottom in the background.
-- **Type tokens.** Oceanic Text only, tracking 0, gray `#7F7F80`. Desktop: 17/145
-  body and links, 14/145 credits, 24 headings. Phone: 1rem body, .875rem credits,
+- **Type tokens.** IBM Plex Serif only, tracking 0, gray `#7F7F80`. Desktop home
+  (≥901px): 16/1.2 everything, 15px grid step. Cases and tablet: 17/145 body and
+  links, 14/145 credits, 24 headings. Phone: 1rem body, .875rem credits,
   1.5rem/1.25 headings (`1rem` = 16px at 375px, fluid).
 
 ## Local preview
