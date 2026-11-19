@@ -73,23 +73,28 @@ attribute. This means:
 
 ## Type tokens (Nov 2026, client-approved)
 
-Interface text is one serif (IBM Plex Serif Regular since Nov 19, was
-Oceanic Text; `fonts/ibm-plex-serif.woff2`, Latin+Cyrillic subset, OFL), tracking 0 everywhere
-(`--tracking-serif`/`--tracking-sans` are 0; animation artwork keeps its
-own 2% rule), one gray `#7F7F80` (`--color-muted`) for links, credits and
-"Смотреть". Desktop cases and tablet: body, links, buttons 17/145; credits
-14/145; headings 24/145. Desktop home (≥901px): everything 16/1.45, cursor
-label 16 black on pink (see the home layout section). Phone (fluid rem, 1rem = 16px at 375): body and
-links 1rem/1.45, credits .875rem/1.45, headings 1.5rem/1.25. The lang
-toggle is an ordinary gray pill in the pickColor swatch list (no
-orange/purple state colours any more). Hand-broken sidebar copy and
-desktop credits are `white-space: nowrap` so a subpixel-long line can't
-add a stray wrap.
+Interface text is one serif, IBM Plex Serif Regular (since Nov 19, was
+Oceanic Text; `fonts/ibm-plex-serif.woff2`, Latin+Cyrillic subset, OFL), one
+size and leading for everything: `body { font-size: 1rem; line-height: 1.45 }`
+(16px; on phones 1rem is fluid), inherited by every element; `h2` and
+`button, input` are reset to inherit. Hierarchy is caps, colour and the
+plate, never size. Tracking 0 (no tracking tokens any more; animation artwork
+keeps its own 2% rule). Hand-broken sidebar copy and desktop credits are
+`white-space: nowrap` so a subpixel-long line can't add a stray wrap.
 
-Spacing system (desktop, Nov 2026): 8px between paragraphs everywhere
-(sidebar, project descriptions, case intro, case quotes), 12px between
-credits, 4px between pill buttons (contacts, articles), same on phone
-(.25rem).
+**UI cleanup (Nov 19, client: «чтобы не было миллион разных размеров»).**
+`UI-KIT.md` holds the system: one type size, spacing scale 4/8/16/24/32/40/48
+plus the 15px frame, colour tokens in `:root` (`--color-ink/-muted/-plate/
+-white/-divider/-media-bg/-pink/-sage/-sage-deep/-accent`; no literal colours
+in interface CSS), motion 0.15/0.3/0.6/0.85s. The old 17/24/28/14px desktop
+layer, the 409/606 caption and intro grids, `.case__quote--right`,
+`.project--half/--hero`, the animated desktop «Смотреть», the Instagram/PDF
+contact CSS, the purple cursor label and the unused width tokens are gone.
+The tablet (701–900) now shares the ≥701 caption and case layer with the
+desktop; ≥901 only adds the two-column layout. Verified by pixel diff against
+the previous commit: desktop and phone identical except the sidebar squiggle
+(now a block with 8px margins: 24/24 instead of 22/20) and the divider after
+the last project (client asked for it).
 
 Hover palette (`PALETTE` in the swatch IIFE) is the client's 35-pair
 sheet from `buttons.pdf` (Nov 2026), extracted from the PDF vectors —
@@ -119,8 +124,8 @@ then the light gray divider 32px below the text and 24px above the next
 cover (none after the last project), no «Смотреть» (client removed it on
 desktop home; phone keeps it). Hover cursor «смотреть»/«скоро» on ≥901px:
 16px black text on the pink `#FFD0ED` plate, plate 23.2px tall (one line). 901–999px swaps in the
-`project__desc-p--mobile` breaks. Phone and tablet are untouched (verified
-pixel-identical at 375 and 800). Bio paragraphs 2 and 3 wrap naturally at ≥901px (`max-width: 398px`, their
+`project__desc-p--mobile` breaks. The tablet adopted this caption system in
+the Nov 19 cleanup. Bio paragraphs 2 and 3 wrap naturally at ≥901px (`max-width: 398px`, their
 `<br>`s hidden; every `<br>` has a space before it and short words carry
 U+00A0), which reproduces the client's Nov 19 screenshot breaks at ≥ ~1330px
 (the text column must be ≥398px, so don't narrow the sidebar further);
@@ -140,7 +145,7 @@ right end of the title row (`.project__count`, added by the carousel IIFE).
 Three phone desc paragraphs (Vocamate's second, 3I Tech's, App Insiders')
 were re-wrapped greedily at the iPhone 13 column (359px) with short words
 glued: their old breaks overflowed and left «Участвовала» alone. The «Почитать
-обо мне» pill is unchanged. Tablet (701–900) is untouched.
+обо мне» pill is unchanged.
 
 Phone cases follow the same system: text flush with the media (the old
 .375rem inset is gone, so the column is 359px on an iPhone 13), intro order
@@ -197,19 +202,12 @@ cropped ~9% off the sides). Intro stacks: uppercase 16/1.45 title (plate),
 left-aligned; text 15px below media, 48px above the next. 901–999px swap in
 the `--mobile` text variants. Case nav: same 32/24 divider as the home list,
 pills 16px uppercase like the home titles. Basarab's natural-wrap rule is now
-tablet-only (701–900). The 1247/1027 project-row rules below now apply to 701–900 only.
+tablet-only (701–900).
 
 ## Laptop / wide-screen layout
 
-- Project rows (main page): the 606px description column is fixed and
-  the title column gives way (`minmax(0,1fr) 606px`). 701–1247px: title
-  stacks above the copy; 901–1027px additionally swaps in the
-  `project__desc-p--mobile` line-break variants. Desc paragraphs are
-  `nowrap` on desktop so only the hand-placed `<br>`s break lines.
-- Case intro: title column `min(409px, max(350px, 100% - 606px))`, same
-  value for `.case__quote--right` margins; 901–1251px stacks the intro
-  and zeroes the quote offset (since Nov 19 the desktop intro always stacks, see
-  the desktop cases note above). Case body/quote copy is `nowrap` ≥901px.
+- (History: project rows and case intros used to be 409/606 two-column grids
+  with 1247/1027/1251px fallbacks; all removed in the Nov 19 cleanup.)
 - Verified with the wrap checker at 760, 905, 1000, 1024, 1100, 1200,
   1251, 1253, 1280, 1366, 1440, 1920 (+ phones): no stray wraps.
 - 1441–1680px windows (Nov 18: a 14" MacBook's Chrome is 1512 wide and
@@ -231,14 +229,14 @@ Telegram-channel pill link), squiggle, `.knowledge` (heading + two article
 pills), divider, contacts, lang toggle. Contacts since Nov 10: «Написать
 мне» (`https://t.me/Ivanvika`) and «Почта» (`mailto:vknkta@yandex.ru`) only.
 Instagram and «Скачать PDF» were removed until the client sends links; their
-markup is in `UI-KIT.md` §4 and their CSS (`.contact__pdf-link`, the phone
-nth-child `order` rules that put Instagram second) was kept so pasting them
-back is enough. The lang toggle is hidden with the `hidden` attribute
+CSS went in the Nov 19 cleanup, a plain extra `<a>` in `.contact__links` is
+enough to bring one back (`UI-KIT.md` §5). The lang toggle is hidden with the `hidden` attribute
 (`.lang-toggle[hidden]` forces `display:none`, the toggle IIFE still binds):
 the one sanctioned exception to "no hidden markup", at the client's request,
 so it can come back by deleting the attribute. Inline pills (`.intro__link`, `.knowledge__link`) use
-`box-decoration-break: clone` plus `padding: .132em 0` so each line's plate
-fills the line box and two-line plates touch. Desktop vertical rhythm was
+`box-decoration-break: clone` plus `padding: .075em 0` (≥701; Plex's glyph
+box is 1.3em in a 1.45em line) so each line's plate fills the line box and
+two-line plates touch. Desktop vertical rhythm was
 pixel-matched to the PDF (ink rows within ~1px). Articles link to Skillbox Media; the Telegram-channel
 pill links to `https://t.me/+7yJ8wf4p_BtjMjg6`.
 
@@ -259,7 +257,7 @@ clone when building a new case:
   .case__intro-left  → h2 title, tag pills (mobile only), credits text
   .case__intro-right → 2 body paragraphs
 .case__media / .case__row (photos)
-.case__quote (centered) / .case__quote--right (right-aligned)
+.case__quote (left-aligned, like the intro)
 ...repeat media + quote blocks...
 .case__media--ig-ticker (Instagram story cycling, if present)
 .case__next (link to the next case)
@@ -295,44 +293,28 @@ the explicit modifier classes for margin rules on this element.
 **Case spacing is one system, never per case** (client, Nov 10: "if I
 change a distance in one case it must change in the others"). Defined once
 on the generic classes, with no `#case-…` overrides: media butt-joined
-(`.case__media`/`.case__row`/`.case__col` have no gaps or margins, desktop
-and phone); text 32px below media and 48px above the next (`.case__intro`,
-`.case__quote`, ≥701px; phone 1.5rem/3rem); intro and quote copy capped at
-512px; `.case__quote--right` aligned to the intro's body column
-(`min(409px, max(350px, 100% - 606px))`, zeroed ≤1251px); case nav rule 48px
-below the last media, its pills 24px below the rule, styled like the home
-project titles (24/145, black on the plate; client tried 17px gray on Nov 10
-and found it too small). `#case-…` rules may only set slot heights,
-animations and per-case text behaviour (Basarab's 701–1299px natural wrap).
-Foundation's stacked pair beside the t-shirt is 2 × 333.5px so it matches the
-667px cell. Verified Nov 10: both cases measure identically at 1440, 1100,
-800 and 375.
+(`.case__media`/`.case__row`/`.case__col` have no gaps or margins); text 15px
+below media and 48px above the next (`.case__intro`, `.case__quote`, ≥701px;
+phone .9375rem/3rem); case nav rule 32px below the last media, its pills 24px
+below the rule, uppercase like the home titles. `#case-…` rules may only set
+slot heights, animations and per-case text behaviour (Basarab's 701–900px
+natural wrap). Foundation's stacked pair beside the t-shirt is 2 × 333.5 of a
+1015-wide column so it matches the 667 cell.
 
-Pill buttons look the same at rest (client, Nov 10): gray `#7F7F80` on the
-`#EAEAEB` plate. Not pills, on purpose: project titles on the home page and
-the case nav pills (24px black on the plate), the pink phone «Почитать обо
-мне», and «Смотреть →» (gray text, no plate, blue left-to-right wipe on
-hover: a plate under it was tried on Nov 10 and the client asked for it
-back as it was). «Скоро будет кейс» is a status, no plate.
+Pill buttons look the same at rest (client, Nov 10): `--color-muted` on the
+`--color-plate` plate. Not pills, on purpose: project and case titles and the
+case nav (ink on the plate, caps), the pink phone «Почитать обо мне», and
+«Смотреть →», which now only lives in the phone «next case» card. «Скоро
+будет кейс» is a status, no plate.
 
 ### Text column widths — measure, don't assume
 
-Desktop text columns are NOT all the same width, and guessing wrong
-produces either visible overflow or needlessly-short line breaks:
-
-- `.case__intro` is a `409px 1fr` grid (confirmed against the Basarab
-  PDF: the body-copy column starts 409px from the media column's left
-  edge). This is generic/sitewide, not case-scoped.
-- `.case__intro-right p` and `.case__quote` share a 512px cap (Basarab's
-  Figma text boxes), and `.case__quote--right` aligns to the same 409px
-  column as `.case__intro-right`, for every case (Nov 10).
-- If a case ever genuinely needs a different column, any such override
-  must be wrapped in `@media (min-width: 901px)` —
-  an unguarded `#case-X .case__quote--right { margin-left: … }` beats
-  the phone breakpoint's own `margin-left: 0` reset on specificity (an
-  ID selector) despite coming first in source order, collapsing the
-  quote to zero width on mobile. This was a real shipped bug, caught
-  late.
+Text columns are the full media column (≥701px; intro and quotes are no
+longer capped or offset), so hand breaks are limited by the copy, not the
+column, except at 901–999px (phone variants) and on phones (359px at 375).
+Any per-case column override must be wrapped in `@media (min-width: 701px)`:
+an unguarded `#case-X …` rule beats the phone breakpoint's resets on
+specificity (a shipped bug once, with the old `.case__quote--right`).
 
 **The reliable way to get `<br>` breaks right**: never hand-wrap text by
 eyeballing the PDF and guessing a pixel width. Open the live page in

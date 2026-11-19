@@ -18,7 +18,8 @@ robots.txt     the site is not meant to be indexed
 
 - **CSS**: fonts → password gate → base → layout (two independently scrolling
   columns) → sidebar → project list → case pages → tablet (≤900px) → desktop
-  (≥701px) → desktop home (≥901px, projects left, bio right) → phone (≤700px) → Foundation case animations.
+  and tablet (≥701px: captions, dividers) → desktop (≥901px: projects left, bio
+  right) → carousels → cases (≥701px) → phone (≤700px) → Foundation case animations.
 - **Markup**: password gate, phone top bar, sidebar (bio, articles, contacts,
   language toggle), project list, then one `<section class="case">` per case
   study.
@@ -41,10 +42,9 @@ robots.txt     the site is not meant to be indexed
   (`.case__media-mobile`, height `--mh` in rem) or a `srcset` with a 1077px file
   for phones; home cards use `<picture>` so each device fetches one file. When a
   case opens, its images are fetched top to bottom in the background.
-- **Type tokens.** IBM Plex Serif only, tracking 0, gray `#7F7F80`. Desktop home
-  (≥901px): 16/1.2 everything, 15px grid step. Cases and tablet: 17/145 body and
-  links, 14/145 credits, 24 headings. Phone: 1rem body, .875rem credits,
-  1.5rem/1.25 headings (`1rem` = 16px at 375px, fluid).
+- **Design system.** See `UI-KIT.md`: IBM Plex Serif only, one size and leading
+  set on `body` (1rem/1.45; `1rem` = 16px, fluid on phones), spacing scale
+  4/8/16/24/32/40/48 + 15px frame, colours as `:root` tokens, motion 0.15/0.3/0.6s.
 
 ## Local preview
 
