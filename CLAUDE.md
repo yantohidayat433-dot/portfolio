@@ -164,19 +164,24 @@ phones). The carousel has its own 16:10 box and does NOT carry
 `.project__media`, whose hover zoom and img rules would hit the animations
 inside.
 
-Vocamate (19 slides) comes from the client's single-frame Behance layout, Figma
-file `C9MXsSOHZepwLodUWB4hMm` («иванова виктория | проекты»), frame `649:32687`
-(1400×21477): exported at 1.4x and cut by `cut.py`-style scripts into 1960×1225
-slides (`vocamate-NN.webp` + `-1077` phone files, q88; NN = slide id in that
-cut, not a position). Row blocks are fitted with their own 40px margins on the
-frame's #010101, text/cover blocks are 1400×875 windows, the tall phone and the
-poster are fitted whole; the tablet block and the team/QR/thank-you ending were
-left out (the tablet is the hero clip). Slide 1 is the hero `<video>` itself
-(moved into the carousel; its IIFE still drives it). Five Behance clips
-(Kinescope embeds; the 1080p files sit on `edge-msk-N.kinescopecdn.net`, added
-to the environment) are `videos/vocamate-vN.mp4` (1600 wide, crf 24, no audio)
-with first-frame posters, in `carousel__cell--dark` cells (contain on #010101,
-the clips' own background). The title still links to Behance (no case page). Cell rules only touch direct children
+Vocamate (12 slides, Nov 19 rebuild) follows the client's 1:1 slide frames in
+Figma file `shbJVIXDZhWJpeWo9QrzrS`, section `112:28385` «vocamate case»,
+frames «vocamate 1440 - 1…12» (960×600, exported at 2x = 1920×1200, exactly the
+carousel's 16:10). Stills 2–6 and 8 are the exports (`vocamate-sNN.webp` q90 +
+`-1077`). Slide 1 is the hero `<video>` itself (`carousel__cell--hero`,
+`object-position: 27% 50%` reproduces frame 1's crop). The video slides are
+rendered by ffmpeg to sit exactly where the frame puts them, transforms found by
+SIFT matching of clip frames against the export (scratchpad `voc2/match.py`,
+`render.sh`): 7 = icons clip (Behance v2) at scale .92537 +(72,83) over the frame
+export; 9 = frame with its static sphere inpainted, sphere clip (v3) at .825
++(166,446) blended *lighten* (clip field #010101 vanishes into the slide's
+#0E0E14); 10 = tablet clip (v4, a multi-shot edit; matched on its wide shot,
+2–4s) at 1.2932 −(226,8), full bleed; 11 = two cells: the client's own 4:5 clip
+(`5 (1).mp4`, 2000×2500) on the left, the icons half of v5 at 1.07348 −(83,−79)
+lightened onto #0D0B13 (her clip's decoded field, so the halves don't seam) on
+the right; 12 = results tablet (v6) at 1.14832 −(55,46). Each has a 960-wide
+`-m.mp4` phone file and a first-frame poster. Raw Behance 1080p sources live
+outside the repo (Kinescope, see above). Cell rules only touch direct children
 (`.carousel__cell > img`). Foundation: 16 slides, grid-03 cover then the case;
 its four live slots (light, typo posters, goals stack, citylight) are copies of
 the case markup inside `carousel__cell case__media case__media--X` cells (their
