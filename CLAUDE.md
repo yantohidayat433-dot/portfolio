@@ -187,13 +187,29 @@ the right half of the frame export as a still (`vocamate-s11r` + `-540`, Figma
 client saw a black stroke on the white shots). Each has a 960-wide
 `-m.mp4` phone file and a first-frame poster. Raw Behance 1080p sources live
 outside the repo (Kinescope, see above). Cell rules only touch direct children
-(`.carousel__cell > img`). Foundation: 16 slides, grid-03 cover then the case;
-its four live slots (light, typo posters, goals stack, citylight) are copies of
-the case markup inside `carousel__cell case__media case__media--X` cells (their
-IIFEs init every `[data-light]`/`[data-typo]`/`[data-goals-scroller]`/
-`[data-citylight]` on the page; the copy drops `.case__media-mobile` and the
-`#goal-ui` template), the Instagram sets cross-fade (`carousel__cell--fade-slow`,
-2.8s), and 20/21 stack in a `.carousel__col` beside 22. If a case animation
+(`.carousel__cell > img`). Foundation (15 slides, Nov 19 rebuild) follows the
+client's 1:1 frames, section `114:28394` «foundation case», «foundation 1440 -
+1…15»: stills `foundation-cNN.webp` (q92 + `-1077`; half cells `c04r`/`c09l`
++ `-540`). Slide 3 is now her still (the live light slide is case-only). Live
+slots are copies of the case markup in `carousel__cell case__media
+case__media--X` cells (their IIFEs init every `[data-typo]`/
+`[data-goals-scroller]`/`[data-citylight]`; the copy drops
+`.case__media-mobile` and the `#goal-ui` template): 4 left = typo posters
+rebuilt from her 480×600 layouts (section `114:28395` «foundation 1440 - 4
+video», frames 1–5; generator `fnd/typo.py` in the scratchpad), a
+`.typo--480` stage (480×600 space, `#0e0e14`, 1px `#2C2C31` rules, logo SVG at
+75px, `.typo__line--c/--r` for centred/right-aligned lines; Figma sizes and
+tracking as-is, 10/28/86px lines nudged 1.5–1.75px down to match her exports
+within a pixel; the fit IIFE reads the stage size); 7 = goals stack, card
+786×388 at (87,106) like her frame (`.carousel__cell .goals-scroller__track`
+inset 87/960, field `#0f0f12`); 9 right = citylight unchanged (her frame places
+it the same within 3px); 10 = Instagram sets cross-fading (`--fade-slow`): set
+1 is her frame, sets 2–4 are the old mockups warped onto it (SIFT ×1.01501
+−(56,20)) with only the post photos swapped in, so the chrome is hers
+(`foundation-cig1…4`). On phones the case's `--mh` slot heights must not reach
+carousel cells (`.case__media:not(.carousel__cell)`). Split slides overlap their
+cells by 1px (`.carousel__slide > * + *`): at half-pixel widths the grey
+`--color-media-bg` showed as a hairline between the halves. If a case animation
 changes, update its carousel copy too. Basarab (16 slides, Nov 19 rebuild) follows the client's 1:1 frames in the
 same file, section `114:28393` «basarab case», «basarab 1440 - 1…16» (960×600
 → 1920×1200 at 2x): stills `basarab-cNN.webp` (q94 + `-1077`, textures need

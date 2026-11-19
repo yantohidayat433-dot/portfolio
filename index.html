@@ -1174,6 +1174,10 @@
       height: auto;
     }
 
+    .carousel__slide > * + * {
+      margin-left: -1px;
+    }
+
     .carousel__cell > img,
     .carousel__cell > video,
     .carousel__col > .carousel__cell > img {
@@ -1704,7 +1708,7 @@
         flex: 0 0 auto;
       }
 
-      .case__media,
+      .case__media:not(.carousel__cell),
       .case__row .case__media {
         height: var(--mh, auto) !important;
       }
@@ -2012,6 +2016,32 @@
 
     .case__media.case__media--typo .typo__page.is-on .typo__rule[data-keep] {
       transition: none;
+    }
+
+    .case__media.case__media--typo .typo--480 {
+      background: #0e0e14;
+    }
+
+    .case__media.case__media--typo .typo--480 .typo__stage {
+      width: 480px;
+      height: 600px;
+    }
+
+    .case__media.case__media--typo .typo--480 .typo__rule {
+      height: 1px;
+    }
+
+    .case__media.case__media--typo .typo--480 .typo__logo img {
+      width: 75px;
+      height: 40.24px;
+    }
+
+    .case__media.case__media--typo .typo__line--c {
+      transform: translateX(-50%);
+    }
+
+    .case__media.case__media--typo .typo__line--r {
+      transform: translateX(-100%);
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -2357,6 +2387,14 @@
       inset: calc(77.5 / 1015 * 100cqw) calc(77.5 / 1015 * 100cqw) auto;
     }
 
+    .carousel__cell .goals-scroller {
+      background: #0f0f12;
+    }
+
+    .carousel__cell .goals-scroller__track {
+      inset: calc(87 / 960 * 100cqw) calc(87 / 960 * 100cqw) auto;
+    }
+
     .goals-scroller .goals-scroller__track > .goal {
       position: absolute;
       left: 0;
@@ -2700,127 +2738,111 @@
     </article>
 
     <article class="project">
-      <div class="project__carousel" role="button" tabindex="0" aria-label="Фонд «Вызов»: изображения, стрелки листают" data-cursor-label="1/16" data-cursor-label-en="1/16" data-cursor-label-ru="1/16" data-cursor-kind="see">
+      <div class="project__carousel" role="button" tabindex="0" aria-label="Фонд «Вызов»: изображения, стрелки листают" data-cursor-label="1/15" data-cursor-label-en="1/15" data-cursor-label-ru="1/15" data-cursor-kind="see">
         <div class="carousel__track">
-          <div class="carousel__slide"><div class="carousel__cell"><img src="images/grid-03.webp" alt="Фонд «Вызов»" loading="lazy" decoding="async"></div></div>
-          <div class="carousel__slide"><div class="carousel__cell"><img src="images/foundation-01.webp" alt="Фонд «Вызов»" loading="lazy" decoding="async"></div></div>
-          <div class="carousel__slide"><div class="carousel__cell"><img src="images/foundation-02.webp?v=2" alt="Фонд «Вызов»" loading="lazy" decoding="async"></div></div>
-          <div class="carousel__slide"><div class="carousel__cell case__media case__media--light" style="--mh:22.5rem">
-      <div class="light-slide" data-light role="img" aria-label="We light the way toward humanity's greatest discoveries">
-        <div class="light-slide__stage">
-          <div class="light-slide__shape light-slide__shape--base"><img loading="lazy" src="images/foundation-light-shape.webp" alt="" /></div>
-          <div class="light-slide__shape light-slide__shape--spill"><img loading="lazy" src="images/foundation-light-shape.webp" alt="" /></div>
-          <div class="light-slide__sweep"><div class="light-slide__sweep-inner"><div class="light-slide__shape"><img loading="lazy" src="images/foundation-light-shape.webp" alt="" /></div></div></div>
-          <p class="light-slide__text">We light the way toward humanity's greatest discoveries</p>
-        </div>
-      </div>
-      <img loading="lazy" class="case__media-mobile" src="images/foundation-m3.webp" alt="We light the way toward humanity's greatest discoveries" width="1077" height="1080" />
-    </div></div>
-          <div class="carousel__slide"><div class="carousel__cell case__media case__media--typo" style="--mh:27.5rem">
-        <div class="typo" data-typo role="img" aria-label="Foundation event posters: Chance discovery in science, Winter talks, New horizons of science diplomacy, Open dialogue in Tula, Lectures">
+          <div class="carousel__slide"><div class="carousel__cell"><img src="images/foundation-c01.webp" srcset="images/foundation-c01-1077.webp 1077w, images/foundation-c01.webp 1920w" sizes="(max-width: 700px) 100vw, 959px" alt="Фонд «Вызов»" loading="lazy" decoding="async"></div></div>
+          <div class="carousel__slide"><div class="carousel__cell"><img src="images/foundation-c02.webp" srcset="images/foundation-c02-1077.webp 1077w, images/foundation-c02.webp 1920w" sizes="(max-width: 700px) 100vw, 959px" alt="Фонд «Вызов»" loading="lazy" decoding="async"></div></div>
+          <div class="carousel__slide"><div class="carousel__cell"><img src="images/foundation-c03.webp" srcset="images/foundation-c03-1077.webp 1077w, images/foundation-c03.webp 1920w" sizes="(max-width: 700px) 100vw, 959px" alt="Фонд «Вызов»" loading="lazy" decoding="async"></div></div>
+          <div class="carousel__slide"><div class="carousel__cell case__media case__media--typo">
+        <div class="typo typo--480" data-typo role="img" aria-label="Foundation event posters: Chance discovery in science, Winter talks, New horizons of science diplomacy, Open dialogue in Tula, Lectures">
         <div class="typo__stage">
         <div class="typo__page" data-page="lecture">
-        <span class="typo__rule" style="left:32px;top:31px;width:944px;background:#3E3E3E" data-key="32-31-944"></span>
-        <span class="typo__rule" style="left:32px;top:639px;width:944px;background:#3E3E3E" data-key="32-639-944"></span>
-        <span class="typo__rule" style="left:32px;top:1247px;width:944px;background:#3E3E3E" data-key="32-1247-944"></span>
-        <span class="typo__line typo__logo" style="left:26.68px;top:41.62px;font-size:40px"><span><img loading="lazy" src="images/foundation-science-art-logo.svg" width="164" height="88" alt="Science &amp; Art" /></span></span>
-        <span class="typo__line typo__r" style="left:342.96px;top:52.84px;font-size:25.32px;letter-spacing:0.506px;color:#F5F5F5"><span>28.08.2026</span></span>
-        <span class="typo__line typo__r" style="left:857.08px;top:52.84px;font-size:25.32px;letter-spacing:0.506px;color:#F5F5F5"><span>LECTURE</span></span>
-        <span class="typo__line typo__r" style="left:26.30px;top:660.25px;font-size:47.50px;letter-spacing:0.950px;color:#F5F5F5"><span>19:30</span></span>
-        <span class="typo__line typo__g" style="left:334.46px;top:659.40px;font-size:96.20px;letter-spacing:1.924px;color:#F1F1F1"><span>CHANCE</span></span>
-        <span class="typo__line typo__g" style="left:334.46px;top:756.40px;font-size:96.20px;letter-spacing:1.924px;color:#F1F1F1"><span>DISCOVERY</span></span>
-        <span class="typo__line typo__g" style="left:334.46px;top:852.40px;font-size:96.20px;letter-spacing:1.924px;color:#F1F1F1"><span>IN SCIENCE</span></span>
-        <span class="typo__line typo__g" style="left:334.46px;top:948.40px;font-size:96.20px;letter-spacing:1.924px;color:#F1F1F1"><span>MUSIC</span></span>
-        <span class="typo__line typo__r" style="left:342.96px;top:1202.84px;font-size:25.32px;letter-spacing:0.506px;color:#F5F5F5"><span>FOUNDATION.COM</span></span>
-        <span class="typo__line typo__r" style="left:927.72px;top:1202.84px;font-size:25.32px;letter-spacing:0.506px;color:#F5F5F5"><span>16+</span></span>
+        <span class="typo__rule" style="left:16px;top:15.5px;width:448px;background:#2C2C31" data-key="16-16-448"></span>
+        <span class="typo__rule" style="left:16px;top:299.5px;width:448px;background:#2C2C31" data-key="16-300-448"></span>
+        <span class="typo__rule" style="left:16px;top:583.5px;width:448px;background:#2C2C31" data-key="16-584-448"></span>
+        <span class="typo__line typo__logo" style="left:15.8px;top:21.3px;font-size:0"><span><img loading="lazy" src="images/foundation-science-art-logo.svg" width="75" height="40" alt="Science &amp; Art" /></span></span>
+        <span class="typo__line typo__r" style="left:163.80px;top:27.75px;font-size:10px;letter-spacing:0.2px;color:#F5F5F5"><span>28.08.2026</span></span>
+        <span class="typo__line typo__r typo__line--r" style="left:465.20px;top:27.75px;font-size:10px;letter-spacing:0.2px;color:#F5F5F5"><span>LECTURE</span></span>
+        <span class="typo__line typo__g" style="left:12.64px;top:309.50px;font-size:28px;color:#F5F5F5"><span>19:30</span></span>
+        <span class="typo__line typo__g" style="left:159.72px;top:308.00px;font-size:44px;letter-spacing:0.44px;color:#FFFFFF"><span>CHANCE</span></span>
+        <span class="typo__line typo__g" style="left:159.72px;top:352.00px;font-size:44px;letter-spacing:0.44px;color:#FFFFFF"><span>DISCOVERY</span></span>
+        <span class="typo__line typo__g" style="left:159.72px;top:396.00px;font-size:44px;letter-spacing:0.44px;color:#FFFFFF"><span>IN SCIENCE</span></span>
+        <span class="typo__line typo__g" style="left:159.72px;top:440.00px;font-size:44px;letter-spacing:0.44px;color:#FFFFFF"><span>MUSIC</span></span>
+        <span class="typo__line typo__r" style="left:163.80px;top:564.75px;font-size:10px;letter-spacing:0.2px;color:#F5F5F5"><span>FOUNDATION.COM</span></span>
+        <span class="typo__line typo__r" style="left:441.80px;top:564.75px;font-size:10px;letter-spacing:0.2px;color:#F5F5F5"><span>16+</span></span>
         </div>
         <div class="typo__page" data-page="winter">
-        <span class="typo__rule" style="left:32px;top:31px;width:944px;background:#3E3E3E" data-key="32-31-944"></span>
-        <span class="typo__rule" style="left:32px;top:1247px;width:944px;background:#3E3E3E" data-key="32-1247-944"></span>
-        <span class="typo__line typo__r" style="left:28.96px;top:56.84px;font-size:25.32px;letter-spacing:0.506px;color:#F5F5F5"><span>BORIS KUCHEROV</span></span>
-        <span class="typo__line typo__r" style="left:701.33px;top:56.84px;font-size:25.32px;letter-spacing:0.506px;color:#F5F5F5"><span>19.08 — 28.08.2026</span></span>
-        <span class="typo__line typo__g" style="left:145.56px;top:289.75px;font-size:140.51px;letter-spacing:2.810px;color:#FFFFFF"><span>SCIENCE.</span></span>
-        <span class="typo__line typo__g" style="left:75.81px;top:429.75px;font-size:140.51px;letter-spacing:2.810px;color:#FFFFFF"><span>DIALOGUE.</span></span>
-        <span class="typo__line typo__g" style="left:244.62px;top:569.75px;font-size:140.51px;letter-spacing:2.810px;color:#FFFFFF"><span>TRUST.</span></span>
-        <span class="typo__line typo__g" style="left:200.50px;top:709.75px;font-size:140.51px;letter-spacing:2.810px;color:#808080"><span>WINTER</span></span>
-        <span class="typo__line typo__g" style="left:263.04px;top:849.75px;font-size:140.51px;letter-spacing:2.810px;color:#808080"><span>TALKS</span></span>
-        <span class="typo__line typo__r" style="left:28.96px;top:1202.84px;font-size:25.32px;letter-spacing:0.506px;color:#F5F5F5"><span>2026</span></span>
-        <span class="typo__line typo__r" style="left:376.48px;top:1202.84px;font-size:25.32px;letter-spacing:0.506px;color:#F5F5F5"><span>FOUNDATION.COM</span></span>
-        <span class="typo__line typo__r" style="left:927.72px;top:1202.84px;font-size:25.32px;letter-spacing:0.506px;color:#F5F5F5"><span>16+</span></span>
+        <span class="typo__rule" style="left:16px;top:15.5px;width:448px;background:#2C2C31" data-key="16-16-448"></span>
+        <span class="typo__rule" style="left:16px;top:583.5px;width:448px;background:#2C2C31" data-key="16-584-448"></span>
+        <span class="typo__line typo__r" style="left:14.80px;top:27.75px;font-size:10px;letter-spacing:0.2px;color:#F5F5F5"><span>BORIS KUCHEROV</span></span>
+        <span class="typo__line typo__r typo__line--r" style="left:465.20px;top:27.75px;font-size:10px;letter-spacing:0.2px;color:#F5F5F5"><span>19.08 – 28.08.2026</span></span>
+        <span class="typo__line typo__g typo__line--c" style="left:240.00px;top:138.00px;font-size:64px;letter-spacing:0.64px;color:#FFFFFF"><span>SCIENCE.</span></span>
+        <span class="typo__line typo__g typo__line--c" style="left:240.00px;top:202.00px;font-size:64px;letter-spacing:0.64px;color:#FFFFFF"><span>DIALOGUE.</span></span>
+        <span class="typo__line typo__g typo__line--c" style="left:240.00px;top:266.00px;font-size:64px;letter-spacing:0.64px;color:#FFFFFF"><span>TRUST.</span></span>
+        <span class="typo__line typo__g typo__line--c" style="left:240.00px;top:330.00px;font-size:64px;letter-spacing:0.64px;color:#808080"><span>WINTER</span></span>
+        <span class="typo__line typo__g typo__line--c" style="left:240.00px;top:394.00px;font-size:64px;letter-spacing:0.64px;color:#808080"><span>TALKS</span></span>
+        <span class="typo__line typo__r" style="left:188.80px;top:564.75px;font-size:10px;letter-spacing:0.2px;color:#F5F5F5"><span>FOUNDATION.COM</span></span>
         </div>
         <div class="typo__page" data-page="diplomacy">
-        <span class="typo__rule" style="left:32px;top:31px;width:944px;background:#3E3E3E" data-key="32-31-944"></span>
-        <span class="typo__rule" style="left:268px;top:807px;width:708px;background:#3E3E3E" data-key="268-807-708"></span>
-        <span class="typo__rule" style="left:32px;top:1247px;width:944px;background:#3E3E3E" data-key="32-1247-944"></span>
-        <span class="typo__line typo__logo" style="left:26.68px;top:49.62px;font-size:40px"><span><img loading="lazy" src="images/foundation-science-art-logo.svg" width="164" height="88" alt="Science &amp; Art" /></span></span>
-        <span class="typo__line typo__g" style="left:256.46px;top:51.40px;font-size:96.20px;letter-spacing:1.924px;color:#808080"><span>NEW</span></span>
-        <span class="typo__line typo__g" style="left:257.46px;top:148.40px;font-size:96.20px;letter-spacing:1.924px;color:#808080"><span>HORIZONS</span></span>
-        <span class="typo__line typo__g" style="left:256.46px;top:244.40px;font-size:96.20px;letter-spacing:1.924px;color:#FFFFFF"><span>OF SCIENCE</span></span>
-        <span class="typo__line typo__g" style="left:256.46px;top:339.40px;font-size:96.20px;letter-spacing:1.924px;color:#FFFFFF"><span>DIPLOMACY</span></span>
-        <span class="typo__line typo__r" style="left:264.96px;top:746.84px;font-size:25.32px;letter-spacing:0.506px;color:#F5F5F5"><span>19.08 — 28.08.2026</span></span>
-        <span class="typo__line typo__r" style="left:264.16px;top:847.50px;font-size:32.00px;letter-spacing:0.640px;color:#808080"><span>Representatives of the scientific</span></span>
-        <span class="typo__line typo__r" style="left:264.16px;top:893.50px;font-size:32.00px;letter-spacing:0.640px;color:#808080"><span>community and the government</span></span>
-        <span class="typo__line typo__r" style="left:264.16px;top:939.50px;font-size:32.00px;letter-spacing:0.640px;color:#808080"><span>discussed approaches to establishing</span></span>
-        <span class="typo__line typo__r" style="left:265.16px;top:985.50px;font-size:32.00px;letter-spacing:0.640px;color:#808080"><span>scientific ties.</span></span>
-        <span class="typo__line typo__r" style="left:28.96px;top:1202.84px;font-size:25.32px;letter-spacing:0.506px;color:#F5F5F5"><span>2026</span></span>
-        <span class="typo__line typo__r" style="left:264.96px;top:1202.84px;font-size:25.32px;letter-spacing:0.506px;color:#F5F5F5"><span>FOUNDATION.COM</span></span>
-        <span class="typo__line typo__r" style="left:930.45px;top:1202.84px;font-size:25.32px;letter-spacing:0.506px;color:#F5F5F5"><span>16+</span></span>
+        <span class="typo__rule" style="left:16px;top:15.5px;width:448px;background:#2C2C31" data-key="16-16-448"></span>
+        <span class="typo__rule" style="left:165px;top:394.5px;width:299px;background:#2C2C31" data-key="165-395-299"></span>
+        <span class="typo__rule" style="left:16px;top:583.5px;width:448px;background:#2C2C31" data-key="16-584-448"></span>
+        <span class="typo__line typo__logo" style="left:15.8px;top:21.3px;font-size:0"><span><img loading="lazy" src="images/foundation-science-art-logo.svg" width="75" height="40" alt="Science &amp; Art" /></span></span>
+        <span class="typo__line typo__g" style="left:159.72px;top:24.00px;font-size:44px;letter-spacing:0.44px;color:#808080"><span>NEW</span></span>
+        <span class="typo__line typo__g" style="left:159.72px;top:68.00px;font-size:44px;letter-spacing:0.44px;color:#808080"><span>HORIZONS</span></span>
+        <span class="typo__line typo__g" style="left:159.72px;top:112.00px;font-size:44px;letter-spacing:0.44px;color:#FFFFFF"><span>OF SCIENCE</span></span>
+        <span class="typo__line typo__g" style="left:159.72px;top:156.00px;font-size:44px;letter-spacing:0.44px;color:#FFFFFF"><span>DIPLOMACY</span></span>
+        <span class="typo__line typo__r typo__line--r" style="left:267.20px;top:375.75px;font-size:10px;letter-spacing:0.2px;color:#F5F5F5"><span>17.06 – 24.06.2026</span></span>
+        <span class="typo__line typo__r" style="left:162.32px;top:414.15px;font-size:14px;letter-spacing:0.28px;color:#808080"><span>Representatives of the scientific</span></span>
+        <span class="typo__line typo__r" style="left:162.32px;top:434.45px;font-size:14px;letter-spacing:0.28px;color:#808080"><span>community and the government</span></span>
+        <span class="typo__line typo__r" style="left:162.32px;top:454.75px;font-size:14px;letter-spacing:0.28px;color:#808080"><span>discussed approaches to establishing</span></span>
+        <span class="typo__line typo__r" style="left:162.32px;top:475.05px;font-size:14px;letter-spacing:0.28px;color:#808080"><span>scientific ties.</span></span>
+        <span class="typo__line typo__r" style="left:163.80px;top:564.75px;font-size:10px;letter-spacing:0.2px;color:#F5F5F5"><span>FOUNDATION.COM</span></span>
+        <span class="typo__line typo__r" style="left:441.80px;top:564.75px;font-size:10px;letter-spacing:0.2px;color:#F5F5F5"><span>16+</span></span>
         </div>
         <div class="typo__page" data-page="tula">
-        <span class="typo__rule" style="left:32px;top:31px;width:944px;background:#3E3E3E" data-key="32-31-944"></span>
-        <span class="typo__rule" style="left:286px;top:105px;width:436px;background:#3E3E3E" data-key="286-105-436"></span>
-        <span class="typo__rule" style="left:32px;top:1247px;width:944px;background:#3E3E3E" data-key="32-1247-944"></span>
-        <span class="typo__line typo__r" style="left:418.87px;top:56.84px;font-size:25.32px;letter-spacing:0.506px;color:#F5F5F5"><span>WORKSHOP</span></span>
-        <span class="typo__line typo__g" style="left:280.84px;top:125.75px;font-size:140.51px;letter-spacing:2.810px;color:#F1F1F1"><span>OPEN</span></span>
-        <span class="typo__line typo__g" style="left:90.80px;top:265.75px;font-size:140.51px;letter-spacing:2.810px;color:#F1F1F1"><span>DIALOGUE</span></span>
-        <span class="typo__line typo__g" style="left:195.53px;top:405.75px;font-size:140.51px;letter-spacing:2.810px;color:#F1F1F1"><span>IN TULA</span></span>
-        <span class="typo__line typo__r" style="left:241.28px;top:784.03px;font-size:31.93px;letter-spacing:0.639px;color:#808080"><span>The combination of an emotional</span></span>
-        <span class="typo__line typo__r" style="left:218.01px;top:830.03px;font-size:31.93px;letter-spacing:0.639px;color:#808080"><span>perception of science and a rational</span></span>
-        <span class="typo__line typo__r" style="left:282.84px;top:876.03px;font-size:31.93px;letter-spacing:0.639px;color:#808080"><span>view of art creates a unique</span></span>
-        <span class="typo__line typo__r" style="left:398.25px;top:922.03px;font-size:31.93px;letter-spacing:0.639px;color:#808080"><span>environment.</span></span>
-        <span class="typo__line typo__r" style="left:28.96px;top:1202.84px;font-size:25.32px;letter-spacing:0.506px;color:#F5F5F5"><span>2026</span></span>
-        <span class="typo__line typo__r" style="left:376.48px;top:1202.84px;font-size:25.32px;letter-spacing:0.506px;color:#F5F5F5"><span>FOUNDATION.COM</span></span>
-        <span class="typo__line typo__r" style="left:927.72px;top:1202.84px;font-size:25.32px;letter-spacing:0.506px;color:#F5F5F5"><span>16+</span></span>
+        <span class="typo__rule" style="left:16px;top:15.5px;width:448px;background:#2C2C31" data-key="16-16-448"></span>
+        <span class="typo__rule" style="left:165px;top:46.5px;width:150px;background:#2C2C31" data-key="165-47-150"></span>
+        <span class="typo__rule" style="left:16px;top:583.5px;width:448px;background:#2C2C31" data-key="16-584-448"></span>
+        <span class="typo__line typo__r typo__line--c" style="left:240.00px;top:27.75px;font-size:10px;letter-spacing:0.2px;color:#F5F5F5"><span>WORKSHOP</span></span>
+        <span class="typo__line typo__g typo__line--c" style="left:240.00px;top:63.00px;font-size:64px;letter-spacing:0.64px;color:#FFFFFF"><span>OPEN</span></span>
+        <span class="typo__line typo__g typo__line--c" style="left:240.00px;top:127.00px;font-size:64px;letter-spacing:0.64px;color:#FFFFFF"><span>DIALOGUE</span></span>
+        <span class="typo__line typo__g typo__line--c" style="left:240.00px;top:191.00px;font-size:64px;letter-spacing:0.64px;color:#FFFFFF"><span>IN TULA</span></span>
+        <span class="typo__line typo__r typo__line--c" style="left:240.00px;top:350.15px;font-size:14px;letter-spacing:0.28px;color:#808080"><span>The combination of an emotional</span></span>
+        <span class="typo__line typo__r typo__line--c" style="left:240.00px;top:370.45px;font-size:14px;letter-spacing:0.28px;color:#808080"><span>perception of science and</span></span>
+        <span class="typo__line typo__r typo__line--c" style="left:240.00px;top:390.75px;font-size:14px;letter-spacing:0.28px;color:#808080"><span>a rational view of art</span></span>
+        <span class="typo__line typo__r" style="left:14.80px;top:564.75px;font-size:10px;letter-spacing:0.2px;color:#F5F5F5"><span>2026</span></span>
+        <span class="typo__line typo__r" style="left:188.80px;top:564.75px;font-size:10px;letter-spacing:0.2px;color:#F5F5F5"><span>FOUNDATION.COM</span></span>
+        <span class="typo__line typo__r" style="left:441.80px;top:564.75px;font-size:10px;letter-spacing:0.2px;color:#F5F5F5"><span>16+</span></span>
         </div>
         <div class="typo__page" data-page="lectures">
-        <span class="typo__rule" style="left:32px;top:31px;width:944px;background:#3E3E3E" data-key="32-31-944"></span>
-        <span class="typo__line typo__g" style="left:29.05px;top:54.55px;font-size:32.91px;letter-spacing:0.658px;color:#FFFFFF"><span>MAY 10</span></span>
-        <span class="typo__line typo__g" style="left:264.05px;top:54.55px;font-size:32.91px;letter-spacing:0.658px;color:#FFFFFF"><span>THE ORIGINS OF SCIENTIFIC THOUGHT</span></span>
-        <span class="typo__rule" style="left:32px;top:107px;width:944px;background:#3E3E3E" data-key="32-107-944"></span>
-        <span class="typo__line typo__g" style="left:29.05px;top:130.55px;font-size:32.91px;letter-spacing:0.658px;color:#FFFFFF"><span>MAY 12</span></span>
-        <span class="typo__line typo__g" style="left:264.05px;top:130.55px;font-size:32.91px;letter-spacing:0.658px;color:#FFFFFF"><span>A DIALOGUE BETWEEN ART AND MATTER</span></span>
-        <span class="typo__rule" style="left:32px;top:183px;width:944px;background:#3E3E3E" data-key="32-183-944"></span>
-        <span class="typo__line typo__g" style="left:29.05px;top:206.55px;font-size:32.91px;letter-spacing:0.658px;color:#FFFFFF"><span>MAY 14</span></span>
-        <span class="typo__line typo__g" style="left:264.05px;top:206.55px;font-size:32.91px;letter-spacing:0.658px;color:#FFFFFF"><span>THE ARCHITECTURE OF DISCOVERY</span></span>
-        <span class="typo__rule" style="left:32px;top:259px;width:944px;background:#3E3E3E" data-key="32-259-944"></span>
-        <span class="typo__line typo__g" style="left:29.05px;top:282.55px;font-size:32.91px;letter-spacing:0.658px;color:#FFFFFF"><span>MAY 16</span></span>
-        <span class="typo__line typo__g" style="left:265.05px;top:282.55px;font-size:32.91px;letter-spacing:0.658px;color:#FFFFFF"><span>PATTERNS BENEATH THE VISIBLE WORLD</span></span>
-        <span class="typo__rule" style="left:32px;top:335px;width:944px;background:#3E3E3E" data-key="32-335-944"></span>
-        <span class="typo__line typo__g" style="left:29.05px;top:358.55px;font-size:32.91px;letter-spacing:0.658px;color:#FFFFFF"><span>MAY 18</span></span>
-        <span class="typo__line typo__g" style="left:264.05px;top:358.55px;font-size:32.91px;letter-spacing:0.658px;color:#FFFFFF"><span>THE LANGUAGE OF NATURAL LAWS</span></span>
-        <span class="typo__rule" style="left:32px;top:411px;width:944px;background:#3E3E3E" data-key="32-411-944"></span>
-        <span class="typo__line typo__g" style="left:29.05px;top:434.55px;font-size:32.91px;letter-spacing:0.658px;color:#FFFFFF"><span>MAY 20</span></span>
-        <span class="typo__line typo__g" style="left:265.05px;top:434.55px;font-size:32.91px;letter-spacing:0.658px;color:#FFFFFF"><span>FRAGMENTS OF A LIVING SYSTEM</span></span>
-        <span class="typo__rule" style="left:32px;top:487px;width:944px;background:#3E3E3E" data-key="32-487-944"></span>
-        <span class="typo__line typo__g" style="left:29.05px;top:510.55px;font-size:32.91px;letter-spacing:0.658px;color:#FFFFFF"><span>MAY 22</span></span>
-        <span class="typo__line typo__g" style="left:264.05px;top:510.55px;font-size:32.91px;letter-spacing:0.658px;color:#FFFFFF"><span>THE GEOMETRY OF PERCEPTION</span></span>
-        <span class="typo__rule" style="left:32px;top:563px;width:944px;background:#3E3E3E" data-key="32-563-944"></span>
-        <span class="typo__line typo__g" style="left:29.05px;top:586.54px;font-size:32.91px;letter-spacing:0.658px;color:#FFFFFF"><span>MAY 24</span></span>
-        <span class="typo__line typo__g" style="left:265.05px;top:586.54px;font-size:32.91px;letter-spacing:0.658px;color:#FFFFFF"><span>ECHOES OF THE EXPERIMENT</span></span>
-        <span class="typo__rule" style="left:32px;top:639px;width:944px;background:#3E3E3E" data-key="32-639-944"></span>
-        <span class="typo__line typo__g" style="left:29.05px;top:662.54px;font-size:32.91px;letter-spacing:0.658px;color:#FFFFFF"><span>MAY 26</span></span>
-        <span class="typo__line typo__g" style="left:264.05px;top:662.54px;font-size:32.91px;letter-spacing:0.658px;color:#FFFFFF"><span>THE FUTURE ENCODED IN FORM</span></span>
-        <span class="typo__rule" style="left:32px;top:715px;width:944px;background:#3E3E3E" data-key="32-715-944"></span>
-        <span class="typo__line typo__g" style="left:1.54px;top:1067.54px;font-size:179.92px;letter-spacing:3.598px;color:#FFFFFF"><span>LECTURES</span></span>
+        <span class="typo__rule" style="left:16px;top:15.5px;width:448px;background:#2C2C31" data-key="16-16-448"></span>
+        <span class="typo__line typo__g" style="left:14.32px;top:29.05px;font-size:14px;color:#FFFFFF"><span>MAY 10</span></span>
+        <span class="typo__line typo__g" style="left:163.32px;top:29.05px;font-size:14px;color:#FFFFFF"><span>THE ORIGINS OF SCIENTIFIC THOUGHT</span></span>
+        <span class="typo__rule" style="left:16px;top:55.5px;width:448px;background:#2C2C31" data-key="16-56-448"></span>
+        <span class="typo__line typo__g" style="left:14.32px;top:69.05px;font-size:14px;color:#FFFFFF"><span>MAY 12</span></span>
+        <span class="typo__line typo__g" style="left:163.32px;top:69.05px;font-size:14px;color:#FFFFFF"><span>A DIALOGUE BETWEEN ART AND MATTER</span></span>
+        <span class="typo__rule" style="left:16px;top:95.5px;width:448px;background:#2C2C31" data-key="16-96-448"></span>
+        <span class="typo__line typo__g" style="left:14.32px;top:109.05px;font-size:14px;color:#FFFFFF"><span>MAY 14</span></span>
+        <span class="typo__line typo__g" style="left:163.32px;top:109.05px;font-size:14px;color:#FFFFFF"><span>THE ARCHITECTURE OF DISCOVERY</span></span>
+        <span class="typo__rule" style="left:16px;top:135.5px;width:448px;background:#2C2C31" data-key="16-136-448"></span>
+        <span class="typo__line typo__g" style="left:14.32px;top:149.05px;font-size:14px;color:#FFFFFF"><span>MAY 16</span></span>
+        <span class="typo__line typo__g" style="left:163.32px;top:149.05px;font-size:14px;color:#FFFFFF"><span>PATTERNS BENEATH THE VISIBLE WORLD</span></span>
+        <span class="typo__rule" style="left:16px;top:175.5px;width:448px;background:#2C2C31" data-key="16-176-448"></span>
+        <span class="typo__line typo__g" style="left:14.32px;top:189.05px;font-size:14px;color:#FFFFFF"><span>MAY 18</span></span>
+        <span class="typo__line typo__g" style="left:163.32px;top:189.05px;font-size:14px;color:#FFFFFF"><span>THE LANGUAGE OF NATURAL LAWS</span></span>
+        <span class="typo__rule" style="left:16px;top:215.5px;width:448px;background:#2C2C31" data-key="16-216-448"></span>
+        <span class="typo__line typo__g" style="left:14.32px;top:229.05px;font-size:14px;color:#FFFFFF"><span>MAY 20</span></span>
+        <span class="typo__line typo__g" style="left:163.32px;top:229.05px;font-size:14px;color:#FFFFFF"><span>FRAGMENTS OF A LIVING SYSTEM</span></span>
+        <span class="typo__rule" style="left:16px;top:255.5px;width:448px;background:#2C2C31" data-key="16-256-448"></span>
+        <span class="typo__line typo__g" style="left:14.32px;top:269.05px;font-size:14px;color:#FFFFFF"><span>MAY 22</span></span>
+        <span class="typo__line typo__g" style="left:163.32px;top:269.05px;font-size:14px;color:#FFFFFF"><span>THE GEOMETRY OF PERCEPTION</span></span>
+        <span class="typo__rule" style="left:16px;top:295.5px;width:448px;background:#2C2C31" data-key="16-296-448"></span>
+        <span class="typo__line typo__g" style="left:14.32px;top:309.05px;font-size:14px;color:#FFFFFF"><span>MAY 24</span></span>
+        <span class="typo__line typo__g" style="left:163.32px;top:309.05px;font-size:14px;color:#FFFFFF"><span>ECHOES OF THE EXPERIMENT</span></span>
+        <span class="typo__rule" style="left:16px;top:335.5px;width:448px;background:#2C2C31" data-key="16-336-448"></span>
+        <span class="typo__line typo__g" style="left:14.32px;top:349.05px;font-size:14px;color:#FFFFFF"><span>MAY 26</span></span>
+        <span class="typo__line typo__g" style="left:163.32px;top:349.05px;font-size:14px;color:#FFFFFF"><span>THE FUTURE ENCODED IN FORM</span></span>
+        <span class="typo__rule" style="left:16px;top:375.5px;width:448px;background:#2C2C31" data-key="16-376-448"></span>
+        <span class="typo__line typo__g" style="left:5.68px;top:483.73px;font-size:86px;color:#FFFFFF"><span>LECTURES</span></span>
+        <span class="typo__rule" style="left:16px;top:583.5px;width:448px;background:#2C2C31" data-key="16-584-448"></span>
         </div>
         </div>
         </div>
-      </div>
-<div class="carousel__cell"><img src="images/foundation-05-planet.webp" alt="Фонд «Вызов»" loading="lazy" decoding="async"></div></div>
-          <div class="carousel__slide"><div class="carousel__cell"><img src="images/foundation-06.webp" alt="Фонд «Вызов»" loading="lazy" decoding="async"></div></div>
-          <div class="carousel__slide"><div class="carousel__cell"><img src="images/foundation-07.webp" alt="Фонд «Вызов»" loading="lazy" decoding="async"></div>
-<div class="carousel__cell"><img src="images/foundation-08.webp" alt="Фонд «Вызов»" loading="lazy" decoding="async"></div></div>
-          <div class="carousel__slide"><div class="carousel__cell case__media case__media--goals" style="--mh:14.375rem">
+      </div><div class="carousel__cell"><img src="images/foundation-c04r.webp" srcset="images/foundation-c04r-540.webp 540w, images/foundation-c04r.webp 960w" sizes="(max-width: 700px) 50vw, 480px" alt="Фонд «Вызов»" loading="lazy" decoding="async"></div></div>
+          <div class="carousel__slide"><div class="carousel__cell"><img src="images/foundation-c05.webp" srcset="images/foundation-c05-1077.webp 1077w, images/foundation-c05.webp 1920w" sizes="(max-width: 700px) 100vw, 959px" alt="Фонд «Вызов»" loading="lazy" decoding="async"></div></div>
+          <div class="carousel__slide"><div class="carousel__cell"><img src="images/foundation-c06.webp" srcset="images/foundation-c06-1077.webp 1077w, images/foundation-c06.webp 1920w" sizes="(max-width: 700px) 100vw, 959px" alt="Фонд «Вызов»" loading="lazy" decoding="async"></div></div>
+          <div class="carousel__slide"><div class="carousel__cell case__media case__media--goals">
       <div class="goals-scroller" data-goals-scroller role="img" aria-label="Digital mockup — the goals of the foundation">
         <div class="goals-scroller__track">
 
@@ -2857,9 +2879,9 @@
 
       
     </div></div>
-          <div class="carousel__slide"><div class="carousel__cell"><img src="images/foundation-10.webp?v=2" alt="Фонд «Вызов»" loading="lazy" decoding="async"></div></div>
-          <div class="carousel__slide"><div class="carousel__cell"><img src="images/foundation-11.webp" alt="Фонд «Вызов»" loading="lazy" decoding="async"></div>
-<div class="carousel__cell case__media case__media--citylight" style="--mh:27.5rem">
+          <div class="carousel__slide"><div class="carousel__cell"><img src="images/foundation-c08.webp" srcset="images/foundation-c08-1077.webp 1077w, images/foundation-c08.webp 1920w" sizes="(max-width: 700px) 100vw, 959px" alt="Фонд «Вызов»" loading="lazy" decoding="async"></div></div>
+          <div class="carousel__slide"><div class="carousel__cell"><img src="images/foundation-c09l.webp" srcset="images/foundation-c09l-540.webp 540w, images/foundation-c09l.webp 960w" sizes="(max-width: 700px) 50vw, 480px" alt="Фонд «Вызов»" loading="lazy" decoding="async"></div>
+<div class="carousel__cell case__media case__media--citylight">
         <div class="citylight" data-citylight role="img" aria-label="How to communicate to the general public — citylight">
           <video class="citylight__street" muted loop playsinline preload="none" data-lazy-play width="1008" height="1344"><source media="(max-width: 700px)" src="videos/foundation-citylight-street-m.mp4" type="video/mp4" /><source src="videos/foundation-citylight-street.mp4" type="video/mp4" /></video>
           <div class="citylight__screen">
@@ -2871,14 +2893,12 @@
           </div>
         </div>
       </div></div>
-          <div class="carousel__slide"><div class="carousel__cell carousel__cell--fade carousel__cell--fade-slow"><img class="is-active" src="images/foundation-ig-1.webp" alt="Фонд «Вызов»" loading="lazy" decoding="async"><img src="images/foundation-ig-2.webp" alt="Фонд «Вызов»" loading="lazy" decoding="async"><img src="images/foundation-ig-3.webp" alt="Фонд «Вызов»" loading="lazy" decoding="async"><img src="images/foundation-ig-4.webp" alt="Фонд «Вызов»" loading="lazy" decoding="async"></div></div>
-          <div class="carousel__slide"><div class="carousel__cell"><img src="images/foundation-14.webp" alt="Фонд «Вызов»" loading="lazy" decoding="async"></div></div>
-          <div class="carousel__slide"><div class="carousel__cell"><img src="images/foundation-15.webp" alt="Фонд «Вызов»" loading="lazy" decoding="async"></div>
-<div class="carousel__cell"><img src="images/foundation-16.webp" alt="Фонд «Вызов»" loading="lazy" decoding="async"></div></div>
-          <div class="carousel__slide"><div class="carousel__cell"><img src="images/foundation-17.webp" alt="Фонд «Вызов»" loading="lazy" decoding="async"></div></div>
-          <div class="carousel__slide"><div class="carousel__cell"><img src="images/foundation-19.webp?v=3" alt="Фонд «Вызов»" loading="lazy" decoding="async"></div></div>
-          <div class="carousel__slide"><div class="carousel__col"><div class="carousel__cell"><img src="images/foundation-20.webp" alt="Фонд «Вызов»" loading="lazy" decoding="async"></div><div class="carousel__cell"><img src="images/foundation-21.webp" alt="Фонд «Вызов»" loading="lazy" decoding="async"></div></div>
-<div class="carousel__cell"><img src="images/foundation-22.webp" alt="Фонд «Вызов»" loading="lazy" decoding="async"></div></div>
+          <div class="carousel__slide"><div class="carousel__cell carousel__cell--fade carousel__cell--fade-slow"><img class="is-active" src="images/foundation-cig1.webp" srcset="images/foundation-cig1-1077.webp 1077w, images/foundation-cig1.webp 1920w" sizes="(max-width: 700px) 100vw, 959px" alt="Фонд «Вызов»" loading="lazy" decoding="async"><img src="images/foundation-cig2.webp" srcset="images/foundation-cig2-1077.webp 1077w, images/foundation-cig2.webp 1920w" sizes="(max-width: 700px) 100vw, 959px" alt="Фонд «Вызов»" loading="lazy" decoding="async"><img src="images/foundation-cig3.webp" srcset="images/foundation-cig3-1077.webp 1077w, images/foundation-cig3.webp 1920w" sizes="(max-width: 700px) 100vw, 959px" alt="Фонд «Вызов»" loading="lazy" decoding="async"><img src="images/foundation-cig4.webp" srcset="images/foundation-cig4-1077.webp 1077w, images/foundation-cig4.webp 1920w" sizes="(max-width: 700px) 100vw, 959px" alt="Фонд «Вызов»" loading="lazy" decoding="async"></div></div>
+          <div class="carousel__slide"><div class="carousel__cell"><img src="images/foundation-c11.webp" srcset="images/foundation-c11-1077.webp 1077w, images/foundation-c11.webp 1920w" sizes="(max-width: 700px) 100vw, 959px" alt="Фонд «Вызов»" loading="lazy" decoding="async"></div></div>
+          <div class="carousel__slide"><div class="carousel__cell"><img src="images/foundation-c12.webp" srcset="images/foundation-c12-1077.webp 1077w, images/foundation-c12.webp 1920w" sizes="(max-width: 700px) 100vw, 959px" alt="Фонд «Вызов»" loading="lazy" decoding="async"></div></div>
+          <div class="carousel__slide"><div class="carousel__cell"><img src="images/foundation-c13.webp" srcset="images/foundation-c13-1077.webp 1077w, images/foundation-c13.webp 1920w" sizes="(max-width: 700px) 100vw, 959px" alt="Фонд «Вызов»" loading="lazy" decoding="async"></div></div>
+          <div class="carousel__slide"><div class="carousel__cell"><img src="images/foundation-c14.webp" srcset="images/foundation-c14-1077.webp 1077w, images/foundation-c14.webp 1920w" sizes="(max-width: 700px) 100vw, 959px" alt="Фонд «Вызов»" loading="lazy" decoding="async"></div></div>
+          <div class="carousel__slide"><div class="carousel__cell"><img src="images/foundation-c15.webp" srcset="images/foundation-c15-1077.webp 1077w, images/foundation-c15.webp 1920w" sizes="(max-width: 700px) 100vw, 959px" alt="Фонд «Вызов»" loading="lazy" decoding="async"></div></div>
         </div>
       </div>
       <div class="project__row">
@@ -4768,10 +4788,12 @@
       function fit() {
         var w = root.clientWidth,
           h = root.clientHeight,
-          s = Math.min(w / 1008, h / 1280);
+          sw = stage.offsetWidth,
+          sh = stage.offsetHeight,
+          s = Math.min(w / sw, h / sh);
         stage.style.setProperty('--s', s);
-        stage.style.setProperty('--tx', (w - 1008 * s) / 2 + 'px');
-        stage.style.setProperty('--ty', (h - 1280 * s) / 2 + 'px');
+        stage.style.setProperty('--tx', (w - sw * s) / 2 + 'px');
+        stage.style.setProperty('--ty', (h - sh * s) / 2 + 'px');
       }
       fit();
       if ('ResizeObserver' in window) new ResizeObserver(fit).observe(root);
