@@ -36,6 +36,11 @@ each time. Read it before touching a `.case` section.
   then `git merge-base --is-ancestor origin/main origin/<feature>` to
   confirm a clean fast-forward, then push the feature branch's tip onto
   both `main` and the pages branch. Never merge/rebase/force-push.
+- **`v1-oceanic` is a frozen save point** (Nov 19 2026, commit `3faabff`):
+  the site as published with Oceanic Text, kept before the font
+  rebuild. Never commit to it or move it. To roll back, restore its tree
+  in a new commit on the feature branch (`git checkout origin/v1-oceanic
+  -- . && git commit`), then publish as usual, so it stays a fast-forward.
 
 ## Bilingual content system
 
