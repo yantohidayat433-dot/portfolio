@@ -106,8 +106,9 @@ sidebar has 3px side padding (so the logo's stroke isn't clipped by its
 `overflow-x: hidden`), which makes the bio text start 24px from the media and
 the divider end 24px from the window edge (client, Nov 19). One size 16/1.45
 (client, Nov 19, after trying 1.2 and 1.3; Plex's hhea box is 1.3em, so
-inline pills get `padding: .075em 0` to tile line to line), 16px between paragraphs (a first-line indent instead
-was tried on Nov 19 and rejected). The sidebar divider is the light `--color-divider` (15% black), not `#7F7F80`. Project: media full column
+inline pills get `padding: .075em 0` to tile line to line), 8px between
+paragraphs (client tried 16px and a first-line indent on Nov 19), 16px
+between sidebar blocks and from a project title to its description. The sidebar divider is the light `--color-divider` (15% black), not `#7F7F80`. Project: media full column
 width at 3:2, 15px, then a caption row: CSS-counter number in a 49px column +
 uppercase title (plate kept), description 16px below it, flush left under the number (as on the reference),
 48px to the next project, no dividers, no «Смотреть» (client removed it on
