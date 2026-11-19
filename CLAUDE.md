@@ -108,7 +108,8 @@ the divider end 24px from the window edge (client, Nov 19). One size 16/1.3
 (130%: Plex's hhea box is exactly 1.3em, so inline pills with `padding: 0`
 tile line to line). Paragraphs (bio, project descriptions) have no gap and a
 16px first-line indent from the second paragraph on (client, Nov 19:
-«красная строка 16px»); the other sidebar blocks stay 16px apart. Project: media full column
+«красная строка 16px»); the other sidebar blocks stay 16px apart. The
+sidebar divider is the light `--color-divider` (15% black), not `#7F7F80`. Project: media full column
 width at 3:2, 15px, then a caption row: CSS-counter number in a 49px column +
 uppercase title (plate kept), description indented 49px and 16px below it,
 48px to the next project, no dividers, no «Смотреть» (client removed it on
