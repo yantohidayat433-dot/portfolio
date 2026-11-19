@@ -150,11 +150,26 @@ paragraphs and its typography quote) were re-wrapped greedily at 359px with
 short words glued; re-check with the «lines > brs + 1» test after any phone
 text change.
 
-**Home carousels (≥901px and phones, Nov 19, after actualsource.work).** Basarab's and
-Foundation's home cards are `.project__carousel`s (sibling of their
-`.project__media-link`, which still serves <901px; the carousel has its own
-16:10 box and does NOT carry `.project__media`, whose hover zoom and img rules
-would hit the animations inside). Cell rules only touch direct children
+**Home carousels (all widths, Nov 19, after actualsource.work).** Vocamate's,
+Basarab's and Foundation's home cards are `.project__carousel`s (they replaced
+the cover links; tablets got them too, with the n/x counter and swipe as on
+phones). The carousel has its own 16:10 box and does NOT carry
+`.project__media`, whose hover zoom and img rules would hit the animations
+inside.
+
+Vocamate (19 slides) comes from the client's single-frame Behance layout, Figma
+file `C9MXsSOHZepwLodUWB4hMm` («иванова виктория | проекты»), frame `649:32687`
+(1400×21477): exported at 1.4x and cut by `cut.py`-style scripts into 1960×1225
+slides (`vocamate-NN.webp` + `-1077` phone files, q88; NN = slide id in that
+cut, not a position). Row blocks are fitted with their own 40px margins on the
+frame's #010101, text/cover blocks are 1400×875 windows, the tall phone and the
+poster are fitted whole; the tablet block and the team/QR/thank-you ending were
+left out (the tablet is the hero clip). Slide 1 is the hero `<video>` itself
+(moved into the carousel; its IIFE still drives it). Five Behance clips
+(Kinescope embeds; the 1080p files sit on `edge-msk-N.kinescopecdn.net`, added
+to the environment) are `videos/vocamate-vN.mp4` (1600 wide, crf 24, no audio)
+with first-frame posters, in `carousel__cell--dark` cells (contain on #010101,
+the clips' own background). The title still links to Behance (no case page). Cell rules only touch direct children
 (`.carousel__cell > img`). Foundation: 16 slides, grid-03 cover then the case;
 its four live slots (light, typo posters, goals stack, citylight) are copies of
 the case markup inside `carousel__cell case__media case__media--X` cells (their

@@ -458,7 +458,6 @@
       display: block;
     }
 
-    .project__carousel,
     .project__count {
       display: none;
     }
@@ -1468,107 +1467,110 @@
       }
     }
 
-    /* ---------- Home carousels (≥901px and phones): a case's images on the home card, click or swipe to flip ---------- */
+    /* ---------- Home carousels: a case's images on the home card, click or swipe to flip ---------- */
 
-    @media (min-width: 901px), (max-width: 700px) {
-      .project:has(> .project__carousel) > .project__media-link {
-        display: none;
-      }
+    .project__carousel {
+      display: block;
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16 / 10;
+      overflow: hidden;
+      background: var(--color-media-bg);
+      outline-offset: 2px;
+    }
 
-      .project__carousel {
-        display: block;
-        position: relative;
-        width: 100%;
-        aspect-ratio: 16 / 10;
-        overflow: hidden;
-        background: var(--color-media-bg);
-        outline-offset: 2px;
-      }
+    .carousel__track {
+      display: flex;
+      height: 100%;
+      transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+      will-change: transform;
+    }
 
-      .carousel__track {
-        display: flex;
-        height: 100%;
-        transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
-        will-change: transform;
-      }
+    .carousel__slide {
+      display: flex;
+      flex: 0 0 100%;
+      height: 100%;
+    }
 
-      .carousel__slide {
-        display: flex;
-        flex: 0 0 100%;
-        height: 100%;
-      }
+    .carousel__col {
+      display: flex;
+      flex: 1 1 0;
+      flex-direction: column;
+      min-width: 0;
+    }
 
-      .carousel__col {
-        display: flex;
-        flex: 1 1 0;
-        flex-direction: column;
-        min-width: 0;
-      }
+    .carousel__cell {
+      position: relative;
+      flex: 1 1 0;
+      min-width: 0;
+      height: 100%;
+      overflow: hidden;
+      background: var(--color-media-bg);
+    }
 
-      .carousel__cell {
-        position: relative;
-        flex: 1 1 0;
-        min-width: 0;
-        height: 100%;
-        overflow: hidden;
-        background: var(--color-media-bg);
-      }
+    .carousel__col > .carousel__cell {
+      height: auto;
+    }
 
-      .carousel__col > .carousel__cell {
-        height: auto;
-      }
+    .carousel__cell > img,
+    .carousel__cell > video,
+    .carousel__col > .carousel__cell > img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      max-width: none;
+      object-fit: cover;
+    }
 
-      .carousel__cell > img,
-      .carousel__cell > video,
-      .carousel__col > .carousel__cell > img {
-        display: block;
-        width: 100%;
-        height: 100%;
-        max-width: none;
-        object-fit: cover;
-      }
+    .carousel__cell--video > video,
+    .carousel__cell--fade > img {
+      position: absolute;
+      inset: 0;
+    }
 
-      .carousel__cell--video > video,
-      .carousel__cell--fade > img {
-        position: absolute;
-        inset: 0;
-      }
+    .carousel__cell--fade > img {
+      opacity: 0;
+      z-index: 1;
+      transition: opacity 0s linear 0.6s;
+    }
 
-      .carousel__cell--fade > img {
-        opacity: 0;
-        z-index: 1;
-        transition: opacity 0s linear 0.6s;
-      }
+    .carousel__cell--fade > img.is-active {
+      opacity: 1;
+      z-index: 2;
+      transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    }
 
-      .carousel__cell--fade > img.is-active {
-        opacity: 1;
-        z-index: 2;
-        transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-      }
+    .carousel__slide--contain {
+      align-items: center;
+      background: #ffffff;
+    }
 
-      .carousel__slide--contain {
-        align-items: center;
-        background: #ffffff;
-      }
+    .carousel__slide--contain .carousel__cell {
+      height: auto;
+      aspect-ratio: 676 / 854;
+      background: none;
+    }
 
-      .carousel__slide--contain .carousel__cell {
-        height: auto;
-        aspect-ratio: 676 / 854;
-        background: none;
-      }
+    .carousel__cell--dark {
+      background: #010101;
+    }
 
-      .carousel__cell--logo {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background: #e7e8de;
-      }
+    .carousel__cell--dark > img,
+    .carousel__cell--dark > video {
+      object-fit: contain;
+    }
 
-      .carousel__cell.carousel__cell--logo > img {
-        width: 37.08%;
-        height: auto;
-        object-fit: contain;
-      }
+    .carousel__cell--logo {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #e7e8de;
+    }
+
+    .carousel__cell.carousel__cell--logo > img {
+      width: 37.08%;
+      height: auto;
+      object-fit: contain;
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -2293,6 +2295,22 @@
         width: 100%;
         height: 100%;
         object-fit: cover;
+      }
+    }
+
+    @media (min-width: 701px) and (max-width: 900px) {
+      .project__title {
+        display: flex;
+        align-items: baseline;
+      }
+
+      .project__count {
+        display: block;
+        margin-left: auto;
+      }
+
+      .project__carousel {
+        touch-action: pan-y;
       }
     }
 
@@ -3124,13 +3142,29 @@
   <main class="projects">
 
     <article class="project project--hero">
-      <a class="project__media-link" href="https://www.behance.net/gallery/235073919/Vocamate-AI-Brand-Identity-Website" target="_blank" rel="noopener noreferrer" aria-label="Vocamate на Behance" data-cursor-label="смотреть" data-cursor-label-en="view" data-cursor-label-ru="смотреть" data-cursor-kind="see">
-        <div class="project__media">
-          <video autoplay muted loop playsinline preload="auto" poster="images/grid-01.webp" data-poster-desktop="images/grid-01.webp" data-poster-mobile="images/grid-01.webp"><source src="videos/grid-video-01-m.mp4" media="(max-width: 700px)" type="video/mp4" /><source src="videos/grid-video-01.mp4" type="video/mp4" />
-            <source src="videos/grid-video-01.mp4" type="video/mp4" />
-          </video>
+      <div class="project__carousel" role="button" tabindex="0" aria-label="Vocamate AI: изображения, стрелки листают" data-cursor-label="1/19" data-cursor-label-en="1/19" data-cursor-label-ru="1/19" data-cursor-kind="see">
+        <div class="carousel__track">
+          <div class="carousel__slide"><div class="carousel__cell carousel__cell--video"><video autoplay muted loop playsinline preload="auto" poster="images/grid-01.webp" data-poster-desktop="images/grid-01.webp" data-poster-mobile="images/grid-01.webp"><source src="videos/grid-video-01-m.mp4" media="(max-width: 700px)" type="video/mp4" /><source src="videos/grid-video-01.mp4" type="video/mp4" /></video></div></div>
+          <div class="carousel__slide"><div class="carousel__cell"><img src="images/vocamate-01.webp" srcset="images/vocamate-01-1077.webp 1077w, images/vocamate-01.webp 1960w" sizes="(max-width: 700px) 100vw, 944px" alt="Vocamate AI" loading="lazy" decoding="async"></div></div>
+          <div class="carousel__slide"><div class="carousel__cell"><img src="images/vocamate-03.webp" srcset="images/vocamate-03-1077.webp 1077w, images/vocamate-03.webp 1960w" sizes="(max-width: 700px) 100vw, 944px" alt="Vocamate AI" loading="lazy" decoding="async"></div></div>
+          <div class="carousel__slide"><div class="carousel__cell"><img src="images/vocamate-04.webp" srcset="images/vocamate-04-1077.webp 1077w, images/vocamate-04.webp 1960w" sizes="(max-width: 700px) 100vw, 944px" alt="Vocamate AI" loading="lazy" decoding="async"></div></div>
+          <div class="carousel__slide"><div class="carousel__cell"><img src="images/vocamate-05.webp" srcset="images/vocamate-05-1077.webp 1077w, images/vocamate-05.webp 1960w" sizes="(max-width: 700px) 100vw, 944px" alt="Vocamate AI" loading="lazy" decoding="async"></div></div>
+          <div class="carousel__slide"><div class="carousel__cell"><img src="images/vocamate-06.webp" srcset="images/vocamate-06-1077.webp 1077w, images/vocamate-06.webp 1960w" sizes="(max-width: 700px) 100vw, 944px" alt="Vocamate AI" loading="lazy" decoding="async"></div></div>
+          <div class="carousel__slide"><div class="carousel__cell"><img src="images/vocamate-07.webp" srcset="images/vocamate-07-1077.webp 1077w, images/vocamate-07.webp 1960w" sizes="(max-width: 700px) 100vw, 944px" alt="Vocamate AI" loading="lazy" decoding="async"></div></div>
+          <div class="carousel__slide"><div class="carousel__cell carousel__cell--video carousel__cell--dark"><img src="images/vocamate-v2.webp" alt="Vocamate AI" loading="lazy" decoding="async"><video muted loop playsinline preload="none"><source src="videos/vocamate-v2.mp4" type="video/mp4" /></video></div></div>
+          <div class="carousel__slide"><div class="carousel__cell"><img src="images/vocamate-09.webp" srcset="images/vocamate-09-1077.webp 1077w, images/vocamate-09.webp 1960w" sizes="(max-width: 700px) 100vw, 944px" alt="Vocamate AI" loading="lazy" decoding="async"></div></div>
+          <div class="carousel__slide"><div class="carousel__cell"><img src="images/vocamate-11.webp" srcset="images/vocamate-11-1077.webp 1077w, images/vocamate-11.webp 1960w" sizes="(max-width: 700px) 100vw, 944px" alt="Vocamate AI" loading="lazy" decoding="async"></div></div>
+          <div class="carousel__slide"><div class="carousel__cell"><img src="images/vocamate-12.webp" srcset="images/vocamate-12-1077.webp 1077w, images/vocamate-12.webp 1960w" sizes="(max-width: 700px) 100vw, 944px" alt="Vocamate AI" loading="lazy" decoding="async"></div></div>
+          <div class="carousel__slide"><div class="carousel__cell"><img src="images/vocamate-13.webp" srcset="images/vocamate-13-1077.webp 1077w, images/vocamate-13.webp 1960w" sizes="(max-width: 700px) 100vw, 944px" alt="Vocamate AI" loading="lazy" decoding="async"></div></div>
+          <div class="carousel__slide"><div class="carousel__cell"><img src="images/vocamate-14.webp" srcset="images/vocamate-14-1077.webp 1077w, images/vocamate-14.webp 1960w" sizes="(max-width: 700px) 100vw, 944px" alt="Vocamate AI" loading="lazy" decoding="async"></div></div>
+          <div class="carousel__slide"><div class="carousel__cell carousel__cell--video carousel__cell--dark"><img src="images/vocamate-v3.webp" alt="Vocamate AI" loading="lazy" decoding="async"><video muted loop playsinline preload="none"><source src="videos/vocamate-v3.mp4" type="video/mp4" /></video></div></div>
+          <div class="carousel__slide"><div class="carousel__cell carousel__cell--video carousel__cell--dark"><img src="images/vocamate-v4.webp" alt="Vocamate AI" loading="lazy" decoding="async"><video muted loop playsinline preload="none"><source src="videos/vocamate-v4.mp4" type="video/mp4" /></video></div></div>
+          <div class="carousel__slide"><div class="carousel__cell"><img src="images/vocamate-17.webp" srcset="images/vocamate-17-1077.webp 1077w, images/vocamate-17.webp 1960w" sizes="(max-width: 700px) 100vw, 944px" alt="Vocamate AI" loading="lazy" decoding="async"></div></div>
+          <div class="carousel__slide"><div class="carousel__cell"><img src="images/vocamate-18.webp" srcset="images/vocamate-18-1077.webp 1077w, images/vocamate-18.webp 1960w" sizes="(max-width: 700px) 100vw, 944px" alt="Vocamate AI" loading="lazy" decoding="async"></div></div>
+          <div class="carousel__slide"><div class="carousel__cell carousel__cell--video carousel__cell--dark"><img src="images/vocamate-v5.webp" alt="Vocamate AI" loading="lazy" decoding="async"><video muted loop playsinline preload="none"><source src="videos/vocamate-v5.mp4" type="video/mp4" /></video></div></div>
+          <div class="carousel__slide"><div class="carousel__cell carousel__cell--video carousel__cell--dark"><img src="images/vocamate-v6.webp" alt="Vocamate AI" loading="lazy" decoding="async"><video muted loop playsinline preload="none"><source src="videos/vocamate-v6.mp4" type="video/mp4" /></video></div></div>
         </div>
-      </a>
+      </div>
       <div class="project__row">
         <h2 class="project__title">
           <a class="project__badge" href="https://www.behance.net/gallery/235073919/Vocamate-AI-Brand-Identity-Website" target="_blank" rel="noopener noreferrer" data-en="&lt;span class=&quot;project__badge-title&quot;&gt;Vocamate AI&lt;/span&gt;" data-ru="&lt;span class=&quot;project__badge-title&quot;&gt;Vocamate AI&lt;/span&gt;"><span class="project__badge-title">Vocamate AI</span></a>
@@ -3147,14 +3181,6 @@
     </article>
 
     <article class="project project--half">
-      <button class="project__media-link" type="button" data-case-open="case-basarab" data-cursor-label="смотреть" data-cursor-label-en="view" data-cursor-label-ru="смотреть" data-cursor-kind="see">
-        <span class="project__media">
-          <picture>
-            <source media="(max-width: 700px)" srcset="images/grid-02-1077.webp">
-            <img src="images/grid-02.webp?v=2" alt="Basarab" loading="lazy">
-          </picture>
-        </span>
-      </button>
       <div class="project__carousel" role="button" tabindex="0" aria-label="Basarab: изображения, стрелки листают" data-cursor-label="1/18" data-cursor-label-en="1/18" data-cursor-label-ru="1/18" data-cursor-kind="see">
         <div class="carousel__track">
           <div class="carousel__slide"><div class="carousel__cell"><img src="images/grid-02.webp?v=2" srcset="images/grid-02-1077.webp 1077w, images/grid-02.webp?v=2 2030w" sizes="(max-width: 700px) 100vw, 944px" alt="Basarab" loading="lazy" decoding="async"></div></div>
@@ -3193,14 +3219,6 @@
     </article>
 
     <article class="project project--half">
-      <button class="project__media-link" type="button" data-case-open="case-foundation" data-cursor-label="смотреть" data-cursor-label-en="view" data-cursor-label-ru="смотреть" data-cursor-kind="see">
-        <span class="project__media">
-          <picture>
-            <source media="(max-width: 700px)" srcset="images/grid-03.webp">
-            <img src="images/grid-03.webp" alt="Фонд «Вызов»" loading="lazy">
-          </picture>
-        </span>
-      </button>
       <div class="project__carousel" role="button" tabindex="0" aria-label="Фонд «Вызов»: изображения, стрелки листают" data-cursor-label="1/16" data-cursor-label-en="1/16" data-cursor-label-ru="1/16" data-cursor-kind="see">
         <div class="carousel__track">
           <div class="carousel__slide"><div class="carousel__cell"><img src="images/grid-03.webp" alt="Фонд «Вызов»" loading="lazy" decoding="async"></div></div>
