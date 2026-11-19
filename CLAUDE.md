@@ -113,7 +113,8 @@ with 24px clear above and below (16px gap + 8px margin). Project: media full
 column width at 16:10 (929×581 at 1440; 3:2 and 16:9 were tried first; the
 cover files are ~1.69:1, so ~2.7% is cropped left and right), 15px, then a caption row: CSS-counter number in a 49px column +
 uppercase title (plate kept), description 16px below it, flush left under the number (as on the reference),
-48px to the next project, no dividers, no «Смотреть» (client removed it on
+then the light gray divider 48px below the text and 24px above the next
+cover (none after the last project), no «Смотреть» (client removed it on
 desktop home; phone keeps it). Hover cursor «смотреть»/«скоро» on ≥901px:
 16px black text on the pink `#FFD0ED` plate, plate 23.2px tall (one line). 901–999px swaps in the
 `project__desc-p--mobile` breaks. Phone and tablet are untouched (verified

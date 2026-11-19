@@ -1378,7 +1378,7 @@
       }
 
       .projects > * + * {
-        margin-top: 48px;
+        margin-top: 24px;
       }
 
       .project,
@@ -1429,8 +1429,14 @@
       }
 
       .projects .project__see,
-      .project__divider {
+      .project:last-child .project__divider {
         display: none;
+      }
+
+      .project__divider {
+        max-width: none;
+        margin-top: 48px;
+        border-top-color: var(--color-divider);
       }
 
       .hover-cta.is-see,
