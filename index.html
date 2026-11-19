@@ -1319,7 +1319,7 @@
       }
 
       .logo {
-        margin-bottom: 30px;
+        margin-bottom: 40px;
       }
 
       .intro {
@@ -3035,7 +3035,7 @@
           </picture>
         </span>
       </button>
-      <div class="project__media project__carousel" role="button" tabindex="0" aria-label="Basarab: следующее изображение" data-cursor-label="1/18" data-cursor-label-en="1/18" data-cursor-label-ru="1/18" data-cursor-kind="see">
+      <div class="project__media project__carousel" role="button" tabindex="0" aria-label="Basarab: изображения, стрелки листают" data-cursor-label="1/18" data-cursor-label-en="1/18" data-cursor-label-ru="1/18" data-cursor-kind="see">
         <div class="carousel__track">
           <div class="carousel__slide"><div class="carousel__cell"><img src="images/grid-02.webp?v=2" alt="Basarab" loading="lazy" decoding="async"></div></div>
           <div class="carousel__slide"><div class="carousel__cell"><img src="images/basarab-01.webp?v=5" alt="Basarab" loading="lazy" decoding="async"></div></div>
@@ -4450,7 +4450,7 @@
     cycle('.carousel__cell--fade', 2000);
   })();
 
-  // Home carousels: click (or ←/→, Enter) flips a case's images on its home card; the cursor label shows n/x.
+  // Home carousels: click the left/right half (or ←/→, Enter) to flip a case's images on its home card; the cursor label shows n/x.
   (function () {
     var label = document.querySelector('#hoverCta .hover-cta__label');
     document.querySelectorAll('.project__carousel').forEach(function (box) {
@@ -4514,8 +4514,9 @@
           settle();
         }, 620);
       }
-      box.addEventListener('click', function () {
-        go(1);
+      box.addEventListener('click', function (event) {
+        var rect = box.getBoundingClientRect();
+        go(event.clientX < rect.left + rect.width / 2 ? -1 : 1);
       });
       box.addEventListener('keydown', function (event) {
         if (event.key === 'ArrowRight' || event.key === 'Enter' || event.key === ' ') {

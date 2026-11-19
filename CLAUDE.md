@@ -103,7 +103,7 @@ Rebuilt after the client's reference, actualsource.work: projects column
 left, bio sidebar right (`order: 2`, `max(366px, (100% + 30px)/3 - 24px)`,
 454px at 1440). Page padding 15px left, 12px right; columns 12px apart; the
 sidebar has 3px side padding (so the logo's stroke isn't clipped by its
-`overflow-x: hidden`), which makes the bio text start 15px from the media and
+`overflow-x: hidden`), logo 40px above the bio (client, Nov 19), which makes the bio text start 15px from the media and
 the divider end 15px from the window edge: an even 15px frame (client, Nov 19;
 24px was tried first). Media column 944px at 1440. One size 16/1.45
 (client, Nov 19, after trying 1.2 and 1.3; Plex's hhea box is 1.3em, so
@@ -132,8 +132,8 @@ row isn't repeated), then the case in order with each row merged into one slide
 (logo cell on `#e7e8de`, the slot-10 photo series cross-fading via `cycle()`,
 the three clips playing only while their slide is current). The short sneaker
 trio is `carousel__slide--contain` (cells at the files' 676:854 on white):
-cover cropped a third of each shoe. Click / Enter / → next, ← prev, looping
-through a cloned first slide; the cursor plate shows «n/18» (the IIFE rewrites
+cover cropped a third of each shoe. Click on the right half / Enter / → next, left half / ← prev (as
+on the reference), looping through a cloned first slide; the cursor plate shows «n/18» (the IIFE rewrites
 `data-cursor-label*` and the live label). The title still opens the case.
 
 **Desktop cases (≥901px, Nov 19)** follow the home system: `.case` is an
