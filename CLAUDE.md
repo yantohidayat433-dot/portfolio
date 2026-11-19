@@ -100,19 +100,19 @@ while open (logo sage `#A5C1BA` on pink is only 1.4:1).
 ## Desktop home layout (≥901px, Nov 19 2026)
 
 Rebuilt after the client's reference, actualsource.work: projects column
-left, bio sidebar right (`order: 2`, `max(366px, (100% + 30px)/3 - 70px)`,
-411px at 1440, text 405; client asked for it a bit narrower on Nov 19, it was
-454). Page padding 15px left, 12px right; columns 12px apart; the
+left, bio sidebar right (`order: 2`, `max(366px, (100% + 30px)/3 - 39px)`,
+442px at 1440, text 436: client asked for 15px narrower than the original 454
+on Nov 19; 46px narrower was tried and rejected). Page padding 15px left, 12px right; columns 12px apart; the
 sidebar has 3px side padding (so the logo's stroke isn't clipped by its
 `overflow-x: hidden`), logo 40px above the bio (client, Nov 19), which makes the bio text start 15px from the media and
 the divider end 15px from the window edge: an even 15px frame (client, Nov 19;
-24px was tried first). Media column 990px at 1440. One size 16/1.45
+24px was tried first). Media column 959px at 1440. One size 16/1.45
 (client, Nov 19, after trying 1.2 and 1.3; Plex's hhea box is 1.3em, so
 inline pills get `padding: .075em 0` to tile line to line), 8px between
 paragraphs (client tried 16px and a first-line indent on Nov 19), 16px
 between sidebar blocks and from a project title to its description. The sidebar divider is the light `--color-divider` (15% black), not `#7F7F80`,
 with 24px clear above and below (16px gap + 8px margin). Project: media full
-column width at 16:10 (990×619 at 1440; 3:2 and 16:9 were tried first; the
+column width at 16:10 (959×599 at 1440; 3:2 and 16:9 were tried first; the
 cover files are ~1.69:1, so ~2.7% is cropped left and right), 15px, then a caption row: CSS-counter number in a 49px column +
 uppercase title (plate kept), description 16px below it, flush left under the number (as on the reference),
 then the light gray divider 32px below the text and 24px above the next
@@ -122,7 +122,7 @@ desktop home; phone keeps it). Hover cursor «смотреть»/«скоро» 
 `project__desc-p--mobile` breaks. Phone and tablet are untouched (verified
 pixel-identical at 375 and 800). Bio paragraphs 2 and 3 wrap naturally at ≥901px (`max-width: 398px`, their
 `<br>`s hidden; every `<br>` has a space before it and short words carry
-U+00A0), which reproduces the client's Nov 19 screenshot breaks at ≥ ~1400px
+U+00A0), which reproduces the client's Nov 19 screenshot breaks at ≥ ~1330px
 (the text column must be ≥398px, so don't narrow the sidebar further);
 narrower sidebars just wrap. Phone/tablet keep the `<br>`s.
 
