@@ -189,13 +189,18 @@ IIFEs init every `[data-light]`/`[data-typo]`/`[data-goals-scroller]`/
 `[data-citylight]` on the page; the copy drops `.case__media-mobile` and the
 `#goal-ui` template), the Instagram sets cross-fade (`carousel__cell--fade-slow`,
 2.8s), and 20/21 stack in a `.carousel__col` beside 22. If a case animation
-changes, update its carousel copy too. Basarab: 18 slides in the frame's 16:10, each a flex row of
-`.carousel__cell`s (cover): grid-02 (the home triptych, so the case's 02/03/04
-row isn't repeated), then the case in order with each row merged into one slide
-(logo cell on `#e7e8de`, the slot-10 photo series cross-fading via `cycle()`,
-the three clips playing only while their slide is current). The short sneaker
-trio is `carousel__slide--contain` (cells at the files' 676:854 on white):
-cover cropped a third of each shoe. Click on the right half / Enter / → next, left half / ← prev (as
+changes, update its carousel copy too. Basarab (16 slides, Nov 19 rebuild) follows the client's 1:1 frames in the
+same file, section `114:28393` «basarab case», «basarab 1440 - 1…16» (960×600
+→ 1920×1200 at 2x): stills `basarab-cNN.webp` (q94 + `-1077`, textures need
+the high q). Animated slots reuse the case animations, placed by SIFT match:
+5 = the slot-10 photo series cross-fading in the left half (`carousel__cell--fade`,
+cover; her frame shows the first photo ~5% smaller than cover, the other three
+only exist at the old crop) + the frame's right half (`basarab-c05r`, `-540`);
+7 = the four-story clip at .95717 −(6,−7) on its #060606 field
+(`basarab-cb07l`) + right half `basarab-c07r`; 10 = Instagram clip 1:1 cropped
+at (56,20) (`basarab-cb10`); 15 = three-stories clip 1:1 cropped at (54,0)
+(`basarab-cb15`); each with a `-m.mp4` phone file and a first-frame poster.
+The old logo cell and contain-trio CSS went with the old slides. Click on the right half / Enter / → next, left half / ← prev (as
 on the reference), looping through a cloned first slide; the cursor plate shows «n/18» (the IIFE rewrites
 `data-cursor-label*` and the live label). The title still opens the case.
 
