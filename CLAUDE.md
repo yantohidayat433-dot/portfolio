@@ -209,13 +209,18 @@ it the same within 3px); 10 = Instagram sets cross-fading (`--fade-slow`): set
 (`foundation-cig1…4`). On phones the case's `--mh` slot heights must not reach
 carousel cells (`.case__media:not(.carousel__cell)`). Split slides overlap their
 cells by 1px (`.carousel__slide > * + *`): at half-pixel widths the grey
-`--color-media-bg` showed as a hairline between the halves. If a case animation
+`--color-media-bg` showed as a hairline between the halves. Slides themselves are
+2px wider with -1px margins and the current one (`.is-current`, set by `place()`)
+sits on top: the GPU snaps the track's percentage translate to whole pixels, so
+the neighbour slide bled into the last pixel column as a grey line on white
+slides (client, Nov 19). `.project__carousel` has no background of its own any
+more (cells keep the grey placeholder). If a case animation
 changes, update its carousel copy too. Basarab (16 slides, Nov 19 rebuild) follows the client's 1:1 frames in the
 same file, section `114:28393` «basarab case», «basarab 1440 - 1…16» (960×600
 → 1920×1200 at 2x): stills `basarab-cNN.webp` (q94 + `-1077`, textures need
 the high q). Animated slots reuse the case animations, placed by SIFT match:
 5 = the slot-10 photo series cross-fading in the left half (`carousel__cell--fade`,
-cover; her frame shows the first photo ~5% smaller than cover, the other three
+1.4s per photo since Nov 19, client asked for faster; cover; her frame shows the first photo ~5% smaller than cover, the other three
 only exist at the old crop) + the frame's right half (`basarab-c05r`, `-540`);
 7 = the four-story clip at .95717 −(6,−7) on its #060606 field
 (`basarab-cb07l`) + right half `basarab-c07r`; 10 = Instagram clip 1:1 cropped
@@ -545,6 +550,13 @@ Power Mode blocks autoplay).
 20MB+ raw H.264/AAC. Match the site's existing video weight (~0.5–2MB
 for a few seconds): strip audio (`-an`, these are always muted anyway),
 `-c:v libx264 -crf 23 -preset slow -pix_fmt yuv420p -movflags +faststart`.
+Tag colour as BT.709 matrix/primaries but **sRGB transfer**
+(`-colorspace bt709 -color_primaries bt709 -color_trc iec61966-2-1`): with a
+bt709 transfer tag Safari (and Chrome on macOS) re-maps the gamma of video but
+not of the WebP poster, so every clip visibly jumped in tone when it replaced its
+poster (client, Nov 19). All tagged clips were re-tagged in place, no re-encode:
+`ffmpeg -i in.mp4 -c copy -bsf:v h264_metadata=transfer_characteristics=13
+-color_trc iec61966-2-1 -movflags +faststart out.mp4`. Bump `?v=` after.
 Pull a poster frame with `ffmpeg -vf "select=eq(n\,N)" -frames:v 1
 -update 1` — check a few frame numbers, the first frame of a moody/dark
 clip is often too dark to be useful as a poster; something from a
