@@ -110,8 +110,8 @@ inline pills get `padding: .075em 0` to tile line to line), 8px between
 paragraphs (client tried 16px and a first-line indent on Nov 19), 16px
 between sidebar blocks and from a project title to its description. The sidebar divider is the light `--color-divider` (15% black), not `#7F7F80`,
 with 24px clear above and below (16px gap + 8px margin). Project: media full
-column width at 16:9 (929×523 at 1440; 3:2 was tried first; the cover files are
-~1.69:1, so ~2.5% is cropped top and bottom), 15px, then a caption row: CSS-counter number in a 49px column +
+column width at 16:10 (929×581 at 1440; 3:2 and 16:9 were tried first; the
+cover files are ~1.69:1, so ~2.7% is cropped left and right), 15px, then a caption row: CSS-counter number in a 49px column +
 uppercase title (plate kept), description 16px below it, flush left under the number (as on the reference),
 48px to the next project, no dividers, no «Смотреть» (client removed it on
 desktop home; phone keeps it). Hover cursor «смотреть»/«скоро» on ≥901px:
