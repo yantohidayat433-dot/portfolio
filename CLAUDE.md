@@ -124,9 +124,19 @@ pixel-identical at 375 and 800). Bio paragraphs 2 and 3 wrap naturally at ≥901
 U+00A0), which reproduces the client's Nov 19 screenshot breaks at ≥1290px;
 narrower sidebars just wrap. Phone/tablet keep the `<br>`s.
 
-**Home carousel (≥901px, Nov 19, after actualsource.work).** Basarab's home
-card is a `.project__carousel` (sibling of its `.project__media-link`, which
-still serves <901px): 18 slides in the frame's 16:10, each a flex row of
+**Home carousels (≥901px, Nov 19, after actualsource.work).** Basarab's and
+Foundation's home cards are `.project__carousel`s (sibling of their
+`.project__media-link`, which still serves <901px; the carousel has its own
+16:10 box and does NOT carry `.project__media`, whose hover zoom and img rules
+would hit the animations inside). Cell rules only touch direct children
+(`.carousel__cell > img`). Foundation: 16 slides, grid-03 cover then the case;
+its four live slots (light, typo posters, goals stack, citylight) are copies of
+the case markup inside `carousel__cell case__media case__media--X` cells (their
+IIFEs init every `[data-light]`/`[data-typo]`/`[data-goals-scroller]`/
+`[data-citylight]` on the page; the copy drops `.case__media-mobile` and the
+`#goal-ui` template), the Instagram sets cross-fade (`carousel__cell--fade-slow`,
+2.8s), and 20/21 stack in a `.carousel__col` beside 22. If a case animation
+changes, update its carousel copy too. Basarab: 18 slides in the frame's 16:10, each a flex row of
 `.carousel__cell`s (cover): grid-02 (the home triptych, so the case's 02/03/04
 row isn't repeated), then the case in order with each row merged into one slide
 (logo cell on `#e7e8de`, the slot-10 photo series cross-fading via `cycle()`,
