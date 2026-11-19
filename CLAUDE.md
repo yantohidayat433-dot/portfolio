@@ -123,6 +123,18 @@ pixel-identical at 375 and 800). Bio paragraphs 2 and 3 wrap naturally at ≥901
 U+00A0), which reproduces the client's Nov 19 screenshot breaks at ≥1290px;
 narrower sidebars just wrap. Phone/tablet keep the `<br>`s.
 
+**Home carousel (≥901px, Nov 19, after actualsource.work).** Basarab's home
+card is a `.project__carousel` (sibling of its `.project__media-link`, which
+still serves <901px): 18 slides in the frame's 16:10, each a flex row of
+`.carousel__cell`s (cover): grid-02 (the home triptych, so the case's 02/03/04
+row isn't repeated), then the case in order with each row merged into one slide
+(logo cell on `#e7e8de`, the slot-10 photo series cross-fading via `cycle()`,
+the three clips playing only while their slide is current). The short sneaker
+trio is `carousel__slide--contain` (cells at the files' 676:854 on white):
+cover cropped a third of each shoe. Click / Enter / → next, ← prev, looping
+through a cloned first slide; the cursor plate shows «n/18» (the IIFE rewrites
+`data-cursor-label*` and the live label). The title still opens the case.
+
 **Desktop cases (≥901px, Nov 19)** follow the home system: `.case` is an
 inline-size container and every slot height is `calc(H / 1015 * 100cqw)` (the
 old fixed 620/600/427/333.5/667/640px were for a 1015px column; at 929 they
