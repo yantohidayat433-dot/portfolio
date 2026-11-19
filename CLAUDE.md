@@ -172,14 +172,19 @@ carousel's 16:10). Stills 2–6 and 8 are the exports (`vocamate-sNN.webp` q90 +
 `object-position: 27% 50%` reproduces frame 1's crop). The video slides are
 rendered by ffmpeg to sit exactly where the frame puts them, transforms found by
 SIFT matching of clip frames against the export (scratchpad `voc2/match.py`,
-`render.sh`): 7 = icons clip (Behance v2) at scale .92537 +(72,83) over the frame
-export; 9 = frame with its static sphere inpainted, sphere clip (v3) at .825
+`render.sh`): 7 = icons clip (Behance v2) 1:1, full width at y 43, on its own
+#010101 field (client, Nov 19: Figma's #0E0E14 frame around the clip showed as a
+second background; full width so icons sliding in aren't clipped at a hard line);
+9 = frame with its static sphere inpainted, sphere clip (v3) at .825
 +(166,446) blended *lighten* (clip field #010101 vanishes into the slide's
 #0E0E14); 10 = tablet clip (v4, a multi-shot edit; matched on its wide shot,
-2–4s) at 1.2932 −(226,8), full bleed; 11 = two cells: the client's own 4:5 clip
-(`5 (1).mp4`, 2000×2500) on the left, the icons half of v5 at 1.07348 −(83,−79)
-lightened onto #0D0B13 (her clip's decoded field, so the halves don't seam) on
-the right; 12 = results tablet (v6) at 1.14832 −(55,46). Each has a 960-wide
+2–4s) at 1.2932 −(226,20), full bleed (y 8 showed the clip's black top edge);
+11 = two cells: the client's own 4:5 clip (`5 (1).mp4`, 2000×2500) on the left,
+the right half of the frame export as a still (`vocamate-s11r` + `-540`, Figma
+`110:20933`; the v5 icons video there showed its edge, client dropped it);
+12 = results tablet (v6) at 1.2 −(62,36), source window x 52–1652, y 30–1030
+(Figma's 1.14832 reached the clip's dark right vignette and bottom black rows,
+client saw a black stroke on the white shots). Each has a 960-wide
 `-m.mp4` phone file and a first-frame poster. Raw Behance 1080p sources live
 outside the repo (Kinescope, see above). Cell rules only touch direct children
 (`.carousel__cell > img`). Foundation: 16 slides, grid-03 cover then the case;
