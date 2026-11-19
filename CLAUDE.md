@@ -78,7 +78,7 @@ Oceanic Text; `fonts/ibm-plex-serif.woff2`, Latin+Cyrillic subset, OFL), trackin
 (`--tracking-serif`/`--tracking-sans` are 0; animation artwork keeps its
 own 2% rule), one gray `#7F7F80` (`--color-muted`) for links, credits and
 "Смотреть". Desktop cases and tablet: body, links, buttons 17/145; credits
-14/145; headings 24/145. Desktop home (≥901px): everything 16/1.3, cursor
+14/145; headings 24/145. Desktop home (≥901px): everything 16/1.45, cursor
 label 16 black on pink (see the home layout section). Phone (fluid rem, 1rem = 16px at 375): body and
 links 1rem/1.45, credits .875rem/1.45, headings 1.5rem/1.25. The lang
 toggle is an ordinary gray pill in the pickColor swatch list (no
@@ -104,15 +104,15 @@ left, bio sidebar right (`order: 2`, `max(366px, (100% + 30px)/3 - 24px)`,
 454px at 1440). Page padding 15px left, 21px right; columns 21px apart; the
 sidebar has 3px side padding (so the logo's stroke isn't clipped by its
 `overflow-x: hidden`), which makes the bio text start 24px from the media and
-the divider end 24px from the window edge (client, Nov 19). One size 16/1.3
-(130%: Plex's hhea box is exactly 1.3em, so inline pills with `padding: 0`
-tile line to line), 16px between paragraphs (a first-line indent instead
+the divider end 24px from the window edge (client, Nov 19). One size 16/1.45
+(client, Nov 19, after trying 1.2 and 1.3; Plex's hhea box is 1.3em, so
+inline pills get `padding: .075em 0` to tile line to line), 16px between paragraphs (a first-line indent instead
 was tried on Nov 19 and rejected). The sidebar divider is the light `--color-divider` (15% black), not `#7F7F80`. Project: media full column
 width at 3:2, 15px, then a caption row: CSS-counter number in a 49px column +
 uppercase title (plate kept), description 16px below it, flush left under the number (as on the reference),
 48px to the next project, no dividers, no «Смотреть» (client removed it on
 desktop home; phone keeps it). Hover cursor «смотреть»/«скоро» on ≥901px:
-16px black text on the pink `#FFD0ED` plate, plate 20.8px tall (one line). 901–999px swaps in the
+16px black text on the pink `#FFD0ED` plate, plate 23.2px tall (one line). 901–999px swaps in the
 `project__desc-p--mobile` breaks. Phone and tablet are untouched (verified
 pixel-identical at 375 and 800). Cases sit in the same grid, so their column
 is 930 at 1440 (was 1015): the intro/quote stack and Basarab's natural wrap
