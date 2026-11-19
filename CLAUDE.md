@@ -140,6 +140,16 @@ were re-wrapped greedily at the iPhone 13 column (359px) with short words
 glued: their old breaks overflowed and left «Участвовала» alone. The «Почитать
 обо мне» pill is unchanged. Tablet (701–900) is untouched.
 
+Phone cases follow the same system: text flush with the media (the old
+.375rem inset is gone, so the column is 359px on an iPhone 13), intro order
+title (1rem uppercase, plate) → gray 1rem credits (1rem, then .5rem apart) →
+body 1rem below; text .9375rem below media, 3rem above the next. Images keep
+their phone crops (`--mh`). With the wider column most hand breaks fit; five
+that still overflowed (Basarab's two long quotes, Foundation's two intro
+paragraphs and its typography quote) were re-wrapped greedily at 359px with
+short words glued; re-check with the «lines > brs + 1» test after any phone
+text change.
+
 **Home carousels (≥901px and phones, Nov 19, after actualsource.work).** Basarab's and
 Foundation's home cards are `.project__carousel`s (sibling of their
 `.project__media-link`, which still serves <901px; the carousel has its own
