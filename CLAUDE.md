@@ -101,16 +101,17 @@ while open (logo sage `#A5C1BA` on pink is only 1.4:1).
 
 Rebuilt after the client's reference, actualsource.work: projects column
 left, bio sidebar right (`order: 2`, `max(366px, (100% + 30px)/3 - 24px)`,
-454px at 1440). Page padding 15px left, 21px right; columns 21px apart; the
+454px at 1440). Page padding 15px left, 12px right; columns 12px apart; the
 sidebar has 3px side padding (so the logo's stroke isn't clipped by its
-`overflow-x: hidden`), which makes the bio text start 24px from the media and
-the divider end 24px from the window edge (client, Nov 19). One size 16/1.45
+`overflow-x: hidden`), which makes the bio text start 15px from the media and
+the divider end 15px from the window edge: an even 15px frame (client, Nov 19;
+24px was tried first). Media column 944px at 1440. One size 16/1.45
 (client, Nov 19, after trying 1.2 and 1.3; Plex's hhea box is 1.3em, so
 inline pills get `padding: .075em 0` to tile line to line), 8px between
 paragraphs (client tried 16px and a first-line indent on Nov 19), 16px
 between sidebar blocks and from a project title to its description. The sidebar divider is the light `--color-divider` (15% black), not `#7F7F80`,
 with 24px clear above and below (16px gap + 8px margin). Project: media full
-column width at 16:10 (929×581 at 1440; 3:2 and 16:9 were tried first; the
+column width at 16:10 (944×590 at 1440; 3:2 and 16:9 were tried first; the
 cover files are ~1.69:1, so ~2.7% is cropped left and right), 15px, then a caption row: CSS-counter number in a 49px column +
 uppercase title (plate kept), description 16px below it, flush left under the number (as on the reference),
 then the light gray divider 32px below the text and 24px above the next
