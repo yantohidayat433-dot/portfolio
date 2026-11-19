@@ -113,16 +113,25 @@ with 24px clear above and below (16px gap + 8px margin). Project: media full
 column width at 16:10 (929×581 at 1440; 3:2 and 16:9 were tried first; the
 cover files are ~1.69:1, so ~2.7% is cropped left and right), 15px, then a caption row: CSS-counter number in a 49px column +
 uppercase title (plate kept), description 16px below it, flush left under the number (as on the reference),
-then the light gray divider 48px below the text and 24px above the next
+then the light gray divider 32px below the text and 24px above the next
 cover (none after the last project), no «Смотреть» (client removed it on
 desktop home; phone keeps it). Hover cursor «смотреть»/«скоро» on ≥901px:
 16px black text on the pink `#FFD0ED` plate, plate 23.2px tall (one line). 901–999px swaps in the
 `project__desc-p--mobile` breaks. Phone and tablet are untouched (verified
-pixel-identical at 375 and 800). Cases sit in the same grid, so their column
-is 930 at 1440 (was 1015): the intro/quote stack and Basarab's natural wrap
-now run to 1365px. Known: with Plex the Foundation intro still overflows
-5–40px at 901–960px (it did with the font swap alone); fix when cases are
-restyled. The 1247/1027 project-row rules below now apply to 701–900 only.
+pixel-identical at 375 and 800). Bio paragraphs 2 and 3 wrap naturally at ≥901px (`max-width: 398px`, their
+`<br>`s hidden; every `<br>` has a space before it and short words carry
+U+00A0), which reproduces the client's Nov 19 screenshot breaks at ≥1290px;
+narrower sidebars just wrap. Phone/tablet keep the `<br>`s.
+
+**Desktop cases (≥901px, Nov 19)** follow the home system: `.case` is an
+inline-size container and every slot height is `calc(H / 1015 * 100cqw)` (the
+old fixed 620/600/427/333.5/667/640px were for a 1015px column; at 929 they
+cropped ~9% off the sides). Intro stacks: uppercase 16/1.45 title (plate),
+8px, gray 16px credits (8px apart), 16px, body paragraphs 8px apart; quotes
+left-aligned; text 15px below media, 48px above the next. 901–999px swap in
+the `--mobile` text variants. Case nav: same 32/24 divider as the home list,
+pills 16px uppercase like the home titles. Basarab's natural-wrap rule is now
+tablet-only (701–900). The 1247/1027 project-row rules below now apply to 701–900 only.
 
 ## Laptop / wide-screen layout
 
@@ -133,7 +142,8 @@ restyled. The 1247/1027 project-row rules below now apply to 701–900 only.
   `nowrap` on desktop so only the hand-placed `<br>`s break lines.
 - Case intro: title column `min(409px, max(350px, 100% - 606px))`, same
   value for `.case__quote--right` margins; 901–1251px stacks the intro
-  and zeroes the quote offset (since Nov 19: 901–1365px). Case body/quote copy is `nowrap` ≥901px.
+  and zeroes the quote offset (since Nov 19 the desktop intro always stacks, see
+  the desktop cases note above). Case body/quote copy is `nowrap` ≥901px.
 - Verified with the wrap checker at 760, 905, 1000, 1024, 1100, 1200,
   1251, 1253, 1280, 1366, 1440, 1920 (+ phones): no stray wraps.
 - 1441–1680px windows (Nov 18: a 14" MacBook's Chrome is 1512 wide and

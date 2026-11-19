@@ -807,17 +807,6 @@
       }
     }
 
-    @media (min-width: 901px) and (max-width: 1365px) {
-      .case__intro {
-        grid-template-columns: 1fr;
-        row-gap: 24px;
-      }
-
-      .case__quote--right {
-        margin-left: 0;
-      }
-    }
-
     #case-foundation .case__media:not(.case__media--ig-ticker) {
       height: 620px;
     }
@@ -937,7 +926,7 @@
       }
     }
 
-    @media (min-width: 701px) and (max-width: 1365px) {
+    @media (min-width: 701px) and (max-width: 900px) {
       #case-basarab .case__intro-p--desktop,
       #case-basarab .case__quote-p--desktop {
         white-space: normal;
@@ -1352,6 +1341,12 @@
 
       .intro__p + .intro__p {
         margin-top: 8px;
+        max-width: 398px;
+        white-space: normal;
+      }
+
+      .intro__p + .intro__p br {
+        display: none;
       }
 
       .intro__link,
@@ -1435,7 +1430,7 @@
 
       .project__divider {
         max-width: none;
-        margin-top: 48px;
+        margin-top: 32px;
         border-top-color: var(--color-divider);
       }
 
@@ -1465,6 +1460,115 @@
 
       .project__desc p:not(.project__desc-p--mobile) + .project__desc-p--mobile {
         margin-top: 0;
+      }
+    }
+
+    /* ---------- Desktop cases (≥901px): home system, slot heights scale with the column ---------- */
+
+    @media (min-width: 901px) {
+      .case {
+        container-type: inline-size;
+        padding-top: 15px;
+      }
+
+      #case-basarab .case__media,
+      #case-foundation .case__media:not(.case__media--ig-ticker) {
+        height: calc(620 / 1015 * 100cqw);
+      }
+
+      #case-basarab .case__media--600,
+      #case-basarab .case__row .case__media,
+      #case-foundation .case__row .case__media:not(.case__media--ig-ticker) {
+        height: calc(600 / 1015 * 100cqw);
+      }
+
+      #case-basarab .case__row--short .case__media {
+        height: calc(427 / 1015 * 100cqw);
+      }
+
+      #case-foundation .case__row .case__col .case__media:not(.case__media--ig-ticker) {
+        height: calc(333.5 / 1015 * 100cqw);
+      }
+
+      #case-foundation .case__row:has(.case__col) > .case__media:not(.case__media--ig-ticker) {
+        height: calc(667 / 1015 * 100cqw);
+      }
+
+      #case-foundation .case__row--tall .case__media:not(.case__media--ig-ticker) {
+        height: calc(640 / 1015 * 100cqw);
+      }
+
+      .case__intro,
+      .case__quote {
+        margin: 15px 0 48px;
+      }
+
+      .case__intro {
+        display: block;
+        max-width: none;
+      }
+
+      .case__intro-left,
+      .case__intro-right {
+        gap: 8px;
+      }
+
+      .case__intro h2 {
+        font-size: 16px;
+        line-height: 1.45;
+        text-transform: uppercase;
+      }
+
+      .case__intro-title-desc,
+      .case__intro-right p,
+      .case__quote {
+        font-size: 16px;
+        line-height: 1.45;
+      }
+
+      .case__intro-title-desc--first {
+        margin-top: 8px;
+      }
+
+      .case__intro-right {
+        margin-top: 16px;
+      }
+
+      .case__intro-right p,
+      .case__quote {
+        max-width: none;
+      }
+
+      .case__quote p {
+        margin-bottom: 8px;
+      }
+
+      .case__quote--right {
+        margin-left: 0;
+      }
+
+      .case__nav {
+        margin-top: 32px;
+      }
+
+      .case__nav--desktop a {
+        font-size: 16px;
+        line-height: 1.45;
+        text-transform: uppercase;
+      }
+    }
+
+    @media (min-width: 901px) and (max-width: 999px) {
+      .case__intro-p--desktop,
+      .case__quote-p--desktop,
+      .case__intro-title-desc--desktop {
+        display: none;
+      }
+
+      .case__intro-p--mobile,
+      .case__quote-p--mobile,
+      .case__intro-title-desc--mobile {
+        display: block;
       }
     }
 
@@ -2769,8 +2873,8 @@
 
       <div class="intro__block">
         <p class="intro__p" data-en="I'm an independent designer working across&lt;br&gt;visual identity systems and art direction, from&lt;br&gt;concept through execution at every touchpoint.&lt;br&gt;I look for what makes a brand distinct, then&lt;br&gt;build a flexible system around it." data-ru="Я независимый дизайнер, больше&lt;br&gt;8 лет работаю с визуальной айдентикой&lt;br&gt;бренда. Разрабатываю концепцию и довожу&lt;br&gt;её до реализации в каждой точке контакта.&lt;br&gt;Ищу смыслы, форму, строю гибкую систему.">Я независимый дизайнер, больше<br>8 лет работаю с визуальной айдентикой<br>бренда. Разрабатываю концепцию и довожу<br>её до реализации в каждой точке контакта.<br>Ищу смыслы, форму, строю гибкую систему.</p>
-        <p class="intro__p" data-en="I lead projects on my own or step in when&lt;br&gt;a team needs support. Move fast, stay reliable,&lt;br&gt;and never disappear." data-ru="Веду проект самостоятельно или усиливаю&lt;br&gt;вашу команду на нужном этапе. Быстро&lt;br&gt;подключаюсь, работаю предсказуемо,&lt;br&gt;не пропадаю.">Веду проект самостоятельно или усиливаю<br>вашу команду на нужном этапе. Быстро<br>подключаюсь, работаю предсказуемо,<br>не пропадаю.</p>
-        <p class="intro__p intro__p--split"><span class="intro__p-part" data-en="Feel free to reach out, I'd love to meet you.&lt;br&gt;You can read more about me and my approach&lt;br&gt;on my " data-ru="Пишите, рада буду познакомиться. Больше&lt;br&gt;обо мне и моём подходе можно почитать&lt;br&gt;в моём ">Пишите, рада буду познакомиться. Больше<br>обо мне и моём подходе можно почитать<br>в моём </span><a href="https://t.me/+7yJ8wf4p_BtjMjg6" class="intro__link" target="_blank" rel="noopener" data-en="Telegram channel" data-ru="телеграм канале">телеграм канале</a></p>
+        <p class="intro__p" data-en="I lead projects on my own or step in when &lt;br&gt;a team needs support. Move fast, stay reliable, &lt;br&gt;and never disappear." data-ru="Веду проект самостоятельно или усиливаю &lt;br&gt;вашу команду на нужном этапе. Быстро &lt;br&gt;подключаюсь, работаю предсказуемо, &lt;br&gt;не пропадаю.">Веду проект самостоятельно или усиливаю <br>вашу команду на нужном этапе. Быстро <br>подключаюсь, работаю предсказуемо, <br>не пропадаю.</p>
+        <p class="intro__p intro__p--split"><span class="intro__p-part" data-en="Feel free to reach out, I'd love to meet you. &lt;br&gt;You can read more about me and my approach &lt;br&gt;on my " data-ru="Пишите, рада буду познакомиться. Больше &lt;br&gt;обо мне и моём подходе можно почитать &lt;br&gt;в моём ">Пишите, рада буду познакомиться. Больше <br>обо мне и моём подходе можно почитать <br>в моём </span><a href="https://t.me/+7yJ8wf4p_BtjMjg6" class="intro__link" target="_blank" rel="noopener" data-en="Telegram channel" data-ru="телеграм канале">телеграм канале</a></p>
       </div>
 
       <div class="squiggle" aria-hidden="true">
