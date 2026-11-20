@@ -228,7 +228,13 @@ cells by 1px (`.carousel__slide > * + *`): at half-pixel widths the grey
 sits on top: the GPU snaps the track's percentage translate to whole pixels, so
 the neighbour slide bled into the last pixel column as a grey line on white
 slides (client, Nov 19). `.project__carousel` has no background of its own any
-more (cells keep the grey placeholder). If a case animation
+more (cells keep the grey placeholder). The IIFE also floors the carousel's
+width to a whole CSS px (`snap()`, on load and resize; Nov 20): on phones the
+fluid gutters made it 358.81px, every slide sat on a fractional offset and Safari
+snapped the layer at the end of each slide, a visible twitch with a sliver of the
+neighbour at the edge. Her phone frames have ~16px rounded corners exported over
+white; `phone/corners.py` (scratchpad) inpaints them before saving the stills
+(`?v=2`). If a case animation
 changes, update its carousel copy too. **Vocamate on phones is its own set**
 (Nov 20): the client's 12 frames in section `117:36266` «vocamate mobile case»
 (1080x1350). Slides carry `carousel__slide--desktop` (hidden ≤700) or
