@@ -76,7 +76,10 @@ attribute. This means:
 Interface text is one serif, IBM Plex Serif Regular (since Nov 19, was
 Oceanic Text; `fonts/ibm-plex-serif.woff2`, Latin+Cyrillic subset, OFL), one
 size and leading for everything: `body { font-size: 1rem; line-height: 1.45 }`
-(16px; on phones 1rem is fluid), inherited by every element; `h2` and
+(16px; on phones the root rem stays fluid for layout, but text is
+`min(.9375rem, 15px)`: 15px on every phone ≥375 wide, scaled down below so the
+359px-column hand breaks hold; client, Nov 20: the fluid 16→18px read too big on
+large iPhones; inputs 16px so iOS doesn't zoom), inherited by every element; `h2` and
 `button, input` are reset to inherit. Hierarchy is caps, colour and the
 plate, never size. Tracking 0 (no tracking tokens any more; animation artwork
 keeps its own 2% rule). Hand-broken sidebar copy and desktop credits are
