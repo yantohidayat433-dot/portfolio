@@ -135,7 +135,8 @@ U+00A0), which reproduces the client's Nov 19 screenshot breaks at ≥ ~1330px
 narrower sidebars just wrap. Phone/tablet keep the `<br>`s.
 
 **Phone home (≤700px, Nov 19, after actualsource.work).** 15px (.9375rem)
-gutters, topbar logo on the same line; covers full width at 16:10 like desktop,
+gutters, topbar logo on the same line; covers full width at 16:10 like desktop (carousels are 4:5 on phones since
+Nov 20, see below),
 from landscape files (`grid-NN-1077.webp` phone sources, cut from the 2030
 desktop files at q90; the old portrait `grid-NN-mobile` covers were dropped,
 only 02/03 remain for the cases' «next case» cards); the hero plays
@@ -218,7 +219,16 @@ sits on top: the GPU snaps the track's percentage translate to whole pixels, so
 the neighbour slide bled into the last pixel column as a grey line on white
 slides (client, Nov 19). `.project__carousel` has no background of its own any
 more (cells keep the grey placeholder). If a case animation
-changes, update its carousel copy too. Basarab (16 slides, Nov 19 rebuild) follows the client's 1:1 frames in the
+changes, update its carousel copy too. **Phone carousels are 4:5** (Nov 20,
+client: 16:10 at 359px was too small): `.carousel__slide--pair` slides (two
+480×600 cells, or one still whose halves are separate frames: Basarab 3/12/13,
+Foundation 6/12/13/15) are 200% wide on phones and the IIFE pages through
+"stops" (one per slide, two per pair on phones; rebuilt on the 700px media
+change), so every half is exactly 4:5 with no crop: Vocamate 13, Basarab and
+Foundation 21 stops. Everything else is centre-cropped for now, phone `sizes`
+are 200vw/100vw so the crop stays sharp; the client will send 4:5 phone frames
+for the slides that crop badly (text slides, triptychs, tablets). Goals card on
+phones is inset 4cqw. Basarab (16 slides, Nov 19 rebuild) follows the client's 1:1 frames in the
 same file, section `114:28393` «basarab case», «basarab 1440 - 1…16» (960×600
 → 1920×1200 at 2x): stills `basarab-cNN.webp` (q94 + `-1077`, textures need
 the high q). Animated slots reuse the case animations, placed by SIFT match:

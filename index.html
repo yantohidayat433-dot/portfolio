@@ -1159,13 +1159,6 @@
       z-index: 1;
     }
 
-    .carousel__col {
-      display: flex;
-      flex: 1 1 0;
-      flex-direction: column;
-      min-width: 0;
-    }
-
     .carousel__cell {
       position: relative;
       flex: 1 1 0;
@@ -1175,17 +1168,12 @@
       background: var(--color-media-bg);
     }
 
-    .carousel__col > .carousel__cell {
-      height: auto;
-    }
-
     .carousel__slide > * + * {
       margin-left: -1px;
     }
 
     .carousel__cell > img,
-    .carousel__cell > video,
-    .carousel__col > .carousel__cell > img {
+    .carousel__cell > video {
       display: block;
       width: 100%;
       height: 100%;
@@ -1888,7 +1876,16 @@
       }
 
       .project__carousel {
+        aspect-ratio: 4 / 5;
         touch-action: pan-y;
+      }
+
+      .carousel__slide--pair {
+        flex-basis: calc(200% + 2px);
+      }
+
+      .carousel__cell .goals-scroller__track {
+        inset: 4cqw 4cqw auto;
       }
 
       .case__intro {
@@ -2686,16 +2683,16 @@
       <div class="project__carousel" role="button" tabindex="0" aria-label="Vocamate AI: изображения, стрелки листают" data-cursor-label="1/12" data-cursor-label-en="1/12" data-cursor-label-ru="1/12" data-cursor-kind="see">
         <div class="carousel__track">
           <div class="carousel__slide"><div class="carousel__cell carousel__cell--video carousel__cell--hero"><video autoplay muted loop playsinline preload="auto" poster="images/grid-01.webp" data-poster-desktop="images/grid-01.webp" data-poster-mobile="images/grid-01.webp"><source src="videos/grid-video-01-m.mp4?v=2" media="(max-width: 700px)" type="video/mp4" /><source src="videos/grid-video-01.mp4?v=2" type="video/mp4" /></video></div></div>
-          <div class="carousel__slide"><div class="carousel__cell"><img src="images/vocamate-s02.webp" srcset="images/vocamate-s02-1077.webp 1077w, images/vocamate-s02.webp 1920w" sizes="(max-width: 700px) 100vw, 959px" alt="Vocamate AI" loading="lazy" decoding="async"></div></div>
-          <div class="carousel__slide"><div class="carousel__cell"><img src="images/vocamate-s03.webp" srcset="images/vocamate-s03-1077.webp 1077w, images/vocamate-s03.webp 1920w" sizes="(max-width: 700px) 100vw, 959px" alt="Vocamate AI" loading="lazy" decoding="async"></div></div>
-          <div class="carousel__slide"><div class="carousel__cell"><img src="images/vocamate-s04.webp" srcset="images/vocamate-s04-1077.webp 1077w, images/vocamate-s04.webp 1920w" sizes="(max-width: 700px) 100vw, 959px" alt="Vocamate AI" loading="lazy" decoding="async"></div></div>
-          <div class="carousel__slide"><div class="carousel__cell"><img src="images/vocamate-s05.webp" srcset="images/vocamate-s05-1077.webp 1077w, images/vocamate-s05.webp 1920w" sizes="(max-width: 700px) 100vw, 959px" alt="Vocamate AI" loading="lazy" decoding="async"></div></div>
-          <div class="carousel__slide"><div class="carousel__cell"><img src="images/vocamate-s06.webp" srcset="images/vocamate-s06-1077.webp 1077w, images/vocamate-s06.webp 1920w" sizes="(max-width: 700px) 100vw, 959px" alt="Vocamate AI" loading="lazy" decoding="async"></div></div>
+          <div class="carousel__slide"><div class="carousel__cell"><img src="images/vocamate-s02.webp" srcset="images/vocamate-s02-1077.webp 1077w, images/vocamate-s02.webp 1920w" sizes="(max-width: 700px) 200vw, 959px" alt="Vocamate AI" loading="lazy" decoding="async"></div></div>
+          <div class="carousel__slide"><div class="carousel__cell"><img src="images/vocamate-s03.webp" srcset="images/vocamate-s03-1077.webp 1077w, images/vocamate-s03.webp 1920w" sizes="(max-width: 700px) 200vw, 959px" alt="Vocamate AI" loading="lazy" decoding="async"></div></div>
+          <div class="carousel__slide"><div class="carousel__cell"><img src="images/vocamate-s04.webp" srcset="images/vocamate-s04-1077.webp 1077w, images/vocamate-s04.webp 1920w" sizes="(max-width: 700px) 200vw, 959px" alt="Vocamate AI" loading="lazy" decoding="async"></div></div>
+          <div class="carousel__slide"><div class="carousel__cell"><img src="images/vocamate-s05.webp" srcset="images/vocamate-s05-1077.webp 1077w, images/vocamate-s05.webp 1920w" sizes="(max-width: 700px) 200vw, 959px" alt="Vocamate AI" loading="lazy" decoding="async"></div></div>
+          <div class="carousel__slide"><div class="carousel__cell"><img src="images/vocamate-s06.webp" srcset="images/vocamate-s06-1077.webp 1077w, images/vocamate-s06.webp 1920w" sizes="(max-width: 700px) 200vw, 959px" alt="Vocamate AI" loading="lazy" decoding="async"></div></div>
           <div class="carousel__slide"><div class="carousel__cell carousel__cell--video"><img src="images/vocamate-s07.webp?v=2" alt="Vocamate AI" loading="lazy" decoding="async"><video muted loop playsinline preload="none"><source src="videos/vocamate-s07-m.mp4?v=3" media="(max-width: 700px)" type="video/mp4" /><source src="videos/vocamate-s07.mp4?v=3" type="video/mp4" /></video></div></div>
-          <div class="carousel__slide"><div class="carousel__cell"><img src="images/vocamate-s08.webp" srcset="images/vocamate-s08-1077.webp 1077w, images/vocamate-s08.webp 1920w" sizes="(max-width: 700px) 100vw, 959px" alt="Vocamate AI" loading="lazy" decoding="async"></div></div>
+          <div class="carousel__slide"><div class="carousel__cell"><img src="images/vocamate-s08.webp" srcset="images/vocamate-s08-1077.webp 1077w, images/vocamate-s08.webp 1920w" sizes="(max-width: 700px) 200vw, 959px" alt="Vocamate AI" loading="lazy" decoding="async"></div></div>
           <div class="carousel__slide"><div class="carousel__cell carousel__cell--video"><img src="images/vocamate-s09.webp" alt="Vocamate AI" loading="lazy" decoding="async"><video muted loop playsinline preload="none"><source src="videos/vocamate-s09-m.mp4?v=2" media="(max-width: 700px)" type="video/mp4" /><source src="videos/vocamate-s09.mp4?v=2" type="video/mp4" /></video></div></div>
           <div class="carousel__slide"><div class="carousel__cell carousel__cell--video"><img src="images/vocamate-s10.webp?v=2" alt="Vocamate AI" loading="lazy" decoding="async"><video muted loop playsinline preload="none"><source src="videos/vocamate-s10-m.mp4?v=3" media="(max-width: 700px)" type="video/mp4" /><source src="videos/vocamate-s10.mp4?v=3" type="video/mp4" /></video></div></div>
-          <div class="carousel__slide"><div class="carousel__cell carousel__cell--video"><img src="images/vocamate-s11l.webp" alt="Vocamate AI" loading="lazy" decoding="async"><video muted loop playsinline preload="none"><source src="videos/vocamate-s11l-m.mp4?v=2" media="(max-width: 700px)" type="video/mp4" /><source src="videos/vocamate-s11l.mp4?v=2" type="video/mp4" /></video></div><div class="carousel__cell"><img src="images/vocamate-s11r.webp" srcset="images/vocamate-s11r-540.webp 540w, images/vocamate-s11r.webp 960w" sizes="(max-width: 700px) 50vw, 480px" alt="Vocamate AI" loading="lazy" decoding="async"></div></div>
+          <div class="carousel__slide carousel__slide--pair"><div class="carousel__cell carousel__cell--video"><img src="images/vocamate-s11l.webp" alt="Vocamate AI" loading="lazy" decoding="async"><video muted loop playsinline preload="none"><source src="videos/vocamate-s11l-m.mp4?v=2" media="(max-width: 700px)" type="video/mp4" /><source src="videos/vocamate-s11l.mp4?v=2" type="video/mp4" /></video></div><div class="carousel__cell"><img src="images/vocamate-s11r.webp" srcset="images/vocamate-s11r-540.webp 540w, images/vocamate-s11r.webp 960w" sizes="(max-width: 700px) 100vw, 480px" alt="Vocamate AI" loading="lazy" decoding="async"></div></div>
           <div class="carousel__slide"><div class="carousel__cell carousel__cell--video"><img src="images/vocamate-s12.webp?v=2" alt="Vocamate AI" loading="lazy" decoding="async"><video muted loop playsinline preload="none"><source src="videos/vocamate-s12-m.mp4?v=3" media="(max-width: 700px)" type="video/mp4" /><source src="videos/vocamate-s12.mp4?v=3" type="video/mp4" /></video></div></div>
         </div>
       </div>
@@ -2717,22 +2714,22 @@
     <article class="project">
       <div class="project__carousel" role="button" tabindex="0" aria-label="Basarab: изображения, стрелки листают" data-cursor-label="1/16" data-cursor-label-en="1/16" data-cursor-label-ru="1/16" data-cursor-kind="see">
         <div class="carousel__track">
-          <div class="carousel__slide"><div class="carousel__cell"><img src="images/basarab-c01.webp?v=2" srcset="images/basarab-c01-1077.webp?v=2 1077w, images/basarab-c01.webp?v=2 1920w" sizes="(max-width: 700px) 100vw, 959px" alt="Basarab" loading="lazy" decoding="async"></div></div>
-          <div class="carousel__slide"><div class="carousel__cell"><img src="images/basarab-c02.webp" srcset="images/basarab-c02-1077.webp 1077w, images/basarab-c02.webp 1920w" sizes="(max-width: 700px) 100vw, 959px" alt="Basarab" loading="lazy" decoding="async"></div></div>
-          <div class="carousel__slide"><div class="carousel__cell"><img src="images/basarab-c03.webp" srcset="images/basarab-c03-1077.webp 1077w, images/basarab-c03.webp 1920w" sizes="(max-width: 700px) 100vw, 959px" alt="Basarab" loading="lazy" decoding="async"></div></div>
-          <div class="carousel__slide"><div class="carousel__cell"><img src="images/basarab-c04.webp" srcset="images/basarab-c04-1077.webp 1077w, images/basarab-c04.webp 1920w" sizes="(max-width: 700px) 100vw, 959px" alt="Basarab" loading="lazy" decoding="async"></div></div>
-          <div class="carousel__slide"><div class="carousel__cell carousel__cell--fade"><img class="is-active" src="images/basarab-10.webp?v=4" alt="Basarab" loading="lazy" decoding="async"><img src="images/basarab-10b.webp" alt="Basarab" loading="lazy" decoding="async"><img src="images/basarab-10c.webp" alt="Basarab" loading="lazy" decoding="async"><img src="images/basarab-10d.webp" alt="Basarab" loading="lazy" decoding="async"></div><div class="carousel__cell"><img src="images/basarab-c05r.webp" srcset="images/basarab-c05r-540.webp 540w, images/basarab-c05r.webp 960w" sizes="(max-width: 700px) 50vw, 480px" alt="Basarab" loading="lazy" decoding="async"></div></div>
-          <div class="carousel__slide"><div class="carousel__cell"><img src="images/basarab-c06.webp?v=2" srcset="images/basarab-c06-1077.webp?v=2 1077w, images/basarab-c06.webp?v=2 1920w" sizes="(max-width: 700px) 100vw, 959px" alt="Basarab" loading="lazy" decoding="async"></div></div>
-          <div class="carousel__slide"><div class="carousel__cell carousel__cell--video"><img src="images/basarab-cb07l.webp" alt="Basarab" loading="lazy" decoding="async"><video muted loop playsinline preload="none"><source src="videos/basarab-cb07l-m.mp4?v=2" media="(max-width: 700px)" type="video/mp4" /><source src="videos/basarab-cb07l.mp4?v=2" type="video/mp4" /></video></div><div class="carousel__cell"><img src="images/basarab-c07r.webp" srcset="images/basarab-c07r-540.webp 540w, images/basarab-c07r.webp 960w" sizes="(max-width: 700px) 50vw, 480px" alt="Basarab" loading="lazy" decoding="async"></div></div>
-          <div class="carousel__slide"><div class="carousel__cell"><img src="images/basarab-c08.webp" srcset="images/basarab-c08-1077.webp 1077w, images/basarab-c08.webp 1920w" sizes="(max-width: 700px) 100vw, 959px" alt="Basarab" loading="lazy" decoding="async"></div></div>
-          <div class="carousel__slide"><div class="carousel__cell"><img src="images/basarab-c09.webp" srcset="images/basarab-c09-1077.webp 1077w, images/basarab-c09.webp 1920w" sizes="(max-width: 700px) 100vw, 959px" alt="Basarab" loading="lazy" decoding="async"></div></div>
+          <div class="carousel__slide"><div class="carousel__cell"><img src="images/basarab-c01.webp?v=2" srcset="images/basarab-c01-1077.webp?v=2 1077w, images/basarab-c01.webp?v=2 1920w" sizes="(max-width: 700px) 200vw, 959px" alt="Basarab" loading="lazy" decoding="async"></div></div>
+          <div class="carousel__slide"><div class="carousel__cell"><img src="images/basarab-c02.webp" srcset="images/basarab-c02-1077.webp 1077w, images/basarab-c02.webp 1920w" sizes="(max-width: 700px) 200vw, 959px" alt="Basarab" loading="lazy" decoding="async"></div></div>
+          <div class="carousel__slide carousel__slide--pair"><div class="carousel__cell"><img src="images/basarab-c03.webp" srcset="images/basarab-c03-1077.webp 1077w, images/basarab-c03.webp 1920w" sizes="(max-width: 700px) 200vw, 959px" alt="Basarab" loading="lazy" decoding="async"></div></div>
+          <div class="carousel__slide"><div class="carousel__cell"><img src="images/basarab-c04.webp" srcset="images/basarab-c04-1077.webp 1077w, images/basarab-c04.webp 1920w" sizes="(max-width: 700px) 200vw, 959px" alt="Basarab" loading="lazy" decoding="async"></div></div>
+          <div class="carousel__slide carousel__slide--pair"><div class="carousel__cell carousel__cell--fade"><img class="is-active" src="images/basarab-10.webp?v=4" alt="Basarab" loading="lazy" decoding="async"><img src="images/basarab-10b.webp" alt="Basarab" loading="lazy" decoding="async"><img src="images/basarab-10c.webp" alt="Basarab" loading="lazy" decoding="async"><img src="images/basarab-10d.webp" alt="Basarab" loading="lazy" decoding="async"></div><div class="carousel__cell"><img src="images/basarab-c05r.webp" srcset="images/basarab-c05r-540.webp 540w, images/basarab-c05r.webp 960w" sizes="(max-width: 700px) 100vw, 480px" alt="Basarab" loading="lazy" decoding="async"></div></div>
+          <div class="carousel__slide"><div class="carousel__cell"><img src="images/basarab-c06.webp?v=2" srcset="images/basarab-c06-1077.webp?v=2 1077w, images/basarab-c06.webp?v=2 1920w" sizes="(max-width: 700px) 200vw, 959px" alt="Basarab" loading="lazy" decoding="async"></div></div>
+          <div class="carousel__slide carousel__slide--pair"><div class="carousel__cell carousel__cell--video"><img src="images/basarab-cb07l.webp" alt="Basarab" loading="lazy" decoding="async"><video muted loop playsinline preload="none"><source src="videos/basarab-cb07l-m.mp4?v=2" media="(max-width: 700px)" type="video/mp4" /><source src="videos/basarab-cb07l.mp4?v=2" type="video/mp4" /></video></div><div class="carousel__cell"><img src="images/basarab-c07r.webp" srcset="images/basarab-c07r-540.webp 540w, images/basarab-c07r.webp 960w" sizes="(max-width: 700px) 100vw, 480px" alt="Basarab" loading="lazy" decoding="async"></div></div>
+          <div class="carousel__slide"><div class="carousel__cell"><img src="images/basarab-c08.webp" srcset="images/basarab-c08-1077.webp 1077w, images/basarab-c08.webp 1920w" sizes="(max-width: 700px) 200vw, 959px" alt="Basarab" loading="lazy" decoding="async"></div></div>
+          <div class="carousel__slide"><div class="carousel__cell"><img src="images/basarab-c09.webp" srcset="images/basarab-c09-1077.webp 1077w, images/basarab-c09.webp 1920w" sizes="(max-width: 700px) 200vw, 959px" alt="Basarab" loading="lazy" decoding="async"></div></div>
           <div class="carousel__slide"><div class="carousel__cell carousel__cell--video"><img src="images/basarab-cb10.webp" alt="Basarab" loading="lazy" decoding="async"><video muted loop playsinline preload="none"><source src="videos/basarab-cb10-m.mp4?v=2" media="(max-width: 700px)" type="video/mp4" /><source src="videos/basarab-cb10.mp4?v=2" type="video/mp4" /></video></div></div>
-          <div class="carousel__slide"><div class="carousel__cell"><img src="images/basarab-c11.webp" srcset="images/basarab-c11-1077.webp 1077w, images/basarab-c11.webp 1920w" sizes="(max-width: 700px) 100vw, 959px" alt="Basarab" loading="lazy" decoding="async"></div></div>
-          <div class="carousel__slide"><div class="carousel__cell"><img src="images/basarab-c12.webp?v=2" srcset="images/basarab-c12-1077.webp?v=2 1077w, images/basarab-c12.webp?v=2 1920w" sizes="(max-width: 700px) 100vw, 959px" alt="Basarab" loading="lazy" decoding="async"></div></div>
-          <div class="carousel__slide"><div class="carousel__cell"><img src="images/basarab-c13.webp" srcset="images/basarab-c13-1077.webp 1077w, images/basarab-c13.webp 1920w" sizes="(max-width: 700px) 100vw, 959px" alt="Basarab" loading="lazy" decoding="async"></div></div>
-          <div class="carousel__slide"><div class="carousel__cell"><img src="images/basarab-c14.webp" srcset="images/basarab-c14-1077.webp 1077w, images/basarab-c14.webp 1920w" sizes="(max-width: 700px) 100vw, 959px" alt="Basarab" loading="lazy" decoding="async"></div></div>
+          <div class="carousel__slide"><div class="carousel__cell"><img src="images/basarab-c11.webp" srcset="images/basarab-c11-1077.webp 1077w, images/basarab-c11.webp 1920w" sizes="(max-width: 700px) 200vw, 959px" alt="Basarab" loading="lazy" decoding="async"></div></div>
+          <div class="carousel__slide carousel__slide--pair"><div class="carousel__cell"><img src="images/basarab-c12.webp?v=2" srcset="images/basarab-c12-1077.webp?v=2 1077w, images/basarab-c12.webp?v=2 1920w" sizes="(max-width: 700px) 200vw, 959px" alt="Basarab" loading="lazy" decoding="async"></div></div>
+          <div class="carousel__slide carousel__slide--pair"><div class="carousel__cell"><img src="images/basarab-c13.webp" srcset="images/basarab-c13-1077.webp 1077w, images/basarab-c13.webp 1920w" sizes="(max-width: 700px) 200vw, 959px" alt="Basarab" loading="lazy" decoding="async"></div></div>
+          <div class="carousel__slide"><div class="carousel__cell"><img src="images/basarab-c14.webp" srcset="images/basarab-c14-1077.webp 1077w, images/basarab-c14.webp 1920w" sizes="(max-width: 700px) 200vw, 959px" alt="Basarab" loading="lazy" decoding="async"></div></div>
           <div class="carousel__slide"><div class="carousel__cell carousel__cell--video"><img src="images/basarab-cb15.webp" alt="Basarab" loading="lazy" decoding="async"><video muted loop playsinline preload="none"><source src="videos/basarab-cb15-m.mp4?v=2" media="(max-width: 700px)" type="video/mp4" /><source src="videos/basarab-cb15.mp4?v=2" type="video/mp4" /></video></div></div>
-          <div class="carousel__slide"><div class="carousel__cell"><img src="images/basarab-c16.webp" srcset="images/basarab-c16-1077.webp 1077w, images/basarab-c16.webp 1920w" sizes="(max-width: 700px) 100vw, 959px" alt="Basarab" loading="lazy" decoding="async"></div></div>
+          <div class="carousel__slide"><div class="carousel__cell"><img src="images/basarab-c16.webp" srcset="images/basarab-c16-1077.webp 1077w, images/basarab-c16.webp 1920w" sizes="(max-width: 700px) 200vw, 959px" alt="Basarab" loading="lazy" decoding="async"></div></div>
         </div>
       </div>
       <div class="project__row">
@@ -2753,10 +2750,10 @@
     <article class="project">
       <div class="project__carousel" role="button" tabindex="0" aria-label="Фонд «Вызов»: изображения, стрелки листают" data-cursor-label="1/15" data-cursor-label-en="1/15" data-cursor-label-ru="1/15" data-cursor-kind="see">
         <div class="carousel__track">
-          <div class="carousel__slide"><div class="carousel__cell"><img src="images/foundation-c01.webp" srcset="images/foundation-c01-1077.webp 1077w, images/foundation-c01.webp 1920w" sizes="(max-width: 700px) 100vw, 959px" alt="Фонд «Вызов»" loading="lazy" decoding="async"></div></div>
-          <div class="carousel__slide"><div class="carousel__cell"><img src="images/foundation-c02.webp" srcset="images/foundation-c02-1077.webp 1077w, images/foundation-c02.webp 1920w" sizes="(max-width: 700px) 100vw, 959px" alt="Фонд «Вызов»" loading="lazy" decoding="async"></div></div>
-          <div class="carousel__slide"><div class="carousel__cell"><img src="images/foundation-c03.webp" srcset="images/foundation-c03-1077.webp 1077w, images/foundation-c03.webp 1920w" sizes="(max-width: 700px) 100vw, 959px" alt="Фонд «Вызов»" loading="lazy" decoding="async"></div></div>
-          <div class="carousel__slide"><div class="carousel__cell case__media case__media--typo">
+          <div class="carousel__slide"><div class="carousel__cell"><img src="images/foundation-c01.webp" srcset="images/foundation-c01-1077.webp 1077w, images/foundation-c01.webp 1920w" sizes="(max-width: 700px) 200vw, 959px" alt="Фонд «Вызов»" loading="lazy" decoding="async"></div></div>
+          <div class="carousel__slide"><div class="carousel__cell"><img src="images/foundation-c02.webp" srcset="images/foundation-c02-1077.webp 1077w, images/foundation-c02.webp 1920w" sizes="(max-width: 700px) 200vw, 959px" alt="Фонд «Вызов»" loading="lazy" decoding="async"></div></div>
+          <div class="carousel__slide"><div class="carousel__cell"><img src="images/foundation-c03.webp" srcset="images/foundation-c03-1077.webp 1077w, images/foundation-c03.webp 1920w" sizes="(max-width: 700px) 200vw, 959px" alt="Фонд «Вызов»" loading="lazy" decoding="async"></div></div>
+          <div class="carousel__slide carousel__slide--pair"><div class="carousel__cell case__media case__media--typo">
         <div class="typo typo--480" data-typo role="img" aria-label="Foundation event posters: Chance discovery in science, Winter talks, New horizons of science diplomacy, Open dialogue in Tula, Lectures">
         <div class="typo__stage">
         <div class="typo__page" data-page="lecture">
@@ -2852,9 +2849,9 @@
         </div>
         </div>
         </div>
-      </div><div class="carousel__cell"><img src="images/foundation-c04r.webp" srcset="images/foundation-c04r-540.webp 540w, images/foundation-c04r.webp 960w" sizes="(max-width: 700px) 50vw, 480px" alt="Фонд «Вызов»" loading="lazy" decoding="async"></div></div>
-          <div class="carousel__slide"><div class="carousel__cell"><img src="images/foundation-c05.webp" srcset="images/foundation-c05-1077.webp 1077w, images/foundation-c05.webp 1920w" sizes="(max-width: 700px) 100vw, 959px" alt="Фонд «Вызов»" loading="lazy" decoding="async"></div></div>
-          <div class="carousel__slide"><div class="carousel__cell"><img src="images/foundation-c06.webp" srcset="images/foundation-c06-1077.webp 1077w, images/foundation-c06.webp 1920w" sizes="(max-width: 700px) 100vw, 959px" alt="Фонд «Вызов»" loading="lazy" decoding="async"></div></div>
+      </div><div class="carousel__cell"><img src="images/foundation-c04r.webp" srcset="images/foundation-c04r-540.webp 540w, images/foundation-c04r.webp 960w" sizes="(max-width: 700px) 100vw, 480px" alt="Фонд «Вызов»" loading="lazy" decoding="async"></div></div>
+          <div class="carousel__slide"><div class="carousel__cell"><img src="images/foundation-c05.webp" srcset="images/foundation-c05-1077.webp 1077w, images/foundation-c05.webp 1920w" sizes="(max-width: 700px) 200vw, 959px" alt="Фонд «Вызов»" loading="lazy" decoding="async"></div></div>
+          <div class="carousel__slide carousel__slide--pair"><div class="carousel__cell"><img src="images/foundation-c06.webp" srcset="images/foundation-c06-1077.webp 1077w, images/foundation-c06.webp 1920w" sizes="(max-width: 700px) 200vw, 959px" alt="Фонд «Вызов»" loading="lazy" decoding="async"></div></div>
           <div class="carousel__slide"><div class="carousel__cell case__media case__media--goals">
       <div class="goals-scroller" data-goals-scroller role="img" aria-label="Digital mockup — the goals of the foundation">
         <div class="goals-scroller__track">
@@ -2892,8 +2889,8 @@
 
       
     </div></div>
-          <div class="carousel__slide"><div class="carousel__cell"><img src="images/foundation-c08.webp" srcset="images/foundation-c08-1077.webp 1077w, images/foundation-c08.webp 1920w" sizes="(max-width: 700px) 100vw, 959px" alt="Фонд «Вызов»" loading="lazy" decoding="async"></div></div>
-          <div class="carousel__slide"><div class="carousel__cell"><img src="images/foundation-c09l.webp" srcset="images/foundation-c09l-540.webp 540w, images/foundation-c09l.webp 960w" sizes="(max-width: 700px) 50vw, 480px" alt="Фонд «Вызов»" loading="lazy" decoding="async"></div>
+          <div class="carousel__slide"><div class="carousel__cell"><img src="images/foundation-c08.webp" srcset="images/foundation-c08-1077.webp 1077w, images/foundation-c08.webp 1920w" sizes="(max-width: 700px) 200vw, 959px" alt="Фонд «Вызов»" loading="lazy" decoding="async"></div></div>
+          <div class="carousel__slide carousel__slide--pair"><div class="carousel__cell"><img src="images/foundation-c09l.webp" srcset="images/foundation-c09l-540.webp 540w, images/foundation-c09l.webp 960w" sizes="(max-width: 700px) 100vw, 480px" alt="Фонд «Вызов»" loading="lazy" decoding="async"></div>
 <div class="carousel__cell case__media case__media--citylight">
         <div class="citylight" data-citylight role="img" aria-label="How to communicate to the general public — citylight">
           <video class="citylight__street" muted loop playsinline preload="none" data-lazy-play width="1008" height="1344"><source media="(max-width: 700px)" src="videos/foundation-citylight-street-m.mp4" type="video/mp4" /><source src="videos/foundation-citylight-street.mp4" type="video/mp4" /></video>
@@ -2906,12 +2903,12 @@
           </div>
         </div>
       </div></div>
-          <div class="carousel__slide"><div class="carousel__cell carousel__cell--fade carousel__cell--fade-slow"><img class="is-active" src="images/foundation-cig1.webp" srcset="images/foundation-cig1-1077.webp 1077w, images/foundation-cig1.webp 1920w" sizes="(max-width: 700px) 100vw, 959px" alt="Фонд «Вызов»" loading="lazy" decoding="async"><img src="images/foundation-cig2.webp" srcset="images/foundation-cig2-1077.webp 1077w, images/foundation-cig2.webp 1920w" sizes="(max-width: 700px) 100vw, 959px" alt="Фонд «Вызов»" loading="lazy" decoding="async"><img src="images/foundation-cig3.webp" srcset="images/foundation-cig3-1077.webp 1077w, images/foundation-cig3.webp 1920w" sizes="(max-width: 700px) 100vw, 959px" alt="Фонд «Вызов»" loading="lazy" decoding="async"><img src="images/foundation-cig4.webp" srcset="images/foundation-cig4-1077.webp 1077w, images/foundation-cig4.webp 1920w" sizes="(max-width: 700px) 100vw, 959px" alt="Фонд «Вызов»" loading="lazy" decoding="async"></div></div>
-          <div class="carousel__slide"><div class="carousel__cell"><img src="images/foundation-c11.webp" srcset="images/foundation-c11-1077.webp 1077w, images/foundation-c11.webp 1920w" sizes="(max-width: 700px) 100vw, 959px" alt="Фонд «Вызов»" loading="lazy" decoding="async"></div></div>
-          <div class="carousel__slide"><div class="carousel__cell"><img src="images/foundation-c12.webp" srcset="images/foundation-c12-1077.webp 1077w, images/foundation-c12.webp 1920w" sizes="(max-width: 700px) 100vw, 959px" alt="Фонд «Вызов»" loading="lazy" decoding="async"></div></div>
-          <div class="carousel__slide"><div class="carousel__cell"><img src="images/foundation-c13.webp" srcset="images/foundation-c13-1077.webp 1077w, images/foundation-c13.webp 1920w" sizes="(max-width: 700px) 100vw, 959px" alt="Фонд «Вызов»" loading="lazy" decoding="async"></div></div>
-          <div class="carousel__slide"><div class="carousel__cell"><img src="images/foundation-c14.webp" srcset="images/foundation-c14-1077.webp 1077w, images/foundation-c14.webp 1920w" sizes="(max-width: 700px) 100vw, 959px" alt="Фонд «Вызов»" loading="lazy" decoding="async"></div></div>
-          <div class="carousel__slide"><div class="carousel__cell"><img src="images/foundation-c15.webp" srcset="images/foundation-c15-1077.webp 1077w, images/foundation-c15.webp 1920w" sizes="(max-width: 700px) 100vw, 959px" alt="Фонд «Вызов»" loading="lazy" decoding="async"></div></div>
+          <div class="carousel__slide"><div class="carousel__cell carousel__cell--fade carousel__cell--fade-slow"><img class="is-active" src="images/foundation-cig1.webp" srcset="images/foundation-cig1-1077.webp 1077w, images/foundation-cig1.webp 1920w" sizes="(max-width: 700px) 200vw, 959px" alt="Фонд «Вызов»" loading="lazy" decoding="async"><img src="images/foundation-cig2.webp" srcset="images/foundation-cig2-1077.webp 1077w, images/foundation-cig2.webp 1920w" sizes="(max-width: 700px) 200vw, 959px" alt="Фонд «Вызов»" loading="lazy" decoding="async"><img src="images/foundation-cig3.webp" srcset="images/foundation-cig3-1077.webp 1077w, images/foundation-cig3.webp 1920w" sizes="(max-width: 700px) 200vw, 959px" alt="Фонд «Вызов»" loading="lazy" decoding="async"><img src="images/foundation-cig4.webp" srcset="images/foundation-cig4-1077.webp 1077w, images/foundation-cig4.webp 1920w" sizes="(max-width: 700px) 200vw, 959px" alt="Фонд «Вызов»" loading="lazy" decoding="async"></div></div>
+          <div class="carousel__slide"><div class="carousel__cell"><img src="images/foundation-c11.webp" srcset="images/foundation-c11-1077.webp 1077w, images/foundation-c11.webp 1920w" sizes="(max-width: 700px) 200vw, 959px" alt="Фонд «Вызов»" loading="lazy" decoding="async"></div></div>
+          <div class="carousel__slide carousel__slide--pair"><div class="carousel__cell"><img src="images/foundation-c12.webp" srcset="images/foundation-c12-1077.webp 1077w, images/foundation-c12.webp 1920w" sizes="(max-width: 700px) 200vw, 959px" alt="Фонд «Вызов»" loading="lazy" decoding="async"></div></div>
+          <div class="carousel__slide carousel__slide--pair"><div class="carousel__cell"><img src="images/foundation-c13.webp" srcset="images/foundation-c13-1077.webp 1077w, images/foundation-c13.webp 1920w" sizes="(max-width: 700px) 200vw, 959px" alt="Фонд «Вызов»" loading="lazy" decoding="async"></div></div>
+          <div class="carousel__slide"><div class="carousel__cell"><img src="images/foundation-c14.webp" srcset="images/foundation-c14-1077.webp 1077w, images/foundation-c14.webp 1920w" sizes="(max-width: 700px) 200vw, 959px" alt="Фонд «Вызов»" loading="lazy" decoding="async"></div></div>
+          <div class="carousel__slide carousel__slide--pair"><div class="carousel__cell"><img src="images/foundation-c15.webp" srcset="images/foundation-c15-1077.webp 1077w, images/foundation-c15.webp 1920w" sizes="(max-width: 700px) 200vw, 959px" alt="Фонд «Вызов»" loading="lazy" decoding="async"></div></div>
         </div>
       </div>
       <div class="project__row">
@@ -4290,47 +4287,61 @@
     document.querySelectorAll('.project__carousel').forEach(function (box) {
       var track = box.querySelector('.carousel__track');
       var slides = Array.prototype.slice.call(track.children);
-      var count = slides.length;
-      if (count < 2) return;
+      if (slides.length < 2) return;
+      var phone = window.matchMedia('(max-width: 700px)');
       var clone = slides[0].cloneNode(true);
       clone.setAttribute('aria-hidden', 'true');
       track.appendChild(clone);
+      var stops = [];
+      var count = 0;
+      var total = 0;
       var index = 0;
-      slides[0].classList.add('is-current');
       var busy = false;
       var title = box.parentElement.querySelector('.project__title');
       var counter = document.createElement('span');
       counter.className = 'project__count';
       counter.setAttribute('aria-hidden', 'true');
-      counter.textContent = '1/' + count;
       if (title) title.appendChild(counter);
-      function eager(slide) {
-        if (!slide) return;
+      function build() {
+        stops = [];
+        total = 0;
+        slides.forEach(function (slide) {
+          var halves = phone.matches && slide.classList.contains('carousel__slide--pair') ? 2 : 1;
+          for (var h = 0; h < halves; h++) stops.push({ slide: slide, unit: total + h });
+          total += halves;
+        });
+        count = stops.length;
+      }
+      function stop(i) {
+        return i === count ? { slide: clone, unit: total } : stops[i];
+      }
+      function eager(i) {
+        var slide = stops[((i % count) + count) % count].slide;
         slide.querySelectorAll('img[loading="lazy"]').forEach(function (img) {
           img.loading = 'eager';
         });
       }
       function place(i, animate) {
-        Array.prototype.forEach.call(track.children, function (s, k) {
-          s.classList.toggle('is-current', k === i);
+        var st = stop(i);
+        Array.prototype.forEach.call(track.children, function (s) {
+          s.classList.toggle('is-current', s === st.slide);
         });
         track.style.transition = animate ? '' : 'none';
-        track.style.transform = 'translate3d(' + -100 * i + '%, 0, 0)';
+        track.style.transform = 'translate3d(' + -100 * st.unit + '%, 0, 0)';
         if (!animate) void track.offsetWidth;
       }
       function settle() {
-        var real = index % count;
+        var current = stops[index % count].slide;
         track.querySelectorAll('video').forEach(function (v) {
-          var inSlide = slides[real].contains(v);
-          if (inSlide) {
+          if (current.contains(v)) {
             var played = v.play();
             if (played && played.catch) played.catch(function () {});
           } else if (!v.paused) {
             v.pause();
           }
         });
-        eager(slides[(real + 1) % count]);
-        eager(slides[(real + count - 1) % count]);
+        eager(index + 1);
+        eager(index - 1);
       }
       function updateLabel() {
         var text = (index % count) + 1 + '/' + count;
@@ -4340,6 +4351,14 @@
         counter.textContent = text;
         if (label && box.matches(':hover')) label.textContent = text;
       }
+      function reset() {
+        build();
+        index = 0;
+        place(0, false);
+        updateLabel();
+      }
+      reset();
+      if (phone.addEventListener) phone.addEventListener('change', reset);
       function go(step) {
         if (busy) return;
         if (step < 0 && index === 0) {
@@ -4368,7 +4387,7 @@
           touchX = event.touches[0].clientX;
           touchY = event.touches[0].clientY;
           swiped = false;
-          eager(slides[(index + 1) % count]);
+          eager(index + 1);
         },
         { passive: true }
       );
@@ -4404,7 +4423,7 @@
         }
       });
       box.addEventListener('mouseenter', function () {
-        eager(slides[(index + 1) % count]);
+        eager(index + 1);
       });
     });
   })();
