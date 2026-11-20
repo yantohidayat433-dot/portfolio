@@ -35,6 +35,20 @@ This file exists so that routine case-study updates (new PDF, new text,
 new crop) don't require re-deriving the same conventions from scratch
 each time. Read it before touching a `.case` section.
 
+## Release checklist (remind the client, Nov 20)
+
+The client asked to be reminded of these, not to do them yet:
+
+- **When she adds the link to her other site:** favicon and Apple touch icon
+  (`<link rel="icon">`, `<link rel="apple-touch-icon">`, 180×180); today Safari
+  shows a letter and a home-screen bookmark is a screenshot.
+- **Before the public release:** link previews for Telegram/iMessage/social
+  (`og:title`, `og:description`, `og:image` 1200×630, `twitter:card`), a real
+  `<meta name="description">`, the page `<title>`; also consider removing the
+  password gate and checking the 404 page.
+- Pending content: Foundation phone frames (its phone carousel still
+  centre-crops the desktop slides; text slides 1, 3, 5, 10, 14 cut).
+
 ## Git workflow
 
 - Work happens on a feature branch (the session's designated
@@ -97,7 +111,7 @@ keeps its own 2% rule). Hand-broken sidebar copy and desktop credits are
 
 **UI cleanup (Nov 19, client: «чтобы не было миллион разных размеров»).**
 `UI-KIT.md` holds the system: one type size, spacing scale 4/8/16/24/32/40/48
-plus the 15px frame, colour tokens in `:root` (`--color-ink/-muted/-plate/
+plus the 15px frame, colour tokens in `:root` (`--color-muted` is #69696A since Nov 20, AA contrast on white and on the plate; `--color-ink/-muted/-plate/
 -white/-divider/-media-bg/-pink/-sage/-sage-deep/-accent`; no literal colours
 in interface CSS), motion 0.15/0.3/0.6/0.85s. The old 17/24/28/14px desktop
 layer, the 409/606 caption and intro grids, `.case__quote--right`,
@@ -250,7 +264,20 @@ to the same time and played together, so the swap is frame-exact; it re-snaps
 only when its column really changes width (ResizeObserver), not on the iOS
 toolbar's resize events. Cover hover zoom is inside `@media (hover: hover)` (it
 stuck after a tap on phones), and `.reveal` blocks no longer carry a permanent
-`will-change` (48 always-on GPU layers in a case). Her phone frames have
+`will-change` (48 always-on GPU layers in a case). **No loop clone any more**
+(Nov 20: going 12→1 flashed, the clone's video/image wasn't the live one): to
+loop, the first visible slide itself is moved to the end with a transform
+(`wrap()`) while the track shows positions count−1…count, and moved back with the
+track in the same frame on landing (`unwrap()`); same element, nothing to swap.
+**Loading:** only each set's first slide has real `src`; every other carousel
+`<img>` carries `data-src`/`data-srcset` (native lazy loading would fetch the
+whole horizontal track) and `warm()` fills them in: the next slide once the
+carousel is within half a screen, the previous and +2 once it is on screen.
+Phone first load went 4.2MB → 1.8MB. Phone-only images (56 files, list from a
+phone crawl minus desktop 1x/2x and tablet crawls; `phone/opt.py`) were
+re-encoded at the lowest WebP q keeping ≥98.5% fine detail and luma SSIM ≥.985
+vs the previous file, 6.4 → 5.3MB; the grainy Basarab/Foundation textures stay
+as they were (AVIF saved only ~10% at equal detail, not worth `<picture>`). Her phone frames have
 ~16px rounded corners exported over white; `phone/corners.py` (scratchpad)
 inpaints them before saving the stills
 (`?v=2`). If a case animation
