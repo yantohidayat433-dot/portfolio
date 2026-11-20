@@ -154,7 +154,11 @@ only 02/03 remain for the cases' «next case» cards); the hero plays
 hero, crf 26) over `vocamate-m01.webp` (`data-poster-mobile`). Caption: counter number in a 3.0625rem column + uppercase title,
 1rem/1.45 text, desc 1rem below, 8px paragraphs, no «Смотреть», light divider
 2rem below the text and 1.5rem above the next cover. Carousels run on phones
-too (swipe, or tap a half; `touch-action: pan-y`), and their «n/x» sits at the
+too (tap a half, or drag: since Nov 20 the track follows the finger like an
+Instagram carousel, axis locked after 8px so vertical scrolling stays native
+under `touch-action: pan-y`; on release it lands on the next slide past 20% of
+the width or on a flick faster than 0.3px/ms over the last 100ms, else springs
+back; dragging right from slide 1 wraps to the last via the clone), and their «n/x» sits at the
 right end of the title row (`.project__count`, added by the carousel IIFE).
 Three phone desc paragraphs (Vocamate's second, 3I Tech's, App Insiders')
 were re-wrapped greedily at the iPhone 13 column (359px) with short words

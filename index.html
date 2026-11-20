@@ -4346,7 +4346,7 @@
     cycle('.carousel__cell--fade-slow', 2800);
   })();
 
-  // Home carousels: click/tap the left or right half, swipe, or ←/→ to flip a case's images on its home card; n/x on the cursor and in the title row (phones).
+  // Home carousels: click/tap the left or right half, drag (the slide follows the finger), or ←/→ to flip a case's images on its home card; n/x on the cursor and in the title row (phones).
   (function () {
     var label = document.querySelector('#hoverCta .hover-cta__label');
     document.querySelectorAll('.project__carousel').forEach(function (box) {
@@ -4441,13 +4441,8 @@
         snapping = requestAnimationFrame(snap);
       });
       if (phone.addEventListener) phone.addEventListener('change', reset);
-      function go(step) {
-        if (busy) return;
-        if (step < 0 && index === 0) {
-          index = count;
-          place(index, false);
-        }
-        index += step;
+      function land(i) {
+        index = i;
         busy = true;
         place(index, true);
         updateLabel();
@@ -4460,33 +4455,70 @@
           settle();
         }, 620);
       }
-      var touchX = null;
-      var touchY = null;
+      function go(step) {
+        if (busy) return;
+        if (step < 0 && index === 0) {
+          index = count;
+          place(index, false);
+        }
+        land(index + step);
+      }
+      var drag = null;
       var swiped = false;
       box.addEventListener(
         'touchstart',
         function (event) {
-          touchX = event.touches[0].clientX;
-          touchY = event.touches[0].clientY;
           swiped = false;
+          if (busy || event.touches.length > 1) return;
+          drag = { x: event.touches[0].clientX, y: event.touches[0].clientY, axis: null, dx: 0, trail: [[Date.now(), 0]] };
           eager(index + 1);
+          eager(index - 1);
         },
         { passive: true }
       );
       box.addEventListener(
-        'touchend',
+        'touchmove',
         function (event) {
-          if (touchX === null) return;
-          var dx = event.changedTouches[0].clientX - touchX;
-          var dy = event.changedTouches[0].clientY - touchY;
-          touchX = null;
-          if (Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy)) {
-            swiped = true;
-            go(dx < 0 ? 1 : -1);
+          if (!drag) return;
+          var dx = event.touches[0].clientX - drag.x;
+          var dy = event.touches[0].clientY - drag.y;
+          if (!drag.axis) {
+            if (Math.abs(dx) < 8 && Math.abs(dy) < 8) return;
+            drag.axis = Math.abs(dx) > Math.abs(dy) ? 'x' : 'y';
+            if (drag.axis === 'x' && dx > 0 && index === 0) {
+              index = count;
+              place(index, false);
+            }
           }
+          if (drag.axis !== 'x') return;
+          var w = box.clientWidth;
+          drag.dx = Math.max(-w, Math.min(w, dx));
+          drag.trail.push([Date.now(), drag.dx]);
+          if (drag.trail.length > 6) drag.trail.shift();
+          track.style.transition = 'none';
+          track.style.transform = 'translate3d(' + (drag.dx - stop(index).unit * w) + 'px, 0, 0)';
         },
         { passive: true }
       );
+      function release() {
+        if (!drag) return;
+        var d = drag;
+        drag = null;
+        if (d.axis !== 'x') return;
+        swiped = true;
+        var now = Date.now();
+        var from = d.trail[0];
+        for (var k = d.trail.length - 1; k >= 0; k--) {
+          from = d.trail[k];
+          if (now - d.trail[k][0] > 100) break;
+        }
+        var speed = (d.dx - from[1]) / Math.max(16, now - from[0]);
+        var flick = Math.abs(speed) > 0.3 && speed * d.dx > 0;
+        var far = Math.abs(d.dx) > box.clientWidth * 0.2 || (Math.abs(d.dx) > 20 && flick);
+        land(far ? index + (d.dx < 0 ? 1 : -1) : index);
+      }
+      box.addEventListener('touchend', release, { passive: true });
+      box.addEventListener('touchcancel', release, { passive: true });
       box.addEventListener('click', function (event) {
         if (swiped) {
           swiped = false;
