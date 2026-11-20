@@ -1162,7 +1162,8 @@
       height: 100%;
     }
 
-    .carousel__slide:not(.is-current) .marquee {
+    .carousel__slide:not(.is-current) .marquee,
+    .carousel__slide:not(.is-current) .posts-flow__col {
       animation-play-state: paused;
     }
 
@@ -1196,8 +1197,62 @@
       }
     }
 
+    .carousel__cell.carousel__cell--posts {
+      background: #0f0f12;
+    }
+
+    .posts-flow__col {
+      position: absolute;
+      left: calc(-6 / 1080 * 100%);
+      top: calc(-230 / 1350 * 100%);
+      display: flex;
+      flex-direction: column;
+      width: calc(344 / 1080 * 100%);
+      animation: posts-up 44s linear infinite;
+    }
+
+    .posts-flow__col:nth-child(2) {
+      left: calc(368 / 1080 * 100%);
+      top: calc(-130 / 1350 * 100%);
+      animation-name: posts-down;
+    }
+
+    .posts-flow__col:nth-child(3) {
+      left: calc(742 / 1080 * 100%);
+      top: calc(-30 / 1350 * 100%);
+    }
+
+    .posts-flow__col img {
+      display: block;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 540 / 3496;
+    }
+
+    @keyframes posts-up {
+      to {
+        transform: translateY(-50%);
+      }
+    }
+
+    @keyframes posts-down {
+      from {
+        transform: translateY(-50%);
+      }
+
+      to {
+        transform: none;
+      }
+    }
+
+    .carousel__cell--citylight-wide .citylight {
+      left: calc(-36 / 1080 * 100%);
+      right: calc(-37 / 1080 * 100%);
+    }
+
     @media (prefers-reduced-motion: reduce) {
-      .marquee {
+      .marquee,
+      .posts-flow__col {
         animation: none;
       }
     }
@@ -1923,7 +1978,7 @@
       }
 
       .carousel__cell .goals-scroller__track {
-        inset: 4cqw 4cqw auto;
+        inset: 5cqw 5cqw auto;
       }
 
       .case__intro {
@@ -2420,6 +2475,106 @@
       }
     }
 
+    .light-slide.light-slide--phone {
+      background: #0f0f12;
+    }
+
+    .light-slide--phone .light-slide__stage {
+      width: 1080px;
+      height: 1350px;
+    }
+
+    .light-slide--phone .light-slide__shape {
+      width: 4916px;
+      height: 2920px;
+      transform: translate(-2411px, -278px) scaleX(-1);
+      transform-origin: 50% 50%;
+    }
+
+    .light-slide--phone .light-slide__shape--base img {
+      opacity: 1;
+      animation-name: light-slide-drift-m;
+    }
+
+    @keyframes light-slide-drift-m {
+      0% {
+        transform: translate(-16px, 12px) rotate(-2.6deg) skewX(-2deg) scale(1);
+        opacity: 0.88;
+      }
+
+      35% {
+        transform: translate(26px, -6px) rotate(0.8deg) skewX(1.5deg) scale(1.045);
+        opacity: 1;
+      }
+
+      70% {
+        transform: translate(40px, -18px) rotate(2.8deg) skewX(-1deg) scale(1.06);
+        opacity: 1;
+      }
+
+      100% {
+        transform: translate(-4px, 4px) rotate(-0.6deg) skewX(2deg) scale(1.02);
+        opacity: 0.96;
+      }
+    }
+
+    .light-slide--phone .light-slide__sweep {
+      width: 1170px;
+      height: 1350px;
+      animation-name: light-slide-sweep-m;
+    }
+
+    .light-slide--phone .light-slide__sweep-inner {
+      width: 1080px;
+      height: 1350px;
+      animation-name: light-slide-sweep-counter-m;
+    }
+
+    @keyframes light-slide-sweep-m {
+      0% {
+        transform: translateX(-1170px);
+      }
+
+      75%,
+      100% {
+        transform: translateX(1080px);
+      }
+    }
+
+    @keyframes light-slide-sweep-counter-m {
+      0% {
+        transform: translateX(1170px);
+      }
+
+      75%,
+      100% {
+        transform: translateX(-1080px);
+      }
+    }
+
+    .light-slide--phone .light-slide__text {
+      left: 47px;
+      right: auto;
+      top: 255px;
+      bottom: auto;
+      display: block;
+      width: 987px;
+      font-size: 140px;
+      line-height: 1;
+      letter-spacing: 0.03em;
+      text-align: center;
+      white-space: normal;
+      mix-blend-mode: normal;
+      transform: none;
+    }
+
+    .light-slide--phone .light-slide__gold {
+      background: linear-gradient(94.215deg, #ffd7a6 12.92%, #cc9f52 102.37%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
     .goals-scroller {
       container-type: inline-size;
       position: relative;
@@ -2816,10 +2971,10 @@
     <article class="project">
       <div class="project__carousel" role="button" tabindex="0" aria-label="Фонд «Вызов»: изображения, стрелки листают" data-cursor-label="1/15" data-cursor-label-en="1/15" data-cursor-label-ru="1/15" data-cursor-kind="see">
         <div class="carousel__track">
-          <div class="carousel__slide"><div class="carousel__cell"><img src="images/foundation-c01.webp" srcset="images/foundation-c01-1077.webp 1077w, images/foundation-c01.webp 1920w" sizes="(max-width: 700px) 200vw, 959px" alt="Фонд «Вызов»" loading="lazy" decoding="async"></div></div>
-          <div class="carousel__slide"><div class="carousel__cell"><img data-src="images/foundation-c02.webp" data-srcset="images/foundation-c02-1077.webp 1077w, images/foundation-c02.webp 1920w" sizes="(max-width: 700px) 200vw, 959px" alt="Фонд «Вызов»" loading="lazy" decoding="async"></div></div>
-          <div class="carousel__slide"><div class="carousel__cell"><img data-src="images/foundation-c03.webp" data-srcset="images/foundation-c03-1077.webp 1077w, images/foundation-c03.webp 1920w" sizes="(max-width: 700px) 200vw, 959px" alt="Фонд «Вызов»" loading="lazy" decoding="async"></div></div>
-          <div class="carousel__slide carousel__slide--pair"><div class="carousel__cell case__media case__media--typo">
+          <div class="carousel__slide carousel__slide--desktop"><div class="carousel__cell"><img src="images/foundation-c01.webp" srcset="images/foundation-c01-1077.webp 1077w, images/foundation-c01.webp 1920w" sizes="(max-width: 700px) 200vw, 959px" alt="Фонд «Вызов»" loading="lazy" decoding="async"></div></div>
+          <div class="carousel__slide carousel__slide--desktop"><div class="carousel__cell"><img data-src="images/foundation-c02.webp" data-srcset="images/foundation-c02-1077.webp 1077w, images/foundation-c02.webp 1920w" sizes="(max-width: 700px) 200vw, 959px" alt="Фонд «Вызов»" loading="lazy" decoding="async"></div></div>
+          <div class="carousel__slide carousel__slide--desktop"><div class="carousel__cell"><img data-src="images/foundation-c03.webp" data-srcset="images/foundation-c03-1077.webp 1077w, images/foundation-c03.webp 1920w" sizes="(max-width: 700px) 200vw, 959px" alt="Фонд «Вызов»" loading="lazy" decoding="async"></div></div>
+          <div class="carousel__slide carousel__slide--desktop carousel__slide--pair"><div class="carousel__cell case__media case__media--typo">
         <div class="typo typo--480" data-typo role="img" aria-label="Foundation event posters: Chance discovery in science, Winter talks, New horizons of science diplomacy, Open dialogue in Tula, Lectures">
         <div class="typo__stage">
         <div class="typo__page" data-page="lecture">
@@ -2916,8 +3071,120 @@
         </div>
         </div>
       </div><div class="carousel__cell"><img data-src="images/foundation-c04r.webp" data-srcset="images/foundation-c04r-540.webp 540w, images/foundation-c04r.webp 960w" sizes="(max-width: 700px) 100vw, 480px" alt="Фонд «Вызов»" loading="lazy" decoding="async"></div></div>
-          <div class="carousel__slide"><div class="carousel__cell"><img data-src="images/foundation-c05.webp" data-srcset="images/foundation-c05-1077.webp 1077w, images/foundation-c05.webp 1920w" sizes="(max-width: 700px) 200vw, 959px" alt="Фонд «Вызов»" loading="lazy" decoding="async"></div></div>
-          <div class="carousel__slide carousel__slide--pair"><div class="carousel__cell"><img data-src="images/foundation-c06.webp" data-srcset="images/foundation-c06-1077.webp 1077w, images/foundation-c06.webp 1920w" sizes="(max-width: 700px) 200vw, 959px" alt="Фонд «Вызов»" loading="lazy" decoding="async"></div></div>
+          <div class="carousel__slide carousel__slide--desktop"><div class="carousel__cell"><img data-src="images/foundation-c05.webp" data-srcset="images/foundation-c05-1077.webp 1077w, images/foundation-c05.webp 1920w" sizes="(max-width: 700px) 200vw, 959px" alt="Фонд «Вызов»" loading="lazy" decoding="async"></div></div>
+          <div class="carousel__slide carousel__slide--desktop carousel__slide--pair"><div class="carousel__cell"><img data-src="images/foundation-c06.webp" data-srcset="images/foundation-c06-1077.webp 1077w, images/foundation-c06.webp 1920w" sizes="(max-width: 700px) 200vw, 959px" alt="Фонд «Вызов»" loading="lazy" decoding="async"></div></div>
+          <div class="carousel__slide carousel__slide--phone"><div class="carousel__cell case__media case__media--light">
+      <div class="light-slide light-slide--phone" data-light role="img" aria-label="We light the way toward humanity's greatest finds">
+        <div class="light-slide__stage">
+          <div class="light-slide__shape light-slide__shape--base"><img loading="lazy" src="images/foundation-light-shape.webp" alt="" /></div>
+          <div class="light-slide__shape light-slide__shape--spill"><img loading="lazy" src="images/foundation-light-shape.webp" alt="" /></div>
+          <div class="light-slide__sweep"><div class="light-slide__sweep-inner"><div class="light-slide__shape"><img loading="lazy" src="images/foundation-light-shape.webp" alt="" /></div></div></div>
+          <p class="light-slide__text"><span class="light-slide__gold">We light the way</span> toward humanity's greatest finds</p>
+        </div>
+      </div>
+    </div></div>
+          <div class="carousel__slide carousel__slide--phone"><div class="carousel__cell"><img data-src="images/foundation-p02.webp" alt="Фонд «Вызов»" loading="lazy" decoding="async"></div></div>
+          <div class="carousel__slide carousel__slide--phone"><div class="carousel__cell"><img data-src="images/foundation-p03.webp" alt="Фонд «Вызов»" loading="lazy" decoding="async"></div></div>
+          <div class="carousel__slide carousel__slide--phone"><div class="carousel__cell case__media case__media--typo">
+        <div class="typo typo--480" data-typo role="img" aria-label="Foundation event posters: Chance discovery in science, Winter talks, New horizons of science diplomacy, Open dialogue in Tula, Lectures">
+        <div class="typo__stage">
+        <div class="typo__page" data-page="lecture">
+        <span class="typo__rule" style="left:16px;top:15.5px;width:448px;background:#2C2C31" data-key="16-16-448"></span>
+        <span class="typo__rule" style="left:16px;top:299.5px;width:448px;background:#2C2C31" data-key="16-300-448"></span>
+        <span class="typo__rule" style="left:16px;top:583.5px;width:448px;background:#2C2C31" data-key="16-584-448"></span>
+        <span class="typo__line typo__logo" style="left:15.8px;top:21.3px;font-size:0"><span><img loading="lazy" src="images/foundation-science-art-logo.svg" width="75" height="40" alt="Science &amp; Art" /></span></span>
+        <span class="typo__line typo__r" style="left:163.80px;top:27.75px;font-size:10px;letter-spacing:0.2px;color:#F5F5F5"><span>28.08.2026</span></span>
+        <span class="typo__line typo__r typo__line--r" style="left:465.20px;top:27.75px;font-size:10px;letter-spacing:0.2px;color:#F5F5F5"><span>LECTURE</span></span>
+        <span class="typo__line typo__g" style="left:12.64px;top:309.50px;font-size:28px;color:#F5F5F5"><span>19:30</span></span>
+        <span class="typo__line typo__g" style="left:159.72px;top:308.00px;font-size:44px;letter-spacing:0.44px;color:#FFFFFF"><span>CHANCE</span></span>
+        <span class="typo__line typo__g" style="left:159.72px;top:352.00px;font-size:44px;letter-spacing:0.44px;color:#FFFFFF"><span>DISCOVERY</span></span>
+        <span class="typo__line typo__g" style="left:159.72px;top:396.00px;font-size:44px;letter-spacing:0.44px;color:#FFFFFF"><span>IN SCIENCE</span></span>
+        <span class="typo__line typo__g" style="left:159.72px;top:440.00px;font-size:44px;letter-spacing:0.44px;color:#FFFFFF"><span>MUSIC</span></span>
+        <span class="typo__line typo__r" style="left:163.80px;top:564.75px;font-size:10px;letter-spacing:0.2px;color:#F5F5F5"><span>FOUNDATION.COM</span></span>
+        <span class="typo__line typo__r" style="left:441.80px;top:564.75px;font-size:10px;letter-spacing:0.2px;color:#F5F5F5"><span>16+</span></span>
+        </div>
+        <div class="typo__page" data-page="winter">
+        <span class="typo__rule" style="left:16px;top:15.5px;width:448px;background:#2C2C31" data-key="16-16-448"></span>
+        <span class="typo__rule" style="left:16px;top:583.5px;width:448px;background:#2C2C31" data-key="16-584-448"></span>
+        <span class="typo__line typo__r" style="left:14.80px;top:27.75px;font-size:10px;letter-spacing:0.2px;color:#F5F5F5"><span>BORIS KUCHEROV</span></span>
+        <span class="typo__line typo__r typo__line--r" style="left:465.20px;top:27.75px;font-size:10px;letter-spacing:0.2px;color:#F5F5F5"><span>19.08 – 28.08.2026</span></span>
+        <span class="typo__line typo__g typo__line--c" style="left:240.00px;top:138.00px;font-size:64px;letter-spacing:0.64px;color:#FFFFFF"><span>SCIENCE.</span></span>
+        <span class="typo__line typo__g typo__line--c" style="left:240.00px;top:202.00px;font-size:64px;letter-spacing:0.64px;color:#FFFFFF"><span>DIALOGUE.</span></span>
+        <span class="typo__line typo__g typo__line--c" style="left:240.00px;top:266.00px;font-size:64px;letter-spacing:0.64px;color:#FFFFFF"><span>TRUST.</span></span>
+        <span class="typo__line typo__g typo__line--c" style="left:240.00px;top:330.00px;font-size:64px;letter-spacing:0.64px;color:#808080"><span>WINTER</span></span>
+        <span class="typo__line typo__g typo__line--c" style="left:240.00px;top:394.00px;font-size:64px;letter-spacing:0.64px;color:#808080"><span>TALKS</span></span>
+        <span class="typo__line typo__r" style="left:188.80px;top:564.75px;font-size:10px;letter-spacing:0.2px;color:#F5F5F5"><span>FOUNDATION.COM</span></span>
+        </div>
+        <div class="typo__page" data-page="diplomacy">
+        <span class="typo__rule" style="left:16px;top:15.5px;width:448px;background:#2C2C31" data-key="16-16-448"></span>
+        <span class="typo__rule" style="left:165px;top:394.5px;width:299px;background:#2C2C31" data-key="165-395-299"></span>
+        <span class="typo__rule" style="left:16px;top:583.5px;width:448px;background:#2C2C31" data-key="16-584-448"></span>
+        <span class="typo__line typo__logo" style="left:15.8px;top:21.3px;font-size:0"><span><img loading="lazy" src="images/foundation-science-art-logo.svg" width="75" height="40" alt="Science &amp; Art" /></span></span>
+        <span class="typo__line typo__g" style="left:159.72px;top:24.00px;font-size:44px;letter-spacing:0.44px;color:#808080"><span>NEW</span></span>
+        <span class="typo__line typo__g" style="left:159.72px;top:68.00px;font-size:44px;letter-spacing:0.44px;color:#808080"><span>HORIZONS</span></span>
+        <span class="typo__line typo__g" style="left:159.72px;top:112.00px;font-size:44px;letter-spacing:0.44px;color:#FFFFFF"><span>OF SCIENCE</span></span>
+        <span class="typo__line typo__g" style="left:159.72px;top:156.00px;font-size:44px;letter-spacing:0.44px;color:#FFFFFF"><span>DIPLOMACY</span></span>
+        <span class="typo__line typo__r typo__line--r" style="left:267.20px;top:375.75px;font-size:10px;letter-spacing:0.2px;color:#F5F5F5"><span>17.06 – 24.06.2026</span></span>
+        <span class="typo__line typo__r" style="left:162.32px;top:414.15px;font-size:14px;letter-spacing:0.28px;color:#808080"><span>Representatives of the scientific</span></span>
+        <span class="typo__line typo__r" style="left:162.32px;top:434.45px;font-size:14px;letter-spacing:0.28px;color:#808080"><span>community and the government</span></span>
+        <span class="typo__line typo__r" style="left:162.32px;top:454.75px;font-size:14px;letter-spacing:0.28px;color:#808080"><span>discussed approaches to establishing</span></span>
+        <span class="typo__line typo__r" style="left:162.32px;top:475.05px;font-size:14px;letter-spacing:0.28px;color:#808080"><span>scientific ties.</span></span>
+        <span class="typo__line typo__r" style="left:163.80px;top:564.75px;font-size:10px;letter-spacing:0.2px;color:#F5F5F5"><span>FOUNDATION.COM</span></span>
+        <span class="typo__line typo__r" style="left:441.80px;top:564.75px;font-size:10px;letter-spacing:0.2px;color:#F5F5F5"><span>16+</span></span>
+        </div>
+        <div class="typo__page" data-page="tula">
+        <span class="typo__rule" style="left:16px;top:15.5px;width:448px;background:#2C2C31" data-key="16-16-448"></span>
+        <span class="typo__rule" style="left:165px;top:46.5px;width:150px;background:#2C2C31" data-key="165-47-150"></span>
+        <span class="typo__rule" style="left:16px;top:583.5px;width:448px;background:#2C2C31" data-key="16-584-448"></span>
+        <span class="typo__line typo__r typo__line--c" style="left:240.00px;top:27.75px;font-size:10px;letter-spacing:0.2px;color:#F5F5F5"><span>WORKSHOP</span></span>
+        <span class="typo__line typo__g typo__line--c" style="left:240.00px;top:63.00px;font-size:64px;letter-spacing:0.64px;color:#FFFFFF"><span>OPEN</span></span>
+        <span class="typo__line typo__g typo__line--c" style="left:240.00px;top:127.00px;font-size:64px;letter-spacing:0.64px;color:#FFFFFF"><span>DIALOGUE</span></span>
+        <span class="typo__line typo__g typo__line--c" style="left:240.00px;top:191.00px;font-size:64px;letter-spacing:0.64px;color:#FFFFFF"><span>IN TULA</span></span>
+        <span class="typo__line typo__r typo__line--c" style="left:240.00px;top:350.15px;font-size:14px;letter-spacing:0.28px;color:#808080"><span>The combination of an emotional</span></span>
+        <span class="typo__line typo__r typo__line--c" style="left:240.00px;top:370.45px;font-size:14px;letter-spacing:0.28px;color:#808080"><span>perception of science and</span></span>
+        <span class="typo__line typo__r typo__line--c" style="left:240.00px;top:390.75px;font-size:14px;letter-spacing:0.28px;color:#808080"><span>a rational view of art</span></span>
+        <span class="typo__line typo__r" style="left:14.80px;top:564.75px;font-size:10px;letter-spacing:0.2px;color:#F5F5F5"><span>2026</span></span>
+        <span class="typo__line typo__r" style="left:188.80px;top:564.75px;font-size:10px;letter-spacing:0.2px;color:#F5F5F5"><span>FOUNDATION.COM</span></span>
+        <span class="typo__line typo__r" style="left:441.80px;top:564.75px;font-size:10px;letter-spacing:0.2px;color:#F5F5F5"><span>16+</span></span>
+        </div>
+        <div class="typo__page" data-page="lectures">
+        <span class="typo__rule" style="left:16px;top:15.5px;width:448px;background:#2C2C31" data-key="16-16-448"></span>
+        <span class="typo__line typo__g" style="left:14.32px;top:29.05px;font-size:14px;color:#FFFFFF"><span>MAY 10</span></span>
+        <span class="typo__line typo__g" style="left:163.32px;top:29.05px;font-size:14px;color:#FFFFFF"><span>THE ORIGINS OF SCIENTIFIC THOUGHT</span></span>
+        <span class="typo__rule" style="left:16px;top:55.5px;width:448px;background:#2C2C31" data-key="16-56-448"></span>
+        <span class="typo__line typo__g" style="left:14.32px;top:69.05px;font-size:14px;color:#FFFFFF"><span>MAY 12</span></span>
+        <span class="typo__line typo__g" style="left:163.32px;top:69.05px;font-size:14px;color:#FFFFFF"><span>A DIALOGUE BETWEEN ART AND MATTER</span></span>
+        <span class="typo__rule" style="left:16px;top:95.5px;width:448px;background:#2C2C31" data-key="16-96-448"></span>
+        <span class="typo__line typo__g" style="left:14.32px;top:109.05px;font-size:14px;color:#FFFFFF"><span>MAY 14</span></span>
+        <span class="typo__line typo__g" style="left:163.32px;top:109.05px;font-size:14px;color:#FFFFFF"><span>THE ARCHITECTURE OF DISCOVERY</span></span>
+        <span class="typo__rule" style="left:16px;top:135.5px;width:448px;background:#2C2C31" data-key="16-136-448"></span>
+        <span class="typo__line typo__g" style="left:14.32px;top:149.05px;font-size:14px;color:#FFFFFF"><span>MAY 16</span></span>
+        <span class="typo__line typo__g" style="left:163.32px;top:149.05px;font-size:14px;color:#FFFFFF"><span>PATTERNS BENEATH THE VISIBLE WORLD</span></span>
+        <span class="typo__rule" style="left:16px;top:175.5px;width:448px;background:#2C2C31" data-key="16-176-448"></span>
+        <span class="typo__line typo__g" style="left:14.32px;top:189.05px;font-size:14px;color:#FFFFFF"><span>MAY 18</span></span>
+        <span class="typo__line typo__g" style="left:163.32px;top:189.05px;font-size:14px;color:#FFFFFF"><span>THE LANGUAGE OF NATURAL LAWS</span></span>
+        <span class="typo__rule" style="left:16px;top:215.5px;width:448px;background:#2C2C31" data-key="16-216-448"></span>
+        <span class="typo__line typo__g" style="left:14.32px;top:229.05px;font-size:14px;color:#FFFFFF"><span>MAY 20</span></span>
+        <span class="typo__line typo__g" style="left:163.32px;top:229.05px;font-size:14px;color:#FFFFFF"><span>FRAGMENTS OF A LIVING SYSTEM</span></span>
+        <span class="typo__rule" style="left:16px;top:255.5px;width:448px;background:#2C2C31" data-key="16-256-448"></span>
+        <span class="typo__line typo__g" style="left:14.32px;top:269.05px;font-size:14px;color:#FFFFFF"><span>MAY 22</span></span>
+        <span class="typo__line typo__g" style="left:163.32px;top:269.05px;font-size:14px;color:#FFFFFF"><span>THE GEOMETRY OF PERCEPTION</span></span>
+        <span class="typo__rule" style="left:16px;top:295.5px;width:448px;background:#2C2C31" data-key="16-296-448"></span>
+        <span class="typo__line typo__g" style="left:14.32px;top:309.05px;font-size:14px;color:#FFFFFF"><span>MAY 24</span></span>
+        <span class="typo__line typo__g" style="left:163.32px;top:309.05px;font-size:14px;color:#FFFFFF"><span>ECHOES OF THE EXPERIMENT</span></span>
+        <span class="typo__rule" style="left:16px;top:335.5px;width:448px;background:#2C2C31" data-key="16-336-448"></span>
+        <span class="typo__line typo__g" style="left:14.32px;top:349.05px;font-size:14px;color:#FFFFFF"><span>MAY 26</span></span>
+        <span class="typo__line typo__g" style="left:163.32px;top:349.05px;font-size:14px;color:#FFFFFF"><span>THE FUTURE ENCODED IN FORM</span></span>
+        <span class="typo__rule" style="left:16px;top:375.5px;width:448px;background:#2C2C31" data-key="16-376-448"></span>
+        <span class="typo__line typo__g" style="left:5.68px;top:483.73px;font-size:86px;color:#FFFFFF"><span>LECTURES</span></span>
+        <span class="typo__rule" style="left:16px;top:583.5px;width:448px;background:#2C2C31" data-key="16-584-448"></span>
+        </div>
+        </div>
+        </div>
+      </div></div>
+          <div class="carousel__slide carousel__slide--phone"><div class="carousel__cell"><img data-src="images/foundation-p05.webp" alt="Фонд «Вызов»" loading="lazy" decoding="async"></div></div>
+          <div class="carousel__slide carousel__slide--phone"><div class="carousel__cell"><img data-src="images/foundation-p06.webp" alt="Фонд «Вызов»" loading="lazy" decoding="async"></div></div>
+          <div class="carousel__slide carousel__slide--phone"><div class="carousel__cell"><img data-src="images/foundation-p07.webp" alt="Фонд «Вызов»" loading="lazy" decoding="async"></div></div>
           <div class="carousel__slide"><div class="carousel__cell case__media case__media--goals">
       <div class="goals-scroller" data-goals-scroller role="img" aria-label="Digital mockup — the goals of the foundation">
         <div class="goals-scroller__track">
@@ -2955,8 +3222,8 @@
 
       
     </div></div>
-          <div class="carousel__slide"><div class="carousel__cell"><img data-src="images/foundation-c08.webp" data-srcset="images/foundation-c08-1077.webp 1077w, images/foundation-c08.webp 1920w" sizes="(max-width: 700px) 200vw, 959px" alt="Фонд «Вызов»" loading="lazy" decoding="async"></div></div>
-          <div class="carousel__slide carousel__slide--pair"><div class="carousel__cell"><img data-src="images/foundation-c09l.webp" data-srcset="images/foundation-c09l-540.webp 540w, images/foundation-c09l.webp 960w" sizes="(max-width: 700px) 100vw, 480px" alt="Фонд «Вызов»" loading="lazy" decoding="async"></div>
+          <div class="carousel__slide carousel__slide--desktop"><div class="carousel__cell"><img data-src="images/foundation-c08.webp" data-srcset="images/foundation-c08-1077.webp 1077w, images/foundation-c08.webp 1920w" sizes="(max-width: 700px) 200vw, 959px" alt="Фонд «Вызов»" loading="lazy" decoding="async"></div></div>
+          <div class="carousel__slide carousel__slide--desktop carousel__slide--pair"><div class="carousel__cell"><img data-src="images/foundation-c09l.webp" data-srcset="images/foundation-c09l-540.webp 540w, images/foundation-c09l.webp 960w" sizes="(max-width: 700px) 100vw, 480px" alt="Фонд «Вызов»" loading="lazy" decoding="async"></div>
 <div class="carousel__cell case__media case__media--citylight">
         <div class="citylight" data-citylight role="img" aria-label="How to communicate to the general public — citylight">
           <video class="citylight__street" muted loop playsinline preload="none" data-lazy-play width="1008" height="1344"><source media="(max-width: 700px)" src="videos/foundation-citylight-street-m.mp4" type="video/mp4" /><source src="videos/foundation-citylight-street.mp4" type="video/mp4" /></video>
@@ -2969,12 +3236,32 @@
           </div>
         </div>
       </div></div>
-          <div class="carousel__slide"><div class="carousel__cell carousel__cell--fade carousel__cell--fade-slow"><img class="is-active" data-src="images/foundation-cig1.webp" data-srcset="images/foundation-cig1-1077.webp 1077w, images/foundation-cig1.webp 1920w" sizes="(max-width: 700px) 200vw, 959px" alt="Фонд «Вызов»" loading="lazy" decoding="async"><img data-src="images/foundation-cig2.webp" data-srcset="images/foundation-cig2-1077.webp 1077w, images/foundation-cig2.webp 1920w" sizes="(max-width: 700px) 200vw, 959px" alt="Фонд «Вызов»" loading="lazy" decoding="async"><img data-src="images/foundation-cig3.webp" data-srcset="images/foundation-cig3-1077.webp 1077w, images/foundation-cig3.webp 1920w" sizes="(max-width: 700px) 200vw, 959px" alt="Фонд «Вызов»" loading="lazy" decoding="async"><img data-src="images/foundation-cig4.webp" data-srcset="images/foundation-cig4-1077.webp 1077w, images/foundation-cig4.webp 1920w" sizes="(max-width: 700px) 200vw, 959px" alt="Фонд «Вызов»" loading="lazy" decoding="async"></div></div>
-          <div class="carousel__slide"><div class="carousel__cell"><img data-src="images/foundation-c11.webp" data-srcset="images/foundation-c11-1077.webp 1077w, images/foundation-c11.webp 1920w" sizes="(max-width: 700px) 200vw, 959px" alt="Фонд «Вызов»" loading="lazy" decoding="async"></div></div>
-          <div class="carousel__slide carousel__slide--pair"><div class="carousel__cell"><img data-src="images/foundation-c12.webp" data-srcset="images/foundation-c12-1077.webp 1077w, images/foundation-c12.webp 1920w" sizes="(max-width: 700px) 200vw, 959px" alt="Фонд «Вызов»" loading="lazy" decoding="async"></div></div>
-          <div class="carousel__slide carousel__slide--pair"><div class="carousel__cell"><img data-src="images/foundation-c13.webp" data-srcset="images/foundation-c13-1077.webp 1077w, images/foundation-c13.webp 1920w" sizes="(max-width: 700px) 200vw, 959px" alt="Фонд «Вызов»" loading="lazy" decoding="async"></div></div>
-          <div class="carousel__slide"><div class="carousel__cell"><img data-src="images/foundation-c14.webp" data-srcset="images/foundation-c14-1077.webp 1077w, images/foundation-c14.webp 1920w" sizes="(max-width: 700px) 200vw, 959px" alt="Фонд «Вызов»" loading="lazy" decoding="async"></div></div>
-          <div class="carousel__slide carousel__slide--pair"><div class="carousel__cell"><img data-src="images/foundation-c15.webp" data-srcset="images/foundation-c15-1077.webp 1077w, images/foundation-c15.webp 1920w" sizes="(max-width: 700px) 200vw, 959px" alt="Фонд «Вызов»" loading="lazy" decoding="async"></div></div>
+          <div class="carousel__slide carousel__slide--desktop"><div class="carousel__cell carousel__cell--fade carousel__cell--fade-slow"><img class="is-active" data-src="images/foundation-cig1.webp" data-srcset="images/foundation-cig1-1077.webp 1077w, images/foundation-cig1.webp 1920w" sizes="(max-width: 700px) 200vw, 959px" alt="Фонд «Вызов»" loading="lazy" decoding="async"><img data-src="images/foundation-cig2.webp" data-srcset="images/foundation-cig2-1077.webp 1077w, images/foundation-cig2.webp 1920w" sizes="(max-width: 700px) 200vw, 959px" alt="Фонд «Вызов»" loading="lazy" decoding="async"><img data-src="images/foundation-cig3.webp" data-srcset="images/foundation-cig3-1077.webp 1077w, images/foundation-cig3.webp 1920w" sizes="(max-width: 700px) 200vw, 959px" alt="Фонд «Вызов»" loading="lazy" decoding="async"><img data-src="images/foundation-cig4.webp" data-srcset="images/foundation-cig4-1077.webp 1077w, images/foundation-cig4.webp 1920w" sizes="(max-width: 700px) 200vw, 959px" alt="Фонд «Вызов»" loading="lazy" decoding="async"></div></div>
+          <div class="carousel__slide carousel__slide--desktop"><div class="carousel__cell"><img data-src="images/foundation-c11.webp" data-srcset="images/foundation-c11-1077.webp 1077w, images/foundation-c11.webp 1920w" sizes="(max-width: 700px) 200vw, 959px" alt="Фонд «Вызов»" loading="lazy" decoding="async"></div></div>
+          <div class="carousel__slide carousel__slide--desktop carousel__slide--pair"><div class="carousel__cell"><img data-src="images/foundation-c12.webp" data-srcset="images/foundation-c12-1077.webp 1077w, images/foundation-c12.webp 1920w" sizes="(max-width: 700px) 200vw, 959px" alt="Фонд «Вызов»" loading="lazy" decoding="async"></div></div>
+          <div class="carousel__slide carousel__slide--desktop carousel__slide--pair"><div class="carousel__cell"><img data-src="images/foundation-c13.webp" data-srcset="images/foundation-c13-1077.webp 1077w, images/foundation-c13.webp 1920w" sizes="(max-width: 700px) 200vw, 959px" alt="Фонд «Вызов»" loading="lazy" decoding="async"></div></div>
+          <div class="carousel__slide carousel__slide--desktop"><div class="carousel__cell"><img data-src="images/foundation-c14.webp" data-srcset="images/foundation-c14-1077.webp 1077w, images/foundation-c14.webp 1920w" sizes="(max-width: 700px) 200vw, 959px" alt="Фонд «Вызов»" loading="lazy" decoding="async"></div></div>
+          <div class="carousel__slide carousel__slide--desktop carousel__slide--pair"><div class="carousel__cell"><img data-src="images/foundation-c15.webp" data-srcset="images/foundation-c15-1077.webp 1077w, images/foundation-c15.webp 1920w" sizes="(max-width: 700px) 200vw, 959px" alt="Фонд «Вызов»" loading="lazy" decoding="async"></div></div>          <div class="carousel__slide carousel__slide--phone"><div class="carousel__cell"><img data-src="images/foundation-p09.webp" alt="Фонд «Вызов»" loading="lazy" decoding="async"></div></div>
+          <div class="carousel__slide carousel__slide--phone"><div class="carousel__cell"><img data-src="images/foundation-p10.webp" alt="Фонд «Вызов»" loading="lazy" decoding="async"></div></div>
+          <div class="carousel__slide carousel__slide--phone"><div class="carousel__cell case__media case__media--citylight carousel__cell--citylight-wide">
+        <div class="citylight" data-citylight role="img" aria-label="How to communicate to the general public — citylight">
+          <video class="citylight__street" muted loop playsinline preload="none" data-lazy-play width="1008" height="1344"><source media="(max-width: 700px)" src="videos/foundation-citylight-street-m.mp4" type="video/mp4" /><source src="videos/foundation-citylight-street.mp4" type="video/mp4" /></video>
+          <div class="citylight__screen">
+            <div class="citylight__strip">
+              <img loading="lazy" data-src="images/foundation-citylight-poster-1.webp" alt="" />
+              <img loading="lazy" data-src="images/foundation-citylight-poster-2.webp?v=2" alt="" />
+              <img loading="lazy" data-src="images/foundation-citylight-poster-1.webp" alt="" />
+            </div>
+          </div>
+        </div>
+      </div></div>
+          <div class="carousel__slide carousel__slide--phone"><div class="carousel__cell carousel__cell--posts"><div class="posts-flow"><div class="posts-flow__col"><img data-src="images/foundation-p12-col1.webp" alt="Фонд «Вызов»" loading="lazy" decoding="async"><img data-src="images/foundation-p12-col1.webp" alt="" aria-hidden="true" loading="lazy" decoding="async"></div><div class="posts-flow__col"><img data-src="images/foundation-p12-col2.webp" alt="Фонд «Вызов»" loading="lazy" decoding="async"><img data-src="images/foundation-p12-col2.webp" alt="" aria-hidden="true" loading="lazy" decoding="async"></div><div class="posts-flow__col"><img data-src="images/foundation-p12-col3.webp" alt="Фонд «Вызов»" loading="lazy" decoding="async"><img data-src="images/foundation-p12-col3.webp" alt="" aria-hidden="true" loading="lazy" decoding="async"></div></div></div></div>
+          <div class="carousel__slide carousel__slide--phone"><div class="carousel__cell"><img data-src="images/foundation-p13.webp" alt="Фонд «Вызов»" loading="lazy" decoding="async"></div></div>
+          <div class="carousel__slide carousel__slide--phone"><div class="carousel__cell"><img data-src="images/foundation-p14.webp" alt="Фонд «Вызов»" loading="lazy" decoding="async"></div></div>
+          <div class="carousel__slide carousel__slide--phone"><div class="carousel__cell"><img data-src="images/foundation-p15.webp" alt="Фонд «Вызов»" loading="lazy" decoding="async"></div></div>
+          <div class="carousel__slide carousel__slide--phone"><div class="carousel__cell"><img data-src="images/foundation-p16.webp" alt="Фонд «Вызов»" loading="lazy" decoding="async"></div></div>
+          <div class="carousel__slide carousel__slide--phone"><div class="carousel__cell"><img data-src="images/foundation-p17.webp" alt="Фонд «Вызов»" loading="lazy" decoding="async"></div></div>
+          <div class="carousel__slide carousel__slide--phone"><div class="carousel__cell"><img data-src="images/foundation-p18.webp" alt="Фонд «Вызов»" loading="lazy" decoding="async"></div></div>
         </div>
       </div>
       <div class="project__row">
@@ -4777,7 +5064,7 @@
 </script>
 
 <script>
-  // Foundation goals: four cards stacking on a loop (Web Animations, compositor-only).
+  // Foundation goals: four cards stacking on a loop (Web Animations, compositor-only); in a tall (4:5) cell all four show.
   (function () {
     var TITLES = [
       ['To make scientific activity', 'in demand and prestigious,', 'to form a new perception'],
@@ -4793,6 +5080,10 @@
     var BACK_SCALE = 0.06;
     var BACK_LIFT = 14;
     var BACK_DARK = 0.6;
+    var TALL_TOP = 174;
+    var TALL_LIFT = 120;
+    var TALL_DARK = 0.72;
+    var TALL_FADE = 600;
     function bezier(x1, y1, x2, y2) {
       function at(a, b, t) {
         return ((1 - 3 * b + 3 * a) * t + (3 * b - 6 * a)) * t * t + 3 * a * t;
@@ -4850,11 +5141,10 @@
       });
       var unitPx = 1,
         slotPx = 0,
+        liftPx = 0,
+        tall = false,
         lastPos = null,
         curPos = 0;
-      function unit() {
-        return unitPx;
-      }
       function slotSize() {
         return slotPx;
       }
@@ -4864,8 +5154,12 @@
         cards.forEach(function (c) {
           c.style.setProperty('--s', s);
         });
-        track.style.top = Math.max((root.clientHeight - cards[0].offsetHeight) / 2, 0) + 'px';
+        tall = root.clientHeight > root.clientWidth * 1.1;
+        track.style.top = tall
+          ? (TALL_TOP / 1350) * root.clientHeight + 'px'
+          : Math.max((root.clientHeight - cards[0].offsetHeight) / 2, 0) + 'px';
         unitPx = root.clientWidth / 1015;
+        liftPx = tall ? (TALL_LIFT / 1080) * root.clientWidth : BACK_LIFT * unitPx;
         slotPx = cards[0].offsetHeight + 14 * unitPx;
         lastPos = null;
         place(curPos, slotPx);
@@ -4906,14 +5200,15 @@
           var a = Math.min(o, 1);
           y = o * slot;
           scale = 1 - RISE_SCALE * a;
-          dark = MAX_DARK * Math.pow(a, 0.7);
+          dark = (tall ? TALL_DARK : MAX_DARK) * Math.pow(a, 0.7);
         } else {
           var b = Math.min(-o, 1);
-          y = -BACK_LIFT * unit() * b;
+          y = -liftPx * b;
           scale = 1 - BACK_SCALE * b;
           dark = BACK_DARK * b;
         }
         return {
+          o: o,
           z: Math.round((o + 2) * 10),
           transform: 'translate3d(0,' + y.toFixed(2) + 'px,0) scale(' + scale.toFixed(4) + ')',
           opacity: dark.toFixed(3),
@@ -4936,24 +5231,28 @@
       function keyframes(i, slot) {
         var mv = [],
           dk = [],
-          zs = [];
-        function add(t, pos) {
+          zs = [],
+          op = [];
+        function add(t, pos, held) {
           var v = look(i, pos, slot),
             off = t / PERIOD;
           mv.push({ offset: off, transform: v.transform });
           dk.push({ offset: off, opacity: v.opacity });
           zs.push({ offset: off, zIndex: v.z });
+          var a = v.o < -1 ? 2 + v.o : v.o > 1.999 ? Math.min((held || 0) / TALL_FADE, 1) : 1;
+          op.push({ offset: off, opacity: a.toFixed(3) });
         }
         for (var n = 0; n < count; n++) {
           var t0 = n * CYCLE;
-          add(t0, n);
-          add(t0 + HOLD, n);
+          add(t0, n, 0);
+          for (var h = 1; h <= 4; h++) add(t0 + (TALL_FADE * h) / 4, n, (TALL_FADE * h) / 4);
+          add(t0 + HOLD, n, HOLD);
           for (var k = 1; k < SAMPLES; k++)
             add(t0 + HOLD + (MOVE * k) / SAMPLES, n + ease(k / SAMPLES));
           add(t0 + CYCLE, n + 1 - 1e-6);
         }
-        add(PERIOD, count);
-        return [mv, dk, zs];
+        add(PERIOD, count, 0);
+        return [mv, dk, zs, op];
       }
       function build() {
         var time = anims ? anims[0].currentTime : 0,
@@ -4967,6 +5266,8 @@
           var f = keyframes(i, slotSize());
           var opts = { duration: PERIOD, iterations: Infinity, easing: 'linear' };
           anims.push(c.animate(f[0], opts), veils[i].animate(f[1], opts), c.animate(f[2], opts));
+          if (tall) anims.push(c.animate(f[3], opts));
+          else c.style.opacity = '';
         });
         anims.forEach(function (a) {
           a.currentTime = time;
@@ -5043,17 +5344,19 @@
 </script>
 
 <script>
-  // Foundation «We light the way»: cover-fit the 1015x620 stage, pause while off-screen.
+  // Foundation «We light the way»: cover-fit the stage (1015x620, phone 1080x1350), pause while off-screen.
   (function () {
     document.querySelectorAll('[data-light]').forEach(function (root) {
       var stage = root.querySelector('.light-slide__stage');
       function fit() {
         var w = root.clientWidth,
           h = root.clientHeight;
-        var s = Math.max(w / 1015, h / 620);
+        var sw = stage.offsetWidth,
+          sh = stage.offsetHeight;
+        var s = Math.max(w / sw, h / sh);
         stage.style.setProperty('--s', s);
-        stage.style.setProperty('--tx', (w - 1015 * s) / 2 + 'px');
-        stage.style.setProperty('--ty', (h - 620 * s) / 2 + 'px');
+        stage.style.setProperty('--tx', (w - sw * s) / 2 + 'px');
+        stage.style.setProperty('--ty', (h - sh * s) / 2 + 'px');
       }
       fit();
       if ('ResizeObserver' in window) new ResizeObserver(fit).observe(root);

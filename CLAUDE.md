@@ -46,8 +46,6 @@ The client asked to be reminded of these, not to do them yet:
   (`og:title`, `og:description`, `og:image` 1200×630, `twitter:card`), a real
   `<meta name="description">`, the page `<title>`; also consider removing the
   password gate and checking the 404 page.
-- Pending content: Foundation phone frames (its phone carousel still
-  centre-crops the desktop slides; text slides 1, 3, 5, 10, 14 cut).
 
 ## Git workflow
 
@@ -297,7 +295,26 @@ captions are centred and her still's aren't; 12 = v6 at 1.29 (133,32), her
 cut into cells and placed on her 4x7 grid (centres x 213+218c, y 201+158r,
 ×0.821, lightened onto #0A0A0F); her document and network icons aren't in the
 clip, so heart and search take those two places. The desktop slides' `-m.mp4`
-phone files went with this. **Basarab on phones is its own set too** (Nov 20):
+phone files went with this. **Foundation on phones is its own set** (Nov 20):
+her 18 frames in section `122:74368` «foundation mobile case» (1080x1350);
+stills `foundation-pNN.webp` (her exports, lowest q 84–98 keeping ≥98.5% fine
+detail; scripts `fndm/py/` in the scratchpad). The goals slide is the one slide
+shared by both sets (desktop 7, phone 8); the others are `--desktop`/`--phone`.
+1 = the light slide (`.light-slide--phone`, 1080x1350 stage): her gradient is the
+same shape file at 4916x2920, `translate(-2411px,-278px) scaleX(-1)`, opacity 1
+(checked against her export to <0.5/255), same drift/spill/sweep, live Glare text
+140px/1, 3% tracking, the gold span her 94° gradient; 4 = a `.typo--480` copy;
+8 = goals in a tall cell: card at her 5cqw inset, active card 174/1350 from the
+top, the previous one peeking 120/1080 above, the next two below dimmed to .72,
+so all four show; the card leaving at the back fades out during the move and
+reappears at the bottom fading in over 0.6s (card opacity keyframes, tall cells
+only), so nothing pops; 11 = a citylight copy 1153 wide (`--citylight-wide`,
+her frame's −36px, bottom-pinned); 12 = her 12 Instagram posts (Figma
+`122:74229`) cut with a clean 25.6px rounded alpha into three column strips
+(`foundation-p12-colN`, 540x3496, her grid's columns, #0f0f12 field), placed
+like Basarab's grid (344 wide, 30 apart, tops −230/−130/−30) and drifting
+44s per strip, columns 1 and 3 up, 2 down (`.posts-flow`, paused off its slide,
+none with reduced motion). **Basarab on phones is its own set too** (Nov 20):
 her 17 frames in section `118:36761` «basarab mobile case», `basarab-m01…m17`
 (stills = her exports at q92; script `basm/build.py` in the scratchpad). The
 carousel IIFE clones the first *visible* slide on every build, since Basarab
