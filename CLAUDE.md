@@ -19,8 +19,17 @@ preposition/conjunction/particle (в, к, с, и, а, о, у, на, не, по, 
 article/short preposition is glued to the next word with U+00A0, in every
 variant (desktop, mobile, `data-en`, `data-ru`), whether the line ends at a
 hand-placed `<br>` or wraps naturally. Check new copy for it before
-committing. (As of Nov 10 the RU copy is clean; ten EN `data-en` lines in
-the older cases still end in a/the/of/and/with before a `<br>`.)
+committing. (Nov 20: every RU short word in the list above plus я, об, во,
+со, ко, или, то, над, про, через, ни, да, бы, and every EN a/an/the/of/and/
+to/in/on/at/for/with/by/or/as/from/into, is glued in all text and
+`data-*` copy; every `<br>` has a space before it, or a U+00A0 when the word
+before it is short, so hiding it never fuses or strands words.)
+
+**Phones wrap all text naturally** (Nov 20, client: hand-broken lines were
+too short): `br { display: none }` at ≤700 and the sidebar's `nowrap` is
+lifted there; the `--mobile` text variants still exist (901–999 uses their
+breaks) but on phones they just flow. The old «lines > brs + 1» phone test
+no longer applies; check for line-final short words instead.
 
 This file exists so that routine case-study updates (new PDF, new text,
 new crop) don't require re-deriving the same conventions from scratch

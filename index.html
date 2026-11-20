@@ -1309,6 +1309,15 @@
         font-size: min(1rem, 16px);
       }
 
+      br {
+        display: none;
+      }
+
+      .intro__p,
+      .knowledge__item {
+        white-space: normal;
+      }
+
       input {
         font-size: 16px;
       }
@@ -1683,23 +1692,6 @@
       .lang-fade {
         display: inline-block;
         transition: opacity 0.15s ease;
-      }
-
-      .intro__block p,
-      .knowledge__title,
-      .project__desc p,
-      .case__intro-right p,
-      .case__quote {
-      }
-
-      .case__intro-right p:not(.case__intro-p--mobile) br,
-      .case__quote:not(.case__quote-p--mobile) br {
-        display: none;
-      }
-
-      .case__quote-p--mobile br,
-      .case__intro-p--mobile br {
-        display: inline !important;
       }
 
       .case__row {
@@ -2623,7 +2615,7 @@
 
   <button type="button" class="mobile-about-toggle" data-about-toggle>
     <span class="mobile-about-toggle__open"><span class="lang-fade" data-lang-en="Read about me" data-lang-ru="Почитать обо мне">Почитать обо мне</span></span>
-    <span class="mobile-about-toggle__close"><span class="lang-fade" data-lang-en="Okay, back to the work" data-lang-ru="Окей, вернёмся к работам">Окей, вернёмся к работам</span></span>
+    <span class="mobile-about-toggle__close"><span class="lang-fade" data-lang-en="Okay, back to the work" data-lang-ru="Окей, вернёмся к работам">Окей, вернёмся к работам</span></span>
   </button>
 
   <aside class="sidebar" id="mobile-about-sheet">
@@ -2646,9 +2638,9 @@
     <div class="intro">
 
       <div class="intro__block">
-        <p class="intro__p" data-en="I'm an independent designer working across&lt;br&gt;visual identity systems and art direction, from&lt;br&gt;concept through execution at every touchpoint.&lt;br&gt;I look for what makes a brand distinct, then&lt;br&gt;build a flexible system around it." data-ru="Я независимый дизайнер, больше&lt;br&gt;8 лет работаю с визуальной айдентикой&lt;br&gt;бренда. Разрабатываю концепцию и довожу&lt;br&gt;её до реализации в каждой точке контакта.&lt;br&gt;Ищу смыслы, форму, строю гибкую систему.">Я независимый дизайнер, больше<br>8 лет работаю с визуальной айдентикой<br>бренда. Разрабатываю концепцию и довожу<br>её до реализации в каждой точке контакта.<br>Ищу смыслы, форму, строю гибкую систему.</p>
-        <p class="intro__p" data-en="I lead projects on my own or step in when &lt;br&gt;a team needs support. Move fast, stay reliable, &lt;br&gt;and never disappear." data-ru="Веду проект самостоятельно или усиливаю &lt;br&gt;вашу команду на нужном этапе. Быстро &lt;br&gt;подключаюсь, работаю предсказуемо, &lt;br&gt;не пропадаю.">Веду проект самостоятельно или усиливаю <br>вашу команду на нужном этапе. Быстро <br>подключаюсь, работаю предсказуемо, <br>не пропадаю.</p>
-        <p class="intro__p intro__p--split"><span class="intro__p-part" data-en="Feel free to reach out, I'd love to meet you. &lt;br&gt;You can read more about me and my approach &lt;br&gt;on my " data-ru="Пишите, рада буду познакомиться. Больше &lt;br&gt;обо мне и моём подходе можно почитать &lt;br&gt;в моём ">Пишите, рада буду познакомиться. Больше <br>обо мне и моём подходе можно почитать <br>в моём </span><a href="https://t.me/+7yJ8wf4p_BtjMjg6" class="intro__link" target="_blank" rel="noopener" data-en="Telegram channel" data-ru="телеграм канале">телеграм канале</a></p>
+        <p class="intro__p" data-en="I'm an independent designer working across &lt;br&gt;visual identity systems and art direction, from &lt;br&gt;concept through execution at every touchpoint. &lt;br&gt;I look for what makes a brand distinct, then &lt;br&gt;build a flexible system around it." data-ru="Я независимый дизайнер, больше &lt;br&gt;8 лет работаю с визуальной айдентикой &lt;br&gt;бренда. Разрабатываю концепцию и довожу &lt;br&gt;её до реализации в каждой точке контакта. &lt;br&gt;Ищу смыслы, форму, строю гибкую систему.">Я независимый дизайнер, больше <br>8 лет работаю с визуальной айдентикой <br>бренда. Разрабатываю концепцию и довожу <br>её до реализации в каждой точке контакта. <br>Ищу смыслы, форму, строю гибкую систему.</p>
+        <p class="intro__p" data-en="I lead projects on my own or step in when &lt;br&gt;a team needs support. Move fast, stay reliable, &lt;br&gt;and never disappear." data-ru="Веду проект самостоятельно или усиливаю &lt;br&gt;вашу команду на нужном этапе. Быстро &lt;br&gt;подключаюсь, работаю предсказуемо, &lt;br&gt;не пропадаю.">Веду проект самостоятельно или усиливаю <br>вашу команду на нужном этапе. Быстро <br>подключаюсь, работаю предсказуемо, <br>не пропадаю.</p>
+        <p class="intro__p intro__p--split"><span class="intro__p-part" data-en="Feel free to reach out, I'd love to meet you. &lt;br&gt;You can read more about me and my approach &lt;br&gt;on my " data-ru="Пишите, рада буду познакомиться. Больше &lt;br&gt;обо мне и моём подходе можно почитать &lt;br&gt;в моём ">Пишите, рада буду познакомиться. Больше <br>обо мне и моём подходе можно почитать <br>в моём </span><a href="https://t.me/+7yJ8wf4p_BtjMjg6" class="intro__link" target="_blank" rel="noopener" data-en="Telegram channel" data-ru="телеграм канале">телеграм канале</a></p>
       </div>
 
       <div class="squiggle" aria-hidden="true">
@@ -2658,10 +2650,10 @@
       </div>
 
       <div class="knowledge">
-        <p class="knowledge__title" data-en="I also share what I know:" data-ru="А ещё я делюсь знаниями:">А ещё я делюсь знаниями:</p>
+        <p class="knowledge__title" data-en="I also share what I know:" data-ru="А ещё я делюсь знаниями:">А ещё я делюсь знаниями:</p>
         <div class="knowledge__links">
-          <p class="knowledge__item"><a href="https://skillbox.ru/media/design/neyroseti-slop-ili-top-kak-ispolzuyut-ii-v-brend-dizayne/" class="knowledge__link" target="_blank" rel="noopener" data-en="Neural networks: slop or top?&lt;br&gt;How AI is used in brand design" data-ru="Нейросети — слоп или топ?&lt;br&gt;Как используют ИИ в бренд-дизайне">Нейросети — слоп или топ?<br>Как используют ИИ в бренд-дизайне</a></p>
-          <p class="knowledge__item"><a href="https://skillbox.ru/media/design/ii-v-photoshop-kak-novye-funkcii-uproschayut-rabotu-dizaynera/" class="knowledge__link" target="_blank" rel="noopener" data-en="AI in Photoshop: how new features&lt;br&gt;make a designer's work easier" data-ru="ИИ в Photoshop: как новые функции&lt;br&gt;упрощают работу дизайнера">ИИ в Photoshop: как новые функции<br>упрощают работу дизайнера</a></p>
+          <p class="knowledge__item"><a href="https://skillbox.ru/media/design/neyroseti-slop-ili-top-kak-ispolzuyut-ii-v-brend-dizayne/" class="knowledge__link" target="_blank" rel="noopener" data-en="Neural networks: slop or top? &lt;br&gt;How AI is used in brand design" data-ru="Нейросети — слоп или топ? &lt;br&gt;Как используют ИИ в бренд-дизайне">Нейросети — слоп или топ? <br>Как используют ИИ в бренд-дизайне</a></p>
+          <p class="knowledge__item"><a href="https://skillbox.ru/media/design/ii-v-photoshop-kak-novye-funkcii-uproschayut-rabotu-dizaynera/" class="knowledge__link" target="_blank" rel="noopener" data-en="AI in Photoshop: how new features &lt;br&gt;make a designer's work easier" data-ru="ИИ в Photoshop: как новые функции &lt;br&gt;упрощают работу дизайнера">ИИ в Photoshop: как новые функции <br>упрощают работу дизайнера</a></p>
         </div>
       </div>
 
@@ -2672,7 +2664,7 @@
           <a href="https://t.me/Ivanvika" target="_blank" rel="noopener" data-en="Telegram" data-ru="Написать мне">Написать мне</a>
           <a href="mailto:vknkta@yandex.ru" data-en="Email" data-ru="Почта">Почта</a>
         </div>
-        <button type="button" class="lang-toggle" id="langToggle" hidden data-en="Read in Russian" data-ru="Читать на английском">Читать на английском</button>
+        <button type="button" class="lang-toggle" id="langToggle" hidden data-en="Read in Russian" data-ru="Читать на английском">Читать на английском</button>
       </div>
 
     </div>
@@ -2702,10 +2694,10 @@
           <a class="project__badge" href="https://www.behance.net/gallery/235073919/Vocamate-AI-Brand-Identity-Website" target="_blank" rel="noopener noreferrer" data-en="&lt;span class=&quot;project__badge-title&quot;&gt;Vocamate AI&lt;/span&gt;" data-ru="&lt;span class=&quot;project__badge-title&quot;&gt;Vocamate AI&lt;/span&gt;"><span class="project__badge-title">Vocamate AI</span></a>
         </h2>
         <div class="project__desc">
- <p data-en="Vocamate is a platform for building AI bots and automating&lt;br&gt;complex business processes." data-ru="Vocamate AI — платформа для создания ИИ-ботов&lt;br&gt;и комплексной автоматизации бизнес-процессов.">Vocamate AI — платформа для создания ИИ-ботов<br>и комплексной автоматизации бизнес-процессов.</p>
- <p data-en="Led the entire visual side of the project. Developed the logo and&lt;br&gt;identity, contributed to the voice assistant's design, and brought&lt;br&gt;in specialists to create a range of touchpoints from icons to merch." data-ru="Вела всю визуальную часть проекта. Разработала логотип&lt;br&gt;и айдентику, привлекала специалистов при создании разных&lt;br&gt;носителей от иконок до мерча. Участвовала в разработке дизайна&lt;br&gt;для голосового помощника.">Вела всю визуальную часть проекта. Разработала логотип<br>и айдентику, привлекала специалистов при создании разных<br>носителей от иконок до мерча. Участвовала в разработке дизайна<br>для голосового помощника.</p>
- <p class="project__desc-p--mobile" data-en="Vocamate is a platform for building AI bots&lt;br&gt;and automating complex business processes." data-ru="Vocamate AI — платформа для создания&lt;br&gt;ИИ-ботов и комплексной автоматизации&lt;br&gt;бизнес-процессов.">Vocamate AI — платформа для создания<br>ИИ-ботов и комплексной автоматизации<br>бизнес-процессов.</p>
- <p class="project__desc-p--mobile" data-en="Led the entire visual side of the project.&lt;br&gt;Developed the logo and identity, contributed&lt;br&gt;to the voice assistant's design, and brought&lt;br&gt;in specialists to create a range of touchpoints&lt;br&gt;from icons to merch." data-ru="Вела всю визуальную часть проекта. &lt;br&gt;Разработала логотип и айдентику, &lt;br&gt;привлекала специалистов при создании &lt;br&gt;разных носителей от иконок до мерча. &lt;br&gt;Участвовала в разработке дизайна &lt;br&gt;для голосового помощника.">Вела всю визуальную часть проекта. <br>Разработала логотип и айдентику, <br>привлекала специалистов при создании <br>разных носителей от иконок до мерча. <br>Участвовала в разработке дизайна <br>для голосового помощника.</p>
+ <p data-en="Vocamate is a platform for building AI bots and automating &lt;br&gt;complex business processes." data-ru="Vocamate AI — платформа для создания ИИ-ботов &lt;br&gt;и комплексной автоматизации бизнес-процессов.">Vocamate AI — платформа для создания ИИ-ботов <br>и комплексной автоматизации бизнес-процессов.</p>
+ <p data-en="Led the entire visual side of the project. Developed the logo and &lt;br&gt;identity, contributed to the voice assistant's design, and brought &lt;br&gt;in specialists to create a range of touchpoints from icons to merch." data-ru="Вела всю визуальную часть проекта. Разработала логотип &lt;br&gt;и айдентику, привлекала специалистов при создании разных &lt;br&gt;носителей от иконок до мерча. Участвовала в разработке дизайна &lt;br&gt;для голосового помощника.">Вела всю визуальную часть проекта. Разработала логотип <br>и айдентику, привлекала специалистов при создании разных <br>носителей от иконок до мерча. Участвовала в разработке дизайна <br>для голосового помощника.</p>
+ <p class="project__desc-p--mobile" data-en="Vocamate is a platform for building AI bots &lt;br&gt;and automating complex business processes." data-ru="Vocamate AI — платформа для создания &lt;br&gt;ИИ-ботов и комплексной автоматизации &lt;br&gt;бизнес-процессов.">Vocamate AI — платформа для создания <br>ИИ-ботов и комплексной автоматизации <br>бизнес-процессов.</p>
+ <p class="project__desc-p--mobile" data-en="Led the entire visual side of the project. &lt;br&gt;Developed the logo and identity, contributed &lt;br&gt;to the voice assistant's design, and brought &lt;br&gt;in specialists to create a range of touchpoints &lt;br&gt;from icons to merch." data-ru="Вела всю визуальную часть проекта. &lt;br&gt;Разработала логотип и айдентику, &lt;br&gt;привлекала специалистов при создании &lt;br&gt;разных носителей от иконок до мерча. &lt;br&gt;Участвовала в разработке дизайна &lt;br&gt;для голосового помощника.">Вела всю визуальную часть проекта. <br>Разработала логотип и айдентику, <br>привлекала специалистов при создании <br>разных носителей от иконок до мерча. <br>Участвовала в разработке дизайна <br>для голосового помощника.</p>
           <a class="project__see" href="https://www.behance.net/gallery/235073919/Vocamate-AI-Brand-Identity-Website" target="_blank" rel="noopener noreferrer" data-en="See Project &lt;span class=&quot;project__see-arrow&quot;&gt;→&lt;/span&gt;" data-ru="Смотреть &lt;span class=&quot;project__see-arrow&quot;&gt;→&lt;/span&gt;">Смотреть <span class="project__see-arrow">→</span></a>
         </div>
       </div>
@@ -2738,10 +2730,10 @@
           <span role="button" tabindex="0" class="project__badge" data-case-open="case-basarab" data-en="&lt;span class=&quot;project__badge-title&quot;&gt;Basarab&lt;/span&gt;" data-ru="&lt;span class=&quot;project__badge-title&quot;&gt;Basarab&lt;/span&gt;"><span class="project__badge-title">Basarab</span></span>
         </h2>
         <div class="project__desc">
- <p data-en="Basarab is a family-run footwear brand with its own&lt;br&gt;production, making well-made shoes for everyday life." data-ru="Basarab — семейный бренд обуви, который делает&lt;br&gt;классную, качественную обувь для повседневной жизни.">Basarab — семейный бренд обуви, который делает<br>классную, качественную обувь для повседневной жизни.</p>
- <p data-en="Designed the visual identity and logo. Guided the team&lt;br&gt;in designing the touchpoints and preparing the technical&lt;br&gt;materials for the new identity." data-ru="Разработала визуальную айдентику и логотип. Руководила&lt;br&gt;командой при разработке носителей и подготовке макетов&lt;br&gt;для производства в рамках новой айдентики.">Разработала визуальную айдентику и логотип. Руководила<br>командой при разработке носителей и подготовке макетов<br>для производства в рамках новой айдентики.</p>
- <p class="project__desc-p--mobile" data-en="Basarab is a family-run footwear brand with&lt;br&gt;its own production, making well-made shoes&lt;br&gt;for everyday life." data-ru="Basarab — семейный бренд обуви,&lt;br&gt;который делает классную, качественную&lt;br&gt;обувь для повседневной жизни.">Basarab — семейный бренд обуви,<br>который делает классную, качественную<br>обувь для повседневной жизни.</p>
- <p class="project__desc-p--mobile" data-en="Designed the visual identity and logo.&lt;br&gt;Guided the team in designing the touchpoints&lt;br&gt;and preparing the technical materials for the&lt;br&gt;new identity." data-ru="Разработала визуальную айдентику&lt;br&gt;и логотип. Руководила командой&lt;br&gt;при разработке носителей и подготовке&lt;br&gt;макетов для производства в рамках новой&lt;br&gt;айдентики.">Разработала визуальную айдентику<br>и логотип. Руководила командой<br>при разработке носителей и подготовке<br>макетов для производства в рамках новой<br>айдентики.</p>
+ <p data-en="Basarab is a family-run footwear brand with its own &lt;br&gt;production, making well-made shoes for everyday life." data-ru="Basarab — семейный бренд обуви, который делает &lt;br&gt;классную, качественную обувь для повседневной жизни.">Basarab — семейный бренд обуви, который делает <br>классную, качественную обувь для повседневной жизни.</p>
+ <p data-en="Designed the visual identity and logo. Guided the team &lt;br&gt;in designing the touchpoints and preparing the technical &lt;br&gt;materials for the new identity." data-ru="Разработала визуальную айдентику и логотип. Руководила &lt;br&gt;командой при разработке носителей и подготовке макетов &lt;br&gt;для производства в рамках новой айдентики.">Разработала визуальную айдентику и логотип. Руководила <br>командой при разработке носителей и подготовке макетов <br>для производства в рамках новой айдентики.</p>
+ <p class="project__desc-p--mobile" data-en="Basarab is a family-run footwear brand with &lt;br&gt;its own production, making well-made shoes &lt;br&gt;for everyday life." data-ru="Basarab — семейный бренд обуви, &lt;br&gt;который делает классную, качественную &lt;br&gt;обувь для повседневной жизни.">Basarab — семейный бренд обуви, <br>который делает классную, качественную <br>обувь для повседневной жизни.</p>
+ <p class="project__desc-p--mobile" data-en="Designed the visual identity and logo. &lt;br&gt;Guided the team in designing the touchpoints &lt;br&gt;and preparing the technical materials for the &lt;br&gt;new identity." data-ru="Разработала визуальную айдентику &lt;br&gt;и логотип. Руководила командой &lt;br&gt;при разработке носителей и подготовке &lt;br&gt;макетов для производства в рамках новой &lt;br&gt;айдентики.">Разработала визуальную айдентику <br>и логотип. Руководила командой <br>при разработке носителей и подготовке <br>макетов для производства в рамках новой <br>айдентики.</p>
           <button type="button" class="project__see" data-case-open="case-basarab" data-en="See Project &lt;span class=&quot;project__see-arrow&quot;&gt;→&lt;/span&gt;" data-ru="Смотреть &lt;span class=&quot;project__see-arrow&quot;&gt;→&lt;/span&gt;">Смотреть <span class="project__see-arrow">→</span></button>
         </div>
       </div>
@@ -2767,7 +2759,7 @@
         <span class="typo__line typo__g" style="left:12.64px;top:309.50px;font-size:28px;color:#F5F5F5"><span>19:30</span></span>
         <span class="typo__line typo__g" style="left:159.72px;top:308.00px;font-size:44px;letter-spacing:0.44px;color:#FFFFFF"><span>CHANCE</span></span>
         <span class="typo__line typo__g" style="left:159.72px;top:352.00px;font-size:44px;letter-spacing:0.44px;color:#FFFFFF"><span>DISCOVERY</span></span>
-        <span class="typo__line typo__g" style="left:159.72px;top:396.00px;font-size:44px;letter-spacing:0.44px;color:#FFFFFF"><span>IN SCIENCE</span></span>
+        <span class="typo__line typo__g" style="left:159.72px;top:396.00px;font-size:44px;letter-spacing:0.44px;color:#FFFFFF"><span>IN SCIENCE</span></span>
         <span class="typo__line typo__g" style="left:159.72px;top:440.00px;font-size:44px;letter-spacing:0.44px;color:#FFFFFF"><span>MUSIC</span></span>
         <span class="typo__line typo__r" style="left:163.80px;top:564.75px;font-size:10px;letter-spacing:0.2px;color:#F5F5F5"><span>FOUNDATION.COM</span></span>
         <span class="typo__line typo__r" style="left:441.80px;top:564.75px;font-size:10px;letter-spacing:0.2px;color:#F5F5F5"><span>16+</span></span>
@@ -2791,12 +2783,12 @@
         <span class="typo__line typo__logo" style="left:15.8px;top:21.3px;font-size:0"><span><img loading="lazy" src="images/foundation-science-art-logo.svg" width="75" height="40" alt="Science &amp; Art" /></span></span>
         <span class="typo__line typo__g" style="left:159.72px;top:24.00px;font-size:44px;letter-spacing:0.44px;color:#808080"><span>NEW</span></span>
         <span class="typo__line typo__g" style="left:159.72px;top:68.00px;font-size:44px;letter-spacing:0.44px;color:#808080"><span>HORIZONS</span></span>
-        <span class="typo__line typo__g" style="left:159.72px;top:112.00px;font-size:44px;letter-spacing:0.44px;color:#FFFFFF"><span>OF SCIENCE</span></span>
+        <span class="typo__line typo__g" style="left:159.72px;top:112.00px;font-size:44px;letter-spacing:0.44px;color:#FFFFFF"><span>OF SCIENCE</span></span>
         <span class="typo__line typo__g" style="left:159.72px;top:156.00px;font-size:44px;letter-spacing:0.44px;color:#FFFFFF"><span>DIPLOMACY</span></span>
         <span class="typo__line typo__r typo__line--r" style="left:267.20px;top:375.75px;font-size:10px;letter-spacing:0.2px;color:#F5F5F5"><span>17.06 – 24.06.2026</span></span>
-        <span class="typo__line typo__r" style="left:162.32px;top:414.15px;font-size:14px;letter-spacing:0.28px;color:#808080"><span>Representatives of the scientific</span></span>
-        <span class="typo__line typo__r" style="left:162.32px;top:434.45px;font-size:14px;letter-spacing:0.28px;color:#808080"><span>community and the government</span></span>
-        <span class="typo__line typo__r" style="left:162.32px;top:454.75px;font-size:14px;letter-spacing:0.28px;color:#808080"><span>discussed approaches to establishing</span></span>
+        <span class="typo__line typo__r" style="left:162.32px;top:414.15px;font-size:14px;letter-spacing:0.28px;color:#808080"><span>Representatives of the scientific</span></span>
+        <span class="typo__line typo__r" style="left:162.32px;top:434.45px;font-size:14px;letter-spacing:0.28px;color:#808080"><span>community and the government</span></span>
+        <span class="typo__line typo__r" style="left:162.32px;top:454.75px;font-size:14px;letter-spacing:0.28px;color:#808080"><span>discussed approaches to establishing</span></span>
         <span class="typo__line typo__r" style="left:162.32px;top:475.05px;font-size:14px;letter-spacing:0.28px;color:#808080"><span>scientific ties.</span></span>
         <span class="typo__line typo__r" style="left:163.80px;top:564.75px;font-size:10px;letter-spacing:0.2px;color:#F5F5F5"><span>FOUNDATION.COM</span></span>
         <span class="typo__line typo__r" style="left:441.80px;top:564.75px;font-size:10px;letter-spacing:0.2px;color:#F5F5F5"><span>16+</span></span>
@@ -2808,10 +2800,10 @@
         <span class="typo__line typo__r typo__line--c" style="left:240.00px;top:27.75px;font-size:10px;letter-spacing:0.2px;color:#F5F5F5"><span>WORKSHOP</span></span>
         <span class="typo__line typo__g typo__line--c" style="left:240.00px;top:63.00px;font-size:64px;letter-spacing:0.64px;color:#FFFFFF"><span>OPEN</span></span>
         <span class="typo__line typo__g typo__line--c" style="left:240.00px;top:127.00px;font-size:64px;letter-spacing:0.64px;color:#FFFFFF"><span>DIALOGUE</span></span>
-        <span class="typo__line typo__g typo__line--c" style="left:240.00px;top:191.00px;font-size:64px;letter-spacing:0.64px;color:#FFFFFF"><span>IN TULA</span></span>
-        <span class="typo__line typo__r typo__line--c" style="left:240.00px;top:350.15px;font-size:14px;letter-spacing:0.28px;color:#808080"><span>The combination of an emotional</span></span>
-        <span class="typo__line typo__r typo__line--c" style="left:240.00px;top:370.45px;font-size:14px;letter-spacing:0.28px;color:#808080"><span>perception of science and</span></span>
-        <span class="typo__line typo__r typo__line--c" style="left:240.00px;top:390.75px;font-size:14px;letter-spacing:0.28px;color:#808080"><span>a rational view of art</span></span>
+        <span class="typo__line typo__g typo__line--c" style="left:240.00px;top:191.00px;font-size:64px;letter-spacing:0.64px;color:#FFFFFF"><span>IN TULA</span></span>
+        <span class="typo__line typo__r typo__line--c" style="left:240.00px;top:350.15px;font-size:14px;letter-spacing:0.28px;color:#808080"><span>The combination of an emotional</span></span>
+        <span class="typo__line typo__r typo__line--c" style="left:240.00px;top:370.45px;font-size:14px;letter-spacing:0.28px;color:#808080"><span>perception of science and</span></span>
+        <span class="typo__line typo__r typo__line--c" style="left:240.00px;top:390.75px;font-size:14px;letter-spacing:0.28px;color:#808080"><span>a rational view of art</span></span>
         <span class="typo__line typo__r" style="left:14.80px;top:564.75px;font-size:10px;letter-spacing:0.2px;color:#F5F5F5"><span>2026</span></span>
         <span class="typo__line typo__r" style="left:188.80px;top:564.75px;font-size:10px;letter-spacing:0.2px;color:#F5F5F5"><span>FOUNDATION.COM</span></span>
         <span class="typo__line typo__r" style="left:441.80px;top:564.75px;font-size:10px;letter-spacing:0.2px;color:#F5F5F5"><span>16+</span></span>
@@ -2819,31 +2811,31 @@
         <div class="typo__page" data-page="lectures">
         <span class="typo__rule" style="left:16px;top:15.5px;width:448px;background:#2C2C31" data-key="16-16-448"></span>
         <span class="typo__line typo__g" style="left:14.32px;top:29.05px;font-size:14px;color:#FFFFFF"><span>MAY 10</span></span>
-        <span class="typo__line typo__g" style="left:163.32px;top:29.05px;font-size:14px;color:#FFFFFF"><span>THE ORIGINS OF SCIENTIFIC THOUGHT</span></span>
+        <span class="typo__line typo__g" style="left:163.32px;top:29.05px;font-size:14px;color:#FFFFFF"><span>THE ORIGINS OF SCIENTIFIC THOUGHT</span></span>
         <span class="typo__rule" style="left:16px;top:55.5px;width:448px;background:#2C2C31" data-key="16-56-448"></span>
         <span class="typo__line typo__g" style="left:14.32px;top:69.05px;font-size:14px;color:#FFFFFF"><span>MAY 12</span></span>
-        <span class="typo__line typo__g" style="left:163.32px;top:69.05px;font-size:14px;color:#FFFFFF"><span>A DIALOGUE BETWEEN ART AND MATTER</span></span>
+        <span class="typo__line typo__g" style="left:163.32px;top:69.05px;font-size:14px;color:#FFFFFF"><span>A DIALOGUE BETWEEN ART AND MATTER</span></span>
         <span class="typo__rule" style="left:16px;top:95.5px;width:448px;background:#2C2C31" data-key="16-96-448"></span>
         <span class="typo__line typo__g" style="left:14.32px;top:109.05px;font-size:14px;color:#FFFFFF"><span>MAY 14</span></span>
-        <span class="typo__line typo__g" style="left:163.32px;top:109.05px;font-size:14px;color:#FFFFFF"><span>THE ARCHITECTURE OF DISCOVERY</span></span>
+        <span class="typo__line typo__g" style="left:163.32px;top:109.05px;font-size:14px;color:#FFFFFF"><span>THE ARCHITECTURE OF DISCOVERY</span></span>
         <span class="typo__rule" style="left:16px;top:135.5px;width:448px;background:#2C2C31" data-key="16-136-448"></span>
         <span class="typo__line typo__g" style="left:14.32px;top:149.05px;font-size:14px;color:#FFFFFF"><span>MAY 16</span></span>
-        <span class="typo__line typo__g" style="left:163.32px;top:149.05px;font-size:14px;color:#FFFFFF"><span>PATTERNS BENEATH THE VISIBLE WORLD</span></span>
+        <span class="typo__line typo__g" style="left:163.32px;top:149.05px;font-size:14px;color:#FFFFFF"><span>PATTERNS BENEATH THE VISIBLE WORLD</span></span>
         <span class="typo__rule" style="left:16px;top:175.5px;width:448px;background:#2C2C31" data-key="16-176-448"></span>
         <span class="typo__line typo__g" style="left:14.32px;top:189.05px;font-size:14px;color:#FFFFFF"><span>MAY 18</span></span>
-        <span class="typo__line typo__g" style="left:163.32px;top:189.05px;font-size:14px;color:#FFFFFF"><span>THE LANGUAGE OF NATURAL LAWS</span></span>
+        <span class="typo__line typo__g" style="left:163.32px;top:189.05px;font-size:14px;color:#FFFFFF"><span>THE LANGUAGE OF NATURAL LAWS</span></span>
         <span class="typo__rule" style="left:16px;top:215.5px;width:448px;background:#2C2C31" data-key="16-216-448"></span>
         <span class="typo__line typo__g" style="left:14.32px;top:229.05px;font-size:14px;color:#FFFFFF"><span>MAY 20</span></span>
-        <span class="typo__line typo__g" style="left:163.32px;top:229.05px;font-size:14px;color:#FFFFFF"><span>FRAGMENTS OF A LIVING SYSTEM</span></span>
+        <span class="typo__line typo__g" style="left:163.32px;top:229.05px;font-size:14px;color:#FFFFFF"><span>FRAGMENTS OF A LIVING SYSTEM</span></span>
         <span class="typo__rule" style="left:16px;top:255.5px;width:448px;background:#2C2C31" data-key="16-256-448"></span>
         <span class="typo__line typo__g" style="left:14.32px;top:269.05px;font-size:14px;color:#FFFFFF"><span>MAY 22</span></span>
-        <span class="typo__line typo__g" style="left:163.32px;top:269.05px;font-size:14px;color:#FFFFFF"><span>THE GEOMETRY OF PERCEPTION</span></span>
+        <span class="typo__line typo__g" style="left:163.32px;top:269.05px;font-size:14px;color:#FFFFFF"><span>THE GEOMETRY OF PERCEPTION</span></span>
         <span class="typo__rule" style="left:16px;top:295.5px;width:448px;background:#2C2C31" data-key="16-296-448"></span>
         <span class="typo__line typo__g" style="left:14.32px;top:309.05px;font-size:14px;color:#FFFFFF"><span>MAY 24</span></span>
-        <span class="typo__line typo__g" style="left:163.32px;top:309.05px;font-size:14px;color:#FFFFFF"><span>ECHOES OF THE EXPERIMENT</span></span>
+        <span class="typo__line typo__g" style="left:163.32px;top:309.05px;font-size:14px;color:#FFFFFF"><span>ECHOES OF THE EXPERIMENT</span></span>
         <span class="typo__rule" style="left:16px;top:335.5px;width:448px;background:#2C2C31" data-key="16-336-448"></span>
         <span class="typo__line typo__g" style="left:14.32px;top:349.05px;font-size:14px;color:#FFFFFF"><span>MAY 26</span></span>
-        <span class="typo__line typo__g" style="left:163.32px;top:349.05px;font-size:14px;color:#FFFFFF"><span>THE FUTURE ENCODED IN FORM</span></span>
+        <span class="typo__line typo__g" style="left:163.32px;top:349.05px;font-size:14px;color:#FFFFFF"><span>THE FUTURE ENCODED IN FORM</span></span>
         <span class="typo__rule" style="left:16px;top:375.5px;width:448px;background:#2C2C31" data-key="16-376-448"></span>
         <span class="typo__line typo__g" style="left:5.68px;top:483.73px;font-size:86px;color:#FFFFFF"><span>LECTURES</span></span>
         <span class="typo__rule" style="left:16px;top:583.5px;width:448px;background:#2C2C31" data-key="16-584-448"></span>
@@ -2917,10 +2909,10 @@
           <span role="button" tabindex="0" class="project__badge" data-case-open="case-foundation" data-en="&lt;span class=&quot;project__badge-title&quot;&gt;Foundation «Vyzov»&lt;/span&gt;" data-ru="&lt;span class=&quot;project__badge-title&quot;&gt;Фонд «Вызов»&lt;/span&gt;"><span class="project__badge-title">Фонд «Вызов»</span></span>
         </h2>
         <div class="project__desc">
- <p data-en="The Foundation's mission is to bring recognition to scientists&lt;br&gt;whose achievements change lives for the better." data-ru="Миссия фонда — открыть миру имена учёных, чьи дости-&lt;br&gt;жения меняют жизнь к лучшему.">Миссия фонда — открыть миру имена учёных, чьи дости-<br>жения меняют жизнь к лучшему.</p>
- <p data-en="Built the shared identity for the foundation and its award.&lt;br&gt;Designed a separate logo for the exhibition. Directed&lt;br&gt;specialists in developing different elements of the identity." data-ru="Создала единую айдентику для фонда и премии, а также&lt;br&gt;отдельный логотип для выставки. Руководила специалистами&lt;br&gt;в разработке различных элементов фирменного стиля.">Создала единую айдентику для фонда и премии, а также<br>отдельный логотип для выставки. Руководила специалистами<br>в разработке различных элементов фирменного стиля.</p>
- <p class="project__desc-p--mobile" data-en="The Foundation's mission is to bring&lt;br&gt;recognition to scientists whose achievements&lt;br&gt;change lives for the better." data-ru="Миссия фонда — открыть миру имена&lt;br&gt;учёных, чьи достижения меняют жизнь&lt;br&gt;к лучшему.">Миссия фонда — открыть миру имена<br>учёных, чьи достижения меняют жизнь<br>к лучшему.</p>
- <p class="project__desc-p--mobile" data-en="Built the shared identity for the foundation&lt;br&gt;and its award. Designed a separate logo for the&lt;br&gt;exhibition. Directed specialists in developing&lt;br&gt;different elements of the identity." data-ru="Создала единую айдентику для фонда&lt;br&gt;и премии, а также отдельный логотип&lt;br&gt;для выставки. Руководила специалистами&lt;br&gt;в разработке различных элементов&lt;br&gt;фирменного стиля.">Создала единую айдентику для фонда<br>и премии, а также отдельный логотип<br>для выставки. Руководила специалистами<br>в разработке различных элементов<br>фирменного стиля.</p>
+ <p data-en="The Foundation's mission is to bring recognition to scientists &lt;br&gt;whose achievements change lives for the better." data-ru="Миссия фонда — открыть миру имена учёных, чьи дости- &lt;br&gt;жения меняют жизнь к лучшему.">Миссия фонда — открыть миру имена учёных, чьи дости- <br>жения меняют жизнь к лучшему.</p>
+ <p data-en="Built the shared identity for the foundation and its award. &lt;br&gt;Designed a separate logo for the exhibition. Directed &lt;br&gt;specialists in developing different elements of the identity." data-ru="Создала единую айдентику для фонда и премии, а также &lt;br&gt;отдельный логотип для выставки. Руководила специалистами &lt;br&gt;в разработке различных элементов фирменного стиля.">Создала единую айдентику для фонда и премии, а также <br>отдельный логотип для выставки. Руководила специалистами <br>в разработке различных элементов фирменного стиля.</p>
+ <p class="project__desc-p--mobile" data-en="The Foundation's mission is to bring &lt;br&gt;recognition to scientists whose achievements &lt;br&gt;change lives for the better." data-ru="Миссия фонда — открыть миру имена &lt;br&gt;учёных, чьи достижения меняют жизнь &lt;br&gt;к лучшему.">Миссия фонда — открыть миру имена <br>учёных, чьи достижения меняют жизнь <br>к лучшему.</p>
+ <p class="project__desc-p--mobile" data-en="Built the shared identity for the foundation &lt;br&gt;and its award. Designed a separate logo for the &lt;br&gt;exhibition. Directed specialists in developing &lt;br&gt;different elements of the identity." data-ru="Создала единую айдентику для фонда &lt;br&gt;и премии, а также отдельный логотип &lt;br&gt;для выставки. Руководила специалистами &lt;br&gt;в разработке различных элементов &lt;br&gt;фирменного стиля.">Создала единую айдентику для фонда <br>и премии, а также отдельный логотип <br>для выставки. Руководила специалистами <br>в разработке различных элементов <br>фирменного стиля.</p>
           <button type="button" class="project__see" data-case-open="case-foundation" data-en="See Project &lt;span class=&quot;project__see-arrow&quot;&gt;→&lt;/span&gt;" data-ru="Смотреть &lt;span class=&quot;project__see-arrow&quot;&gt;→&lt;/span&gt;">Смотреть <span class="project__see-arrow">→</span></button>
         </div>
       </div>
@@ -2939,11 +2931,11 @@
           <span class="project__badge" data-en="&lt;span class=&quot;project__badge-title&quot;&gt;Rovno Home&lt;/span&gt;" data-ru="&lt;span class=&quot;project__badge-title&quot;&gt;Rovno Home&lt;/span&gt;"><span class="project__badge-title">Rovno Home</span></span>
         </h2>
         <div class="project__desc">
- <p data-en="Rovno Home crafts custom textiles for apartments,&lt;br&gt;private homes, restaurants, and hotels." data-ru="Rovno Home создаёт текстиль на заказ для квартир,&lt;br&gt;частных домов, ресторанов и гостиниц.">Rovno Home создаёт текстиль на заказ для квартир,<br>частных домов, ресторанов и гостиниц.</p>
- <p data-en="Shaped the visual identity from the logo down to the&lt;br&gt;packaging, keeping the same language consistent across&lt;br&gt;every application." data-ru="Отвечала за визуальную айдентику и логотип, а также&lt;br&gt;за дизайн и адаптацию айдентики на разные носители.">Отвечала за визуальную айдентику и логотип, а также<br>за дизайн и адаптацию айдентики на разные носители.</p>
- <p class="project__desc-p--mobile" data-en="Rovno Home crafts custom textiles&lt;br&gt;for apartments, private homes, restaurants,&lt;br&gt;and hotels." data-ru="Rovno Home создаёт текстиль на заказ&lt;br&gt;для квартир, частных домов, ресторанов&lt;br&gt;и гостиниц.">Rovno Home создаёт текстиль на заказ<br>для квартир, частных домов, ресторанов<br>и гостиниц.</p>
- <p class="project__desc-p--mobile" data-en="Shaped the visual identity from the logo down&lt;br&gt;to the packaging, keeping the same language&lt;br&gt;consistent across every application." data-ru="Отвечала за визуальную айдентику&lt;br&gt;и логотип, а также за дизайн и адаптацию&lt;br&gt;айдентики на разные носители.">Отвечала за визуальную айдентику<br>и логотип, а также за дизайн и адаптацию<br>айдентики на разные носители.</p>
-          <span class="project__see project__see--soon" data-en="A case study is coming soon." data-ru="Скоро будет кейс">Скоро будет кейс</span>
+ <p data-en="Rovno Home crafts custom textiles for apartments, &lt;br&gt;private homes, restaurants, and hotels." data-ru="Rovno Home создаёт текстиль на заказ для квартир, &lt;br&gt;частных домов, ресторанов и гостиниц.">Rovno Home создаёт текстиль на заказ для квартир, <br>частных домов, ресторанов и гостиниц.</p>
+ <p data-en="Shaped the visual identity from the logo down to the &lt;br&gt;packaging, keeping the same language consistent across &lt;br&gt;every application." data-ru="Отвечала за визуальную айдентику и логотип, а также &lt;br&gt;за дизайн и адаптацию айдентики на разные носители.">Отвечала за визуальную айдентику и логотип, а также <br>за дизайн и адаптацию айдентики на разные носители.</p>
+ <p class="project__desc-p--mobile" data-en="Rovno Home crafts custom textiles &lt;br&gt;for apartments, private homes, restaurants, &lt;br&gt;and hotels." data-ru="Rovno Home создаёт текстиль на заказ &lt;br&gt;для квартир, частных домов, ресторанов &lt;br&gt;и гостиниц.">Rovno Home создаёт текстиль на заказ <br>для квартир, частных домов, ресторанов <br>и гостиниц.</p>
+ <p class="project__desc-p--mobile" data-en="Shaped the visual identity from the logo down &lt;br&gt;to the packaging, keeping the same language &lt;br&gt;consistent across every application." data-ru="Отвечала за визуальную айдентику &lt;br&gt;и логотип, а также за дизайн и адаптацию &lt;br&gt;айдентики на разные носители.">Отвечала за визуальную айдентику <br>и логотип, а также за дизайн и адаптацию <br>айдентики на разные носители.</p>
+          <span class="project__see project__see--soon" data-en="A case study is coming soon." data-ru="Скоро будет кейс">Скоро будет кейс</span>
         </div>
       </div>
       <hr class="project__divider" />
@@ -2961,11 +2953,11 @@
           <span class="project__badge" data-en="&lt;span class=&quot;project__badge-title&quot;&gt;Nadoswap&lt;/span&gt;" data-ru="&lt;span class=&quot;project__badge-title&quot;&gt;Nadoswap&lt;/span&gt;"><span class="project__badge-title">Nadoswap</span></span>
         </h2>
         <div class="project__desc">
- <p data-en="Nadoswap is an independent crypto exchange&lt;br&gt;monitoring service that helps pick the best route." data-ru="Независимый сервис мониторинга криптообменников,&lt;br&gt;который помогает выбрать лучший маршрут обмена.">Независимый сервис мониторинга криптообменников,<br>который помогает выбрать лучший маршрут обмена.</p>
- <p data-en="Built the visual system from the logo through&lt;br&gt;presentations, templates, and generative 3D content." data-ru="Выстроила визуальную систему от логотипа до презентаций,&lt;br&gt;шаблонов и генеративного 3D-контента.">Выстроила визуальную систему от логотипа до презентаций,<br>шаблонов и генеративного 3D-контента.</p>
- <p class="project__desc-p--mobile" data-en="Nadoswap is an independent crypto exchange&lt;br&gt;monitoring service that helps pick the best&lt;br&gt;route." data-ru="Независимый сервис мониторинга&lt;br&gt;криптообменников, который помогает&lt;br&gt;выбрать лучший маршрут обмена.">Независимый сервис мониторинга<br>криптообменников, который помогает<br>выбрать лучший маршрут обмена.</p>
- <p class="project__desc-p--mobile" data-en="Built the visual system from the logo through&lt;br&gt;presentations, templates, and generative 3D&lt;br&gt;content." data-ru="Выстроила визуальную систему &lt;br&gt;от логотипа до презентаций, шаблонов &lt;br&gt;и генеративного 3D-контента.">Выстроила визуальную систему <br>от логотипа до презентаций, шаблонов <br>и генеративного 3D-контента.</p>
-          <span class="project__see project__see--soon" data-en="A case study is coming soon." data-ru="Скоро будет кейс">Скоро будет кейс</span>
+ <p data-en="Nadoswap is an independent crypto exchange &lt;br&gt;monitoring service that helps pick the best route." data-ru="Независимый сервис мониторинга криптообменников, &lt;br&gt;который помогает выбрать лучший маршрут обмена.">Независимый сервис мониторинга криптообменников, <br>который помогает выбрать лучший маршрут обмена.</p>
+ <p data-en="Built the visual system from the logo through &lt;br&gt;presentations, templates, and generative 3D content." data-ru="Выстроила визуальную систему от логотипа до презентаций, &lt;br&gt;шаблонов и генеративного 3D-контента.">Выстроила визуальную систему от логотипа до презентаций, <br>шаблонов и генеративного 3D-контента.</p>
+ <p class="project__desc-p--mobile" data-en="Nadoswap is an independent crypto exchange &lt;br&gt;monitoring service that helps pick the best &lt;br&gt;route." data-ru="Независимый сервис мониторинга &lt;br&gt;криптообменников, который помогает &lt;br&gt;выбрать лучший маршрут обмена.">Независимый сервис мониторинга <br>криптообменников, который помогает <br>выбрать лучший маршрут обмена.</p>
+ <p class="project__desc-p--mobile" data-en="Built the visual system from the logo through &lt;br&gt;presentations, templates, and generative 3D &lt;br&gt;content." data-ru="Выстроила визуальную систему &lt;br&gt;от логотипа до презентаций, шаблонов &lt;br&gt;и генеративного 3D-контента.">Выстроила визуальную систему <br>от логотипа до презентаций, шаблонов <br>и генеративного 3D-контента.</p>
+          <span class="project__see project__see--soon" data-en="A case study is coming soon." data-ru="Скоро будет кейс">Скоро будет кейс</span>
         </div>
       </div>
       <hr class="project__divider" />
@@ -2983,11 +2975,11 @@
           <span class="project__badge" data-en="&lt;span class=&quot;project__badge-title&quot;&gt;App Insiders Club&lt;/span&gt;" data-ru="&lt;span class=&quot;project__badge-title&quot;&gt;App Insiders Club&lt;/span&gt;"><span class="project__badge-title">App Insiders Club</span></span>
         </h2>
         <div class="project__desc">
- <p data-en="App Insiders Club is a Yandex media platform&lt;br&gt;about mobile app development." data-ru="App Insiders Club — медиаплатформа Яндекса&lt;br&gt;о разработке мобильных приложений.">App Insiders Club — медиаплатформа Яндекса<br>о разработке мобильных приложений.</p>
- <p data-en="Collaborated with the Mish team on the visual identity&lt;br&gt;and guidelines. Created the website, including templates&lt;br&gt;for different page types." data-ru="Вместе с командой студии Mish работала над визуальной&lt;br&gt;айдентикой и гайдлайнами. Разработала дизайн главной&lt;br&gt;и дополнительных страниц сайта, а также адаптировала&lt;br&gt;его для разных форматов.">Вместе с командой студии Mish работала над визуальной<br>айдентикой и гайдлайнами. Разработала дизайн главной<br>и дополнительных страниц сайта, а также адаптировала<br>его для разных форматов.</p>
- <p class="project__desc-p--mobile" data-en="App Insiders Club is a Yandex media&lt;br&gt;platform about mobile app development." data-ru="App Insiders Club — медиаплатформа&lt;br&gt;Яндекса о разработке мобильных&lt;br&gt;приложений.">App Insiders Club — медиаплатформа<br>Яндекса о разработке мобильных<br>приложений.</p>
- <p class="project__desc-p--mobile" data-en="Collaborated with the Mish team on the visual&lt;br&gt;identity and guidelines. Created the website,&lt;br&gt;including templates for different page types." data-ru="Вместе с командой студии Mish работала &lt;br&gt;над визуальной айдентикой &lt;br&gt;и гайдлайнами. Разработала дизайн &lt;br&gt;главной и дополнительных страниц сайта, &lt;br&gt;а также адаптировала его для разных &lt;br&gt;форматов.">Вместе с командой студии Mish работала <br>над визуальной айдентикой <br>и гайдлайнами. Разработала дизайн <br>главной и дополнительных страниц сайта, <br>а также адаптировала его для разных <br>форматов.</p>
-          <span class="project__see project__see--soon" data-en="A case study is coming soon." data-ru="Скоро будет кейс">Скоро будет кейс</span>
+ <p data-en="App Insiders Club is a Yandex media platform &lt;br&gt;about mobile app development." data-ru="App Insiders Club — медиаплатформа Яндекса &lt;br&gt;о разработке мобильных приложений.">App Insiders Club — медиаплатформа Яндекса <br>о разработке мобильных приложений.</p>
+ <p data-en="Collaborated with the Mish team on the visual identity &lt;br&gt;and guidelines. Created the website, including templates &lt;br&gt;for different page types." data-ru="Вместе с командой студии Mish работала над визуальной &lt;br&gt;айдентикой и гайдлайнами. Разработала дизайн главной &lt;br&gt;и дополнительных страниц сайта, а также адаптировала &lt;br&gt;его для разных форматов.">Вместе с командой студии Mish работала над визуальной <br>айдентикой и гайдлайнами. Разработала дизайн главной <br>и дополнительных страниц сайта, а также адаптировала <br>его для разных форматов.</p>
+ <p class="project__desc-p--mobile" data-en="App Insiders Club is a Yandex media &lt;br&gt;platform about mobile app development." data-ru="App Insiders Club — медиаплатформа &lt;br&gt;Яндекса о разработке мобильных &lt;br&gt;приложений.">App Insiders Club — медиаплатформа <br>Яндекса о разработке мобильных <br>приложений.</p>
+ <p class="project__desc-p--mobile" data-en="Collaborated with the Mish team on the visual &lt;br&gt;identity and guidelines. Created the website, &lt;br&gt;including templates for different page types." data-ru="Вместе с командой студии Mish работала &lt;br&gt;над визуальной айдентикой &lt;br&gt;и гайдлайнами. Разработала дизайн &lt;br&gt;главной и дополнительных страниц сайта, &lt;br&gt;а также адаптировала его для разных &lt;br&gt;форматов.">Вместе с командой студии Mish работала <br>над визуальной айдентикой <br>и гайдлайнами. Разработала дизайн <br>главной и дополнительных страниц сайта, <br>а также адаптировала его для разных <br>форматов.</p>
+          <span class="project__see project__see--soon" data-en="A case study is coming soon." data-ru="Скоро будет кейс">Скоро будет кейс</span>
         </div>
       </div>
       <hr class="project__divider" />
@@ -3005,11 +2997,11 @@
           <span class="project__badge" data-en="&lt;span class=&quot;project__badge-title&quot;&gt;3I Tech&lt;/span&gt;" data-ru="&lt;span class=&quot;project__badge-title&quot;&gt;3I Tech&lt;/span&gt;"><span class="project__badge-title">3I Tech</span></span>
         </h2>
         <div class="project__desc">
- <p data-en="3I Tech is a Russian AI vendor building speech&lt;br&gt;technology, voice biometrics, and LLM assistants." data-ru="3I Tech — российский вендор ИИ-решений,&lt;br&gt;разрабатывающий речевые технологии, голосовую&lt;br&gt;биометрию и LLM-ассистентов.">3I Tech — российский вендор ИИ-решений,<br>разрабатывающий речевые технологии, голосовую<br>биометрию и LLM-ассистентов.</p>
- <p data-en="Designed the visual identity, adapted it across sub-brands,&lt;br&gt;and built a tool for generating brand graphics" data-ru="Сформировала визуальную айдентику, адаптировала&lt;br&gt;её под суб-бренды и разработала инструмент для генерации&lt;br&gt;брендовой графики.">Сформировала визуальную айдентику, адаптировала<br>её под суб-бренды и разработала инструмент для генерации<br>брендовой графики.</p>
- <p class="project__desc-p--mobile" data-en="3I Tech is a Russian AI vendor building&lt;br&gt;speech technology, voice biometrics,&lt;br&gt;and LLM assistants." data-ru="3I Tech — российский вендор ИИ-решений,&lt;br&gt;разрабатывающий речевые технологии,&lt;br&gt;голосовую биометрию и LLM-ассистентов.">3I Tech — российский вендор ИИ-решений,<br>разрабатывающий речевые технологии,<br>голосовую биометрию и LLM-ассистентов.</p>
- <p class="project__desc-p--mobile" data-en="Designed the visual identity, adapted it across&lt;br&gt;sub-brands, and built a tool for generating&lt;br&gt;brand graphics" data-ru="Сформировала визуальную айдентику,&lt;br&gt;адаптировала её под суб-бренды&lt;br&gt;и разработала инструмент для генерации&lt;br&gt;брендовой графики.">Сформировала визуальную айдентику,<br>адаптировала её под суб-бренды<br>и разработала инструмент для генерации<br>брендовой графики.</p>
-          <span class="project__see project__see--soon" data-en="A case study is coming soon." data-ru="Скоро будет кейс">Скоро будет кейс</span>
+ <p data-en="3I Tech is a Russian AI vendor building speech &lt;br&gt;technology, voice biometrics, and LLM assistants." data-ru="3I Tech — российский вендор ИИ-решений, &lt;br&gt;разрабатывающий речевые технологии, голосовую &lt;br&gt;биометрию и LLM-ассистентов.">3I Tech — российский вендор ИИ-решений, <br>разрабатывающий речевые технологии, голосовую <br>биометрию и LLM-ассистентов.</p>
+ <p data-en="Designed the visual identity, adapted it across sub-brands, &lt;br&gt;and built a tool for generating brand graphics" data-ru="Сформировала визуальную айдентику, адаптировала &lt;br&gt;её под суб-бренды и разработала инструмент для генерации &lt;br&gt;брендовой графики.">Сформировала визуальную айдентику, адаптировала <br>её под суб-бренды и разработала инструмент для генерации <br>брендовой графики.</p>
+ <p class="project__desc-p--mobile" data-en="3I Tech is a Russian AI vendor building &lt;br&gt;speech technology, voice biometrics, &lt;br&gt;and LLM assistants." data-ru="3I Tech — российский вендор ИИ-решений, &lt;br&gt;разрабатывающий речевые технологии, &lt;br&gt;голосовую биометрию и LLM-ассистентов.">3I Tech — российский вендор ИИ-решений, <br>разрабатывающий речевые технологии, <br>голосовую биометрию и LLM-ассистентов.</p>
+ <p class="project__desc-p--mobile" data-en="Designed the visual identity, adapted it across &lt;br&gt;sub-brands, and built a tool for generating &lt;br&gt;brand graphics" data-ru="Сформировала визуальную айдентику, &lt;br&gt;адаптировала её под суб-бренды &lt;br&gt;и разработала инструмент для генерации &lt;br&gt;брендовой графики.">Сформировала визуальную айдентику, <br>адаптировала её под суб-бренды <br>и разработала инструмент для генерации <br>брендовой графики.</p>
+          <span class="project__see project__see--soon" data-en="A case study is coming soon." data-ru="Скоро будет кейс">Скоро будет кейс</span>
         </div>
       </div>
       <hr class="project__divider" />
@@ -3051,8 +3043,8 @@
       <div class="case__media"><img loading="lazy" src="images/basarab-06.webp?v=4" alt="" width="1016" height="1200" /></div>
     </div>
 
-    <p class="case__quote case__quote-p--desktop reveal" data-en="We also developed a brand mark whose geometry stands apart &lt;br&gt;from the logotype, so it works as a standalone element, like &lt;br&gt;a small, distinctive detail." data-ru="Также мы разработали фирменный знак, который &lt;br&gt;по своей геометрии отличается от шрифтовой части, &lt;br&gt;благодаря чему выступает в качестве самостоятельного &lt;br&gt;элемента, как маленькая, уникальная деталь.">Также мы разработали фирменный знак, который <br>по своей геометрии отличается от шрифтовой части, <br>благодаря чему выступает в качестве самостоятельного <br>элемента, как маленькая, уникальная деталь.</p>
-    <p class="case__quote case__quote-p--mobile reveal" data-en="We also developed a brand mark whose &lt;br&gt;geometry stands apart from the logotype, so it &lt;br&gt;works as a standalone element, like a small, &lt;br&gt;distinctive detail." data-ru="Также мы разработали фирменный знак, &lt;br&gt;который по своей геометрии отличается &lt;br&gt;от шрифтовой части, благодаря чему &lt;br&gt;выступает в качестве самостоятельного &lt;br&gt;элемента, как маленькая, уникальная &lt;br&gt;деталь.">Также мы разработали фирменный знак, <br>который по своей геометрии отличается <br>от шрифтовой части, благодаря чему <br>выступает в качестве самостоятельного <br>элемента, как маленькая, уникальная <br>деталь.</p>
+    <p class="case__quote case__quote-p--desktop reveal" data-en="We also developed a brand mark whose geometry stands apart &lt;br&gt;from the logotype, so it works as a standalone element, like &lt;br&gt;a small, distinctive detail." data-ru="Также мы разработали фирменный знак, который &lt;br&gt;по своей геометрии отличается от шрифтовой части, &lt;br&gt;благодаря чему выступает в качестве самостоятельного &lt;br&gt;элемента, как маленькая, уникальная деталь.">Также мы разработали фирменный знак, который <br>по своей геометрии отличается от шрифтовой части, <br>благодаря чему выступает в качестве самостоятельного <br>элемента, как маленькая, уникальная деталь.</p>
+    <p class="case__quote case__quote-p--mobile reveal" data-en="We also developed a brand mark whose &lt;br&gt;geometry stands apart from the logotype, so it &lt;br&gt;works as a standalone element, like a small, &lt;br&gt;distinctive detail." data-ru="Также мы разработали фирменный знак, &lt;br&gt;который по своей геометрии отличается &lt;br&gt;от шрифтовой части, благодаря чему &lt;br&gt;выступает в качестве самостоятельного &lt;br&gt;элемента, как маленькая, уникальная &lt;br&gt;деталь.">Также мы разработали фирменный знак, <br>который по своей геометрии отличается <br>от шрифтовой части, благодаря чему <br>выступает в качестве самостоятельного <br>элемента, как маленькая, уникальная <br>деталь.</p>
 
     <div class="case__row reveal case__row--trio case__row--short">
       <div class="case__media" style="--mh:21.25rem"><img loading="lazy" src="images/basarab-07.webp?v=4" alt="" width="676" height="854" /><img loading="lazy" class="case__media-mobile" src="images/basarab-m07.webp" alt="" width="1077" height="1020" /></div>
@@ -3136,23 +3128,23 @@
     <div class="case__intro reveal">
       <div class="case__intro-left">
         <h2 data-en="&lt;span class=&quot;project__badge-title&quot;&gt;Foundation «Vyzov»&lt;/span&gt;" data-ru="&lt;span class=&quot;project__badge-title&quot;&gt;Фонд «Вызов»&lt;/span&gt;"><span class="project__badge-title">Фонд «Вызов»</span></h2>
-        <p class="case__intro-title-desc case__intro-title-desc--desktop case__intro-title-desc--first" data-en="Worked in partnership with the Origin&lt;br&gt;Design team and directly with the client" data-ru="Работала в партнёрстве с командой&lt;br&gt;Origin Design и напрямую с заказчиком">Работала в партнёрстве с командой<br>Origin Design и напрямую с заказчиком</p>
-        <p class="case__intro-title-desc case__intro-title-desc--mobile case__intro-title-desc--first" data-en="Worked in partnership with the Origin&lt;br&gt;Design team and directly with the client" data-ru="Работала в партнёрстве с командой&lt;br&gt;Origin Design и напрямую с заказчиком">Работала в партнёрстве с командой<br>Origin Design и напрямую с заказчиком</p>
-        <p class="case__intro-title-desc case__intro-title-desc--desktop case__intro-title-desc--second" data-en="Developed a unified identity for the foundation&lt;br&gt;and its award. Led specialists across the key&lt;br&gt;elements of the identity system." data-ru="Разработала единую айдентику для фонда&lt;br&gt;и премии. Руководила специалистами в разработке&lt;br&gt;различных элементов фирменного стиля.">Разработала единую айдентику для фонда<br>и премии. Руководила специалистами в разработке<br>различных элементов фирменного стиля.</p>
-        <p class="case__intro-title-desc case__intro-title-desc--mobile case__intro-title-desc--second" data-en="Developed a unified identity for the foundation&lt;br&gt;and its award. Led specialists across the key&lt;br&gt;elements of the identity system." data-ru="Разработала единую айдентику для фонда&lt;br&gt;и премии. Руководила специалистами&lt;br&gt;в разработке различных элементов&lt;br&gt;фирменного стиля.">Разработала единую айдентику для фонда<br>и премии. Руководила специалистами<br>в разработке различных элементов<br>фирменного стиля.</p>
+        <p class="case__intro-title-desc case__intro-title-desc--desktop case__intro-title-desc--first" data-en="Worked in partnership with the Origin &lt;br&gt;Design team and directly with the client" data-ru="Работала в партнёрстве с командой &lt;br&gt;Origin Design и напрямую с заказчиком">Работала в партнёрстве с командой <br>Origin Design и напрямую с заказчиком</p>
+        <p class="case__intro-title-desc case__intro-title-desc--mobile case__intro-title-desc--first" data-en="Worked in partnership with the Origin &lt;br&gt;Design team and directly with the client" data-ru="Работала в партнёрстве с командой &lt;br&gt;Origin Design и напрямую с заказчиком">Работала в партнёрстве с командой <br>Origin Design и напрямую с заказчиком</p>
+        <p class="case__intro-title-desc case__intro-title-desc--desktop case__intro-title-desc--second" data-en="Developed a unified identity for the foundation &lt;br&gt;and its award. Led specialists across the key &lt;br&gt;elements of the identity system." data-ru="Разработала единую айдентику для фонда &lt;br&gt;и премии. Руководила специалистами в разработке &lt;br&gt;различных элементов фирменного стиля.">Разработала единую айдентику для фонда <br>и премии. Руководила специалистами в разработке <br>различных элементов фирменного стиля.</p>
+        <p class="case__intro-title-desc case__intro-title-desc--mobile case__intro-title-desc--second" data-en="Developed a unified identity for the foundation &lt;br&gt;and its award. Led specialists across the key &lt;br&gt;elements of the identity system." data-ru="Разработала единую айдентику для фонда &lt;br&gt;и премии. Руководила специалистами &lt;br&gt;в разработке различных элементов &lt;br&gt;фирменного стиля.">Разработала единую айдентику для фонда <br>и премии. Руководила специалистами <br>в разработке различных элементов <br>фирменного стиля.</p>
       </div>
       <div class="case__intro-right">
-        <p class="case__intro-p--desktop" data-en="The foundation's mission is to reveal the names of scientists&lt;br&gt;whose achievements change lives for the better. To shape the&lt;br&gt;perception of knowledge, science, and technology as society's&lt;br&gt;most important values." data-ru="Миссия фонда — открыть миру имена учёных,&lt;br&gt;чьи достижения меняют жизнь к лучшему. Сформировать&lt;br&gt;восприятие знаний, науки и технологий как важнейших&lt;br&gt;ценностей общества.">Миссия фонда — открыть миру имена учёных,<br>чьи достижения меняют жизнь к лучшему. Сформировать<br>восприятие знаний, науки и технологий как важнейших<br>ценностей общества.</p>
-        <p class="case__intro-p--mobile" data-en="The foundation's mission is to reveal the names&lt;br&gt;of scientists whose achievements change lives&lt;br&gt;for the better. To shape the perception&lt;br&gt;of knowledge, science, and technology&lt;br&gt;as society's most important values." data-ru="Миссия фонда — открыть миру имена &lt;br&gt;учёных, чьи достижения меняют жизнь &lt;br&gt;к лучшему. Сформировать восприятие &lt;br&gt;знаний, науки и технологий &lt;br&gt;как важнейших ценностей общества.">Миссия фонда — открыть миру имена <br>учёных, чьи достижения меняют жизнь <br>к лучшему. Сформировать восприятие <br>знаний, науки и технологий <br>как важнейших ценностей общества.</p>
-        <p class="case__intro-p--desktop" data-en="The foundation needed a unified visual identity that would&lt;br&gt;bring together the foundation itself, its award, and its&lt;br&gt;exhibition projects under one visual language." data-ru="Фонду требовался единый фирменный стиль,&lt;br&gt;объединяющий сам фонд, присуждаемую им премию&lt;br&gt;и выставочные проекты в рамках общего визуального языка.">Фонду требовался единый фирменный стиль,<br>объединяющий сам фонд, присуждаемую им премию<br>и выставочные проекты в рамках общего визуального языка.</p>
-        <p class="case__intro-p--mobile" data-en="The foundation needed a unified visual identity&lt;br&gt;that would bring together the foundation itself,&lt;br&gt;its award, and its exhibition projects under one&lt;br&gt;visual language." data-ru="Фонду требовался единый фирменный &lt;br&gt;стиль, объединяющий сам фонд, &lt;br&gt;присуждаемую им премию и выставочные &lt;br&gt;проекты в рамках общего визуального &lt;br&gt;языка.">Фонду требовался единый фирменный <br>стиль, объединяющий сам фонд, <br>присуждаемую им премию и выставочные <br>проекты в рамках общего визуального <br>языка.</p>
+        <p class="case__intro-p--desktop" data-en="The foundation's mission is to reveal the names of scientists &lt;br&gt;whose achievements change lives for the better. To shape the &lt;br&gt;perception of knowledge, science, and technology as society's &lt;br&gt;most important values." data-ru="Миссия фонда — открыть миру имена учёных, &lt;br&gt;чьи достижения меняют жизнь к лучшему. Сформировать &lt;br&gt;восприятие знаний, науки и технологий как важнейших &lt;br&gt;ценностей общества.">Миссия фонда — открыть миру имена учёных, <br>чьи достижения меняют жизнь к лучшему. Сформировать <br>восприятие знаний, науки и технологий как важнейших <br>ценностей общества.</p>
+        <p class="case__intro-p--mobile" data-en="The foundation's mission is to reveal the names &lt;br&gt;of scientists whose achievements change lives &lt;br&gt;for the better. To shape the perception &lt;br&gt;of knowledge, science, and technology &lt;br&gt;as society's most important values." data-ru="Миссия фонда — открыть миру имена &lt;br&gt;учёных, чьи достижения меняют жизнь &lt;br&gt;к лучшему. Сформировать восприятие &lt;br&gt;знаний, науки и технологий &lt;br&gt;как важнейших ценностей общества.">Миссия фонда — открыть миру имена <br>учёных, чьи достижения меняют жизнь <br>к лучшему. Сформировать восприятие <br>знаний, науки и технологий <br>как важнейших ценностей общества.</p>
+        <p class="case__intro-p--desktop" data-en="The foundation needed a unified visual identity that would &lt;br&gt;bring together the foundation itself, its award, and its &lt;br&gt;exhibition projects under one visual language." data-ru="Фонду требовался единый фирменный стиль, &lt;br&gt;объединяющий сам фонд, присуждаемую им премию &lt;br&gt;и выставочные проекты в рамках общего визуального языка.">Фонду требовался единый фирменный стиль, <br>объединяющий сам фонд, присуждаемую им премию <br>и выставочные проекты в рамках общего визуального языка.</p>
+        <p class="case__intro-p--mobile" data-en="The foundation needed a unified visual identity &lt;br&gt;that would bring together the foundation itself, &lt;br&gt;its award, and its exhibition projects under one &lt;br&gt;visual language." data-ru="Фонду требовался единый фирменный &lt;br&gt;стиль, объединяющий сам фонд, &lt;br&gt;присуждаемую им премию и выставочные &lt;br&gt;проекты в рамках общего визуального &lt;br&gt;языка.">Фонду требовался единый фирменный <br>стиль, объединяющий сам фонд, <br>присуждаемую им премию и выставочные <br>проекты в рамках общего визуального <br>языка.</p>
       </div>
     </div>
 
     <div class="case__media reveal" style="--mh:14.375rem"><img loading="lazy" src="images/foundation-02.webp?v=2" alt="Portrait — Fedor Kulebin" width="2030" height="1240" /><img loading="lazy" class="case__media-mobile" src="images/foundation-m2.webp?v=2" alt="Portrait — Fedor Kulebin" width="1077" height="690" /></div>
 
-    <p class="case__quote case__quote-p--desktop reveal" data-en="Light became the central metaphor of the foundation's&lt;br&gt;visual identity, illuminating people, events, and discoveries&lt;br&gt;that usually stay out of sight. This idea runs through all the&lt;br&gt;graphics: a warm accent color emerges from a deep, dark&lt;br&gt;background, pulling its subjects, their stories, and their&lt;br&gt;achievements out of the dark." data-ru="Главной метафорой визуальной айдентики фонда&lt;br&gt;стал свет — он освещает людей, события и открытия,&lt;br&gt;которые обычно остаются в тени. Эта идея проходит&lt;br&gt;через всю графику: тёплый акцентный цвет проступает&lt;br&gt;из глубокого тёмного фона, выхватывая героев,&lt;br&gt;их истории и достижения из темноты.">Главной метафорой визуальной айдентики фонда<br>стал свет — он освещает людей, события и открытия,<br>которые обычно остаются в тени. Эта идея проходит<br>через всю графику: тёплый акцентный цвет проступает<br>из глубокого тёмного фона, выхватывая героев,<br>их истории и достижения из темноты.</p>
-    <p class="case__quote case__quote-p--mobile reveal" data-en="Light became the central metaphor of the&lt;br&gt;foundation's visual identity, illuminating&lt;br&gt;people, events, and discoveries that usually&lt;br&gt;stay out of sight. This idea runs through all&lt;br&gt;the graphics: a warm accent color emerges&lt;br&gt;from a deep, dark background, pulling its&lt;br&gt;subjects, their stories, and their achievements&lt;br&gt;out of the dark." data-ru="Главной метафорой визуальной айдентики&lt;br&gt;фонда стал свет — он освещает людей,&lt;br&gt;события и открытия, которые обычно&lt;br&gt;остаются в тени. Эта идея проходит через&lt;br&gt;всю графику: тёплый акцентный цвет&lt;br&gt;проступает из глубокого тёмного фона,&lt;br&gt;выхватывая героев, их истории&lt;br&gt;и достижения из темноты.">Главной метафорой визуальной айдентики<br>фонда стал свет — он освещает людей,<br>события и открытия, которые обычно<br>остаются в тени. Эта идея проходит через<br>всю графику: тёплый акцентный цвет<br>проступает из глубокого тёмного фона,<br>выхватывая героев, их истории<br>и достижения из темноты.</p>
+    <p class="case__quote case__quote-p--desktop reveal" data-en="Light became the central metaphor of the foundation's &lt;br&gt;visual identity, illuminating people, events, and discoveries &lt;br&gt;that usually stay out of sight. This idea runs through all the &lt;br&gt;graphics: a warm accent color emerges from a deep, dark &lt;br&gt;background, pulling its subjects, their stories, and their &lt;br&gt;achievements out of the dark." data-ru="Главной метафорой визуальной айдентики фонда &lt;br&gt;стал свет — он освещает людей, события и открытия, &lt;br&gt;которые обычно остаются в тени. Эта идея проходит &lt;br&gt;через всю графику: тёплый акцентный цвет проступает &lt;br&gt;из глубокого тёмного фона, выхватывая героев, &lt;br&gt;их истории и достижения из темноты.">Главной метафорой визуальной айдентики фонда <br>стал свет — он освещает людей, события и открытия, <br>которые обычно остаются в тени. Эта идея проходит <br>через всю графику: тёплый акцентный цвет проступает <br>из глубокого тёмного фона, выхватывая героев, <br>их истории и достижения из темноты.</p>
+    <p class="case__quote case__quote-p--mobile reveal" data-en="Light became the central metaphor of the &lt;br&gt;foundation's visual identity, illuminating &lt;br&gt;people, events, and discoveries that usually &lt;br&gt;stay out of sight. This idea runs through all &lt;br&gt;the graphics: a warm accent color emerges &lt;br&gt;from a deep, dark background, pulling its &lt;br&gt;subjects, their stories, and their achievements &lt;br&gt;out of the dark." data-ru="Главной метафорой визуальной айдентики &lt;br&gt;фонда стал свет — он освещает людей, &lt;br&gt;события и открытия, которые обычно &lt;br&gt;остаются в тени. Эта идея проходит через &lt;br&gt;всю графику: тёплый акцентный цвет &lt;br&gt;проступает из глубокого тёмного фона, &lt;br&gt;выхватывая героев, их истории &lt;br&gt;и достижения из темноты.">Главной метафорой визуальной айдентики <br>фонда стал свет — он освещает людей, <br>события и открытия, которые обычно <br>остаются в тени. Эта идея проходит через <br>всю графику: тёплый акцентный цвет <br>проступает из глубокого тёмного фона, <br>выхватывая героев, их истории <br>и достижения из темноты.</p>
 
     <div class="case__media case__media--light reveal" style="--mh:22.5rem">
       <div class="light-slide" data-light role="img" aria-label="We light the way toward humanity's greatest discoveries">
@@ -3160,7 +3152,7 @@
           <div class="light-slide__shape light-slide__shape--base"><img loading="lazy" src="images/foundation-light-shape.webp" alt="" /></div>
           <div class="light-slide__shape light-slide__shape--spill"><img loading="lazy" src="images/foundation-light-shape.webp" alt="" /></div>
           <div class="light-slide__sweep"><div class="light-slide__sweep-inner"><div class="light-slide__shape"><img loading="lazy" src="images/foundation-light-shape.webp" alt="" /></div></div></div>
-          <p class="light-slide__text">We light the way toward humanity's greatest discoveries</p>
+          <p class="light-slide__text">We light the way toward humanity's greatest discoveries</p>
         </div>
       </div>
       <img loading="lazy" class="case__media-mobile" src="images/foundation-m3.webp" alt="We light the way toward humanity's greatest discoveries" width="1077" height="1080" />
@@ -3180,7 +3172,7 @@
         <span class="typo__line typo__r" style="left:26.30px;top:660.25px;font-size:47.50px;letter-spacing:0.950px;color:#F5F5F5"><span>19:30</span></span>
         <span class="typo__line typo__g" style="left:334.46px;top:659.40px;font-size:96.20px;letter-spacing:1.924px;color:#F1F1F1"><span>CHANCE</span></span>
         <span class="typo__line typo__g" style="left:334.46px;top:756.40px;font-size:96.20px;letter-spacing:1.924px;color:#F1F1F1"><span>DISCOVERY</span></span>
-        <span class="typo__line typo__g" style="left:334.46px;top:852.40px;font-size:96.20px;letter-spacing:1.924px;color:#F1F1F1"><span>IN SCIENCE</span></span>
+        <span class="typo__line typo__g" style="left:334.46px;top:852.40px;font-size:96.20px;letter-spacing:1.924px;color:#F1F1F1"><span>IN SCIENCE</span></span>
         <span class="typo__line typo__g" style="left:334.46px;top:948.40px;font-size:96.20px;letter-spacing:1.924px;color:#F1F1F1"><span>MUSIC</span></span>
         <span class="typo__line typo__r" style="left:342.96px;top:1202.84px;font-size:25.32px;letter-spacing:0.506px;color:#F5F5F5"><span>FOUNDATION.COM</span></span>
         <span class="typo__line typo__r" style="left:927.72px;top:1202.84px;font-size:25.32px;letter-spacing:0.506px;color:#F5F5F5"><span>16+</span></span>
@@ -3206,12 +3198,12 @@
         <span class="typo__line typo__logo" style="left:26.68px;top:49.62px;font-size:40px"><span><img loading="lazy" src="images/foundation-science-art-logo.svg" width="164" height="88" alt="Science &amp; Art" /></span></span>
         <span class="typo__line typo__g" style="left:256.46px;top:51.40px;font-size:96.20px;letter-spacing:1.924px;color:#808080"><span>NEW</span></span>
         <span class="typo__line typo__g" style="left:257.46px;top:148.40px;font-size:96.20px;letter-spacing:1.924px;color:#808080"><span>HORIZONS</span></span>
-        <span class="typo__line typo__g" style="left:256.46px;top:244.40px;font-size:96.20px;letter-spacing:1.924px;color:#FFFFFF"><span>OF SCIENCE</span></span>
+        <span class="typo__line typo__g" style="left:256.46px;top:244.40px;font-size:96.20px;letter-spacing:1.924px;color:#FFFFFF"><span>OF SCIENCE</span></span>
         <span class="typo__line typo__g" style="left:256.46px;top:339.40px;font-size:96.20px;letter-spacing:1.924px;color:#FFFFFF"><span>DIPLOMACY</span></span>
         <span class="typo__line typo__r" style="left:264.96px;top:746.84px;font-size:25.32px;letter-spacing:0.506px;color:#F5F5F5"><span>19.08 — 28.08.2026</span></span>
-        <span class="typo__line typo__r" style="left:264.16px;top:847.50px;font-size:32.00px;letter-spacing:0.640px;color:#808080"><span>Representatives of the scientific</span></span>
-        <span class="typo__line typo__r" style="left:264.16px;top:893.50px;font-size:32.00px;letter-spacing:0.640px;color:#808080"><span>community and the government</span></span>
-        <span class="typo__line typo__r" style="left:264.16px;top:939.50px;font-size:32.00px;letter-spacing:0.640px;color:#808080"><span>discussed approaches to establishing</span></span>
+        <span class="typo__line typo__r" style="left:264.16px;top:847.50px;font-size:32.00px;letter-spacing:0.640px;color:#808080"><span>Representatives of the scientific</span></span>
+        <span class="typo__line typo__r" style="left:264.16px;top:893.50px;font-size:32.00px;letter-spacing:0.640px;color:#808080"><span>community and the government</span></span>
+        <span class="typo__line typo__r" style="left:264.16px;top:939.50px;font-size:32.00px;letter-spacing:0.640px;color:#808080"><span>discussed approaches to establishing</span></span>
         <span class="typo__line typo__r" style="left:265.16px;top:985.50px;font-size:32.00px;letter-spacing:0.640px;color:#808080"><span>scientific ties.</span></span>
         <span class="typo__line typo__r" style="left:28.96px;top:1202.84px;font-size:25.32px;letter-spacing:0.506px;color:#F5F5F5"><span>2026</span></span>
         <span class="typo__line typo__r" style="left:264.96px;top:1202.84px;font-size:25.32px;letter-spacing:0.506px;color:#F5F5F5"><span>FOUNDATION.COM</span></span>
@@ -3224,10 +3216,10 @@
         <span class="typo__line typo__r" style="left:418.87px;top:56.84px;font-size:25.32px;letter-spacing:0.506px;color:#F5F5F5"><span>WORKSHOP</span></span>
         <span class="typo__line typo__g" style="left:280.84px;top:125.75px;font-size:140.51px;letter-spacing:2.810px;color:#F1F1F1"><span>OPEN</span></span>
         <span class="typo__line typo__g" style="left:90.80px;top:265.75px;font-size:140.51px;letter-spacing:2.810px;color:#F1F1F1"><span>DIALOGUE</span></span>
-        <span class="typo__line typo__g" style="left:195.53px;top:405.75px;font-size:140.51px;letter-spacing:2.810px;color:#F1F1F1"><span>IN TULA</span></span>
-        <span class="typo__line typo__r" style="left:241.28px;top:784.03px;font-size:31.93px;letter-spacing:0.639px;color:#808080"><span>The combination of an emotional</span></span>
-        <span class="typo__line typo__r" style="left:218.01px;top:830.03px;font-size:31.93px;letter-spacing:0.639px;color:#808080"><span>perception of science and a rational</span></span>
-        <span class="typo__line typo__r" style="left:282.84px;top:876.03px;font-size:31.93px;letter-spacing:0.639px;color:#808080"><span>view of art creates a unique</span></span>
+        <span class="typo__line typo__g" style="left:195.53px;top:405.75px;font-size:140.51px;letter-spacing:2.810px;color:#F1F1F1"><span>IN TULA</span></span>
+        <span class="typo__line typo__r" style="left:241.28px;top:784.03px;font-size:31.93px;letter-spacing:0.639px;color:#808080"><span>The combination of an emotional</span></span>
+        <span class="typo__line typo__r" style="left:218.01px;top:830.03px;font-size:31.93px;letter-spacing:0.639px;color:#808080"><span>perception of science and a rational</span></span>
+        <span class="typo__line typo__r" style="left:282.84px;top:876.03px;font-size:31.93px;letter-spacing:0.639px;color:#808080"><span>view of art creates a unique</span></span>
         <span class="typo__line typo__r" style="left:398.25px;top:922.03px;font-size:31.93px;letter-spacing:0.639px;color:#808080"><span>environment.</span></span>
         <span class="typo__line typo__r" style="left:28.96px;top:1202.84px;font-size:25.32px;letter-spacing:0.506px;color:#F5F5F5"><span>2026</span></span>
         <span class="typo__line typo__r" style="left:376.48px;top:1202.84px;font-size:25.32px;letter-spacing:0.506px;color:#F5F5F5"><span>FOUNDATION.COM</span></span>
@@ -3236,31 +3228,31 @@
         <div class="typo__page" data-page="lectures">
         <span class="typo__rule" style="left:32px;top:31px;width:944px;background:#3E3E3E" data-key="32-31-944"></span>
         <span class="typo__line typo__g" style="left:29.05px;top:54.55px;font-size:32.91px;letter-spacing:0.658px;color:#FFFFFF"><span>MAY 10</span></span>
-        <span class="typo__line typo__g" style="left:264.05px;top:54.55px;font-size:32.91px;letter-spacing:0.658px;color:#FFFFFF"><span>THE ORIGINS OF SCIENTIFIC THOUGHT</span></span>
+        <span class="typo__line typo__g" style="left:264.05px;top:54.55px;font-size:32.91px;letter-spacing:0.658px;color:#FFFFFF"><span>THE ORIGINS OF SCIENTIFIC THOUGHT</span></span>
         <span class="typo__rule" style="left:32px;top:107px;width:944px;background:#3E3E3E" data-key="32-107-944"></span>
         <span class="typo__line typo__g" style="left:29.05px;top:130.55px;font-size:32.91px;letter-spacing:0.658px;color:#FFFFFF"><span>MAY 12</span></span>
-        <span class="typo__line typo__g" style="left:264.05px;top:130.55px;font-size:32.91px;letter-spacing:0.658px;color:#FFFFFF"><span>A DIALOGUE BETWEEN ART AND MATTER</span></span>
+        <span class="typo__line typo__g" style="left:264.05px;top:130.55px;font-size:32.91px;letter-spacing:0.658px;color:#FFFFFF"><span>A DIALOGUE BETWEEN ART AND MATTER</span></span>
         <span class="typo__rule" style="left:32px;top:183px;width:944px;background:#3E3E3E" data-key="32-183-944"></span>
         <span class="typo__line typo__g" style="left:29.05px;top:206.55px;font-size:32.91px;letter-spacing:0.658px;color:#FFFFFF"><span>MAY 14</span></span>
-        <span class="typo__line typo__g" style="left:264.05px;top:206.55px;font-size:32.91px;letter-spacing:0.658px;color:#FFFFFF"><span>THE ARCHITECTURE OF DISCOVERY</span></span>
+        <span class="typo__line typo__g" style="left:264.05px;top:206.55px;font-size:32.91px;letter-spacing:0.658px;color:#FFFFFF"><span>THE ARCHITECTURE OF DISCOVERY</span></span>
         <span class="typo__rule" style="left:32px;top:259px;width:944px;background:#3E3E3E" data-key="32-259-944"></span>
         <span class="typo__line typo__g" style="left:29.05px;top:282.55px;font-size:32.91px;letter-spacing:0.658px;color:#FFFFFF"><span>MAY 16</span></span>
-        <span class="typo__line typo__g" style="left:265.05px;top:282.55px;font-size:32.91px;letter-spacing:0.658px;color:#FFFFFF"><span>PATTERNS BENEATH THE VISIBLE WORLD</span></span>
+        <span class="typo__line typo__g" style="left:265.05px;top:282.55px;font-size:32.91px;letter-spacing:0.658px;color:#FFFFFF"><span>PATTERNS BENEATH THE VISIBLE WORLD</span></span>
         <span class="typo__rule" style="left:32px;top:335px;width:944px;background:#3E3E3E" data-key="32-335-944"></span>
         <span class="typo__line typo__g" style="left:29.05px;top:358.55px;font-size:32.91px;letter-spacing:0.658px;color:#FFFFFF"><span>MAY 18</span></span>
-        <span class="typo__line typo__g" style="left:264.05px;top:358.55px;font-size:32.91px;letter-spacing:0.658px;color:#FFFFFF"><span>THE LANGUAGE OF NATURAL LAWS</span></span>
+        <span class="typo__line typo__g" style="left:264.05px;top:358.55px;font-size:32.91px;letter-spacing:0.658px;color:#FFFFFF"><span>THE LANGUAGE OF NATURAL LAWS</span></span>
         <span class="typo__rule" style="left:32px;top:411px;width:944px;background:#3E3E3E" data-key="32-411-944"></span>
         <span class="typo__line typo__g" style="left:29.05px;top:434.55px;font-size:32.91px;letter-spacing:0.658px;color:#FFFFFF"><span>MAY 20</span></span>
-        <span class="typo__line typo__g" style="left:265.05px;top:434.55px;font-size:32.91px;letter-spacing:0.658px;color:#FFFFFF"><span>FRAGMENTS OF A LIVING SYSTEM</span></span>
+        <span class="typo__line typo__g" style="left:265.05px;top:434.55px;font-size:32.91px;letter-spacing:0.658px;color:#FFFFFF"><span>FRAGMENTS OF A LIVING SYSTEM</span></span>
         <span class="typo__rule" style="left:32px;top:487px;width:944px;background:#3E3E3E" data-key="32-487-944"></span>
         <span class="typo__line typo__g" style="left:29.05px;top:510.55px;font-size:32.91px;letter-spacing:0.658px;color:#FFFFFF"><span>MAY 22</span></span>
-        <span class="typo__line typo__g" style="left:264.05px;top:510.55px;font-size:32.91px;letter-spacing:0.658px;color:#FFFFFF"><span>THE GEOMETRY OF PERCEPTION</span></span>
+        <span class="typo__line typo__g" style="left:264.05px;top:510.55px;font-size:32.91px;letter-spacing:0.658px;color:#FFFFFF"><span>THE GEOMETRY OF PERCEPTION</span></span>
         <span class="typo__rule" style="left:32px;top:563px;width:944px;background:#3E3E3E" data-key="32-563-944"></span>
         <span class="typo__line typo__g" style="left:29.05px;top:586.54px;font-size:32.91px;letter-spacing:0.658px;color:#FFFFFF"><span>MAY 24</span></span>
-        <span class="typo__line typo__g" style="left:265.05px;top:586.54px;font-size:32.91px;letter-spacing:0.658px;color:#FFFFFF"><span>ECHOES OF THE EXPERIMENT</span></span>
+        <span class="typo__line typo__g" style="left:265.05px;top:586.54px;font-size:32.91px;letter-spacing:0.658px;color:#FFFFFF"><span>ECHOES OF THE EXPERIMENT</span></span>
         <span class="typo__rule" style="left:32px;top:639px;width:944px;background:#3E3E3E" data-key="32-639-944"></span>
         <span class="typo__line typo__g" style="left:29.05px;top:662.54px;font-size:32.91px;letter-spacing:0.658px;color:#FFFFFF"><span>MAY 26</span></span>
-        <span class="typo__line typo__g" style="left:264.05px;top:662.54px;font-size:32.91px;letter-spacing:0.658px;color:#FFFFFF"><span>THE FUTURE ENCODED IN FORM</span></span>
+        <span class="typo__line typo__g" style="left:264.05px;top:662.54px;font-size:32.91px;letter-spacing:0.658px;color:#FFFFFF"><span>THE FUTURE ENCODED IN FORM</span></span>
         <span class="typo__rule" style="left:32px;top:715px;width:944px;background:#3E3E3E" data-key="32-715-944"></span>
         <span class="typo__line typo__g" style="left:1.54px;top:1067.54px;font-size:179.92px;letter-spacing:3.598px;color:#FFFFFF"><span>LECTURES</span></span>
         </div>
@@ -3270,8 +3262,8 @@
       <div class="case__media" style="--mh:27.5rem"><img loading="lazy" src="images/foundation-05-planet.webp" alt="Brand mood detail — Earth at night with a glowing rim" /><img loading="lazy" class="case__media-mobile" src="images/foundation-m5-planet.webp" alt="Brand mood detail — Earth at night with a glowing rim" width="1077" height="1320" /></div>
     </div>
 
-    <p class="case__quote case__quote-p--desktop reveal" data-en="To express the connection between science and culture, we chose&lt;br&gt;contrasting typography: a strict grotesque carries the precision&lt;br&gt;and rationality of science, while softer, more expressive accents&lt;br&gt;speak to the foundation's cultural, human side. Together, they&lt;br&gt;form a single yet multifaceted visual voice." data-ru="Чтобы показать связь науки и культуры, мы выбрали&lt;br&gt;контрастную типографику: строгий гротеск отвечает&lt;br&gt;за точность и рациональность науки, а более пластичные,&lt;br&gt;выразительные акценты за культурную, гуманитарную&lt;br&gt;сторону фонда. Вместе они формируют единый,&lt;br&gt;но многогранный визуальный голос">Чтобы показать связь науки и культуры, мы выбрали<br>контрастную типографику: строгий гротеск отвечает<br>за точность и рациональность науки, а более пластичные,<br>выразительные акценты за культурную, гуманитарную<br>сторону фонда. Вместе они формируют единый,<br>но многогранный визуальный голос</p>
-    <p class="case__quote case__quote-p--mobile reveal" data-en="To express the connection between science&lt;br&gt;and culture, we chose contrasting typography:&lt;br&gt;a strict grotesque carries the precision and&lt;br&gt;rationality of science, while softer, more&lt;br&gt;expressive accents speak to the foundation's&lt;br&gt;cultural, human side. Together, they form&lt;br&gt;a single yet multifaceted visual voice." data-ru="Чтобы показать связь науки и культуры, &lt;br&gt;мы выбрали контрастную типографику: &lt;br&gt;строгий гротеск отвечает за точность &lt;br&gt;и рациональность науки, а более &lt;br&gt;пластичные, выразительные акценты — &lt;br&gt;за культурную, гуманитарную сторону &lt;br&gt;фонда. Вместе они формируют единый, &lt;br&gt;но многогранный визуальный голос">Чтобы показать связь науки и культуры, <br>мы выбрали контрастную типографику: <br>строгий гротеск отвечает за точность <br>и рациональность науки, а более <br>пластичные, выразительные акценты — <br>за культурную, гуманитарную сторону <br>фонда. Вместе они формируют единый, <br>но многогранный визуальный голос</p>
+    <p class="case__quote case__quote-p--desktop reveal" data-en="To express the connection between science and culture, we chose &lt;br&gt;contrasting typography: a strict grotesque carries the precision &lt;br&gt;and rationality of science, while softer, more expressive accents &lt;br&gt;speak to the foundation's cultural, human side. Together, they &lt;br&gt;form a single yet multifaceted visual voice." data-ru="Чтобы показать связь науки и культуры, мы выбрали &lt;br&gt;контрастную типографику: строгий гротеск отвечает &lt;br&gt;за точность и рациональность науки, а более пластичные, &lt;br&gt;выразительные акценты за культурную, гуманитарную &lt;br&gt;сторону фонда. Вместе они формируют единый, &lt;br&gt;но многогранный визуальный голос">Чтобы показать связь науки и культуры, мы выбрали <br>контрастную типографику: строгий гротеск отвечает <br>за точность и рациональность науки, а более пластичные, <br>выразительные акценты за культурную, гуманитарную <br>сторону фонда. Вместе они формируют единый, <br>но многогранный визуальный голос</p>
+    <p class="case__quote case__quote-p--mobile reveal" data-en="To express the connection between science &lt;br&gt;and culture, we chose contrasting typography: &lt;br&gt;a strict grotesque carries the precision and &lt;br&gt;rationality of science, while softer, more &lt;br&gt;expressive accents speak to the foundation's &lt;br&gt;cultural, human side. Together, they form &lt;br&gt;a single yet multifaceted visual voice." data-ru="Чтобы показать связь науки и культуры, &lt;br&gt;мы выбрали контрастную типографику: &lt;br&gt;строгий гротеск отвечает за точность &lt;br&gt;и рациональность науки, а более &lt;br&gt;пластичные, выразительные акценты — &lt;br&gt;за культурную, гуманитарную сторону &lt;br&gt;фонда. Вместе они формируют единый, &lt;br&gt;но многогранный визуальный голос">Чтобы показать связь науки и культуры, <br>мы выбрали контрастную типографику: <br>строгий гротеск отвечает за точность <br>и рациональность науки, а более <br>пластичные, выразительные акценты — <br>за культурную, гуманитарную сторону <br>фонда. Вместе они формируют единый, <br>но многогранный визуальный голос</p>
 
     <div class="case__media reveal" style="--mh:14.375rem"><img loading="lazy" src="images/foundation-06.webp" alt="Billboard — We are proud of science" /><img loading="lazy" class="case__media-mobile" src="images/foundation-m6.webp" alt="Billboard — We are proud of science" width="1077" height="690" /></div>
 
@@ -3318,9 +3310,9 @@
       <template id="goal-ui">
         <p class="goal__num"></p>
         <p class="goal__title"></p>
-        <div class="goal__tab" style="left:28px"><span>Popularization of science</span><span>01</span></div>
-        <div class="goal__tab" style="left:359.5px"><span>Creation of an expert community</span><span>02</span></div>
-        <div class="goal__tab" style="left:691px"><span>The mechanism of interaction</span><span>03</span></div>
+        <div class="goal__tab" style="left:28px"><span>Popularization of science</span><span>01</span></div>
+        <div class="goal__tab" style="left:359.5px"><span>Creation of an expert community</span><span>02</span></div>
+        <div class="goal__tab" style="left:691px"><span>The mechanism of interaction</span><span>03</span></div>
         <div class="goal__tab" style="left:1022.5px"><span>International dialogue</span><span>04</span></div>
       </template>
     </div>
