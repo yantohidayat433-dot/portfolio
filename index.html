@@ -410,7 +410,6 @@
       transition:
         transform 1s ease-in-out,
         opacity 0.8s ease-in-out;
-      will-change: transform, opacity;
     }
 
     .reveal.is-revealed {
@@ -461,11 +460,13 @@
       transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
     }
 
-    .project__media:hover img,
-    .project__media:hover video,
-    .project__media-link:hover .project__media img,
-    .project__media-link:hover .project__media video {
-      transform: scale(1.06);
+    @media (hover: hover) {
+      .project__media:hover img,
+      .project__media:hover video,
+      .project__media-link:hover .project__media img,
+      .project__media-link:hover .project__media video {
+        transform: scale(1.06);
+      }
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -1138,6 +1139,14 @@
       aspect-ratio: 16 / 10;
       overflow: hidden;
       outline-offset: 2px;
+      -webkit-tap-highlight-color: transparent;
+      -webkit-touch-callout: none;
+      -webkit-user-select: none;
+      user-select: none;
+    }
+
+    .project__carousel img {
+      -webkit-user-drag: none;
     }
 
     .carousel__track {
@@ -4367,6 +4376,10 @@
         if (clone) clone.remove();
         clone = slides[0].cloneNode(true);
         clone.setAttribute('aria-hidden', 'true');
+        clone.querySelectorAll('video').forEach(function (v) {
+          v.removeAttribute('autoplay');
+          v.autoplay = false;
+        });
         track.appendChild(clone);
         slides.forEach(function (slide) {
           var halves = phone.matches && slide.classList.contains('carousel__slide--pair') ? 2 : 1;
@@ -4394,6 +4407,23 @@
       function currentX() {
         return new DOMMatrix(getComputedStyle(track).transform).m41;
       }
+      function twin() {
+        var a = slides[0].querySelectorAll('video');
+        var b = clone.querySelectorAll('video');
+        for (var k = 0; k < a.length && k < b.length; k++) {
+          try {
+            if (a[k].readyState) {
+              var t = a[k].currentTime;
+              a[k].currentTime = t;
+              b[k].currentTime = t;
+            }
+          } catch (e) {}
+          [a[k], b[k]].forEach(function (v) {
+            var played = v.play();
+            if (played && played.catch) played.catch(function () {});
+          });
+        }
+      }
       function mark(i) {
         var cur = slideAt(i);
         Array.prototype.forEach.call(track.children, function (s) {
@@ -4410,10 +4440,11 @@
         setX(-i * box.clientWidth);
         mark(i);
       }
+      var seen = true;
       function settle() {
         var current = slideAt(index);
         track.querySelectorAll('video').forEach(function (v) {
-          if (current.contains(v)) {
+          if (seen && current.contains(v)) {
             var played = v.play();
             if (played && played.catch) played.catch(function () {});
           } else if (!v.paused) {
@@ -4423,6 +4454,20 @@
         warm(index + 1);
         warm(index - 1);
         warm(index + 2);
+        if (index === count - 1) {
+          var a = slides[0].querySelectorAll('video');
+          clone.querySelectorAll('video').forEach(function (v, k) {
+            v.preload = 'auto';
+            try {
+              if (a[k] && a[k].readyState) v.currentTime = a[k].currentTime;
+            } catch (e) {}
+            var played = v.play();
+            if (played && played.then)
+              played.then(function () {
+                if (index === count - 1) v.pause();
+              }).catch(function () {});
+          });
+        }
       }
       function updateLabel() {
         var text = (((index % count) + count) % count) + 1 + '/' + count;
@@ -4449,11 +4494,23 @@
       var drag = null;
       snap();
       reset();
-      var snapping = 0;
-      window.addEventListener('resize', function () {
-        cancelAnimationFrame(snapping);
-        snapping = requestAnimationFrame(snap);
-      });
+      var lastW = box.parentElement.clientWidth;
+      if ('ResizeObserver' in window) {
+        new ResizeObserver(function () {
+          var pw = box.parentElement.clientWidth;
+          if (pw === lastW) return;
+          lastW = pw;
+          snap();
+        }).observe(box.parentElement);
+      } else {
+        window.addEventListener('resize', snap);
+      }
+      if ('IntersectionObserver' in window) {
+        new IntersectionObserver(function (entries) {
+          seen = entries[0].isIntersecting;
+          if (!busy && !drag) settle();
+        }).observe(box);
+      }
       if (phone.addEventListener) phone.addEventListener('change', reset);
       // critically damped spring from the current offset (and finger speed, px/ms) to slide i
       function land(i, v) {
@@ -4466,6 +4523,7 @@
         var to = -i * w;
         index = i;
         busy = true;
+        if (i >= count) twin();
         updateLabel();
         warm(i);
         var d0 = from - to;
@@ -4510,6 +4568,7 @@
             anim = null;
           }
           i += count;
+          twin();
           setX(keep - count * box.clientWidth);
         }
         land(i + step, 0);
@@ -4562,6 +4621,7 @@
           var w = box.clientWidth;
           var pos = drag.base + dx;
           if (pos > 0) {
+            twin();
             drag.base -= count * w;
             drag.start += count;
             pos -= count * w;

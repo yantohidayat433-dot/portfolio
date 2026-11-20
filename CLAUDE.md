@@ -240,7 +240,17 @@ per frame, and can catch a slide mid-flight; release, taps and keys run a
 critically damped spring (ω 14, ~0.5s) seeded with the finger's speed over the
 last 80ms, sampled into Web Animations keyframes so it runs on the compositor;
 neighbours ±1/+2 are set eager and `decode()`d after each landing so no image
-decodes during a move; the marquee pauses off its slide. Her phone frames have
+decodes during a move; the marquee pauses off its slide. Phone polish (Nov 20
+audit): the carousel has no tap highlight, no text/image selection, callout or
+image drag; its clips pause while it is off-screen (IntersectionObserver) and
+play again on return; the loop clone's videos never autoplay: on the last slide
+the clone's video is pre-warmed at slide 1's time, and whenever the clone comes
+into view (landing on it, wrapping back, dragging past slide 1) both are seeked
+to the same time and played together, so the swap is frame-exact; it re-snaps
+only when its column really changes width (ResizeObserver), not on the iOS
+toolbar's resize events. Cover hover zoom is inside `@media (hover: hover)` (it
+stuck after a tap on phones), and `.reveal` blocks no longer carry a permanent
+`will-change` (48 always-on GPU layers in a case). Her phone frames have
 ~16px rounded corners exported over white; `phone/corners.py` (scratchpad)
 inpaints them before saving the stills
 (`?v=2`). If a case animation
