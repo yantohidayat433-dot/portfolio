@@ -1163,6 +1163,38 @@
       display: none;
     }
 
+    .carousel__cell--marquee {
+      background: #060606;
+    }
+
+    .marquee {
+      position: absolute;
+      left: calc(-431 / 1080 * 100%);
+      top: calc(137 / 1350 * 100%);
+      display: flex;
+      width: calc(2 * 4044 / 1080 * 100%);
+      height: calc(1076 / 1350 * 100%);
+      animation: marquee 30s linear infinite;
+    }
+
+    .marquee img {
+      flex: none;
+      width: 50%;
+      height: 100%;
+    }
+
+    @keyframes marquee {
+      to {
+        transform: translateX(-50%);
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .marquee {
+        animation: none;
+      }
+    }
+
     .carousel__cell {
       position: relative;
       flex: 1 1 0;
@@ -2730,22 +2762,39 @@
     <article class="project">
       <div class="project__carousel" role="button" tabindex="0" aria-label="Basarab: изображения, стрелки листают" data-cursor-label="1/16" data-cursor-label-en="1/16" data-cursor-label-ru="1/16" data-cursor-kind="see">
         <div class="carousel__track">
-          <div class="carousel__slide"><div class="carousel__cell"><img src="images/basarab-c01.webp?v=2" srcset="images/basarab-c01-1077.webp?v=2 1077w, images/basarab-c01.webp?v=2 1920w" sizes="(max-width: 700px) 200vw, 959px" alt="Basarab" loading="lazy" decoding="async"></div></div>
-          <div class="carousel__slide"><div class="carousel__cell"><img src="images/basarab-c02.webp" srcset="images/basarab-c02-1077.webp 1077w, images/basarab-c02.webp 1920w" sizes="(max-width: 700px) 200vw, 959px" alt="Basarab" loading="lazy" decoding="async"></div></div>
-          <div class="carousel__slide carousel__slide--pair"><div class="carousel__cell"><img src="images/basarab-c03.webp" srcset="images/basarab-c03-1077.webp 1077w, images/basarab-c03.webp 1920w" sizes="(max-width: 700px) 200vw, 959px" alt="Basarab" loading="lazy" decoding="async"></div></div>
-          <div class="carousel__slide"><div class="carousel__cell"><img src="images/basarab-c04.webp" srcset="images/basarab-c04-1077.webp 1077w, images/basarab-c04.webp 1920w" sizes="(max-width: 700px) 200vw, 959px" alt="Basarab" loading="lazy" decoding="async"></div></div>
-          <div class="carousel__slide carousel__slide--pair"><div class="carousel__cell carousel__cell--fade"><img class="is-active" src="images/basarab-10.webp?v=4" alt="Basarab" loading="lazy" decoding="async"><img src="images/basarab-10b.webp" alt="Basarab" loading="lazy" decoding="async"><img src="images/basarab-10c.webp" alt="Basarab" loading="lazy" decoding="async"><img src="images/basarab-10d.webp" alt="Basarab" loading="lazy" decoding="async"></div><div class="carousel__cell"><img src="images/basarab-c05r.webp" srcset="images/basarab-c05r-540.webp 540w, images/basarab-c05r.webp 960w" sizes="(max-width: 700px) 100vw, 480px" alt="Basarab" loading="lazy" decoding="async"></div></div>
-          <div class="carousel__slide"><div class="carousel__cell"><img src="images/basarab-c06.webp?v=2" srcset="images/basarab-c06-1077.webp?v=2 1077w, images/basarab-c06.webp?v=2 1920w" sizes="(max-width: 700px) 200vw, 959px" alt="Basarab" loading="lazy" decoding="async"></div></div>
-          <div class="carousel__slide carousel__slide--pair"><div class="carousel__cell carousel__cell--video"><img src="images/basarab-cb07l.webp" alt="Basarab" loading="lazy" decoding="async"><video muted loop playsinline preload="none"><source src="videos/basarab-cb07l-m.mp4?v=2" media="(max-width: 700px)" type="video/mp4" /><source src="videos/basarab-cb07l.mp4?v=2" type="video/mp4" /></video></div><div class="carousel__cell"><img src="images/basarab-c07r.webp" srcset="images/basarab-c07r-540.webp 540w, images/basarab-c07r.webp 960w" sizes="(max-width: 700px) 100vw, 480px" alt="Basarab" loading="lazy" decoding="async"></div></div>
-          <div class="carousel__slide"><div class="carousel__cell"><img src="images/basarab-c08.webp" srcset="images/basarab-c08-1077.webp 1077w, images/basarab-c08.webp 1920w" sizes="(max-width: 700px) 200vw, 959px" alt="Basarab" loading="lazy" decoding="async"></div></div>
-          <div class="carousel__slide"><div class="carousel__cell"><img src="images/basarab-c09.webp" srcset="images/basarab-c09-1077.webp 1077w, images/basarab-c09.webp 1920w" sizes="(max-width: 700px) 200vw, 959px" alt="Basarab" loading="lazy" decoding="async"></div></div>
-          <div class="carousel__slide"><div class="carousel__cell carousel__cell--video"><img src="images/basarab-cb10.webp" alt="Basarab" loading="lazy" decoding="async"><video muted loop playsinline preload="none"><source src="videos/basarab-cb10-m.mp4?v=2" media="(max-width: 700px)" type="video/mp4" /><source src="videos/basarab-cb10.mp4?v=2" type="video/mp4" /></video></div></div>
-          <div class="carousel__slide"><div class="carousel__cell"><img src="images/basarab-c11.webp" srcset="images/basarab-c11-1077.webp 1077w, images/basarab-c11.webp 1920w" sizes="(max-width: 700px) 200vw, 959px" alt="Basarab" loading="lazy" decoding="async"></div></div>
-          <div class="carousel__slide carousel__slide--pair"><div class="carousel__cell"><img src="images/basarab-c12.webp?v=2" srcset="images/basarab-c12-1077.webp?v=2 1077w, images/basarab-c12.webp?v=2 1920w" sizes="(max-width: 700px) 200vw, 959px" alt="Basarab" loading="lazy" decoding="async"></div></div>
-          <div class="carousel__slide carousel__slide--pair"><div class="carousel__cell"><img src="images/basarab-c13.webp" srcset="images/basarab-c13-1077.webp 1077w, images/basarab-c13.webp 1920w" sizes="(max-width: 700px) 200vw, 959px" alt="Basarab" loading="lazy" decoding="async"></div></div>
-          <div class="carousel__slide"><div class="carousel__cell"><img src="images/basarab-c14.webp" srcset="images/basarab-c14-1077.webp 1077w, images/basarab-c14.webp 1920w" sizes="(max-width: 700px) 200vw, 959px" alt="Basarab" loading="lazy" decoding="async"></div></div>
-          <div class="carousel__slide"><div class="carousel__cell carousel__cell--video"><img src="images/basarab-cb15.webp" alt="Basarab" loading="lazy" decoding="async"><video muted loop playsinline preload="none"><source src="videos/basarab-cb15-m.mp4?v=2" media="(max-width: 700px)" type="video/mp4" /><source src="videos/basarab-cb15.mp4?v=2" type="video/mp4" /></video></div></div>
-          <div class="carousel__slide"><div class="carousel__cell"><img src="images/basarab-c16.webp" srcset="images/basarab-c16-1077.webp 1077w, images/basarab-c16.webp 1920w" sizes="(max-width: 700px) 200vw, 959px" alt="Basarab" loading="lazy" decoding="async"></div></div>
+          <div class="carousel__slide carousel__slide--desktop"><div class="carousel__cell"><img src="images/basarab-c01.webp?v=2" srcset="images/basarab-c01-1077.webp?v=2 1077w, images/basarab-c01.webp?v=2 1920w" sizes="(max-width: 700px) 200vw, 959px" alt="Basarab" loading="lazy" decoding="async"></div></div>
+          <div class="carousel__slide carousel__slide--desktop"><div class="carousel__cell"><img src="images/basarab-c02.webp" srcset="images/basarab-c02-1077.webp 1077w, images/basarab-c02.webp 1920w" sizes="(max-width: 700px) 200vw, 959px" alt="Basarab" loading="lazy" decoding="async"></div></div>
+          <div class="carousel__slide carousel__slide--pair carousel__slide--desktop"><div class="carousel__cell"><img src="images/basarab-c03.webp" srcset="images/basarab-c03-1077.webp 1077w, images/basarab-c03.webp 1920w" sizes="(max-width: 700px) 200vw, 959px" alt="Basarab" loading="lazy" decoding="async"></div></div>
+          <div class="carousel__slide carousel__slide--desktop"><div class="carousel__cell"><img src="images/basarab-c04.webp" srcset="images/basarab-c04-1077.webp 1077w, images/basarab-c04.webp 1920w" sizes="(max-width: 700px) 200vw, 959px" alt="Basarab" loading="lazy" decoding="async"></div></div>
+          <div class="carousel__slide carousel__slide--pair carousel__slide--desktop"><div class="carousel__cell carousel__cell--fade"><img class="is-active" src="images/basarab-10.webp?v=4" alt="Basarab" loading="lazy" decoding="async"><img src="images/basarab-10b.webp" alt="Basarab" loading="lazy" decoding="async"><img src="images/basarab-10c.webp" alt="Basarab" loading="lazy" decoding="async"><img src="images/basarab-10d.webp" alt="Basarab" loading="lazy" decoding="async"></div><div class="carousel__cell"><img src="images/basarab-c05r.webp" srcset="images/basarab-c05r-540.webp 540w, images/basarab-c05r.webp 960w" sizes="(max-width: 700px) 100vw, 480px" alt="Basarab" loading="lazy" decoding="async"></div></div>
+          <div class="carousel__slide carousel__slide--desktop"><div class="carousel__cell"><img src="images/basarab-c06.webp?v=2" srcset="images/basarab-c06-1077.webp?v=2 1077w, images/basarab-c06.webp?v=2 1920w" sizes="(max-width: 700px) 200vw, 959px" alt="Basarab" loading="lazy" decoding="async"></div></div>
+          <div class="carousel__slide carousel__slide--pair carousel__slide--desktop"><div class="carousel__cell carousel__cell--video"><img src="images/basarab-cb07l.webp" alt="Basarab" loading="lazy" decoding="async"><video muted loop playsinline preload="none"><source src="videos/basarab-cb07l-m.mp4?v=2" media="(max-width: 700px)" type="video/mp4" /><source src="videos/basarab-cb07l.mp4?v=2" type="video/mp4" /></video></div><div class="carousel__cell"><img src="images/basarab-c07r.webp" srcset="images/basarab-c07r-540.webp 540w, images/basarab-c07r.webp 960w" sizes="(max-width: 700px) 100vw, 480px" alt="Basarab" loading="lazy" decoding="async"></div></div>
+          <div class="carousel__slide carousel__slide--desktop"><div class="carousel__cell"><img src="images/basarab-c08.webp" srcset="images/basarab-c08-1077.webp 1077w, images/basarab-c08.webp 1920w" sizes="(max-width: 700px) 200vw, 959px" alt="Basarab" loading="lazy" decoding="async"></div></div>
+          <div class="carousel__slide carousel__slide--desktop"><div class="carousel__cell"><img src="images/basarab-c09.webp" srcset="images/basarab-c09-1077.webp 1077w, images/basarab-c09.webp 1920w" sizes="(max-width: 700px) 200vw, 959px" alt="Basarab" loading="lazy" decoding="async"></div></div>
+          <div class="carousel__slide carousel__slide--desktop"><div class="carousel__cell carousel__cell--video"><img src="images/basarab-cb10.webp" alt="Basarab" loading="lazy" decoding="async"><video muted loop playsinline preload="none"><source src="videos/basarab-cb10-m.mp4?v=2" media="(max-width: 700px)" type="video/mp4" /><source src="videos/basarab-cb10.mp4?v=2" type="video/mp4" /></video></div></div>
+          <div class="carousel__slide carousel__slide--desktop"><div class="carousel__cell"><img src="images/basarab-c11.webp" srcset="images/basarab-c11-1077.webp 1077w, images/basarab-c11.webp 1920w" sizes="(max-width: 700px) 200vw, 959px" alt="Basarab" loading="lazy" decoding="async"></div></div>
+          <div class="carousel__slide carousel__slide--pair carousel__slide--desktop"><div class="carousel__cell"><img src="images/basarab-c12.webp?v=2" srcset="images/basarab-c12-1077.webp?v=2 1077w, images/basarab-c12.webp?v=2 1920w" sizes="(max-width: 700px) 200vw, 959px" alt="Basarab" loading="lazy" decoding="async"></div></div>
+          <div class="carousel__slide carousel__slide--pair carousel__slide--desktop"><div class="carousel__cell"><img src="images/basarab-c13.webp" srcset="images/basarab-c13-1077.webp 1077w, images/basarab-c13.webp 1920w" sizes="(max-width: 700px) 200vw, 959px" alt="Basarab" loading="lazy" decoding="async"></div></div>
+          <div class="carousel__slide carousel__slide--desktop"><div class="carousel__cell"><img src="images/basarab-c14.webp" srcset="images/basarab-c14-1077.webp 1077w, images/basarab-c14.webp 1920w" sizes="(max-width: 700px) 200vw, 959px" alt="Basarab" loading="lazy" decoding="async"></div></div>
+          <div class="carousel__slide carousel__slide--desktop"><div class="carousel__cell carousel__cell--video"><img src="images/basarab-cb15.webp" alt="Basarab" loading="lazy" decoding="async"><video muted loop playsinline preload="none"><source src="videos/basarab-cb15-m.mp4?v=2" media="(max-width: 700px)" type="video/mp4" /><source src="videos/basarab-cb15.mp4?v=2" type="video/mp4" /></video></div></div>
+          <div class="carousel__slide carousel__slide--desktop"><div class="carousel__cell"><img src="images/basarab-c16.webp" srcset="images/basarab-c16-1077.webp 1077w, images/basarab-c16.webp 1920w" sizes="(max-width: 700px) 200vw, 959px" alt="Basarab" loading="lazy" decoding="async"></div></div>
+          <div class="carousel__slide carousel__slide--phone"><div class="carousel__cell"><img src="images/basarab-m01.webp" alt="Basarab" loading="lazy" decoding="async"></div></div>
+          <div class="carousel__slide carousel__slide--phone"><div class="carousel__cell"><img src="images/basarab-m02.webp" alt="Basarab" loading="lazy" decoding="async"></div></div>
+          <div class="carousel__slide carousel__slide--phone"><div class="carousel__cell"><img src="images/basarab-m03.webp" alt="Basarab" loading="lazy" decoding="async"></div></div>
+          <div class="carousel__slide carousel__slide--phone"><div class="carousel__cell"><img src="images/basarab-m04.webp" alt="Basarab" loading="lazy" decoding="async"></div></div>
+          <div class="carousel__slide carousel__slide--phone"><div class="carousel__cell"><img src="images/basarab-m05.webp" alt="Basarab" loading="lazy" decoding="async"></div></div>
+          <div class="carousel__slide carousel__slide--phone"><div class="carousel__cell"><img src="images/basarab-m06.webp" alt="Basarab" loading="lazy" decoding="async"></div></div>
+          <div class="carousel__slide carousel__slide--phone"><div class="carousel__cell"><img src="images/basarab-m07.webp" alt="Basarab" loading="lazy" decoding="async"></div></div>
+          <div class="carousel__slide carousel__slide--phone"><div class="carousel__cell carousel__cell--video"><img src="images/basarab-m08.webp" alt="Basarab" loading="lazy" decoding="async"><video muted loop playsinline preload="none"><source src="videos/basarab-m08.mp4" type="video/mp4" /></video></div></div>
+          <div class="carousel__slide carousel__slide--phone"><div class="carousel__cell"><img src="images/basarab-m09.webp" alt="Basarab" loading="lazy" decoding="async"></div></div>
+          <div class="carousel__slide carousel__slide--phone"><div class="carousel__cell"><img src="images/basarab-m10.webp" alt="Basarab" loading="lazy" decoding="async"></div></div>
+          <div class="carousel__slide carousel__slide--phone"><div class="carousel__cell"><img src="images/basarab-m11.webp" alt="Basarab" loading="lazy" decoding="async"></div></div>
+          <div class="carousel__slide carousel__slide--phone"><div class="carousel__cell"><img src="images/basarab-m12.webp" alt="Basarab" loading="lazy" decoding="async"></div></div>
+          <div class="carousel__slide carousel__slide--phone"><div class="carousel__cell"><img src="images/basarab-m13.webp" alt="Basarab" loading="lazy" decoding="async"></div></div>
+          <div class="carousel__slide carousel__slide--phone"><div class="carousel__cell"><img src="images/basarab-m14.webp" alt="Basarab" loading="lazy" decoding="async"></div></div>
+          <div class="carousel__slide carousel__slide--phone"><div class="carousel__cell"><img src="images/basarab-m15.webp" alt="Basarab" loading="lazy" decoding="async"></div></div>
+          <div class="carousel__slide carousel__slide--phone"><div class="carousel__cell carousel__cell--marquee"><div class="marquee"><img src="images/basarab-m16-strip.webp" alt="Basarab" loading="lazy" decoding="async"><img src="images/basarab-m16-strip.webp" alt="" aria-hidden="true" loading="lazy" decoding="async"></div></div></div>
+          <div class="carousel__slide carousel__slide--phone"><div class="carousel__cell"><img src="images/basarab-m17.webp" alt="Basarab" loading="lazy" decoding="async"></div></div>
         </div>
       </div>
       <div class="project__row">
@@ -4306,9 +4355,7 @@
       var slides = all;
       if (all.length < 2) return;
       var phone = window.matchMedia('(max-width: 700px)');
-      var clone = all[0].cloneNode(true);
-      clone.setAttribute('aria-hidden', 'true');
-      track.appendChild(clone);
+      var clone = null;
       var stops = [];
       var count = 0;
       var total = 0;
@@ -4325,6 +4372,10 @@
         slides = all.filter(function (slide) {
           return getComputedStyle(slide).display !== 'none';
         });
+        if (clone) clone.remove();
+        clone = slides[0].cloneNode(true);
+        clone.setAttribute('aria-hidden', 'true');
+        track.appendChild(clone);
         slides.forEach(function (slide) {
           var halves = phone.matches && slide.classList.contains('carousel__slide--pair') ? 2 : 1;
           for (var h = 0; h < halves; h++) stops.push({ slide: slide, unit: total + h });

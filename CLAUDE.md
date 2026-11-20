@@ -245,7 +245,19 @@ captions are centred and her still's aren't; 12 = v6 at 1.29 (133,32), her
 cut into cells and placed on her 4x7 grid (centres x 213+218c, y 201+158r,
 ×0.821, lightened onto #0A0A0F); her document and network icons aren't in the
 clip, so heart and search take those two places. The desktop slides' `-m.mp4`
-phone files went with this. **Phone carousels are 4:5** (Nov 20,
+phone files went with this. **Basarab on phones is its own set too** (Nov 20):
+her 17 frames in section `118:36761` «basarab mobile case», `basarab-m01…m17`
+(stills = her exports at q92; script `basm/build.py` in the scratchpad). The
+carousel IIFE clones the first *visible* slide on every build, since Basarab
+has no shared first slide. 8 = the four-story clip (`basarab-stories.mp4`) at
+×1.125 −31px, which is exactly her frame (field #060606), `basarab-m08.mp4`;
+11 = a still grid of all nine Instagram posts of desktop slide 10 (Figma
+`72:252`, post groups exported at 2x) in three staggered columns, 344 wide,
+30 apart, tops −230/−130/−30, after her reference `118:36762`; 16 = the six
+stories of desktop slide 15 (Figma `68:106`, exported at 3x) on one 4044×1076
+strip at her spacing (594.7 wide, 674 pitch, her frame's order), two copies in
+`.marquee` sliding left by one strip every 30s (CSS, linear; none with reduced
+motion), starting where her frame does (−431). **Phone carousels are 4:5** (Nov 20,
 client: 16:10 at 359px was too small): `.carousel__slide--pair` slides (two
 480×600 cells, or one still whose halves are separate frames: Basarab 3/12/13,
 Foundation 6/12/13/15) are 200% wide on phones and the IIFE pages through
