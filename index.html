@@ -1159,6 +1159,10 @@
       z-index: 1;
     }
 
+    .carousel__slide--phone {
+      display: none;
+    }
+
     .carousel__cell {
       position: relative;
       flex: 1 1 0;
@@ -1875,6 +1879,14 @@
 
       .carousel__slide--pair {
         flex-basis: calc(200% + 2px);
+      }
+
+      .carousel__slide--desktop {
+        display: none;
+      }
+
+      .carousel__slide.carousel__slide--phone {
+        display: flex;
       }
 
       .carousel__cell .goals-scroller__track {
@@ -2675,18 +2687,29 @@
     <article class="project">
       <div class="project__carousel" role="button" tabindex="0" aria-label="Vocamate AI: изображения, стрелки листают" data-cursor-label="1/12" data-cursor-label-en="1/12" data-cursor-label-ru="1/12" data-cursor-kind="see">
         <div class="carousel__track">
-          <div class="carousel__slide"><div class="carousel__cell carousel__cell--video carousel__cell--hero"><video autoplay muted loop playsinline preload="auto" poster="images/grid-01.webp" data-poster-desktop="images/grid-01.webp" data-poster-mobile="images/grid-01.webp"><source src="videos/grid-video-01-m.mp4?v=2" media="(max-width: 700px)" type="video/mp4" /><source src="videos/grid-video-01.mp4?v=2" type="video/mp4" /></video></div></div>
-          <div class="carousel__slide"><div class="carousel__cell"><img src="images/vocamate-s02.webp" srcset="images/vocamate-s02-1077.webp 1077w, images/vocamate-s02.webp 1920w" sizes="(max-width: 700px) 200vw, 959px" alt="Vocamate AI" loading="lazy" decoding="async"></div></div>
-          <div class="carousel__slide"><div class="carousel__cell"><img src="images/vocamate-s03.webp" srcset="images/vocamate-s03-1077.webp 1077w, images/vocamate-s03.webp 1920w" sizes="(max-width: 700px) 200vw, 959px" alt="Vocamate AI" loading="lazy" decoding="async"></div></div>
-          <div class="carousel__slide"><div class="carousel__cell"><img src="images/vocamate-s04.webp" srcset="images/vocamate-s04-1077.webp 1077w, images/vocamate-s04.webp 1920w" sizes="(max-width: 700px) 200vw, 959px" alt="Vocamate AI" loading="lazy" decoding="async"></div></div>
-          <div class="carousel__slide"><div class="carousel__cell"><img src="images/vocamate-s05.webp" srcset="images/vocamate-s05-1077.webp 1077w, images/vocamate-s05.webp 1920w" sizes="(max-width: 700px) 200vw, 959px" alt="Vocamate AI" loading="lazy" decoding="async"></div></div>
-          <div class="carousel__slide"><div class="carousel__cell"><img src="images/vocamate-s06.webp" srcset="images/vocamate-s06-1077.webp 1077w, images/vocamate-s06.webp 1920w" sizes="(max-width: 700px) 200vw, 959px" alt="Vocamate AI" loading="lazy" decoding="async"></div></div>
-          <div class="carousel__slide"><div class="carousel__cell carousel__cell--video"><img src="images/vocamate-s07.webp?v=2" alt="Vocamate AI" loading="lazy" decoding="async"><video muted loop playsinline preload="none"><source src="videos/vocamate-s07-m.mp4?v=3" media="(max-width: 700px)" type="video/mp4" /><source src="videos/vocamate-s07.mp4?v=3" type="video/mp4" /></video></div></div>
-          <div class="carousel__slide"><div class="carousel__cell"><img src="images/vocamate-s08.webp" srcset="images/vocamate-s08-1077.webp 1077w, images/vocamate-s08.webp 1920w" sizes="(max-width: 700px) 200vw, 959px" alt="Vocamate AI" loading="lazy" decoding="async"></div></div>
-          <div class="carousel__slide"><div class="carousel__cell carousel__cell--video"><img src="images/vocamate-s09.webp" alt="Vocamate AI" loading="lazy" decoding="async"><video muted loop playsinline preload="none"><source src="videos/vocamate-s09-m.mp4?v=2" media="(max-width: 700px)" type="video/mp4" /><source src="videos/vocamate-s09.mp4?v=2" type="video/mp4" /></video></div></div>
-          <div class="carousel__slide"><div class="carousel__cell carousel__cell--video"><img src="images/vocamate-s10.webp?v=2" alt="Vocamate AI" loading="lazy" decoding="async"><video muted loop playsinline preload="none"><source src="videos/vocamate-s10-m.mp4?v=3" media="(max-width: 700px)" type="video/mp4" /><source src="videos/vocamate-s10.mp4?v=3" type="video/mp4" /></video></div></div>
-          <div class="carousel__slide carousel__slide--pair"><div class="carousel__cell carousel__cell--video"><img src="images/vocamate-s11l.webp" alt="Vocamate AI" loading="lazy" decoding="async"><video muted loop playsinline preload="none"><source src="videos/vocamate-s11l-m.mp4?v=2" media="(max-width: 700px)" type="video/mp4" /><source src="videos/vocamate-s11l.mp4?v=2" type="video/mp4" /></video></div><div class="carousel__cell"><img src="images/vocamate-s11r.webp" srcset="images/vocamate-s11r-540.webp 540w, images/vocamate-s11r.webp 960w" sizes="(max-width: 700px) 100vw, 480px" alt="Vocamate AI" loading="lazy" decoding="async"></div></div>
-          <div class="carousel__slide"><div class="carousel__cell carousel__cell--video"><img src="images/vocamate-s12.webp?v=2" alt="Vocamate AI" loading="lazy" decoding="async"><video muted loop playsinline preload="none"><source src="videos/vocamate-s12-m.mp4?v=3" media="(max-width: 700px)" type="video/mp4" /><source src="videos/vocamate-s12.mp4?v=3" type="video/mp4" /></video></div></div>
+          <div class="carousel__slide"><div class="carousel__cell carousel__cell--video carousel__cell--hero"><video autoplay muted loop playsinline preload="auto" poster="images/grid-01.webp" data-poster-desktop="images/grid-01.webp" data-poster-mobile="images/vocamate-m01.webp"><source src="videos/vocamate-m01.mp4" media="(max-width: 700px)" type="video/mp4" /><source src="videos/grid-video-01.mp4?v=2" type="video/mp4" /></video></div></div>
+          <div class="carousel__slide carousel__slide--desktop"><div class="carousel__cell"><img src="images/vocamate-s02.webp" srcset="images/vocamate-s02-1077.webp 1077w, images/vocamate-s02.webp 1920w" sizes="(max-width: 700px) 200vw, 959px" alt="Vocamate AI" loading="lazy" decoding="async"></div></div>
+          <div class="carousel__slide carousel__slide--desktop"><div class="carousel__cell"><img src="images/vocamate-s03.webp" srcset="images/vocamate-s03-1077.webp 1077w, images/vocamate-s03.webp 1920w" sizes="(max-width: 700px) 200vw, 959px" alt="Vocamate AI" loading="lazy" decoding="async"></div></div>
+          <div class="carousel__slide carousel__slide--desktop"><div class="carousel__cell"><img src="images/vocamate-s04.webp" srcset="images/vocamate-s04-1077.webp 1077w, images/vocamate-s04.webp 1920w" sizes="(max-width: 700px) 200vw, 959px" alt="Vocamate AI" loading="lazy" decoding="async"></div></div>
+          <div class="carousel__slide carousel__slide--desktop"><div class="carousel__cell"><img src="images/vocamate-s05.webp" srcset="images/vocamate-s05-1077.webp 1077w, images/vocamate-s05.webp 1920w" sizes="(max-width: 700px) 200vw, 959px" alt="Vocamate AI" loading="lazy" decoding="async"></div></div>
+          <div class="carousel__slide carousel__slide--desktop"><div class="carousel__cell"><img src="images/vocamate-s06.webp" srcset="images/vocamate-s06-1077.webp 1077w, images/vocamate-s06.webp 1920w" sizes="(max-width: 700px) 200vw, 959px" alt="Vocamate AI" loading="lazy" decoding="async"></div></div>
+          <div class="carousel__slide carousel__slide--desktop"><div class="carousel__cell carousel__cell--video"><img src="images/vocamate-s07.webp?v=2" alt="Vocamate AI" loading="lazy" decoding="async"><video muted loop playsinline preload="none"><source src="videos/vocamate-s07.mp4?v=3" type="video/mp4" /></video></div></div>
+          <div class="carousel__slide carousel__slide--desktop"><div class="carousel__cell"><img src="images/vocamate-s08.webp" srcset="images/vocamate-s08-1077.webp 1077w, images/vocamate-s08.webp 1920w" sizes="(max-width: 700px) 200vw, 959px" alt="Vocamate AI" loading="lazy" decoding="async"></div></div>
+          <div class="carousel__slide carousel__slide--desktop"><div class="carousel__cell carousel__cell--video"><img src="images/vocamate-s09.webp" alt="Vocamate AI" loading="lazy" decoding="async"><video muted loop playsinline preload="none"><source src="videos/vocamate-s09.mp4?v=2" type="video/mp4" /></video></div></div>
+          <div class="carousel__slide carousel__slide--desktop"><div class="carousel__cell carousel__cell--video"><img src="images/vocamate-s10.webp?v=2" alt="Vocamate AI" loading="lazy" decoding="async"><video muted loop playsinline preload="none"><source src="videos/vocamate-s10.mp4?v=3" type="video/mp4" /></video></div></div>
+          <div class="carousel__slide carousel__slide--pair carousel__slide--desktop"><div class="carousel__cell carousel__cell--video"><img src="images/vocamate-s11l.webp" alt="Vocamate AI" loading="lazy" decoding="async"><video muted loop playsinline preload="none"><source src="videos/vocamate-s11l.mp4?v=2" type="video/mp4" /></video></div><div class="carousel__cell"><img src="images/vocamate-s11r.webp" srcset="images/vocamate-s11r-540.webp 540w, images/vocamate-s11r.webp 960w" sizes="(max-width: 700px) 100vw, 480px" alt="Vocamate AI" loading="lazy" decoding="async"></div></div>
+          <div class="carousel__slide carousel__slide--desktop"><div class="carousel__cell carousel__cell--video"><img src="images/vocamate-s12.webp?v=2" alt="Vocamate AI" loading="lazy" decoding="async"><video muted loop playsinline preload="none"><source src="videos/vocamate-s12.mp4?v=3" type="video/mp4" /></video></div></div>
+          <div class="carousel__slide carousel__slide--phone"><div class="carousel__cell"><img src="images/vocamate-m02.webp" alt="Vocamate AI" loading="lazy" decoding="async"></div></div>
+          <div class="carousel__slide carousel__slide--phone"><div class="carousel__cell"><img src="images/vocamate-m03.webp" alt="Vocamate AI" loading="lazy" decoding="async"></div></div>
+          <div class="carousel__slide carousel__slide--phone"><div class="carousel__cell"><img src="images/vocamate-m04.webp" alt="Vocamate AI" loading="lazy" decoding="async"></div></div>
+          <div class="carousel__slide carousel__slide--phone"><div class="carousel__cell carousel__cell--video"><img src="images/vocamate-m05.webp" alt="Vocamate AI" loading="lazy" decoding="async"><video muted loop playsinline preload="none"><source src="videos/vocamate-m05.mp4" type="video/mp4" /></video></div></div>
+          <div class="carousel__slide carousel__slide--phone"><div class="carousel__cell carousel__cell--video"><img src="images/vocamate-m06.webp" alt="Vocamate AI" loading="lazy" decoding="async"><video muted loop playsinline preload="none"><source src="videos/vocamate-m06.mp4" type="video/mp4" /></video></div></div>
+          <div class="carousel__slide carousel__slide--phone"><div class="carousel__cell"><img src="images/vocamate-m07.webp" alt="Vocamate AI" loading="lazy" decoding="async"></div></div>
+          <div class="carousel__slide carousel__slide--phone"><div class="carousel__cell carousel__cell--video"><img src="images/vocamate-m08.webp" alt="Vocamate AI" loading="lazy" decoding="async"><video muted loop playsinline preload="none"><source src="videos/vocamate-m08.mp4" type="video/mp4" /></video></div></div>
+          <div class="carousel__slide carousel__slide--phone"><div class="carousel__cell"><img src="images/vocamate-m09.webp" alt="Vocamate AI" loading="lazy" decoding="async"></div></div>
+          <div class="carousel__slide carousel__slide--phone"><div class="carousel__cell carousel__cell--video"><img src="images/vocamate-m10.webp" alt="Vocamate AI" loading="lazy" decoding="async"><video muted loop playsinline preload="none"><source src="videos/vocamate-m10.mp4" type="video/mp4" /></video></div></div>
+          <div class="carousel__slide carousel__slide--phone"><div class="carousel__cell carousel__cell--video"><img src="images/vocamate-m11.webp" alt="Vocamate AI" loading="lazy" decoding="async"><video muted loop playsinline preload="none"><source src="videos/vocamate-m11.mp4" type="video/mp4" /></video></div></div>
+          <div class="carousel__slide carousel__slide--phone"><div class="carousel__cell carousel__cell--video"><img src="images/vocamate-m12.webp" alt="Vocamate AI" loading="lazy" decoding="async"><video muted loop playsinline preload="none"><source src="videos/vocamate-m12.mp4" type="video/mp4" /></video></div></div>
         </div>
       </div>
       <div class="project__row">
@@ -4279,10 +4302,11 @@
     var label = document.querySelector('#hoverCta .hover-cta__label');
     document.querySelectorAll('.project__carousel').forEach(function (box) {
       var track = box.querySelector('.carousel__track');
-      var slides = Array.prototype.slice.call(track.children);
-      if (slides.length < 2) return;
+      var all = Array.prototype.slice.call(track.children);
+      var slides = all;
+      if (all.length < 2) return;
       var phone = window.matchMedia('(max-width: 700px)');
-      var clone = slides[0].cloneNode(true);
+      var clone = all[0].cloneNode(true);
       clone.setAttribute('aria-hidden', 'true');
       track.appendChild(clone);
       var stops = [];
@@ -4298,6 +4322,9 @@
       function build() {
         stops = [];
         total = 0;
+        slides = all.filter(function (slide) {
+          return getComputedStyle(slide).display !== 'none';
+        });
         slides.forEach(function (slide) {
           var halves = phone.matches && slide.classList.contains('carousel__slide--pair') ? 2 : 1;
           for (var h = 0; h < halves; h++) stops.push({ slide: slide, unit: total + h });

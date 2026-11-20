@@ -150,8 +150,8 @@ Nov 20, see below),
 from landscape files (`grid-NN-1077.webp` phone sources, cut from the 2030
 desktop files at q90; the old portrait `grid-NN-mobile` covers were dropped,
 only 02/03 remain for the cases' «next case» cards); the hero plays
-`videos/grid-video-01-m.mp4` (1024 wide, crf 27, 364KB) over the `grid-01`
-poster. Caption: counter number in a 3.0625rem column + uppercase title,
+`videos/vocamate-m01.mp4` (864x1080, her phone frame 1's window of the desktop
+hero, crf 26) over `vocamate-m01.webp` (`data-poster-mobile`). Caption: counter number in a 3.0625rem column + uppercase title,
 1rem/1.45 text, desc 1rem below, 8px paragraphs, no «Смотреть», light divider
 2rem below the text and 1.5rem above the next cover. Carousels run on phones
 too (swipe, or tap a half; `touch-action: pan-y`), and their «n/x» sits at the
@@ -229,7 +229,23 @@ sits on top: the GPU snaps the track's percentage translate to whole pixels, so
 the neighbour slide bled into the last pixel column as a grey line on white
 slides (client, Nov 19). `.project__carousel` has no background of its own any
 more (cells keep the grey placeholder). If a case animation
-changes, update its carousel copy too. **Phone carousels are 4:5** (Nov 20,
+changes, update its carousel copy too. **Vocamate on phones is its own set**
+(Nov 20): the client's 12 frames in section `117:36266` «vocamate mobile case»
+(1080x1350). Slides carry `carousel__slide--desktop` (hidden ≤700) or
+`--phone` (hidden ≥701); the hero slide is shared. The IIFE builds its stops
+from visible slides only. Phone files `vocamate-m02…m12` (stills = her
+exports at q90; clips 1080x1350, crf 24, sRGB-tagged, first-frame posters;
+script `vocm/render.sh` + `vocm/icons.py` in the scratchpad): 5 = archive clip
+1 (2048 square) at her window (24,23,1601x2001); 6 = archive clip 2 as is;
+11 = archive clip 3 (2000x2500) at (133,260,1691x2114); 10 = v4 at her 1.497
+(bezel at y 90–1228) but centred on the screen (x 807), since the clip's
+captions are centred and her still's aren't; 12 = v6 at 1.29 (133,32), her
+1.2685 nudged in to keep the clip's black bottom rows out; 8 = icons: 0–2.4s a
+864x1080 window on the heart, cross-fading into v2 from 3s with its 7x4 grid
+cut into cells and placed on her 4x7 grid (centres x 213+218c, y 201+158r,
+×0.821, lightened onto #0A0A0F); her document and network icons aren't in the
+clip, so heart and search take those two places. The desktop slides' `-m.mp4`
+phone files went with this. **Phone carousels are 4:5** (Nov 20,
 client: 16:10 at 359px was too small): `.carousel__slide--pair` slides (two
 480×600 cells, or one still whose halves are separate frames: Basarab 3/12/13,
 Foundation 6/12/13/15) are 200% wide on phones and the IIFE pages through
