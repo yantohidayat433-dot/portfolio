@@ -150,7 +150,9 @@ cover (none after the last project), no «Смотреть» (client removed it 
 desktop home; phone keeps it). Hover cursor «смотреть»/«скоро» on ≥901px:
 16px black text on the pink `#FFD0ED` plate, plate 23.2px tall (one line). 901–999px swaps in the
 `project__desc-p--mobile` breaks. The tablet adopted this caption system in
-the Nov 19 cleanup. Bio paragraphs 2 and 3 wrap naturally at ≥901px (`max-width: 398px`, their
+the Nov 19 cleanup. All bio paragraphs (four since Nov 23: who she is; what she does, after her
+phone mockup; how she works; contact + Telegram pill) wrap naturally at ≥901px
+(`.intro__block .intro__p`, `max-width: 398px`, their
 `<br>`s hidden; every `<br>` has a space before it and short words carry
 U+00A0), which reproduces the client's Nov 19 screenshot breaks at ≥ ~1330px
 (the text column must be ≥398px, so don't narrow the sidebar further);
