@@ -51,9 +51,10 @@ The client asked to be reminded of these, not to do them yet:
 
 - Work happens on a feature branch (the session's designated
   `claude/...` branch), commit freely there.
-- **Only fast-forward `main` and the GitHub Pages branch
-  (`claude/portfolio-github-pages-u9oflw`) when the user explicitly says
-  "Публикуй" (or an obvious variant).** Before publishing: `git fetch`,
+- **Publish every change right away** (client, Nov 23: «всегда сразу
+  публикуй правки, всё равно нужно смотреть визуально на сайте»): after
+  verifying and committing, fast-forward `main` and the GitHub Pages branch
+  (`claude/portfolio-github-pages-u9oflw`) without waiting for «Публикуй». Before publishing: `git fetch`,
   then `git merge-base --is-ancestor origin/main origin/<feature>` to
   confirm a clean fast-forward, then push the feature branch's tip onto
   both `main` and the pages branch. Never merge/rebase/force-push.
@@ -150,13 +151,10 @@ cover (none after the last project), no «Смотреть» (client removed it 
 desktop home; phone keeps it). Hover cursor «смотреть»/«скоро» on ≥901px:
 16px black text on the pink `#FFD0ED` plate, plate 23.2px tall (one line). 901–999px swaps in the
 `project__desc-p--mobile` breaks. The tablet adopted this caption system in
-the Nov 19 cleanup. All bio paragraphs (four since Nov 23: who she is; what she does, after her
-phone mockup; how she works; contact + Telegram pill) wrap naturally at ≥901px
-(`.intro__block .intro__p`, `max-width: 398px`, their
-`<br>`s hidden; every `<br>` has a space before it and short words carry
-U+00A0), which reproduces the client's Nov 19 screenshot breaks at ≥ ~1330px
-(the text column must be ≥398px, so don't narrow the sidebar further);
-narrower sidebars just wrap. Phone/tablet keep the `<br>`s.
+the Nov 19 cleanup. Bio (four paragraphs since Nov 23: who she is; what she
+does; how she works; contact + Telegram pill) keeps her own line breaks at
+≥701px (`<br>` + `nowrap`, longest line 345px, fits the 360px column at 901),
+copied from her phone mockup; phones wrap naturally (matches it at 390).
 
 **Phone home (≤700px, Nov 19, after actualsource.work).** 15px (.9375rem)
 gutters, topbar logo on the same line; covers full width at 16:10 like desktop (carousels are 4:5 on phones since
