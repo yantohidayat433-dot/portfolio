@@ -1193,7 +1193,7 @@
       display: flex;
       width: calc(2 * 4044 / 1080 * 100%);
       height: calc(1076 / 1350 * 100%);
-      animation: marquee 30s linear infinite;
+      animation: marquee 21s linear infinite;
     }
 
     .marquee img {
@@ -1238,6 +1238,27 @@
       width: 100%;
       height: auto;
       aspect-ratio: 540 / 3496;
+    }
+
+    .posts-flow--wide .posts-flow__col {
+      left: calc(11 / 960 * 100%);
+      top: calc(-519.7 / 600 * 100%);
+      width: calc(305.13 / 960 * 100%);
+      animation-duration: 42s;
+    }
+
+    .posts-flow--wide .posts-flow__col:nth-child(2) {
+      left: calc(327.43 / 960 * 100%);
+      top: calc(-257.23 / 600 * 100%);
+    }
+
+    .posts-flow--wide .posts-flow__col:nth-child(3) {
+      left: calc(643.87 / 960 * 100%);
+      top: calc(-1046.9 / 600 * 100%);
+    }
+
+    .posts-flow--wide .posts-flow__col img {
+      aspect-ratio: 610 / 3827;
     }
 
     @keyframes posts-up {
@@ -1985,8 +2006,8 @@
         display: flex;
       }
 
-      .carousel__cell .goals-scroller__track {
-        inset: 5cqw 5cqw auto;
+      .carousel__slide .carousel__cell .goals-scroller__track {
+        inset: 2.5cqw 2.5cqw auto;
       }
 
       .case__intro {
@@ -2062,8 +2083,8 @@
       visibility: visible;
       opacity: 0;
       transition:
-        opacity 0.7s ease,
-        visibility 0s linear 0.7s;
+        opacity 0.45s ease,
+        visibility 0s linear 0.45s;
     }
 
     .case__media.case__media--typo .typo__page.is-out .typo__line > span,
@@ -2109,8 +2130,8 @@
       transform: none;
       opacity: 1;
       transition:
-        transform 1.5s cubic-bezier(0.22, 1, 0.36, 1) 0.25s,
-        opacity 1.1s ease 0.25s;
+        transform 0.95s cubic-bezier(0.22, 1, 0.36, 1) 0.12s,
+        opacity 0.7s ease 0.12s;
     }
 
     .case__media.case__media--typo .typo__rule {
@@ -2122,7 +2143,7 @@
 
     .case__media.case__media--typo .typo__page.is-on .typo__rule {
       transform: none;
-      transition: transform 1.5s cubic-bezier(0.22, 1, 0.36, 1) 0.25s;
+      transition: transform 0.95s cubic-bezier(0.22, 1, 0.36, 1) 0.12s;
     }
 
     .case__media.case__media--typo .typo__page.is-on .typo__rule[data-keep] {
@@ -2203,7 +2224,7 @@
       width: 100%;
       height: 300%;
       will-change: transform;
-      animation: citylight-scroll 7.4s infinite;
+      animation: citylight-scroll 5.2s infinite;
     }
 
     .case__media--citylight .citylight.is-paused .citylight__strip {
@@ -2220,13 +2241,13 @@
 
     @keyframes citylight-scroll {
       0%,
-      36.49% {
+      34.62% {
         transform: translateY(-66.6667%);
         animation-timing-function: cubic-bezier(0.65, 0, 0.35, 1);
       }
 
       50%,
-      86.49% {
+      84.62% {
         transform: translateY(-33.3333%);
         animation-timing-function: cubic-bezier(0.65, 0, 0.35, 1);
       }
@@ -2502,61 +2523,16 @@
     .light-slide--phone .light-slide__shape--base img {
       opacity: 1;
       animation-name: light-slide-drift-m;
+      animation-duration: 8s;
     }
 
     @keyframes light-slide-drift-m {
       0% {
-        transform: translate(-16px, 12px) rotate(-2.6deg) skewX(-2deg) scale(1);
-        opacity: 0.88;
-      }
-
-      35% {
-        transform: translate(26px, -6px) rotate(0.8deg) skewX(1.5deg) scale(1.045);
-        opacity: 1;
-      }
-
-      70% {
-        transform: translate(40px, -18px) rotate(2.8deg) skewX(-1deg) scale(1.06);
-        opacity: 1;
+        transform: translate(-34px, 22px) rotate(-1.4deg);
       }
 
       100% {
-        transform: translate(-4px, 4px) rotate(-0.6deg) skewX(2deg) scale(1.02);
-        opacity: 0.96;
-      }
-    }
-
-    .light-slide--phone .light-slide__sweep {
-      width: 1170px;
-      height: 1350px;
-      animation-name: light-slide-sweep-m;
-    }
-
-    .light-slide--phone .light-slide__sweep-inner {
-      width: 1080px;
-      height: 1350px;
-      animation-name: light-slide-sweep-counter-m;
-    }
-
-    @keyframes light-slide-sweep-m {
-      0% {
-        transform: translateX(-1170px);
-      }
-
-      75%,
-      100% {
-        transform: translateX(1080px);
-      }
-    }
-
-    @keyframes light-slide-sweep-counter-m {
-      0% {
-        transform: translateX(1170px);
-      }
-
-      75%,
-      100% {
-        transform: translateX(-1080px);
+        transform: translate(42px, -26px) rotate(1.6deg);
       }
     }
 
@@ -2932,7 +2908,7 @@
           <div class="carousel__slide carousel__slide--desktop"><div class="carousel__cell"><img data-src="images/basarab-c04.webp" data-srcset="images/basarab-c04-1077.webp 1077w, images/basarab-c04.webp 1920w" sizes="(max-width: 700px) 200vw, 959px" alt="Basarab" loading="lazy" decoding="async"></div></div>
           <div class="carousel__slide carousel__slide--pair carousel__slide--desktop"><div class="carousel__cell carousel__cell--fade"><img class="is-active" data-src="images/basarab-10.webp?v=4" alt="Basarab" loading="lazy" decoding="async"><img data-src="images/basarab-10b.webp" alt="Basarab" loading="lazy" decoding="async"><img data-src="images/basarab-10c.webp" alt="Basarab" loading="lazy" decoding="async"><img data-src="images/basarab-10d.webp" alt="Basarab" loading="lazy" decoding="async"></div><div class="carousel__cell"><img data-src="images/basarab-c05r.webp" data-srcset="images/basarab-c05r-540.webp 540w, images/basarab-c05r.webp 960w" sizes="(max-width: 700px) 100vw, 480px" alt="Basarab" loading="lazy" decoding="async"></div></div>
           <div class="carousel__slide carousel__slide--desktop"><div class="carousel__cell"><img data-src="images/basarab-c06.webp?v=2" data-srcset="images/basarab-c06-1077.webp?v=2 1077w, images/basarab-c06.webp?v=2 1920w" sizes="(max-width: 700px) 200vw, 959px" alt="Basarab" loading="lazy" decoding="async"></div></div>
-          <div class="carousel__slide carousel__slide--pair carousel__slide--desktop"><div class="carousel__cell carousel__cell--video"><img data-src="images/basarab-cb07l.webp" alt="Basarab" loading="lazy" decoding="async"><video muted loop playsinline preload="none"><source src="videos/basarab-cb07l-m.mp4?v=2" media="(max-width: 700px)" type="video/mp4" /><source src="videos/basarab-cb07l.mp4?v=2" type="video/mp4" /></video></div><div class="carousel__cell"><img data-src="images/basarab-c07r.webp" data-srcset="images/basarab-c07r-540.webp 540w, images/basarab-c07r.webp 960w" sizes="(max-width: 700px) 100vw, 480px" alt="Basarab" loading="lazy" decoding="async"></div></div>
+          <div class="carousel__slide carousel__slide--pair carousel__slide--desktop"><div class="carousel__cell carousel__cell--video"><img data-src="images/basarab-cb07l.webp?v=3" alt="Basarab" loading="lazy" decoding="async"><video muted loop playsinline preload="none"><source src="videos/basarab-cb07l-m.mp4?v=3" media="(max-width: 700px)" type="video/mp4" /><source src="videos/basarab-cb07l.mp4?v=3" type="video/mp4" /></video></div><div class="carousel__cell"><img data-src="images/basarab-c07r.webp" data-srcset="images/basarab-c07r-540.webp 540w, images/basarab-c07r.webp 960w" sizes="(max-width: 700px) 100vw, 480px" alt="Basarab" loading="lazy" decoding="async"></div></div>
           <div class="carousel__slide carousel__slide--desktop"><div class="carousel__cell"><img data-src="images/basarab-c08.webp" data-srcset="images/basarab-c08-1077.webp 1077w, images/basarab-c08.webp 1920w" sizes="(max-width: 700px) 200vw, 959px" alt="Basarab" loading="lazy" decoding="async"></div></div>
           <div class="carousel__slide carousel__slide--desktop"><div class="carousel__cell"><img data-src="images/basarab-c09.webp" data-srcset="images/basarab-c09-1077.webp 1077w, images/basarab-c09.webp 1920w" sizes="(max-width: 700px) 200vw, 959px" alt="Basarab" loading="lazy" decoding="async"></div></div>
           <div class="carousel__slide carousel__slide--desktop"><div class="carousel__cell carousel__cell--video"><img data-src="images/basarab-cb10.webp" alt="Basarab" loading="lazy" decoding="async"><video muted loop playsinline preload="none"><source src="videos/basarab-cb10-m.mp4?v=2" media="(max-width: 700px)" type="video/mp4" /><source src="videos/basarab-cb10.mp4?v=2" type="video/mp4" /></video></div></div>
@@ -2944,12 +2920,12 @@
           <div class="carousel__slide carousel__slide--desktop"><div class="carousel__cell"><img data-src="images/basarab-c16.webp" data-srcset="images/basarab-c16-1077.webp 1077w, images/basarab-c16.webp 1920w" sizes="(max-width: 700px) 200vw, 959px" alt="Basarab" loading="lazy" decoding="async"></div></div>
           <div class="carousel__slide carousel__slide--phone"><div class="carousel__cell"><img src="images/basarab-m01.webp?v=3" alt="Basarab" loading="lazy" decoding="async"></div></div>
           <div class="carousel__slide carousel__slide--phone"><div class="carousel__cell"><img data-src="images/basarab-m02.webp?v=2" alt="Basarab" loading="lazy" decoding="async"></div></div>
-          <div class="carousel__slide carousel__slide--phone"><div class="carousel__cell"><img data-src="images/basarab-m03.webp?v=2" alt="Basarab" loading="lazy" decoding="async"></div></div>
+          <div class="carousel__slide carousel__slide--phone"><div class="carousel__cell"><img data-src="images/basarab-m03.webp?v=3" alt="Basarab" loading="lazy" decoding="async"></div></div>
           <div class="carousel__slide carousel__slide--phone"><div class="carousel__cell"><img data-src="images/basarab-m04.webp?v=3" alt="Basarab" loading="lazy" decoding="async"></div></div>
           <div class="carousel__slide carousel__slide--phone"><div class="carousel__cell"><img data-src="images/basarab-m05.webp?v=3" alt="Basarab" loading="lazy" decoding="async"></div></div>
           <div class="carousel__slide carousel__slide--phone"><div class="carousel__cell"><img data-src="images/basarab-m06.webp?v=3" alt="Basarab" loading="lazy" decoding="async"></div></div>
           <div class="carousel__slide carousel__slide--phone"><div class="carousel__cell"><img data-src="images/basarab-m07.webp?v=3" alt="Basarab" loading="lazy" decoding="async"></div></div>
-          <div class="carousel__slide carousel__slide--phone"><div class="carousel__cell carousel__cell--video"><img data-src="images/basarab-m08.webp?v=2" alt="Basarab" loading="lazy" decoding="async"><video muted loop playsinline preload="none"><source src="videos/basarab-m08.mp4" type="video/mp4" /></video></div></div>
+          <div class="carousel__slide carousel__slide--phone"><div class="carousel__cell carousel__cell--video"><img data-src="images/basarab-m08s.webp" alt="Basarab" loading="lazy" decoding="async"><video muted loop playsinline preload="none"><source src="videos/basarab-m08.mp4?v=3" type="video/mp4" /></video></div></div>
           <div class="carousel__slide carousel__slide--phone"><div class="carousel__cell"><img data-src="images/basarab-m09.webp?v=2" alt="Basarab" loading="lazy" decoding="async"></div></div>
           <div class="carousel__slide carousel__slide--phone"><div class="carousel__cell"><img data-src="images/basarab-m10.webp?v=3" alt="Basarab" loading="lazy" decoding="async"></div></div>
           <div class="carousel__slide carousel__slide--phone"><div class="carousel__cell"><img data-src="images/basarab-m11.webp?v=2" alt="Basarab" loading="lazy" decoding="async"></div></div>
@@ -2981,7 +2957,7 @@
         <div class="carousel__track">
           <div class="carousel__slide carousel__slide--desktop"><div class="carousel__cell"><img src="images/foundation-c01.webp" srcset="images/foundation-c01-1077.webp 1077w, images/foundation-c01.webp 1920w" sizes="(max-width: 700px) 200vw, 959px" alt="Фонд «Вызов»" loading="lazy" decoding="async"></div></div>
           <div class="carousel__slide carousel__slide--desktop"><div class="carousel__cell"><img data-src="images/foundation-c02.webp" data-srcset="images/foundation-c02-1077.webp 1077w, images/foundation-c02.webp 1920w" sizes="(max-width: 700px) 200vw, 959px" alt="Фонд «Вызов»" loading="lazy" decoding="async"></div></div>
-          <div class="carousel__slide carousel__slide--desktop"><div class="carousel__cell"><img data-src="images/foundation-c03.webp" data-srcset="images/foundation-c03-1077.webp 1077w, images/foundation-c03.webp 1920w" sizes="(max-width: 700px) 200vw, 959px" alt="Фонд «Вызов»" loading="lazy" decoding="async"></div></div>
+          <div class="carousel__slide carousel__slide--desktop"><div class="carousel__cell"><img data-src="images/foundation-c03.webp?v=2" data-srcset="images/foundation-c03-1077.webp?v=2 1077w, images/foundation-c03.webp?v=2 1920w" sizes="(max-width: 700px) 200vw, 959px" alt="Фонд «Вызов»" loading="lazy" decoding="async"></div></div>
           <div class="carousel__slide carousel__slide--desktop carousel__slide--pair"><div class="carousel__cell case__media case__media--typo">
         <div class="typo typo--480" data-typo role="img" aria-label="Foundation event posters: Chance discovery in science, Winter talks, New horizons of science diplomacy, Open dialogue in Tula, Lectures">
         <div class="typo__stage">
@@ -3085,8 +3061,6 @@
       <div class="light-slide light-slide--phone" data-light role="img" aria-label="We light the way toward humanity's greatest finds">
         <div class="light-slide__stage">
           <div class="light-slide__shape light-slide__shape--base"><img loading="lazy" src="images/foundation-light-shape.webp" alt="" /></div>
-          <div class="light-slide__shape light-slide__shape--spill"><img loading="lazy" src="images/foundation-light-shape.webp" alt="" /></div>
-          <div class="light-slide__sweep"><div class="light-slide__sweep-inner"><div class="light-slide__shape"><img loading="lazy" src="images/foundation-light-shape.webp" alt="" /></div></div></div>
           <p class="light-slide__text"><span class="light-slide__gold">We light the way</span> toward humanity's greatest finds</p>
         </div>
       </div>
@@ -3244,7 +3218,7 @@
           </div>
         </div>
       </div></div>
-          <div class="carousel__slide carousel__slide--desktop"><div class="carousel__cell carousel__cell--fade carousel__cell--fade-slow"><img class="is-active" data-src="images/foundation-cig1.webp" data-srcset="images/foundation-cig1-1077.webp 1077w, images/foundation-cig1.webp 1920w" sizes="(max-width: 700px) 200vw, 959px" alt="Фонд «Вызов»" loading="lazy" decoding="async"><img data-src="images/foundation-cig2.webp" data-srcset="images/foundation-cig2-1077.webp 1077w, images/foundation-cig2.webp 1920w" sizes="(max-width: 700px) 200vw, 959px" alt="Фонд «Вызов»" loading="lazy" decoding="async"><img data-src="images/foundation-cig3.webp" data-srcset="images/foundation-cig3-1077.webp 1077w, images/foundation-cig3.webp 1920w" sizes="(max-width: 700px) 200vw, 959px" alt="Фонд «Вызов»" loading="lazy" decoding="async"><img data-src="images/foundation-cig4.webp" data-srcset="images/foundation-cig4-1077.webp 1077w, images/foundation-cig4.webp 1920w" sizes="(max-width: 700px) 200vw, 959px" alt="Фонд «Вызов»" loading="lazy" decoding="async"></div></div>
+          <div class="carousel__slide carousel__slide--desktop"><div class="carousel__cell carousel__cell--posts"><div class="posts-flow posts-flow--wide"><div class="posts-flow__col"><img data-src="images/foundation-c10-col1.webp" alt="Фонд «Вызов»" loading="lazy" decoding="async"><img data-src="images/foundation-c10-col1.webp" alt="" aria-hidden="true" loading="lazy" decoding="async"></div><div class="posts-flow__col"><img data-src="images/foundation-c10-col2.webp" alt="Фонд «Вызов»" loading="lazy" decoding="async"><img data-src="images/foundation-c10-col2.webp" alt="" aria-hidden="true" loading="lazy" decoding="async"></div><div class="posts-flow__col"><img data-src="images/foundation-c10-col3.webp" alt="Фонд «Вызов»" loading="lazy" decoding="async"><img data-src="images/foundation-c10-col3.webp" alt="" aria-hidden="true" loading="lazy" decoding="async"></div></div></div></div>
           <div class="carousel__slide carousel__slide--desktop"><div class="carousel__cell"><img data-src="images/foundation-c11.webp" data-srcset="images/foundation-c11-1077.webp 1077w, images/foundation-c11.webp 1920w" sizes="(max-width: 700px) 200vw, 959px" alt="Фонд «Вызов»" loading="lazy" decoding="async"></div></div>
           <div class="carousel__slide carousel__slide--desktop carousel__slide--pair"><div class="carousel__cell"><img data-src="images/foundation-c12.webp" data-srcset="images/foundation-c12-1077.webp 1077w, images/foundation-c12.webp 1920w" sizes="(max-width: 700px) 200vw, 959px" alt="Фонд «Вызов»" loading="lazy" decoding="async"></div></div>
           <div class="carousel__slide carousel__slide--desktop carousel__slide--pair"><div class="carousel__cell"><img data-src="images/foundation-c13.webp" data-srcset="images/foundation-c13-1077.webp 1077w, images/foundation-c13.webp 1920w" sizes="(max-width: 700px) 200vw, 959px" alt="Фонд «Вызов»" loading="lazy" decoding="async"></div></div>
@@ -3379,7 +3353,7 @@
 
   <section class="case is-hidden" id="case-basarab" aria-label="Basarab case study">
 
-    <div class="case__media reveal" style="--mh:22.438rem"><img loading="lazy" src="images/basarab-01.webp?v=5" alt="A family footwear brand that makes its own shoes and stands behind every pair" width="2030" height="1240" /><img loading="lazy" class="case__media-mobile" src="images/basarab-m01.webp?v=6" alt="A family footwear brand that makes its own shoes and stands behind every pair" width="1077" height="1077" /></div>
+    <div class="case__media reveal" style="--mh:22.438rem"><img loading="lazy" src="images/basarab-01.webp?v=5" alt="A family footwear brand that makes its own shoes and stands behind every pair" width="2030" height="1240" /><img loading="lazy" class="case__media-mobile" src="images/basarab-case-m01.webp" alt="A family footwear brand that makes its own shoes and stands behind every pair" width="1077" height="1077" /></div>
 
     <div class="case__intro reveal">
       <div class="case__intro-left">
@@ -3415,9 +3389,9 @@
     <p class="case__quote case__quote-p--mobile reveal" data-en="We also developed a brand mark whose &lt;br&gt;geometry stands apart from the logotype, so it &lt;br&gt;works as a standalone element, like a small, &lt;br&gt;distinctive detail." data-ru="Также мы разработали фирменный знак, &lt;br&gt;который по своей геометрии отличается &lt;br&gt;от шрифтовой части, благодаря чему &lt;br&gt;выступает в качестве самостоятельного &lt;br&gt;элемента, как маленькая, уникальная &lt;br&gt;деталь.">Также мы разработали фирменный знак, <br>который по своей геометрии отличается <br>от шрифтовой части, благодаря чему <br>выступает в качестве самостоятельного <br>элемента, как маленькая, уникальная <br>деталь.</p>
 
     <div class="case__row reveal case__row--trio case__row--short">
-      <div class="case__media" style="--mh:21.25rem"><img loading="lazy" src="images/basarab-07.webp?v=4" alt="" width="676" height="854" /><img loading="lazy" class="case__media-mobile" src="images/basarab-m07.webp?v=3" alt="" width="1077" height="1020" /></div>
-      <div class="case__media" style="--mh:21.25rem"><img loading="lazy" src="images/basarab-08.webp?v=4" alt="" width="678" height="854" /><img loading="lazy" class="case__media-mobile" src="images/basarab-m08.webp?v=2" alt="" width="1077" height="1020" /></div>
-      <div class="case__media" style="--mh:21.25rem"><img loading="lazy" src="images/basarab-09.webp?v=4" alt="" width="676" height="854" /><img loading="lazy" class="case__media-mobile" src="images/basarab-m09.webp?v=2" alt="" width="1077" height="1020" /></div>
+      <div class="case__media" style="--mh:21.25rem"><img loading="lazy" src="images/basarab-07.webp?v=4" alt="" width="676" height="854" /><img loading="lazy" class="case__media-mobile" src="images/basarab-case-m07.webp" alt="" width="1077" height="1020" /></div>
+      <div class="case__media" style="--mh:21.25rem"><img loading="lazy" src="images/basarab-08.webp?v=4" alt="" width="678" height="854" /><img loading="lazy" class="case__media-mobile" src="images/basarab-case-m08.webp" alt="" width="1077" height="1020" /></div>
+      <div class="case__media" style="--mh:21.25rem"><img loading="lazy" src="images/basarab-09.webp?v=4" alt="" width="676" height="854" /><img loading="lazy" class="case__media-mobile" src="images/basarab-case-m09.webp" alt="" width="1077" height="1020" /></div>
     </div>
 
     <div class="case__row reveal">
@@ -3432,7 +3406,7 @@
 
     <div class="case__media reveal"><img loading="lazy" src="images/basarab-12.webp?v=5" srcset="images/basarab-12-1077.webp?v=5 1077w, images/basarab-12.webp?v=5 2030w" sizes="(max-width: 700px) 359px, 1015px" alt="" width="2030" height="1240" /></div>
 
-    <div class="case__media reveal" style="--mh:21.25rem"><img loading="lazy" src="images/basarab-13.webp?v=4" alt="" width="2030" height="1240" /><img loading="lazy" class="case__media-mobile" src="images/basarab-m13.webp?v=6" alt="" width="1077" height="1020" /></div>
+    <div class="case__media reveal" style="--mh:21.25rem"><img loading="lazy" src="images/basarab-13.webp?v=4" alt="" width="2030" height="1240" /><img loading="lazy" class="case__media-mobile" src="images/basarab-case-m13.webp" alt="" width="1077" height="1020" /></div>
 
     <div class="case__row reveal">
       <div class="case__media"><img loading="lazy" src="images/basarab-14.webp?v=5" alt="" width="1014" height="1200" /></div>
@@ -3441,7 +3415,7 @@
 
     <div class="case__media reveal"><img loading="lazy" src="images/basarab-16.webp?v=5" srcset="images/basarab-16-1077.webp?v=5 1077w, images/basarab-16.webp?v=5 2030w" sizes="(max-width: 700px) 359px, 1015px" alt="" width="2030" height="1240" /></div>
 
-    <div class="case__media reveal" style="--mh:22.438rem"><img loading="lazy" src="images/basarab-17.webp?v=4" alt="" width="2030" height="1240" /><img loading="lazy" class="case__media-mobile" src="images/basarab-m17.webp?v=5" alt="" width="1077" height="1077" /></div>
+    <div class="case__media reveal" style="--mh:22.438rem"><img loading="lazy" src="images/basarab-17.webp?v=4" alt="" width="2030" height="1240" /><img loading="lazy" class="case__media-mobile" src="images/basarab-case-m17.webp" alt="" width="1077" height="1077" /></div>
 
     <div class="case__media case__media--story reveal"><img loading="lazy" src="images/basarab-18.webp?v=8" srcset="images/basarab-18-1077.webp?v=8 1077w, images/basarab-18.webp?v=8 2030w" sizes="(max-width: 700px) 359px, 1015px" alt="" width="2030" height="1240" /><video muted loop playsinline preload="none" data-lazy-play width="2030" height="1240"><source media="(max-width: 700px)" src="videos/basarab-insta-m.mp4?v=2" type="video/mp4" /><source src="videos/basarab-insta.mp4?v=4" type="video/mp4" /></video></div>
 
@@ -4638,8 +4612,7 @@
     cycle('.case__media--ig-fade', 2800);
     cycle('.case__media-mobile--cycle-fade', 2800);
     cycle('.case__media--slides', 2000);
-    cycle('.carousel__cell--fade:not(.carousel__cell--fade-slow)', 1400);
-    cycle('.carousel__cell--fade-slow', 2800);
+    cycle('.carousel__cell--fade', 1400);
   })();
 
   // Home carousels: click/tap the left or right half, drag (the slide follows the finger), or ←/→ to flip a case's images on its home card; n/x on the cursor and in the title row (phones).
@@ -4694,6 +4667,12 @@
         return stops[((i % count) + count) % count].slide;
       }
       function warm(i) {
+        slideAt(i).querySelectorAll('video').forEach(function (v) {
+          if (v.dataset.warm) return;
+          v.dataset.warm = '1';
+          v.preload = 'auto';
+          if (v.readyState === 0) v.load();
+        });
         slideAt(i).querySelectorAll('img').forEach(function (img) {
           if (img.dataset.srcset) {
             img.srcset = img.dataset.srcset;
@@ -4816,6 +4795,11 @@
         else if (i < count - 1) unwrap();
         updateLabel();
         warm(i);
+        if (seen)
+          slideAt(i).querySelectorAll('video').forEach(function (v) {
+            var played = v.play();
+            if (played && played.catch) played.catch(function () {});
+          });
         var d0 = from - to;
         var v0 = (v || 0) * 1000;
         var om = 14;
@@ -5080,15 +5064,16 @@
       ['Establishing a mechanism', 'for interaction between', 'science and business'],
       ['Maintaining a sustained', 'international scientific', 'dialogue'],
     ];
-    var HOLD = 1360;
-    var MOVE = 850;
+    var HOLD = 1050;
+    var MOVE = 720;
     var ACTIVATE_AT = 0.4;
     var MAX_DARK = 0.88;
     var RISE_SCALE = 0.07;
     var BACK_SCALE = 0.06;
     var BACK_LIFT = 14;
     var BACK_DARK = 0.6;
-    var TALL_TOP = 174;
+    var TALL_TOP = 214;
+    var TALL_STEP = 0.54;
     var TALL_LIFT = 120;
     var TALL_DARK = 0.72;
     var TALL_FADE = 600;
@@ -5168,7 +5153,7 @@
           : Math.max((root.clientHeight - cards[0].offsetHeight) / 2, 0) + 'px';
         unitPx = root.clientWidth / 1015;
         liftPx = tall ? (TALL_LIFT / 1080) * root.clientWidth : BACK_LIFT * unitPx;
-        slotPx = cards[0].offsetHeight + 14 * unitPx;
+        slotPx = tall ? cards[0].offsetHeight * TALL_STEP : cards[0].offsetHeight + 14 * unitPx;
         lastPos = null;
         place(curPos, slotPx);
         if (anims) build();
@@ -5207,7 +5192,7 @@
         if (o >= 0) {
           var a = Math.min(o, 1);
           y = o * slot;
-          scale = 1 - RISE_SCALE * a;
+          scale = 1 - (tall ? 0.05 * Math.min(o, 2) : RISE_SCALE * a);
           dark = (tall ? TALL_DARK : MAX_DARK) * Math.pow(a, 0.7);
         } else {
           var b = Math.min(-o, 1);
@@ -5217,7 +5202,7 @@
         }
         return {
           o: o,
-          z: Math.round((o + 2) * 10),
+          z: tall ? Math.round(o >= 0 ? 30 - 10 * o : 30 + 15 * o) : Math.round((o + 2) * 10),
           transform: 'translate3d(0,' + y.toFixed(2) + 'px,0) scale(' + scale.toFixed(4) + ')',
           opacity: dark.toFixed(3),
         };
@@ -5393,7 +5378,7 @@
 <script>
   // Foundation typographic posters: cross-fade between five layouts.
   (function () {
-    var HOLD = 2800;
+    var HOLD = 1900;
     document.querySelectorAll('[data-typo]').forEach(function (root) {
       var stage = root.querySelector('.typo__stage');
       var pages = Array.prototype.slice.call(root.querySelectorAll('.typo__page'));

@@ -336,7 +336,7 @@ has no shared first slide. 8 = the four-story clip (`basarab-stories.mp4`) at
 30 apart, tops −230/−130/−30, after her reference `118:36762`; 16 = the six
 stories of desktop slide 15 (Figma `68:106`, exported at 3x) on one 4044×1076
 strip at her spacing (594.7 wide, 674 pitch, her frame's order), two copies in
-`.marquee` sliding left by one strip every 30s (CSS, linear; none with reduced
+`.marquee` sliding left by one strip every 21s (Nov 23, was 30s) (CSS, linear; none with reduced
 motion), starting where her frame does (−431). **Phone carousels are 4:5** (Nov 20,
 client: 16:10 at 359px was too small): `.carousel__slide--pair` slides (two
 480×600 cells, or one still whose halves are separate frames: Basarab 3/12/13,
@@ -370,6 +370,29 @@ left-aligned; text 15px below media, 48px above the next. 901–999px swap in
 the `--mobile` text variants. Case nav: same 32/24 divider as the home list,
 pills 16px uppercase like the home titles. Basarab's natural-wrap rule is now
 tablet-only (701–900).
+
+**Carousel round, Nov 23.** Foundation desktop slide 10 is now a posts flow
+(`.posts-flow--wide`) after her frame `129:1109`: three columns of her posts
+(section `129:2253`, exported at .5652 → 610px wide; the section's light
+backdrop recoloured to #0f0f12 only in the gaps and card corners,
+`foundation-c10-colN.webp`, 610x3827 = one 6776-unit period), placed at her
+x 11/327.43/643.87, tops −519.7/−257.23/−1046.9 of 960x600, sides drift up and
+the middle down, 42s per period (the old cig1–4 cross-fade and `--fade-slow`
+are gone). Desktop slide 3 = her `112:22961` (`foundation-c03` `?v=2`). Phone
+light slide: no spill, no sweep, opacity fixed at 1; only an 8s transform drift
+(client: no flare, no brightness change). Phone goals: track inset 2.5cqw (the
+old 5cqw phone rule lost to the later desktop one on source order; the selector
+is now `.carousel__slide .carousel__cell …`), active card 214/1350 from the top,
+the next two tucked under it at .54 card height steps and 5% smaller per step
+(tall z-order: active on top, the incoming card crosses above the outgoing one
+at 60% of the move). Basarab phone slide 3 = her `129:1089` (`basarab-m03`
+`?v=3`, q92 for the grain). The four-story clips (`basarab-m08.mp4`,
+`basarab-cb07l(-m).mp4`, `?v=3`) were rotated by 0.5s so they open with the first
+story's text already fading in; posters are their new frame 0 (`basarab-m08s`,
+`basarab-cb07l`). Carousel videos now preload in `warm()` and start playing when
+a move to their slide starts, not after landing. The phone carousel's
+`basarab-m01/07/08/09/13/17` had overwritten the case's phone crops of the same
+names (Nov 20); the case now uses `basarab-case-mNN.webp`, restored from before.
 
 ## Laptop / wide-screen layout
 
@@ -723,8 +746,8 @@ lights its tab and lifts its number/headline in.
   size per the client's reference (Nov 2026): 860px of a 1015px frame
   (77.5/1015 side inset on `.goals-scroller__track`), vertically centred.
   Frame background `#0E0E0E`, dimming veil `#0A0A0A` (neutral, per
-  client). Timing: HOLD 1360ms, MOVE 850ms, CSS light/rise transitions
-  0.7–0.85s (all ~15% faster than the original 1600/1000).
+  client). Timing: HOLD 1050ms, MOVE 720ms (Nov 23, client: faster; was
+  1360/850, originally 1600/1000), CSS light/rise transitions 0.7–0.85s.
 - Photo-to-dark ramps are per card, inline on `.goal__shade`, sampled
   from the client's approved card renders. When she sends a new render,
   re-fit against it (photo position via NCC, ramps by column ratio)
@@ -782,8 +805,8 @@ the goals stack (prefixed selectors, `:not(.case__media--light)` on the
 
 The `foundation-12` slot (right cell of the "Lectures in August" row) is
 the client's street mockup with her two posters rolling **down**
-inside the screen (new banner enters from above): hold 2.7s, slide 1s,
-7.4s cycle, posters at 90% opacity so the dark panel shows through.
+inside the screen (new banner enters from above): hold 1.8s, slide 0.8s,
+5.2s cycle (Nov 23, client: faster; was 2.7/1/7.4), posters at 90% opacity so the dark panel shows through.
 The street is her own clip with the trees moving
 (`videos/foundation-citylight-street.mp4`, 1008x1344, re-encoded
 **ping-pong** — forward then reversed — so the loop has no jump; poster
@@ -807,8 +830,8 @@ evened out per style, **2% tracking everywhere** (client's rule; LECTURES is shr
 in PP Fragment **Sans Regular** (`'PP Fragment Sans Regular'` family — the
 site's `'PP Fragment Sans'` face is Medium), headlines in Glare, the Science
 & Art mark is her SVG (`images/foundation-science-art-logo.svg`). Layouts
-cross-fade every 2.8s; the new one's lines all rise and fade in together
-(no stagger). Contain-fits the slot (640px desktop, `--mh` mobile) so the
+switch every 1.9s (Nov 23, was 2.8s): the old one fades in 0.45s, the new
+one's lines all rise in 0.95s after 0.12s (no stagger). Contain-fits the slot (640px desktop, `--mh` mobile) so the
 16px margins survive narrow windows — cover-fitting cropped the sides. All
 selectors prefixed `.case__media.case__media--typo` (row img rules would
 otherwise stretch the logo). Sandbox: `animations/foundation-typo/index.html`.
