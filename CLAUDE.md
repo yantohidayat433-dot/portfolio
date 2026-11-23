@@ -383,19 +383,27 @@ tablet-only (701–900).
 (section `129:2253`, exported at .5652 → 610px wide; the section's light
 backdrop recoloured to #0f0f12 only in the gaps and card corners,
 `foundation-c10-colN.webp`, 610x3827 = one 6776-unit period), placed at her
-x 11/327.43/643.87, tops −519.7/−257.23/−1046.9 of 960x600, sides drift up and
-the middle down, 42s per period (the old cig1–4 cross-fade and `--fade-slow`
-are gone). Desktop slide 3 = her `112:22961` (`foundation-c03` `?v=2`). Phone
-light slide: no spill, no sweep, opacity fixed at 1; only an 8s transform drift
-(client: no flare, no brightness change). Phone goals: track inset 2.5cqw (the
+x 11/327.43/643.87, tops −519.7/−759/−41.1 of 960x600 (Nov 23 second pass:
+her section's column offsets, so left and right cards line up and the middle
+sits half a post lower; phone 12/18 likewise: tops −230/−508.5/−230), sides
+drift up and the middle down, 42s per period (the old cig1–4 cross-fade and `--fade-slow`
+are gone). Desktop slide 3 = her `112:22961` (`foundation-c03` `?v=3`, dot removed). Phone
+light slide: no spill, no sweep, opacity fixed at 1; only a 6s ±110/70px drift
+(client: clearly visible motion, no flare, no brightness change); its text is
+`z-index: 2` on its own layer so the light never paints over it at start. Phone goals: track inset 2.5cqw (the
 old 5cqw phone rule lost to the later desktop one on source order; the selector
-is now `.carousel__slide .carousel__cell …`), active card 214/1350 from the top,
-the next two tucked under it at .54 card height steps and 5% smaller per step
+is now `.carousel__slide .carousel__cell …`), active card 300/1350 from the top,
+the next one tucked under it .54 card heights lower, the last half that again
+(client), 5% smaller per step; the card leaving at the back fades out over the
+first half of the move and the same card fades in at the bottom over the second
+half (tall cells wrap `o` at count−1.5), so the bottom card is never late
 (tall z-order: active on top, the incoming card crosses above the outgoing one
 at 60% of the move). Basarab phone slide 3 = her `129:1089` (`basarab-m03`
 `?v=3`, q92 for the grain). The four-story clips (`basarab-m08.mp4`,
-`basarab-cb07l(-m).mp4`, `?v=3`) were rotated by 0.5s so they open with the first
-story's text already fading in; posters are their new frame 0 (`basarab-m08s`,
+`basarab-cb07l(-m).mp4`, `?v=3`) start 4–5 frames before the first story's text
+(client: the text must fade in as the slide opens), carry `data-restart` (the
+carousel seeks them to 0 when a move to their slide starts); posters are their
+frame 0, text-less (`basarab-m08s`,
 `basarab-cb07l`). Carousel videos now preload in `warm()` and start playing when
 a move to their slide starts, not after landing. The phone carousel's
 `basarab-m01/07/08/09/13/17` had overwritten the case's phone crops of the same
@@ -837,8 +845,8 @@ evened out per style, **2% tracking everywhere** (client's rule; LECTURES is shr
 in PP Fragment **Sans Regular** (`'PP Fragment Sans Regular'` family — the
 site's `'PP Fragment Sans'` face is Medium), headlines in Glare, the Science
 & Art mark is her SVG (`images/foundation-science-art-logo.svg`). Layouts
-switch every 1.9s (Nov 23, was 2.8s): the old one fades in 0.45s, the new
-one's lines all rise in 0.95s after 0.12s (no stagger). Contain-fits the slot (640px desktop, `--mh` mobile) so the
+switch every 2s (Nov 23, was 2.8s): the old one fades out in 0.3s (quick
+switch), the new one's lines rise calmly in 1.4s after 0.08s (no stagger). Contain-fits the slot (640px desktop, `--mh` mobile) so the
 16px margins survive narrow windows — cover-fitting cropped the sides. All
 selectors prefixed `.case__media.case__media--typo` (row img rules would
 otherwise stretch the logo). Sandbox: `animations/foundation-typo/index.html`.
