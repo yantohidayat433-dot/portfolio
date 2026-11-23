@@ -158,8 +158,9 @@ column at ≥901px (436 at 1440, natural wrap, `<br>`s hidden) and the whole
 sidebar is set at line-height 1.3 there (client, after actualsource.work: the
 hand-broken 345px lines looked «куцо»; the one 1.45 leading stays everywhere
 else), so its pills drop their .075em padding (1.3 = Plex's glyph box, plates
-still tile). Phrases glued so they don't split: «8 лет», «Ищу смыслы», «вашу
-команду», «Пишите, рада буду познакомиться». Tablet (701–900) keeps her hand
+still tile). Phrases glued so they don't split: «8 лет работаю»
+(so «8 лет» starts line 2), «её до полной», «Ищу смыслы», «вашу команду»,
+«буду рада познакомиться» (runs on after «не пропадаю.», client). Tablet (701–900) keeps her hand
 breaks; phones wrap naturally.
 
 **Phone home (≤700px, Nov 19, after actualsource.work).** 15px (.9375rem)
