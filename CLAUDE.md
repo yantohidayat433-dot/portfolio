@@ -482,6 +482,10 @@ box is 1.3em in a 1.4em line) so each line's plate fills the line box and
 two-line plates touch. Desktop vertical rhythm was
 pixel-matched to the PDF (ink rows within ~1px). Articles link to Skillbox Media.
 
+Phone about sheet: side padding .9375rem like the home gutter (was .875rem, so
+the logo jumped 1px when it opened in Telegram, Nov 23); in the Telegram webview
+the static top bar has no padding of its own (the page gutter already applies).
+
 Logo: rests bold pink (`#FFD2EC`, 2px same-colour stroke); hover (and the
 open about sheet on phones) turns `#A5C1BA` with a 3px stroke. 3.5px
 started closing the counters of a/o at 190px wide.
