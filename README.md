@@ -9,24 +9,24 @@ UI-KIT.md      design system: grid, type, colours, buttons, spacing, slot sizes
 index.html     the whole site: markup, one <style> in <head>, scripts at the end of <body>
 images/        WebP stills (desktop crops + "-m" phone crops), SVG marks
 videos/        muted loops (H.264, faststart)
-fonts/         WOFF2: IBM Plex Serif (UI), PP Fragment subsets (Foundation case artwork)
-animations/    standalone prototypes of the Foundation case animations (use fonts/)
+fonts/         WOFF2: IBM Plex Serif (UI), PP Fragment subsets (Foundation artwork)
+animations/    sandboxes and render scripts for the carousel animations and clips
 robots.txt     the site is not meant to be indexed
 ```
 
 `index.html`, top to bottom:
 
 - **CSS**: fonts → password gate → base → layout (two independently scrolling
-  columns) → sidebar → project list → case pages → tablet (≤900px) → desktop
-  and tablet (≥701px: captions, dividers) → desktop (≥901px: projects left, bio
-  right) → carousels → cases (≥701px) → phone (≤700px) → Foundation case animations.
+  columns) → sidebar → project list → tablet (≤900px) → desktop and tablet
+  (≥701px: captions, dividers) → desktop (≥901px: projects left, bio right) →
+  carousels → phone (≤700px) → Foundation animations.
 - **Markup**: password gate, phone top bar, sidebar (bio, articles, contacts,
-  language toggle), project list, then one `<section class="case">` per case
-  study.
+  language toggle), project list (three carousels and four static covers). The
+  standalone case pages were archived on Nov 23 (see CLAUDE.md, commit `84ad928`).
 - **JS**: small IIFEs, each with a one-line comment: password gate, Telegram
-  webview fixes, hover colours, wide-screen scrolling, language toggle, scroll
-  reveal, navigation between the list and cases, case image preloading, image
-  cyclers, cursor label, Foundation animations.
+  webview fixes, hover colours, wide-screen scrolling, language toggle, hero
+  video, lazy clips, about sheet, image cyclers, pixel-snapping of covers,
+  carousels, cursor label, Foundation animations.
 
 ## Conventions
 
@@ -36,12 +36,11 @@ robots.txt     the site is not meant to be indexed
 - **Line breaks are designed.** Copy is hand-broken with `<br>` to match the
   layouts; those paragraphs are `white-space: nowrap` so the browser never adds
   its own breaks. Phone copy has separate `*--mobile` variants where the breaks
-  differ. In Basarab, short words are glued to the next word with a no-break
-  space so laptop widths (where it wraps naturally) never leave one hanging.
-- **Images.** WebP, lazy except the first screen. A slot either has a phone crop
-  (`.case__media-mobile`, height `--mh` in rem) or a `srcset` with a 1077px file
-  for phones; home cards use `<picture>` so each device fetches one file. When a
-  case opens, its images are fetched top to bottom in the background.
+  differ. Short words are glued to the next word with a no-break space so
+  natural wraps never leave one hanging.
+- **Images.** WebP, lazy except the first screen. Home covers use `<picture>`
+  (phone 1080×1350 + desktop 1920×1200 with a 1077px tablet file); carousel
+  slides carry `data-src` and are filled in just before they are reached.
 - **Design system.** See `UI-KIT.md`: IBM Plex Serif only, one size and leading
   set on `body` (1rem/1.4; `1rem` = 16px, fluid on phones), spacing scale
   4/8/16/24/32/40/48 + 15px frame, colours as `:root` tokens, motion 0.15/0.3/0.6s.

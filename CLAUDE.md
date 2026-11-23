@@ -39,6 +39,26 @@ This file exists so that routine case-study updates (new PDF, new text,
 new crop) don't require re-deriving the same conventions from scratch
 each time. Read it before touching a `.case` section.
 
+## Case pages are archived (Nov 23)
+
+Client: cases are viewed on the home page only (the carousels); the standalone
+case pages and every way into them are gone from the site, but she may want them
+back. The last commit with them is **`84ad928`** (on `main`, never rewritten;
+a tag push was refused by the server). Everything below about `.case`, case
+slots, credits, quotes, `#case-…`, case videos and case images describes that
+archived state. To restore: `git checkout 84ad928 -- index.html images videos
+animations` on the feature branch, then re-apply whatever changed on the home
+page since (diff `84ad928..HEAD -- index.html`), commit and publish as usual.
+What was removed: both `<section class="case">`, the title/«Смотреть» openers
+on the Basarab and Foundation home cards, the case navigation and history in
+the Navigation IIFE (it now only drives the phone about sheet and the logo's
+scroll-to-top), the reveal, case-images and case-columns IIFEs, the case part of
+the lazy-play IIFE, 121 CSS rules that only matched case markup, 94 case-only
+image/video files and the unused `animations/basarab-logo` and `basarab-type`.
+The goals template `#goal-ui` lived inside the Foundation case and now sits at
+the end of `<body>` (the carousel goals need it). Old `#case-…` links land on
+the home page (the hash is dropped).
+
 ## Release checklist (remind the client, Nov 20)
 
 The client asked to be reminded of these, not to do them yet:
@@ -46,6 +66,8 @@ The client asked to be reminded of these, not to do them yet:
 - **When she adds the link to her other site:** favicon and Apple touch icon
   (`<link rel="icon">`, `<link rel="apple-touch-icon">`, 180×180); today Safari
   shows a letter and a home-screen bookmark is a screenshot.
+- **When she publishes the site:** remind her to connect her own domain to
+  GitHub Pages (custom domain + DNS), asked Nov 23.
 - **Before the public release:** link previews for Telegram/iMessage/social
   (`og:title`, `og:description`, `og:image` 1200×630, `twitter:card`), a real
   `<meta name="description">`, the page `<title>`; also consider removing the
