@@ -167,6 +167,13 @@ hidden ≥1330), plain `<br>` (both); the media blocks just above the first
 «8 лет работаю», «её до полной», «Ищу смыслы», «вашу команду», «буду рада
 познакомиться».
 
+**Static covers (Nov 23).** Rovno, Nadoswap, App Insiders and 3I Tech covers are
+her frames in section `129:3531` «cases covers»: desktop 960×600 at 2x
+(`cover-08…11.webp` + `-1077`), phone 1080×1350 1:1 (`cover-NN-m.webp`, picked by
+the `<picture>` source); `.project__media` is 4:5 on phones like the carousels.
+q per file by the fine-detail test (Rovno 96, App Insiders 90 where the grain
+plateaus, Nadoswap 88, 3I Tech 93). The old `grid-08…11` files are gone.
+
 **Phone home (≤700px, Nov 19, after actualsource.work).** 15px (.9375rem)
 gutters, topbar logo on the same line; covers full width at 16:10 like desktop (carousels are 4:5 on phones since
 Nov 20, see below),
