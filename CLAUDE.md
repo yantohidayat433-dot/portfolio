@@ -25,6 +25,10 @@ to/in/on/at/for/with/by/or/as/from/into, is glued in all text and
 `data-*` copy; every `<br>` has a space before it, or a U+00A0 when the word
 before it is short, so hiding it never fuses or strands words.)
 
+**Hyphenated words never break**: Chromium breaks after «-» even with U+2060
+and Plex has no U+2011, so wrap them in `<span class="nobr">` (also inside
+`data-*` copy), e.g. the bio's «дизайн-процессах» (Nov 23).
+
 **Phones wrap all text naturally** (Nov 20, client: hand-broken lines were
 too short): `br { display: none }` at ≤700 and the sidebar's `nowrap` is
 lifted there; the `--mobile` text variants still exist (901–999 uses their
