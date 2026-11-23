@@ -97,7 +97,7 @@ attribute. This means:
 
 Interface text is one serif, IBM Plex Serif Regular (since Nov 19, was
 Oceanic Text; `fonts/ibm-plex-serif.woff2`, Latin+Cyrillic subset, OFL), one
-size and leading for everything: `body { font-size: 1rem; line-height: 1.45 }`
+size and leading for everything: `body { font-size: 1rem; line-height: 1.4 }` (1.4 since Nov 23, client: «везде 140%»; was 1.45)
 (16px; on phones the root rem stays fluid for layout, but text is
 `min(1rem, 16px)`: 16px on every phone ≥375 wide, scaled down below so the
 359px-column hand breaks hold; client, Nov 20: the fluid 16→18px read too big on
@@ -137,9 +137,9 @@ on Nov 19; 46px narrower was tried and rejected). Page padding 15px left, 12px r
 sidebar has 3px side padding (so the logo's stroke isn't clipped by its
 `overflow-x: hidden`), logo 40px above the bio (client, Nov 19), which makes the bio text start 15px from the media and
 the divider end 15px from the window edge: an even 15px frame (client, Nov 19;
-24px was tried first). Media column 959px at 1440. One size 16/1.45
+24px was tried first). Media column 959px at 1440. One size 16/1.4 (1.45 until Nov 23)
 (client, Nov 19, after trying 1.2 and 1.3; Plex's hhea box is 1.3em, so
-inline pills get `padding: .075em 0` to tile line to line), 8px between
+inline pills get `padding: .05em 0` to tile line to line at 1.4), 8px between
 paragraphs (client tried 16px and a first-line indent on Nov 19), 16px
 between sidebar blocks and from a project title to its description. The sidebar divider is the light `--color-divider` (15% black), not `#7F7F80`,
 with 24px clear above and below (16px gap + 8px margin). Project: media full
@@ -149,7 +149,7 @@ uppercase title (plate kept), description 16px below it, flush left under the nu
 then the light gray divider 32px below the text and 24px above the next
 cover (none after the last project), no «Смотреть» (client removed it on
 desktop home; phone keeps it). Hover cursor «смотреть»/«скоро» on ≥901px:
-16px black text on the pink `#FFD0ED` plate, plate 23.2px tall (one line). 901–999px swaps in the
+16px black text on the pink `#FFD0ED` plate, plate 22.4px tall (one line). 901–999px swaps in the
 `project__desc-p--mobile` breaks. The tablet adopted this caption system in
 the Nov 19 cleanup. Bio (Nov 23, three paragraphs: who she is; what she
 does; how she works + «Пишите…»; the Telegram-channel sentence and its pill,
@@ -159,10 +159,7 @@ wraps naturally across the full column at 901–1329, keeps narrower hand breaks
 on the tablet (701–900), and flows on phones. Two break sets in one paragraph:
 `<br class="br-wide">` (≥1330 only), `<br class="br-narrow">` (701–900 and
 hidden ≥1330), plain `<br>` (both); the media blocks just above the first
-901–999 block hide what doesn't apply (never re-show a `br`). The whole sidebar
-is at line-height 1.3 on ≥901 (client, after actualsource.work; the one 1.45
-leading stays everywhere else), so its pills drop their .075em padding (1.3 =
-Plex's glyph box, plates still tile). Glued so nothing splits in natural wrap:
+901–999 block hide what doesn't apply (never re-show a `br`). Glued so nothing splits in natural wrap:
 «8 лет работаю», «её до полной», «Ищу смыслы», «вашу команду», «буду рада
 познакомиться».
 
@@ -174,7 +171,7 @@ desktop files at q90; the old portrait `grid-NN-mobile` covers were dropped,
 only 02/03 remain for the cases' «next case» cards); the hero plays
 `videos/vocamate-m01.mp4` (864x1080, her phone frame 1's window of the desktop
 hero, crf 26) over `vocamate-m01.webp` (`data-poster-mobile`). Caption: counter number in a 3.0625rem column + uppercase title,
-1rem/1.45 text, desc 1rem below, 8px paragraphs, no «Смотреть», light divider
+1rem/1.4 text, desc 1rem below, 8px paragraphs, no «Смотреть», light divider
 2rem below the text and 1.5rem above the next cover. Carousels run on phones
 too (tap a half, or drag: since Nov 20 the track follows the finger like an
 Instagram carousel, axis locked after 8px so vertical scrolling stays native
@@ -363,7 +360,7 @@ on the reference), looping through a cloned first slide; the cursor plate shows 
 **Desktop cases (≥901px, Nov 19)** follow the home system: `.case` is an
 inline-size container and every slot height is `calc(H / 1015 * 100cqw)` (the
 old fixed 620/600/427/333.5/667/640px were for a 1015px column; at 929 they
-cropped ~9% off the sides). Intro stacks: uppercase 16/1.45 title (plate),
+cropped ~9% off the sides). Intro stacks: uppercase 16/1.4 title (plate),
 8px, gray 16px credits (8px apart), 16px, body paragraphs 8px apart; quotes
 left-aligned; text 15px below media, 48px above the next. 901–999px swap in
 the `--mobile` text variants. Case nav: same 32/24 divider as the home list,
@@ -399,8 +396,8 @@ enough to bring one back (`UI-KIT.md` §5). The lang toggle is hidden with the `
 (`.lang-toggle[hidden]` forces `display:none`, the toggle IIFE still binds):
 the one sanctioned exception to "no hidden markup", at the client's request,
 so it can come back by deleting the attribute. Inline pills (`.knowledge__link`) use
-`box-decoration-break: clone` plus `padding: .075em 0` (≥701; Plex's glyph
-box is 1.3em in a 1.45em line) so each line's plate fills the line box and
+`box-decoration-break: clone` plus `padding: .05em 0` (≥701; Plex's glyph
+box is 1.3em in a 1.4em line) so each line's plate fills the line box and
 two-line plates touch. Desktop vertical rhythm was
 pixel-matched to the PDF (ink rows within ~1px). Articles link to Skillbox Media.
 

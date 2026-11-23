@@ -43,7 +43,7 @@ robots.txt     the site is not meant to be indexed
   for phones; home cards use `<picture>` so each device fetches one file. When a
   case opens, its images are fetched top to bottom in the background.
 - **Design system.** See `UI-KIT.md`: IBM Plex Serif only, one size and leading
-  set on `body` (1rem/1.45; `1rem` = 16px, fluid on phones), spacing scale
+  set on `body` (1rem/1.4; `1rem` = 16px, fluid on phones), spacing scale
   4/8/16/24/32/40/48 + 15px frame, colours as `:root` tokens, motion 0.15/0.3/0.6s.
 
 ## Local preview
