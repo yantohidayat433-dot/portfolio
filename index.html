@@ -335,6 +335,7 @@
       display: block;
     }
 
+    .intro__link,
     .knowledge__link {
       color: var(--color-muted);
       background-color: var(--color-plate);
@@ -345,6 +346,10 @@
         color 0.15s ease,
         background-color 0.15s ease,
         opacity 0.15s ease;
+    }
+
+    .intro__p-part {
+      transition: opacity 0.15s ease;
     }
 
     .knowledge {
@@ -977,6 +982,7 @@
         margin-top: 8px;
       }
 
+      .intro__link,
       .knowledge__link {
         padding: 0.075em 0;
       }
@@ -1100,11 +1106,12 @@
         padding-top: 15px;
       }
 
-      .intro__p {
+      .intro__p + .intro__p {
+        max-width: 398px;
         white-space: normal;
       }
 
-      .intro__p br {
+      .intro__p + .intro__p br {
         display: none;
       }
     }
@@ -1598,10 +1605,13 @@
       .knowledge__item {
       }
 
+      .intro__link,
       .knowledge__link {
         -webkit-tap-highlight-color: transparent;
       }
 
+      .intro__link:active,
+      .intro__link.is-pressed,
       .knowledge__link:active,
       .knowledge__link.is-pressed {
         color: var(--color-accent);
@@ -2828,9 +2838,9 @@
     <div class="intro">
 
       <div class="intro__block">
-        <p class="intro__p" data-en="I'm an independent designer working across &lt;br&gt;visual identity systems and art direction, from &lt;br&gt;concept through execution at every touchpoint. &lt;br&gt;I look for what makes a brand distinct, then &lt;br&gt;build a flexible system around it." data-ru="Я независимый дизайнер, больше &lt;br&gt;8 лет работаю с визуальной айдентикой &lt;br&gt;бренда. Разрабатываю концепцию и довожу &lt;br&gt;её до реализации в каждой точке контакта. &lt;br&gt;Ищу смыслы, форму, строю гибкую систему.">Я независимый дизайнер, больше <br>8 лет работаю с визуальной айдентикой <br>бренда. Разрабатываю концепцию и довожу <br>её до реализации в каждой точке контакта. <br>Ищу смыслы, форму, строю гибкую систему.</p>
-        <p class="intro__p" data-en="I lead projects on my own or strengthen your &lt;br&gt;team. Come to me for a new identity &lt;br&gt;or a refresh of the current one. I'll come up &lt;br&gt;with a creative concept and bring it to life. I'll &lt;br&gt;take on product visuals, at launch &lt;br&gt;or relaunch. I'll bring order to the visual &lt;br&gt;system and guidelines and adapt &lt;br&gt;communication for different channels." data-ru="Веду проект самостоятельно или усиливаю &lt;br&gt;вашу команду. Ко мне можно прийти &lt;br&gt;за новой айдентикой или обновлением &lt;br&gt;текущей. Придумаю и реализую &lt;br&gt;креативную концепцию. Возьму на себя &lt;br&gt;визуал продукта, на старте &lt;br&gt;или при перезапуске. Наведу порядок &lt;br&gt;в визуальной системе и гайдах, адаптирую &lt;br&gt;коммуникацию под разные каналы.">Веду проект самостоятельно или усиливаю <br>вашу команду. Ко мне можно прийти <br>за новой айдентикой или обновлением <br>текущей. Придумаю и реализую <br>креативную концепцию. Возьму на себя <br>визуал продукта, на старте <br>или при перезапуске. Наведу порядок <br>в визуальной системе и гайдах, адаптирую <br>коммуникацию под разные каналы.</p>
-        <p class="intro__p" data-en="Feel free to reach out, I'd love to meet you. &lt;br&gt;I get up to speed fast, work predictably &lt;br&gt;and never disappear." data-ru="Пишите, рада буду познакомиться. &lt;br&gt;Я быстро подключаюсь, работаю &lt;br&gt;предсказуемо, не пропадаю.">Пишите, рада буду познакомиться. <br>Я быстро подключаюсь, работаю <br>предсказуемо, не пропадаю.</p>
+        <p class="intro__p" data-en="I'm an independent designer working across &lt;br&gt;visual identity systems and art direction, from &lt;br&gt;concept through execution at every touchpoint. &lt;br&gt;I look for what makes a brand distinct, then &lt;br&gt;build a flexible system around it." data-ru="Я независимый дизайнер, больше &lt;br&gt;8 лет работаю с визуальной айдентикой &lt;br&gt;бренда. Разрабатываю концепцию и довожу &lt;br&gt;её до реализации в каждой точке контакта. &lt;br&gt;Ищу смыслы, форму, строю гибкую систему.">Я независимый дизайнер, больше <br>8 лет работаю с визуальной айдентикой <br>бренда. Разрабатываю концепцию и довожу <br>её до реализации в каждой точке контакта. <br>Ищу смыслы, форму, строю гибкую систему.</p>
+        <p class="intro__p" data-en="I lead projects on my own or step in when &lt;br&gt;a team needs support. Move fast, stay reliable, &lt;br&gt;and never disappear." data-ru="Веду проект самостоятельно или усиливаю &lt;br&gt;вашу команду на нужном этапе. Быстро &lt;br&gt;подключаюсь, работаю предсказуемо, &lt;br&gt;не пропадаю.">Веду проект самостоятельно или усиливаю <br>вашу команду на нужном этапе. Быстро <br>подключаюсь, работаю предсказуемо, <br>не пропадаю.</p>
+        <p class="intro__p intro__p--split"><span class="intro__p-part" data-en="Feel free to reach out, I'd love to meet you. &lt;br&gt;You can read more about me and my approach &lt;br&gt;on my " data-ru="Пишите, рада буду познакомиться. Больше &lt;br&gt;обо мне и моём подходе можно почитать &lt;br&gt;в моём ">Пишите, рада буду познакомиться. Больше <br>обо мне и моём подходе можно почитать <br>в моём </span><a href="https://t.me/+7yJ8wf4p_BtjMjg6" class="intro__link" target="_blank" rel="noopener" data-en="Telegram channel" data-ru="телеграм канале">телеграм канале</a></p>
       </div>
 
       <div class="squiggle" aria-hidden="true">
@@ -3768,7 +3778,7 @@
   (function () {
     if (!window.matchMedia('(max-width: 700px)').matches) return;
     document
-      .querySelectorAll('.contact__links a, .knowledge__link, .project__see')
+      .querySelectorAll('.contact__links a, .intro__link, .knowledge__link, .project__see')
       .forEach(function (link) {
         link.addEventListener(
           'touchstart',
@@ -3839,7 +3849,7 @@
     }
     if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
       var swatches = document.querySelectorAll(
-        '.contact__links a, .knowledge__link, .lang-toggle, .project__badge',
+        '.contact__links a, .intro__link, .knowledge__link, .lang-toggle, .project__badge',
       );
       var pickColor = function (el) {
         var pick = pickFrom(el);

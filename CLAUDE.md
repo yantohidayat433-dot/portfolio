@@ -25,10 +25,6 @@ to/in/on/at/for/with/by/or/as/from/into, is glued in all text and
 `data-*` copy; every `<br>` has a space before it, or a U+00A0 when the word
 before it is short, so hiding it never fuses or strands words.)
 
-**Hyphenated words never break** (Nov 23): Chromium breaks after «-» even
-with U+2060, and Plex has no U+2011, so wrap words like «что-то»,
-«по-новому» in a `white-space: nowrap` span (in `data-*` copy too).
-
 **Phones wrap all text naturally** (Nov 20, client: hand-broken lines were
 too short): `br { display: none }` at ≤700 and the sidebar's `nowrap` is
 lifted there; the `--mobile` text variants still exist (901–999 uses their
@@ -87,8 +83,8 @@ attribute. This means:
 - A link inside a swapped paragraph must not live inside the swapped
   node's innerHTML (the swap would recreate it and drop its hover-colour
   listeners): split the paragraph into a `[data-en]` text span plus a
-  `[data-en]` `<a>` (the bio's Telegram-channel link was built this way
-  until Nov 23; see git history for `.intro__p-part` + `.intro__link`).
+  `[data-en]` `<a>` (see the third bio paragraph, `.intro__p-part` +
+  `.intro__link`).
 - Russian copy always uses «ё» (её, ещё, моём, учёных, вёрстки…), even
   if a client PDF spells it with «е».
 - Nav/next-project "prev/next" style links follow the same pattern.
@@ -154,12 +150,11 @@ cover (none after the last project), no «Смотреть» (client removed it 
 desktop home; phone keeps it). Hover cursor «смотреть»/«скоро» on ≥901px:
 16px black text on the pink `#FFD0ED` plate, plate 23.2px tall (one line). 901–999px swaps in the
 `project__desc-p--mobile` breaks. The tablet adopted this caption system in
-the Nov 19 cleanup. All bio paragraphs wrap naturally at ≥901px across the
-full sidebar text column (436px at 1440; client, Nov 23: longer lines; the old
-398px cap and paragraph 1's hand breaks went), their `<br>`s hidden (every
-`<br>` has a space before it and short words carry U+00A0). Phrases glued so
-they don't split: «вашу команду», «рада буду познакомиться», «гибкую
-систему». Tablet (701–900) keeps the `<br>`s.
+the Nov 19 cleanup. Bio paragraphs 2 and 3 wrap naturally at ≥901px (`max-width: 398px`, their
+`<br>`s hidden; every `<br>` has a space before it and short words carry
+U+00A0), which reproduces the client's Nov 19 screenshot breaks at ≥ ~1330px
+(the text column must be ≥398px, so don't narrow the sidebar further);
+narrower sidebars just wrap. Phone/tablet keep the `<br>`s.
 
 **Phone home (≤700px, Nov 19, after actualsource.work).** 15px (.9375rem)
 gutters, topbar logo on the same line; covers full width at 16:10 like desktop (carousels are 4:5 on phones since
@@ -385,10 +380,8 @@ tablet-only (701–900).
 
 ## Sidebar (bio) and logo
 
-Order per the RU PDF (Nov 2026): three bio paragraphs (Nov 23 rewrite in her words: who she is; how she
-works and what she can be hired for; «Быстро подключаюсь…» + «Пишите…»; the
-Telegram-channel sentence and its pill link `https://t.me/+7yJ8wf4p_BtjMjg6`
-were removed on Nov 23 at her request, «пока»), squiggle, `.knowledge` (heading + two article
+Order per the RU PDF (Nov 2026): three bio paragraphs (third ends in the
+Telegram-channel pill link), squiggle, `.knowledge` (heading + two article
 pills), divider, contacts, lang toggle. Contacts since Nov 10: «Написать
 мне» (`https://t.me/Ivanvika`) and «Почта» (`mailto:vknkta@yandex.ru`) only.
 Instagram and «Скачать PDF» were removed until the client sends links; their
@@ -396,11 +389,12 @@ CSS went in the Nov 19 cleanup, a plain extra `<a>` in `.contact__links` is
 enough to bring one back (`UI-KIT.md` §5). The lang toggle is hidden with the `hidden` attribute
 (`.lang-toggle[hidden]` forces `display:none`, the toggle IIFE still binds):
 the one sanctioned exception to "no hidden markup", at the client's request,
-so it can come back by deleting the attribute. Inline pills (`.knowledge__link`) use
+so it can come back by deleting the attribute. Inline pills (`.intro__link`, `.knowledge__link`) use
 `box-decoration-break: clone` plus `padding: .075em 0` (≥701; Plex's glyph
 box is 1.3em in a 1.45em line) so each line's plate fills the line box and
 two-line plates touch. Desktop vertical rhythm was
-pixel-matched to the PDF (ink rows within ~1px). Articles link to Skillbox Media.
+pixel-matched to the PDF (ink rows within ~1px). Articles link to Skillbox Media; the Telegram-channel
+pill links to `https://t.me/+7yJ8wf4p_BtjMjg6`.
 
 Logo: rests bold pink (`#FFD2EC`, 2px same-colour stroke); hover (and the
 open about sheet on phones) turns `#A5C1BA` with a 3px stroke. 3.5px
