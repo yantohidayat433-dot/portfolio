@@ -30,7 +30,7 @@ and Plex has no U+2011, so wrap them in `<span class="nobr">` (also inside
 `data-*` copy), e.g. the bio's «дизайн-процессах» (Nov 23).
 
 **Phones wrap all text naturally** (Nov 20, client: hand-broken lines were
-too short): `br { display: none }` at ≤700 and the sidebar's `nowrap` is
+too short): `br { display: none }` at ≤700 (except inside `.knowledge__link`: the two article titles keep her breaks on phones too, Nov 23; the rule is `:not(.knowledge__link) > br`) and the sidebar's `nowrap` is
 lifted there; the `--mobile` text variants still exist (901–999 uses their
 breaks) but on phones they just flow. The old «lines > brs + 1» phone test
 no longer applies; check for line-final short words instead.
