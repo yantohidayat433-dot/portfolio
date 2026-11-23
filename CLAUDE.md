@@ -27,7 +27,7 @@ before it is short, so hiding it never fuses or strands words.)
 
 **Hyphenated words never break** (Nov 23): Chromium breaks after «-» even
 with U+2060, and Plex has no U+2011, so wrap words like «что-то»,
-«по-новому», «дизайн-системе» in `<span class="nobr">` (in `data-*` copy too).
+«по-новому» in a `white-space: nowrap` span (in `data-*` copy too).
 
 **Phones wrap all text naturally** (Nov 20, client: hand-broken lines were
 too short): `br { display: none }` at ≤700 and the sidebar's `nowrap` is
@@ -384,9 +384,9 @@ tablet-only (701–900).
 
 ## Sidebar (bio) and logo
 
-Order per the RU PDF (Nov 2026): four bio paragraphs (the second, «Со мной
-можно прийти…», is what she helps with, added Nov 23; the last ends in the
-Telegram-channel pill link), squiggle, `.knowledge` (heading + two article
+Order per the RU PDF (Nov 2026): three bio paragraphs (Nov 23 rewrite in her words: who she is; how she
+works and what she can be hired for; «Быстро подключаюсь…» + contact line
+ending in the Telegram-channel pill link), squiggle, `.knowledge` (heading + two article
 pills), divider, contacts, lang toggle. Contacts since Nov 10: «Написать
 мне» (`https://t.me/Ivanvika`) and «Почта» (`mailto:vknkta@yandex.ru`) only.
 Instagram and «Скачать PDF» were removed until the client sends links; their
