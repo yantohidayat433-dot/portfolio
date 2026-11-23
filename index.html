@@ -1016,6 +1016,10 @@
         padding-top: 0;
       }
 
+      .is-telegram-webview body.about-open .page {
+        padding-top: 3.875rem;
+      }
+
       .projects {
         padding: 0;
       }
@@ -1041,7 +1045,10 @@
       }
 
       .is-telegram-webview body.about-open .mobile-topbar {
-        visibility: hidden;
+        position: fixed;
+        left: 0;
+        right: 0;
+        padding: 0 0.9375rem;
       }
 
       .mobile-topbar__logo {
@@ -1062,26 +1069,9 @@
       }
 
       .is-telegram-webview #mobile-about-sheet {
-        top: 0;
         overscroll-behavior-y: contain;
         -webkit-overflow-scrolling: auto;
         padding-bottom: calc(env(safe-area-inset-bottom, 0px) + var(--tg-bottom-gap, 0px) + 6rem);
-      }
-
-      .is-telegram-webview #mobile-about-sheet > .logo {
-        display: flex;
-        align-items: center;
-        width: auto;
-        height: 3.875rem;
-        margin: -1.25rem -0.9375rem 1.25rem;
-        padding: 0 0.9375rem;
-        background: var(--color-white);
-      }
-
-      .is-telegram-webview #mobile-about-sheet > .logo .logo__svg {
-        flex: none;
-        width: 11.875rem;
-        height: 1.625rem;
       }
 
       .is-telegram-webview .mobile-about-toggle {

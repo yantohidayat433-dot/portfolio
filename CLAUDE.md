@@ -484,7 +484,11 @@ pixel-matched to the PDF (ink rows within ~1px). Articles link to Skillbox Media
 
 Phone about sheet: side padding .9375rem like the home gutter (was .875rem, so
 the logo jumped 1px when it opened in Telegram, Nov 23); in the Telegram webview
-the static top bar has no padding of its own (the page gutter already applies).
+the static top bar has no padding of its own (the page gutter already applies),
+and while the sheet is open it turns `position: fixed` (with `.page` padded by
+its height so nothing shifts) instead of hiding: the sheet slides up under it
+like in Safari. Before, the bar hid and the sheet brought its own logo up from
+the bottom, so the logo visibly travelled and «jumped» into place.
 
 Logo: rests bold pink (`#FFD2EC`, 2px same-colour stroke); hover (and the
 open about sheet on phones) turns `#A5C1BA` with a 3px stroke. 3.5px
