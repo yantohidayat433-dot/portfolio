@@ -410,6 +410,22 @@ a move to their slide starts, not after landing. The phone carousel's
 `basarab-m01/07/08/09/13/17` had overwritten the case's phone crops of the same
 names (Nov 20); the case now uses `basarab-case-mNN.webp`, restored from before.
 
+**Hairlines at media edges (Nov 23).** Phone gutters are fluid (15.59px at
+390), so carousels, covers and case columns started on a fractional device
+pixel and the grey `--color-media-bg` under the image's half-covered edge pixel
+showed as a thin grey line (client saw it on Basarab's white sneaker cards).
+The carousel `snap()`, a home-covers IIFE and a case-columns IIFE now shift each
+box by a sub-pixel `margin-left` onto a whole device pixel and floor its width
+(case columns also get `max-width`, they are flex items); 2-up case rows
+overlap their cells by 1px at ≥701 like the carousel pairs. Carousel slide
+moves use the snapped width (`boxW`), not the rounded `clientWidth`. A few
+exports also had a dark edge row/column (`basarab-c16` bottom, `foundation-m6`
+right, the citylight street poster top); those were patched from the
+neighbouring row. Citylight posters in a carousel now load as soon as the
+carousel is near (they used to load on arrival, so the screen was empty at
+first). Phone goals: the bottom card is 55% clearer (`TALL_BOTTOM_CLEAR`).
+3I Tech phone cover `?v=3` (bigger logo).
+
 ## Laptop / wide-screen layout
 
 - (History: project rows and case intros used to be 409/606 two-column grids

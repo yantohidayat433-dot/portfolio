@@ -959,6 +959,10 @@
     /* ---------- Desktop and tablet (≥701px): bio spacing, numbered captions, dividers ---------- */
 
     @media (min-width: 701px) {
+      .case__row > * + * {
+        margin-left: -1px;
+      }
+
       .logo {
         margin-bottom: 40px;
       }
@@ -2199,7 +2203,7 @@
       right: 0;
       bottom: 0;
       aspect-ratio: 1246 / 1662;
-      background: url(images/foundation-citylight-street-poster.webp) center / 100% 100% no-repeat;
+      background: url(images/foundation-citylight-street-poster.webp?v=2) center / 100% 100% no-repeat;
       overflow: hidden;
     }
 
@@ -2922,7 +2926,7 @@
           <div class="carousel__slide carousel__slide--pair carousel__slide--desktop"><div class="carousel__cell"><img data-src="images/basarab-c13.webp" data-srcset="images/basarab-c13-1077.webp 1077w, images/basarab-c13.webp 1920w" sizes="(max-width: 700px) 200vw, 959px" alt="Basarab" loading="lazy" decoding="async"></div></div>
           <div class="carousel__slide carousel__slide--desktop"><div class="carousel__cell"><img data-src="images/basarab-c14.webp" data-srcset="images/basarab-c14-1077.webp 1077w, images/basarab-c14.webp 1920w" sizes="(max-width: 700px) 200vw, 959px" alt="Basarab" loading="lazy" decoding="async"></div></div>
           <div class="carousel__slide carousel__slide--desktop"><div class="carousel__cell carousel__cell--video"><img data-src="images/basarab-cb15.webp" alt="Basarab" loading="lazy" decoding="async"><video muted loop playsinline preload="none"><source src="videos/basarab-cb15-m.mp4?v=2" media="(max-width: 700px)" type="video/mp4" /><source src="videos/basarab-cb15.mp4?v=2" type="video/mp4" /></video></div></div>
-          <div class="carousel__slide carousel__slide--desktop"><div class="carousel__cell"><img data-src="images/basarab-c16.webp" data-srcset="images/basarab-c16-1077.webp 1077w, images/basarab-c16.webp 1920w" sizes="(max-width: 700px) 200vw, 959px" alt="Basarab" loading="lazy" decoding="async"></div></div>
+          <div class="carousel__slide carousel__slide--desktop"><div class="carousel__cell"><img data-src="images/basarab-c16.webp?v=2" data-srcset="images/basarab-c16-1077.webp?v=2 1077w, images/basarab-c16.webp?v=2 1920w" sizes="(max-width: 700px) 200vw, 959px" alt="Basarab" loading="lazy" decoding="async"></div></div>
           <div class="carousel__slide carousel__slide--phone"><div class="carousel__cell"><img src="images/basarab-m01.webp?v=3" alt="Basarab" loading="lazy" decoding="async"></div></div>
           <div class="carousel__slide carousel__slide--phone"><div class="carousel__cell"><img data-src="images/basarab-m02.webp?v=2" alt="Basarab" loading="lazy" decoding="async"></div></div>
           <div class="carousel__slide carousel__slide--phone"><div class="carousel__cell"><img data-src="images/basarab-m03.webp?v=3" alt="Basarab" loading="lazy" decoding="async"></div></div>
@@ -3335,7 +3339,7 @@
     <article class="project">
       <div class="project__media" data-cursor-label="скоро" data-cursor-label-en="soon" data-cursor-label-ru="скоро" data-cursor-kind="soon">
         <picture>
-          <source media="(max-width: 700px)" srcset="images/cover-11-m.webp?v=2">
+          <source media="(max-width: 700px)" srcset="images/cover-11-m.webp?v=3">
           <img loading="lazy" src="images/cover-11.webp?v=2" srcset="images/cover-11-1077.webp?v=2 1077w, images/cover-11.webp?v=2 1920w" sizes="(max-width: 900px) 100vw, 959px" alt="3I Tech">
         </picture>
       </div>
@@ -3612,7 +3616,7 @@
     <p class="case__quote case__quote-p--desktop reveal" data-en="To express the connection between science and culture, we chose &lt;br&gt;contrasting typography: a strict grotesque carries the precision &lt;br&gt;and rationality of science, while softer, more expressive accents &lt;br&gt;speak to the foundation's cultural, human side. Together, they &lt;br&gt;form a single yet multifaceted visual voice." data-ru="Чтобы показать связь науки и культуры, мы выбрали &lt;br&gt;контрастную типографику: строгий гротеск отвечает &lt;br&gt;за точность и рациональность науки, а более пластичные, &lt;br&gt;выразительные акценты за культурную, гуманитарную &lt;br&gt;сторону фонда. Вместе они формируют единый, &lt;br&gt;но многогранный визуальный голос">Чтобы показать связь науки и культуры, мы выбрали <br>контрастную типографику: строгий гротеск отвечает <br>за точность и рациональность науки, а более пластичные, <br>выразительные акценты за культурную, гуманитарную <br>сторону фонда. Вместе они формируют единый, <br>но многогранный визуальный голос</p>
     <p class="case__quote case__quote-p--mobile reveal" data-en="To express the connection between science &lt;br&gt;and culture, we chose contrasting typography: &lt;br&gt;a strict grotesque carries the precision and &lt;br&gt;rationality of science, while softer, more &lt;br&gt;expressive accents speak to the foundation's &lt;br&gt;cultural, human side. Together, they form &lt;br&gt;a single yet multifaceted visual voice." data-ru="Чтобы показать связь науки и культуры, &lt;br&gt;мы выбрали контрастную типографику: &lt;br&gt;строгий гротеск отвечает за точность &lt;br&gt;и рациональность науки, а более &lt;br&gt;пластичные, выразительные акценты — &lt;br&gt;за культурную, гуманитарную сторону &lt;br&gt;фонда. Вместе они формируют единый, &lt;br&gt;но многогранный визуальный голос">Чтобы показать связь науки и культуры, <br>мы выбрали контрастную типографику: <br>строгий гротеск отвечает за точность <br>и рациональность науки, а более <br>пластичные, выразительные акценты — <br>за культурную, гуманитарную сторону <br>фонда. Вместе они формируют единый, <br>но многогранный визуальный голос</p>
 
-    <div class="case__media reveal" style="--mh:14.375rem"><img loading="lazy" src="images/foundation-06.webp" alt="Billboard — We are proud of science" /><img loading="lazy" class="case__media-mobile" src="images/foundation-m6.webp?v=2" alt="Billboard — We are proud of science" width="1077" height="690" /></div>
+    <div class="case__media reveal" style="--mh:14.375rem"><img loading="lazy" src="images/foundation-06.webp" alt="Billboard — We are proud of science" /><img loading="lazy" class="case__media-mobile" src="images/foundation-m6.webp?v=3" alt="Billboard — We are proud of science" width="1077" height="690" /></div>
 
     <div class="case__row reveal">
       <div class="case__media" style="--mh:27.5rem"><img loading="lazy" src="images/foundation-07.webp" alt="Portrait" /><img loading="lazy" class="case__media-mobile" src="images/foundation-m7.webp?v=2" alt="Portrait" width="1077" height="1320" /></div>
@@ -4620,6 +4624,65 @@
     cycle('.carousel__cell--fade', 1400);
   })();
 
+  // Case columns: start and end on whole device pixels (same reason as the home covers below).
+  (function () {
+    document.querySelectorAll('.case').forEach(function (el) {
+      function snap() {
+        el.style.marginLeft = '';
+        el.style.width = '';
+        el.style.maxWidth = '';
+        if (!el.offsetWidth) return;
+        var z = parseFloat(getComputedStyle(el).getPropertyValue('--page-zoom')) || 1;
+        var d = window.devicePixelRatio || 1;
+        var l = el.getBoundingClientRect().left * d;
+        var shift = (Math.ceil(l - 0.01) - l) / d / z;
+        if (shift <= 0.001) shift = 0;
+        else el.style.marginLeft = shift + 'px';
+        var w = parseFloat(getComputedStyle(el).width);
+        var fit = Math.floor((w - shift) * z + 0.001) / z;
+        if (shift || Math.abs(fit - w) > 0.001) el.style.width = el.style.maxWidth = fit + 'px';
+      }
+      var lastW = -1;
+      if ('ResizeObserver' in window)
+        new ResizeObserver(function () {
+          var pw = el.parentElement.clientWidth + (el.offsetWidth ? 1e6 : 0);
+          if (pw === lastW) return;
+          lastW = pw;
+          snap();
+        }).observe(el);
+      else window.addEventListener('resize', snap);
+    });
+  })();
+
+  // Home covers: start on a whole device pixel, so the grey cell under a fractional edge never shows as a hairline.
+  (function () {
+    document.querySelectorAll('.project > .project__media').forEach(function (el) {
+      function snap() {
+        el.style.marginLeft = '';
+        el.style.width = '';
+        var z = parseFloat(getComputedStyle(el).getPropertyValue('--page-zoom')) || 1;
+        var d = window.devicePixelRatio || 1;
+        var l = el.getBoundingClientRect().left * d;
+        var shift = (Math.ceil(l - 0.01) - l) / d / z;
+        if (shift <= 0.001) shift = 0;
+        else el.style.marginLeft = shift + 'px';
+        var w = parseFloat(getComputedStyle(el).width);
+        var fit = Math.floor((w - shift) * z + 0.001) / z;
+        if (shift || Math.abs(fit - w) > 0.001) el.style.width = fit + 'px';
+      }
+      snap();
+      var lastW = el.parentElement.clientWidth;
+      if ('ResizeObserver' in window)
+        new ResizeObserver(function () {
+          var pw = el.parentElement.clientWidth;
+          if (pw === lastW) return;
+          lastW = pw;
+          snap();
+        }).observe(el.parentElement);
+      else window.addEventListener('resize', snap);
+    });
+  })();
+
   // Home carousels: click/tap the left or right half, drag (the slide follows the finger), or ←/→ to flip a case's images on its home card; n/x on the cursor and in the title row (phones).
   (function () {
     var label = document.querySelector('#hoverCta .hover-cta__label');
@@ -4639,7 +4702,7 @@
       }
       function wrap() {
         wrapped = true;
-        slides[0].style.transform = 'translate3d(' + total * box.clientWidth + 'px, 0, 0)';
+        slides[0].style.transform = 'translate3d(' + total * boxW + 'px, 0, 0)';
       }
       var stops = [];
       var count = 0;
@@ -4711,7 +4774,7 @@
         }
         busy = false;
         index = i;
-        setX(-i * box.clientWidth);
+        setX(-i * boxW);
         mark(i);
       }
       var seen = false;
@@ -4746,14 +4809,22 @@
         updateLabel();
         settle();
       }
+      var boxW = box.clientWidth;
       function snap() {
         box.style.width = '';
+        box.style.marginLeft = '';
         var w = parseFloat(getComputedStyle(box).width);
         var z = parseFloat(getComputedStyle(box).getPropertyValue('--page-zoom')) || 1;
-        var fit = Math.floor(w * z + 0.001) / z;
-        if (Math.abs(fit - w) > 0.001) box.style.width = fit + 'px';
+        var d = window.devicePixelRatio || 1;
+        var l = box.getBoundingClientRect().left * d;
+        var shift = (Math.ceil(l - 0.01) - l) / d / z;
+        if (shift > 0.001) box.style.marginLeft = shift + 'px';
+        else shift = 0;
+        var fit = Math.floor((w - shift) * z + 0.001) / z;
+        if (Math.abs(fit - w) > 0.001 || shift) box.style.width = fit + 'px';
+        boxW = fit;
         if (wrapped) wrap();
-        if (!busy && !drag) setX(-index * box.clientWidth);
+        if (!busy && !drag) setX(-index * boxW);
       }
       var drag = null;
       snap();
@@ -4777,6 +4848,12 @@
         new IntersectionObserver(
           function (entries) {
             near = entries[0].isIntersecting;
+            if (near)
+              track.querySelectorAll('.citylight img[data-src]').forEach(function (img) {
+                img.src = img.dataset.src;
+                img.removeAttribute('data-src');
+                img.loading = 'eager';
+              });
             if (near && !busy && !drag) settle();
           },
           { rootMargin: '50% 0px' }
@@ -4787,7 +4864,7 @@
       if (phone.addEventListener) phone.addEventListener('change', reset);
       // critically damped spring from the current offset (and finger speed, px/ms) to slide i
       function land(i, v) {
-        var w = box.clientWidth;
+        var w = boxW;
         var from = drag || anim ? currentX() : x;
         if (anim) {
           anim.cancel();
@@ -4841,7 +4918,7 @@
         if (drag) return;
         var i = index;
         if (anim) {
-          var w = box.clientWidth;
+          var w = boxW;
           i = Math.round(-currentX() / w);
         }
         if (step < 0 && i <= 0) {
@@ -4852,7 +4929,7 @@
           }
           i += count;
           wrap();
-          setX(keep - count * box.clientWidth);
+          setX(keep - count * boxW);
         }
         land(i + step, 0);
       }
@@ -4870,7 +4947,7 @@
             setX(at);
             busy = false;
           }
-          var w = box.clientWidth;
+          var w = boxW;
           drag = {
             x: event.touches[0].clientX,
             y: event.touches[0].clientY,
@@ -4901,7 +4978,7 @@
             dx = 0;
           }
           if (drag.axis !== 'x') return;
-          var w = box.clientWidth;
+          var w = boxW;
           var pos = drag.base + dx;
           if (pos > 0) {
             wrap();
@@ -4937,7 +5014,7 @@
         if (d.axis !== 'x') return;
         swiped = true;
         if (d.pos !== undefined) setX(d.pos);
-        var w = box.clientWidth;
+        var w = boxW;
         var speed = 0;
         if (d.trail.length > 1) {
           var last = d.trail[d.trail.length - 1];
@@ -5081,6 +5158,7 @@
     var BACK_DARK = 0.6;
     var TALL_TOP = 300;
     var TALL_STEP = 0.54;
+    var TALL_BOTTOM_CLEAR = 0.55;
     var TALL_LIFT = 120;
     var TALL_DARK = 0.72;
     function bezier(x1, y1, x2, y2) {
@@ -5196,6 +5274,7 @@
         if (o > count - (tall ? 1.5 : 2)) o -= count;
         var y, scale, dark;
         var fade = !tall ? 1 : o < -1 ? Math.max(0, (o + 1.5) * 2) : o > 2 ? Math.max(0, (2.5 - o) * 2) : 1;
+        if (tall && o > 1) fade *= 1 - TALL_BOTTOM_CLEAR * Math.min(o - 1, 1);
         if (o >= 0) {
           var a = Math.min(o, 1);
           y = tall && o > 1 ? slot + (o - 1) * slot * 0.5 : o * slot;
