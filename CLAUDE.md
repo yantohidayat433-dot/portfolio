@@ -154,11 +154,12 @@ cover (none after the last project), no «Смотреть» (client removed it 
 desktop home; phone keeps it). Hover cursor «смотреть»/«скоро» on ≥901px:
 16px black text on the pink `#FFD0ED` plate, plate 23.2px tall (one line). 901–999px swaps in the
 `project__desc-p--mobile` breaks. The tablet adopted this caption system in
-the Nov 19 cleanup. Bio paragraphs 2 and 3 wrap naturally at ≥901px (`max-width: 398px`, their
-`<br>`s hidden; every `<br>` has a space before it and short words carry
-U+00A0), which reproduces the client's Nov 19 screenshot breaks at ≥ ~1330px
-(the text column must be ≥398px, so don't narrow the sidebar further);
-narrower sidebars just wrap. Phone/tablet keep the `<br>`s.
+the Nov 19 cleanup. All bio paragraphs wrap naturally at ≥901px across the
+full sidebar text column (436px at 1440; client, Nov 23: longer lines; the old
+398px cap and paragraph 1's hand breaks went), their `<br>`s hidden (every
+`<br>` has a space before it and short words carry U+00A0). Phrases glued so
+they don't split: «вашу команду», «рада буду познакомиться», «гибкую
+систему». Tablet (701–900) keeps the `<br>`s.
 
 **Phone home (≤700px, Nov 19, after actualsource.work).** 15px (.9375rem)
 gutters, topbar logo on the same line; covers full width at 16:10 like desktop (carousels are 4:5 on phones since
