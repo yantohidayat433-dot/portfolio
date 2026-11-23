@@ -153,15 +153,18 @@ desktop home; phone keeps it). Hover cursor «смотреть»/«скоро» 
 `project__desc-p--mobile` breaks. The tablet adopted this caption system in
 the Nov 19 cleanup. Bio (Nov 23, three paragraphs: who she is; what she
 does; how she works + «Пишите…»; the Telegram-channel sentence and its pill,
-`https://t.me/+7yJ8wf4p_BtjMjg6`, are out «пока») runs the full sidebar text
-column at ≥901px (436 at 1440, natural wrap, `<br>`s hidden) and the whole
-sidebar is set at line-height 1.3 there (client, after actualsource.work: the
-hand-broken 345px lines looked «куцо»; the one 1.45 leading stays everywhere
-else), so its pills drop their .075em padding (1.3 = Plex's glyph box, plates
-still tile). Phrases glued so they don't split: «8 лет работаю»
-(so «8 лет» starts line 2), «её до полной», «Ищу смыслы», «вашу команду»,
-«буду рада познакомиться» (runs on after «не пропадаю.», client). Tablet (701–900) keeps her hand
-breaks; phones wrap naturally.
+`https://t.me/+7yJ8wf4p_BtjMjg6`, are out «пока») keeps her own desktop line breaks at
+≥1330px (her Nov 23 mockup; longest line ~400px, the column is ≥402 from 1311),
+wraps naturally across the full column at 901–1329, keeps narrower hand breaks
+on the tablet (701–900), and flows on phones. Two break sets in one paragraph:
+`<br class="br-wide">` (≥1330 only), `<br class="br-narrow">` (701–900 and
+hidden ≥1330), plain `<br>` (both); the media blocks just above the first
+901–999 block hide what doesn't apply (never re-show a `br`). The whole sidebar
+is at line-height 1.3 on ≥901 (client, after actualsource.work; the one 1.45
+leading stays everywhere else), so its pills drop their .075em padding (1.3 =
+Plex's glyph box, plates still tile). Glued so nothing splits in natural wrap:
+«8 лет работаю», «её до полной», «Ищу смыслы», «вашу команду», «буду рада
+познакомиться».
 
 **Phone home (≤700px, Nov 19, after actualsource.work).** 15px (.9375rem)
 gutters, topbar logo on the same line; covers full width at 16:10 like desktop (carousels are 4:5 on phones since
