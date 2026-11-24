@@ -180,11 +180,12 @@ desktop home; phone keeps it). Hover cursor «смотреть»/«скоро» 
 the Nov 19 cleanup. Bio (Nov 23, three paragraphs: who she is; what she
 does; how she works + «Пишите…»; the Telegram-channel sentence and its pill,
 `https://t.me/+7yJ8wf4p_BtjMjg6`, are out «пока») keeps her own desktop line breaks at
-≥1330px (her Nov 23 mockup; longest line ~400px, the column is ≥402 from 1311),
-wraps naturally across the full column at 901–1329, keeps narrower hand breaks
+≥1340px (her Nov 23 mockup; since the Nov 24 copy edit «Привет! Я бренд-дизайнер…
+айдентикой продукта» / «Возьму на себя весь визуал» the longest line is ~401px,
+which needs W ≥ 1335), wraps naturally across the full column at 901–1339, keeps narrower hand breaks
 on the tablet (701–900), and flows on phones. Two break sets in one paragraph:
-`<br class="br-wide">` (≥1330 only), `<br class="br-narrow">` (701–900 and
-hidden ≥1330), plain `<br>` (both); the media blocks just above the first
+`<br class="br-wide">` (≥1340 only), `<br class="br-narrow">` (701–900 and
+hidden ≥1340), plain `<br>` (both); the media blocks just above the first
 901–999 block hide what doesn't apply (never re-show a `br`). Glued so nothing splits in natural wrap:
 «8 лет работаю», «её до полной», «Ищу смыслы», «вашу команду», «буду рада
 познакомиться».
