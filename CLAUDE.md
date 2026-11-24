@@ -423,8 +423,8 @@ the next one tucked under it .54 card heights lower, the last half that again
 first half of the move and the same card fades in at the bottom over the second
 half (tall cells wrap `o` at count−1.5), so the bottom card is never late
 (tall z-order: active on top, the incoming card crosses above the outgoing one
-at 60% of the move). Basarab desktop slide 3's left (logo) half = her `132:265` (Nov 24, lavender
-field instead of the old green; `basarab-c03` `?v=2`, q96). Basarab phone slide 3 = her `129:1089` (`basarab-m03`
+at 60% of the move). Basarab desktop slide 3's left (logo) half = her `135:7896` (Nov 24, grainy
+lavender field; tried `132:265` flat lavender first; `basarab-c03` `?v=3`, q96 keeps the grain). Basarab phone slide 3 = her `129:1089` (`basarab-m03`
 `?v=3`, q92 for the grain). The four-story clips (`basarab-m08.mp4`,
 `basarab-cb07l(-m).mp4`, `?v=3`) start 4–5 frames before the first story's text
 (client: the text must fade in as the slide opens), carry `data-restart` (the
