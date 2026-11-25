@@ -197,7 +197,8 @@ her frames in section `129:3531` «cases covers»: desktop 960×600 at 2x
 the `<picture>` source); `.project__media` is 4:5 on phones like the carousels.
 q per file by the fine-detail test (Rovno 96, App Insiders 90 where the grain
 plateaus, Nadoswap 88, 3I Tech 92–93; Nadoswap desktop and both 3I Tech files re-exported
-later on Nov 23 after her edits, `?v=2`). The old `grid-08…11` files are gone.
+later on Nov 23 after her edits, `?v=2`). Rovno re-done Nov 25 from `138:13010` (desktop)
+and `145:488` (phone), q94, `?v=2`. The old `grid-08…11` files are gone.
 
 **Phone home (≤700px, Nov 19, after actualsource.work).** 15px (.9375rem)
 gutters, topbar logo on the same line; covers full width at 16:10 like desktop (carousels are 4:5 on phones since
