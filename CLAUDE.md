@@ -202,7 +202,10 @@ and `145:488` (phone), q94, `?v=2`. Rovno's card became a `.project__carousel` o
 Nov 27 (cursor «n/2» instead of «скоро»): slide 1 = the cover (desktop/phone
 slides), slide 2 = her `138:13082` bags (desktop, `rovno-s02` + `-1077`,
 q96, re-exported Nov 27 after her edits, `?v=2`) and her phone frame `181:1920`
-(`rovno-m02`, 1080x1350, q96), as `--desktop`/`--phone` slides. The old `grid-08…11` files are gone.
+(`rovno-m02`, 1080x1350, q96), as `--desktop`/`--phone` slides; slide 3 = her
+`181:1640` Instagram grid (`rovno-s03` + `-1077`, q86); its phone slide `rovno-m03`
+is ours (q93): the two middle columns of a 2.5234x export, x 361–789, y 32–567 of
+960x600, so the side margins equal the column gap. The old `grid-08…11` files are gone.
 
 **Phone home (≤700px, Nov 19, after actualsource.work).** 15px (.9375rem)
 gutters, topbar logo on the same line; covers full width at 16:10 like desktop (carousels are 4:5 on phones since
